@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+ <template id="assets_ext" inherit_id="web.assets_backend">
+
+   <xpath expr="." position="inside">
+
+       <script type="text/javascript" src="/project_description/static/src/js/odoo_html_treeview.js"></script>
+
+   </xpath>
+
+ </template>
+
+</odoo>

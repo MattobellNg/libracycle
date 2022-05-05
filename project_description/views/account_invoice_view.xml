@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="phl_project_vendor_bill_ext" model="ir.ui.view">
+            <field name="name">account.invoice.supplier.form.project.ext</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="job_id"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="phl_project_invoice_ext" model="ir.ui.view">
+            <field name="name">account.invoice.form.project.ext</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="job_id"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

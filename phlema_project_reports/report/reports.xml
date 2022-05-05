@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+          <report
+            id="report_project_reports_pdf"
+            model="report.phlema_project_reports.phl_project_reports_pdf"
+            string="Project Report"
+            report_type="qweb-pdf"
+            name="phlema_project_reports.phl_project_reports_pdf"
+            file="phlema_project_reports.phl_project_reports_pdf"
+            attachment_use="False"
+        />
+    </data>
+</odoo>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+<!--        <record id="phlema_view_pack_operation_details_tree" model="ir.ui.view">-->
+<!--            <field name="name">stock.pack.operation.details.tree.inherited</field>-->
+<!--            <field name="model">stock.pack.operation</field>-->
+<!--            <field name="inherit_id" ref="stock."/>-->
+<!--            <field name="arch" type="xml">-->
+
+<!--                <xpath expr="//field[@name='name']" position="">-->
+<!--                    &lt;!&ndash; Add new fields here &ndash;&gt;-->
+<!--                </xpath>-->
+
+<!--            </field>-->
+<!--        </record>-->
+
+        <record id="phlema_view_pack_operation_details_form" model="ir.ui.view">
+            <field name="name">stock.pack.operation.details.form.inherited</field>
+            <field name="model">stock.pack.operation</field>
+            <field name="inherit_id" ref="stock.view_pack_operation_details_form"/>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <field name="product_id" position="after">
+                    <field name="in_transit_done"/>
+                </field>
+                <xpath expr="//group[@name='qty_to']" position="after">
+                    <notebook>
+                        <page string="Schedule items">
+                            <field name="picking_id" invisible="1" />
+                            <field name="move_operation_ids" options="{'no_create_edit': True,'no_quick_create':True,'no_create':True, 'force_save': True}">
+                                <tree editable="bottom">
+                                    <field name="item_code"  readonly="1" force_save="1" />
+                                    <field name="item_size"  readonly="1"  force_save="1"/>
+                                    <field name="product_uom_id"  readonly="1" force_save="1" />
+                                    <field name="delivery_status"  readonly="1" force_save="1" />
+                                    <field name="current_location_id"  readonly="1" force_save="1" />
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Operation">
+                            <field name="operation_move_id" options="{'no_create_edit': True}"/>
+                        </page>
+                    </notebook>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
