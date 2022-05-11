@@ -30,14 +30,13 @@
                                     <kanban quick_create="false" create="true" delete="true" mode="kanban">
                                         <field name="name" />
                                         <field name="image_128" />
-                                        <field name="avatar_128" />
                                         <templates>
                                             <t t-name="kanban-box">
                                                 <div class="oe_kanban_global_click" style="position: relative">
                                                     <a t-if="! read_only_mode" type="delete" style="position: absolute; right: 0; padding: 4px; diplay: inline-block">X</a>
                                                     <div class="oe_module_vignette">
                                                         <div class="o_kanban_image">
-                                                            <img t-att-src="kanban_image('res.users', 'avatar_128', record.image_128)" class="oe_avatar oe_kanban_avatar_smallbox" alt="record" />
+                                                            <img t-att-src="kanban_image('res.users', 'image_128', record.image_128)" class="oe_avatar oe_kanban_avatar_smallbox" alt="record" />
                                                         </div>
                                                         <div class="oe_module_desc">
                                                             <field name="name" />
@@ -130,14 +129,13 @@
                             <kanban quick_create="false" create="true" delete="true" mode="kanban">
                                 <field name="name" />
                                 <field name="image_128" />
-                                <field name="avatar_128" />
                                 <templates>
                                     <t t-name="kanban-box">
                                         <div class="oe_kanban_global_click" style="position: relative">
                                             <a t-if="! read_only_mode" type="delete" style="position: absolute; right: 0; padding: 4px; diplay: inline-block">X</a>
                                             <div class="oe_module_vignette">
                                                 <div class="o_kanban_image">
-                                                    <img t-att-src="kanban_image('res.users', 'avatar_128', record.image_128)" class="oe_avatar oe_kanban_avatar_smallbox" alt="record" />
+                                                    <img t-att-src="kanban_image('res.users', 'image_128', record.image_128)" class="oe_avatar oe_kanban_avatar_smallbox" alt="record" />
                                                 </div>
                                                 <div class="oe_module_desc">
                                                     <field name="name" />

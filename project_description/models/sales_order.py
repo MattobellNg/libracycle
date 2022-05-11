@@ -8,7 +8,6 @@ class ProjectSalesOrder(models.Model):
         "project.schedule.items",
         "project_order_id",
         "Project Items",
-        domain=lambda self: [("project_id", "=", self.project_project_id.id)],
     )
 
     job_id = fields.Many2one("project.project", string="Job ID")
