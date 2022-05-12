@@ -1,0 +1,8 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+access_facility_building,facility.building,model_facility_building,base.group_user,1,1,1,1
+access_apartment_type,apartment.type,model_apartment_type,base.group_user,1,1,1,1
+access_facility_apartment,facility.apartment,model_facility_apartment,base.group_user,1,1,1,1
+access_case_type,case.type,model_case_type,base.group_user,1,1,1,1
+access_facility_case,facility.case,model_facility_case,base.group_user,1,1,1,1
+access_key_log,key.log,model_key_log,base.group_user,1,1,1,1
+access_visitor_log,visitor.log,model_visitor_log,base.group_user,1,1,1,1

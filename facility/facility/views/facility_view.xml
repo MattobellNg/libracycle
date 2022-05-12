@@ -1,0 +1,564 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+        <!--<record id="contract_partner_view_form" model="ir.ui.view">-->
+            <!--<field name="name">res.partner.view.form.new</field>-->
+            <!--<field name="model">res.partner</field>-->
+            <!--<field name="inherit_id" ref="base.view_partner_form"/>-->
+            <!--<field name="arch" type="xml">-->
+                <!--<data>-->
+                    <!--<xpath expr="//button[@name='toggle_active']" position="before">-->
+                        <!--<button name="%(act_partner_employee_2_facility_case)d"-->
+                            <!--class="oe_stat_button"-->
+                            <!--icon="fa-book"-->
+                            <!--type="action">-->
+                            <!--<field name="facility_cases_count" widget="statinfo" string="Partner Contracts"/>-->
+                        <!--</button>-->
+                    <!--</xpath>-->
+                <!--</data>-->
+            <!--</field>-->
+        <!--</record>-->
+
+        <record id="view_tenant_partner_info_form" model="ir.ui.view">
+            <field name="name">res.partner.task.buttons</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <field name="vat" position="after">
+                    <field name="tenant"/>
+                </field>
+            </field>
+       </record>
+
+        <record id="facility_case_view_search" model="ir.ui.view">
+            <field name="name">facility.case.search</field>
+            <field name="model">facility.case</field>
+            <field name="arch" type="xml">
+                <search string="Search Case">
+                    <field name="name" string="Contracts"/>
+                    <field name="date_start"/>
+                    <field name="date_due"/>
+                    <field name="tenant_id"/>
+                    <field name="state"/>
+                    <filter string="In Progress" name="in_progress" domain="[('state', '=', 'in_progress')]"/>
+                    <separator/>
+                    <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                    <separator/>
+                    <group expand="0" string="Group By">
+                        <filter string="Tenant " name="tenant" domain="[]" context="{'group_by':'tenant_id'}"/>
+                        <filter string="Type" name="Case_Type" domain="[]" context="{'group_by':'type_id'}"/>
+                        <filter string="State" name='group_by_state' domain="[]" context="{'group_by': 'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="facility_case_view_form" model="ir.ui.view">
+            <field name="name">facility.case.form</field>
+            <field name="model">facility.case</field>
+            <field name="arch" type="xml">
+                <form string="Requests">
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                            <field name="active" widget="boolean_button" options='{"terminology": "archive"}'/>
+                        </button>
+                    </div>
+                    <div class="oe_title" name="title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" placeholder="Name of the issue" widget="web_ribbon"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="tenant_id"/>
+                            <field name="apartment_id"/>
+                            <field name="assigned_to"/>
+                            <field name="created_by"/>
+                            <field name="date_created"/>
+                        </group>
+                        <group>
+                            <field name="type_id"/>
+                            <field name="date_start"/>
+                            <field name="date_due"/>
+                            <field name="priority"/>
+                        </group>
+                    </group>
+                        <notebook>
+                            <page string="Work Information">
+                                <group>
+                                    <group>
+                                        <field name="description"/>
+                                        <field name="job_area"/>
+                                    </group>
+                                    <group>
+                                        <field name="reason"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="facility_case_view_tree" model="ir.ui.view">
+            <field name="name">facility.case.tree</field>
+            <field name="model">facility.case</field>
+            <field name="arch" type="xml">
+                <tree string="Requests">
+                    <field name="name"/>
+                    <field name="tenant_id"/>
+                    <field name="apartment_id"/>
+                    <field name="type_id"/>
+                    <field name="date_start"/>
+                    <field name="date_due"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="facility_case_view_kanban" model="ir.ui.view">
+            <field name="name">facility.case.kanban</field>
+            <field name="model">facility.case</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_small_column">
+                    <field name="tenant_id"/>
+                    <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card oe_kanban_global_click">
+                            <div class="o_dropdown_kanban dropdown" groups="base.group_user">
+                                <a class="dropdown-toggle o-no-caret btn" role="button" data-toggle="dropdown" href="#" aria-label="Dropdown menu" title="Dropdown menu">
+                                    <span class="fa fa-ellipsis-v"/>
+                                </a>
+                                <div class="dropdown-menu" role="menu">
+                                    <t t-if="widget.editable"><a role="menuitem" type="edit" class="dropdown-item">Edit Issue</a></t>
+                                    <t t-if="widget.deletable"><a role="menuitem" type="delete" class="dropdown-item">Delete</a></t>
+                                </div>
+                            </div>
+                            <div class="oe_kanban_content">
+                                <div>
+                                    <strong class="o_kanban_record_title">Name:</strong><field name="name"/><br/>
+                                    <strong class="o_kanban_record_title">Start Date:</strong><field name="date_start"/><br/>
+                                    <strong class="o_kanban_record_title">Due Date:</strong><field name="date_due"/><br/>
+                                    <strong class="o_kanban_record_title">Tenant:</strong><field name="tenant_id"/><br/>
+                                    <strong class="o_kanban_record_title">Apartment:</strong><field name="apartment_id"/><br/>
+                                </div>
+                            </div>
+                            <div class="oe_clear"></div>
+                        </div>
+                    </t>
+                    </templates>
+                </kanban>
+            </field>
+         </record>
+
+        <record id="action_facility_case_view" model="ir.actions.act_window">
+            <field name="name">Requests</field>
+            <field name="res_model">facility.case</field>
+            <field name="view_mode">kanban,tree,form,activity</field>
+            <field name="context">{'search_default_group_by_state': 1}</field>
+            <field name="search_view_id" ref="facility_case_view_search"/>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a new contract
+              </p>
+            </field>
+        </record>
+
+        <menuitem
+            id="root_facility"
+            name="Facility"
+            sequence="111"/>
+
+        <menuitem
+            id="maintenance_requests"
+            name="Requests"
+            action="action_facility_case_view"
+            parent="root_facility"
+            sequence="1"/>
+
+        <record id="facility_building_view_form" model="ir.ui.view">
+            <field name="name">facility.building.form</field>
+            <field name="model">facility.building</field>
+            <field name="arch" type="xml">
+                <form string="Building">
+                    <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                            <field name="active" widget="boolean_button" options='{"terminology": "archive"}'/>
+                        </button>
+                    </div>
+                    <div class="oe_title" name="title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" placeholder="Building Name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="description"/>
+                        </group>
+                    </group>
+                        <notebook>
+                            <page string="Apartments">
+                                <group>
+                                    <field name="apartment_ids" nolabel="1" widget="one2many_list" readonly="1">
+                                        <tree>
+                                            <field name="name"/>
+                                            <field name="description"/>
+                                            <field name="building_id"/>
+                                            <field name="current_tenant"/>
+                                            <field name="current_tenant"/>
+                                            <field name="apartment_type"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="facility_building_view_tree" model="ir.ui.view">
+            <field name="name">facility.building.tree</field>
+            <field name="model">facility.building</field>
+            <field name="arch" type="xml">
+                <tree string="Building">
+                    <field name="name"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_facility_building_view" model="ir.actions.act_window">
+            <field name="name">Building</field>
+            <field name="res_model">facility.building</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a new contract
+              </p>
+            </field>
+        </record>
+
+        <record id="facility_apartment_view" model="ir.ui.view">
+            <field name="name">facility.apartment.kanban</field>
+            <field name="model">facility.apartment</field>
+            <field name="arch" type="xml">
+                <kanban class="o_hr_employee_kanban">
+                    <field name="id"/>
+                    <field name="lock"/>
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                    <field name="message_needaction_counter"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                                <div class="oe_kanban_global_click o_kanban_record_has_image_fill o_hr_kanban_record">
+                                <!--<t t-if="record.lock == 'lock">-->
+                                    <!--<div class="oe_kanban_global_click o_kanban_record_has_image_fill o_hr_kanban_record">-->
+                                        <!--<img src="/facility/static/description/lock.PNG" alt="Lock"/>-->
+                                    <!--</div>-->
+                                <!--</t>-->
+                                    <div class="oe_kanban_global_click o_kanban_record_has_image_fill o_hr_kanban_record">
+                                        <img t-if="record.lock.raw_value == 'lock'" src="/facility/static/description/lock.PNG"
+                                             style="height: 60px;width: 100px;" alt="Lock"/>
+                                    </div>
+                                    <div class="oe_kanban_global_click o_kanban_record_has_image_fill o_hr_kanban_record">
+                                        <img t-if="record.lock.raw_value == 'unlock'" src="/facility/static/description/unlock.PNG"
+                                             style="height: 60px;width: 100px;" alt="UnLock"/>
+                                    </div>
+                                    <div class="oe_kanban_details">
+                                        <div class="o_kanban_record_top">
+                                            <div class="o_kanban_record_headings">
+                                                <strong class="o_kanban_record_title">
+                                                    <field name="name"/>
+                                                </strong>
+                                                <span t-if="record.current_tenant.raw_value" class="o_kanban_record_subtitle"><field name="current_tenant"/></span>
+                                            </div>
+                                        </div>
+                                        <ul>
+                                            <li id="last_login"/>
+                                            <li t-if="record.building_id.raw_value"><field name="building_id"/></li>
+                                        </ul>
+                                    </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="key_log_view_form" model="ir.ui.view">
+            <field name="name">key.log.form</field>
+            <field name="model">key.log</field>
+            <field name="arch" type="xml">
+                <form string="Key Log">
+                    <group>
+                        <group string="Apartment Lock Status">
+                            <field name="apartment_lock"/>
+                        </group>
+                    </group>
+                    <group string="Key Log Entry">
+                        <group>
+                            <field name="name" required="1"/>
+                            <field name="description" required="1"/>
+                            <field name="responsible_id"/>
+                        </group>
+                        <group>
+                            <field name="date" required="1"/>
+                            <field name="key_status" required="1"/>
+                            <field name="partner_id"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="action_record" string="Log" type="object" class="btn-primary"/>
+                        <button string="Cancel" special="cancel" class="btn-secondary"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="key_log_action" model="ir.actions.act_window">
+            <field name="name">Key Log</field>
+            <field name="res_model">key.log</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="key_log_view_form"/>
+            <field name="context">{'default_apartment_id': active_id}</field>
+            <field name="target">new</field>
+        </record>
+
+        <record id="facility_apartment_view_form" model="ir.ui.view">
+            <field name="name">facility.apartment.form</field>
+            <field name="model">facility.apartment</field>
+            <field name="arch" type="xml">
+                <form string="Apartment">
+                    <header>
+                        <button name="%(key_log_action)d" class="oe_highlight" type="action" string="Key log"/>
+                    </header>
+                    <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                            <field name="active" widget="boolean_button" options='{"terminology": "archive"}'/>
+                        </button>
+                    </div>
+                    <div class="oe_title" name="title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" placeholder="Apartment Name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="description"/>
+                            <field name="building_id"/>
+                            <field name="current_tenant"/>
+                        </group>
+                        <group>
+                            <field name="apartment_type"/>
+                            <field name="lock"/>
+                        </group>
+                    </group>
+                        <notebook>
+                            <page string="Key log">
+                                <field name="key_log" widget="one2many_list" nolabel="1" readonly="1">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="description"/>
+                                        <field name="responsible_id"/>
+                                        <field name="date"/>
+                                        <field name="key_status"/>
+                                        <field name="partner_id"/>
+                                    </tree>
+                                    <form>
+                                        <group>
+                                            <group string="Apartment Lock Status">
+                                                <field name="apartment_lock"/>
+                                            </group>
+                                        </group>
+                                        <group string="Key Log Entry">
+                                            <group>
+                                                <field name="name"/>
+                                                <field name="description"/>
+                                                <field name="responsible_id"/>
+                                            </group>
+                                            <group>
+                                                <field name="date"/>
+                                                <field name="key_status"/>
+                                                <field name="partner_id"/>
+                                            </group>
+                                        </group>
+                                    </form>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="facility_apartment_view_tree" model="ir.ui.view">
+            <field name="name">facility.apartment.tree</field>
+            <field name="model">facility.apartment</field>
+            <field name="arch" type="xml">
+                <tree string="Building">
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="building_id"/>
+                    <field name="current_tenant"/>
+                    <field name="current_tenant"/>
+                    <field name="apartment_type"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_facility_apartment_view" model="ir.actions.act_window">
+            <field name="name">Apartment</field>
+            <field name="res_model">facility.apartment</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a new contract
+              </p>
+            </field>
+        </record>
+
+        <record id="facility_visior_log_view_form" model="ir.ui.view">
+            <field name="name">visitor.log.form</field>
+            <field name="model">visitor.log</field>
+            <field name="arch" type="xml">
+                <form string="Visitor Log">
+                    <sheet>
+                    <div class="oe_title" name="title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" placeholder="Name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="description"/>
+                            <field name="valid_id"/>
+                            <field name="apartment_id"/>
+                        </group>
+                        <group>
+                            <field name="time_in"/>
+                            <field name="time_out"/>
+                            <field name="case_id"/>
+                        </group>
+                    </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="facility_log_view_tree" model="ir.ui.view">
+            <field name="name">visitor.log.tree</field>
+            <field name="model">visitor.log</field>
+            <field name="arch" type="xml">
+                <tree string="log">
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="valid_id"/>
+                    <field name="time_in"/>
+                    <field name="time_out"/>
+                    <field name="apartment_id"/>
+                    <field name="case_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_facility_log_view" model="ir.actions.act_window">
+            <field name="name">Visitor Log</field>
+            <field name="res_model">visitor.log</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a new contract
+              </p>
+            </field>
+        </record>
+
+
+        <menuitem
+            id="root_facility"
+            name="Facility"
+            web_icon="facility,static/description/icon.png"            
+            sequence="111"/>
+
+        <menuitem
+            id="maintenance_requests"
+            name="Requests"
+            action="action_facility_case_view"
+            parent="root_facility"
+            sequence="1"/>
+
+        <menuitem
+                id="visitor_log"
+                name="Visitor Log"
+                action="action_facility_log_view"
+                parent="root_facility"
+                sequence="8"/>
+
+        <menuitem
+                id="apartment"
+                name="Apartment"
+                action="action_facility_apartment_view"
+                parent="root_facility"
+                sequence="9"/>
+
+
+        <menuitem id="menu_procurement_management_supplier_name" name="Contractors"
+                parent="root_facility"
+                action="base.action_partner_supplier_form" sequence="12"/>
+
+        <record id="action_partner_tenant_form" model="ir.actions.act_window">
+            <field name="name">Tenants</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="domain">[('tenant','=',1)]</field>
+            <field name="context">{'default_customer':1, 'default_tenant': True}</field>
+            <field name="filter" eval="True"/>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a new tenant in your address book
+              </p><p>
+                Odoo helps you easily track all activities related to a tenants.
+              </p>
+            </field>
+        </record>
+
+        <menuitem id="menu_customers" name="Tenants"
+        action="action_partner_tenant_form"
+        parent="root_facility" sequence="11"/>
+
+        <menuitem
+            id="building"
+            name="Building"
+            action="action_facility_building_view"
+            parent="root_facility"
+            sequence="30"/>
+
+
+</odoo>
