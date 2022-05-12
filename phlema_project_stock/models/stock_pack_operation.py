@@ -29,10 +29,6 @@ class PackOperation(models.Model):
         domain="[('current_location_id', '=', location_id), ('picking_id', '=', picking_id), ('product_id', '=', product_id),('state', '=', 'assigned'), ('delivery_status', 'in', ['draft', 'prepare', 'dispatch', 'in_transit'])]",
     )
 
-    # @api.onchange('location_id')
-    # def _change_location_id(self):
-    #     if self.location_id and self.in_transit_done > 0.0:
-    #         self
 
     @api.onchange("move_operation_ids")
     def update_qty_to_process(self):

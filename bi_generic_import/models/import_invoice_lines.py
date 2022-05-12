@@ -17,51 +17,53 @@ import re
 try:
     import xlrd
 except ImportError:
-    _logger.debug('Cannot `import xlrd`.')
+    _logger.debug("Cannot `import xlrd`.")
 try:
     import csv
 except ImportError:
-    _logger.debug('Cannot `import csv`.')
+    _logger.debug("Cannot `import csv`.")
 try:
     import base64
 except ImportError:
-    _logger.debug('Cannot `import base64`.')
+    _logger.debug("Cannot `import base64`.")
 
 
 class import_invoice_wizard(models.TransientModel):
-    _name = 'import.invoice.wizard'
+    _name = "import.invoice.wizard"
     _description = "Import Invoice Wizard"
 
     invoice_file = fields.Binary(string="Select File")
-    import_option = fields.Selection([('csv', 'CSV File'), ('xls', 'XLS File')], string='Select', default='csv')
-    import_prod_option = fields.Selection([('barcode', 'Barcode'), ('code', 'Code'), ('name', 'Name')],
-                                          string='Import Product By ', default='name')
+    import_option = fields.Selection([("csv", "CSV File"), ("xls", "XLS File")], string="Select", default="csv")
+    import_prod_option = fields.Selection(
+        [("barcode", "Barcode"), ("code", "Code"), ("name", "Name")], string="Import Product By ", default="name"
+    )
     product_details_option = fields.Selection(
-        [('from_product', 'Take Details From The Product'), ('from_xls', 'Take Details From The XLS File')],
-        default='from_xls')
+        [("from_product", "Take Details From The Product"), ("from_xls", "Take Details From The XLS File")],
+        default="from_xls",
+    )
 
     def check_splcharacter(self, test):
-        # Make own character set and pass 
+        # Make own character set and pass
         # this as argument in compile method
 
-        string_check = re.compile('@')
+        string_check = re.compile("@")
 
-        # Pass the string in search 
+        # Pass the string in search
         # method of regex object.
-        if (string_check.search(str(test)) == None):
+        if string_check.search(str(test)) == None:
             return False
         else:
             return True
 
     def import_inv(self):
-        if self.import_option == 'csv':
+        if self.import_option == "csv":
             try:
-                keys = ['product', 'quantity', 'uom', 'description', 'price', 'tax', 'disc']
+                keys = ["product", "quantity", "uom", "description", "price", "tax", "disc"]
                 csv_data = base64.b64decode(self.invoice_file)
                 data_file = io.StringIO(csv_data.decode("utf-8"))
                 data_file.seek(0)
                 file_reader = []
-                csv_reader = csv.reader(data_file, delimiter=',')
+                csv_reader = csv.reader(data_file, delimiter=",")
                 file_reader.extend(csv_reader)
             except Exception:
                 raise ValidationError(_("Invalid file!"))
@@ -95,53 +97,55 @@ class import_invoice_wizard(models.TransientModel):
                 val = {}
                 values = {}
                 if row_no <= 0:
-                    line_fields = list(map(lambda row: row.value.encode('utf-8'), sheet.row(row_no)))
+                    line_fields = list(map(lambda row: row.value.encode("utf-8"), sheet.row(row_no)))
                 else:
                     line = list(
-                        map(lambda row: isinstance(row.value, bytes) and row.value.encode('utf-8') or str(row.value),
-                            sheet.row(row_no)))
-                    if self.product_details_option == 'from_product':
-                        values.update({
-                            'product': line[0].split('.')[0],
-                            'quantity': line[1],
-                            'disc': line[6]
-                        })
+                        map(
+                            lambda row: isinstance(row.value, bytes) and row.value.encode("utf-8") or str(row.value),
+                            sheet.row(row_no),
+                        )
+                    )
+                    if self.product_details_option == "from_product":
+                        values.update({"product": line[0].split(".")[0], "quantity": line[1], "disc": line[6]})
                     else:
-                        values.update({
-                            'product': line[0].split('.')[0],
-                            'quantity': line[1],
-                            'uom': line[2],
-                            'description': line[3],
-                            'price': line[4],
-                            'tax': line[5],
-                            'disc': line[6]
-                        })
+                        values.update(
+                            {
+                                "product": line[0].split(".")[0],
+                                "quantity": line[1],
+                                "uom": line[2],
+                                "description": line[3],
+                                "price": line[4],
+                                "tax": line[5],
+                                "disc": line[6],
+                            }
+                        )
                     count = 0
                     for l_fields in range(0, len(line)):
-                        if (count > 6):
+                        if count > 6:
                             values.update({line_fields[l_fields]: line[count]})
                         count += 1
                     res = self.create_inv_line(values)
         return res
 
     def create_inv_line(self, values):
-        account_inv_brw = self.env['account.move'].browse(self._context.get('active_id'))
-        product = values.get('product')
-        if self.product_details_option == 'from_product':
-            if self.import_prod_option == 'barcode':
-                product_obj_search = self.env['product.product'].search([('barcode', '=', values['product'])], limit=1)
-            elif self.import_prod_option == 'code':
-                product_obj_search = self.env['product.product'].search([('default_code', '=', values['product'])],
-                                                                        limit=1)
+        account_inv_brw = self.env["account.move"].browse(self._context.get("active_id"))
+        product = values.get("product")
+        if self.product_details_option == "from_product":
+            if self.import_prod_option == "barcode":
+                product_obj_search = self.env["product.product"].search([("barcode", "=", values["product"])], limit=1)
+            elif self.import_prod_option == "code":
+                product_obj_search = self.env["product.product"].search(
+                    [("default_code", "=", values["product"])], limit=1
+                )
             else:
-                product_obj_search = self.env['product.product'].search([('name', '=', values['product'])], limit=1)
+                product_obj_search = self.env["product.product"].search([("name", "=", values["product"])], limit=1)
 
             if product_obj_search:
                 product_id = product_obj_search
             else:
-                raise ValidationError(_('%s product is not found".') % values.get('product'))
+                raise ValidationError(_('%s product is not found".') % values.get("product"))
 
-            if account_inv_brw.move_type == "out_invoice" and account_inv_brw.state == 'draft':
+            if account_inv_brw.move_type == "out_invoice" and account_inv_brw.state == "draft":
                 cust_account_id = product_id.property_account_income_id.id
                 if cust_account_id:
                     account_id = cust_account_id
@@ -149,135 +153,139 @@ class import_invoice_wizard(models.TransientModel):
                     account_id = product_id.categ_id.property_account_income_categ_id.id
 
                     vals = {
-                        'account_id': account_id,
-                        'product_id': product_id.id,
-                        'name': product_id.name,
-                        'quantity': values.get('quantity'),
-                        'product_uom_id': product_id.uom_id.id,
-                        'price_unit': product_id.list_price,
-                        'discount': values.get('disc')
-
+                        "account_id": account_id,
+                        "product_id": product_id.id,
+                        "name": product_id.name,
+                        "quantity": values.get("quantity"),
+                        "product_uom_id": product_id.uom_id.id,
+                        "price_unit": product_id.list_price,
+                        "discount": values.get("disc"),
                     }
                     main_list = values.keys()
                     for i in main_list:
-                        model_id = self.env['ir.model'].search([('model', '=', 'account.move.line')])
+                        model_id = self.env["ir.model"].search([("model", "=", "account.move.line")])
                         if type(i) == bytes:
-                            normal_details = i.decode('utf-8')
+                            normal_details = i.decode("utf-8")
                         else:
                             normal_details = i
-                        if normal_details.startswith('x_'):
+                        if normal_details.startswith("x_"):
                             any_special = self.check_splcharacter(normal_details)
                             if any_special:
                                 split_fields_name = normal_details.split("@")
                                 technical_fields_name = split_fields_name[0]
-                                many2x_fields = self.env['ir.model.fields'].search(
-                                    [('name', '=', technical_fields_name), ('model_id', '=', model_id.id)])
+                                many2x_fields = self.env["ir.model.fields"].search(
+                                    [("name", "=", technical_fields_name), ("model_id", "=", model_id.id)]
+                                )
                                 if many2x_fields.id:
-                                    if many2x_fields.ttype in ['many2one', 'many2many']:
+                                    if many2x_fields.ttype in ["many2one", "many2many"]:
                                         if many2x_fields.ttype == "many2one":
                                             if values.get(i):
                                                 fetch_m2o = self.env[many2x_fields.relation].search(
-                                                    [('name', '=', values.get(i))])
+                                                    [("name", "=", values.get(i))]
+                                                )
                                                 if fetch_m2o.id:
-                                                    vals.update({
-                                                        technical_fields_name: fetch_m2o.id
-                                                    })
+                                                    vals.update({technical_fields_name: fetch_m2o.id})
                                                 else:
                                                     raise ValidationError(
-                                                        _('"%s" This custom field value "%s" not available in system') % (
-                                                            i, values.get(i)))
+                                                        _('"%s" This custom field value "%s" not available in system')
+                                                        % (i, values.get(i))
+                                                    )
                                         if many2x_fields.ttype == "many2many":
                                             m2m_value_lst = []
                                             if values.get(i):
-                                                if ';' in values.get(i):
-                                                    m2m_names = values.get(i).split(';')
+                                                if ";" in values.get(i):
+                                                    m2m_names = values.get(i).split(";")
                                                     for name in m2m_names:
                                                         m2m_id = self.env[many2x_fields.relation].search(
-                                                            [('name', '=', name)])
+                                                            [("name", "=", name)]
+                                                        )
                                                         if not m2m_id:
                                                             raise ValidationError(
-                                                                _('"%s" This custom field value "%s" not available in system') % (
-                                                                    i, name))
+                                                                _(
+                                                                    '"%s" This custom field value "%s" not available in system'
+                                                                )
+                                                                % (i, name)
+                                                            )
                                                         m2m_value_lst.append(m2m_id.id)
 
-                                                elif ',' in values.get(i):
-                                                    m2m_names = values.get(i).split(',')
+                                                elif "," in values.get(i):
+                                                    m2m_names = values.get(i).split(",")
                                                     for name in m2m_names:
                                                         m2m_id = self.env[many2x_fields.relation].search(
-                                                            [('name', '=', name)])
+                                                            [("name", "=", name)]
+                                                        )
                                                         if not m2m_id:
                                                             raise ValidationError(
-                                                                _('"%s" This custom field value "%s" not available in system') % (
-                                                                    i, name))
+                                                                _(
+                                                                    '"%s" This custom field value "%s" not available in system'
+                                                                )
+                                                                % (i, name)
+                                                            )
                                                         m2m_value_lst.append(m2m_id.id)
 
                                                 else:
-                                                    m2m_names = values.get(i).split(',')
+                                                    m2m_names = values.get(i).split(",")
                                                     m2m_id = self.env[many2x_fields.relation].search(
-                                                        [('name', 'in', m2m_names)])
+                                                        [("name", "in", m2m_names)]
+                                                    )
                                                     if not m2m_id:
                                                         raise ValidationError(
-                                                            _('"%s" This custom field value "%s" not available in system') % (
-                                                                i, m2m_names))
+                                                            _(
+                                                                '"%s" This custom field value "%s" not available in system'
+                                                            )
+                                                            % (i, m2m_names)
+                                                        )
                                                     m2m_value_lst.append(m2m_id.id)
-                                            vals.update({
-                                                technical_fields_name: m2m_value_lst
-                                            })
+                                            vals.update({technical_fields_name: m2m_value_lst})
                                     else:
                                         raise ValidationError(
-                                            _('"%s" This custom field type is not many2one/many2many') % technical_fields_name)
+                                            _('"%s" This custom field type is not many2one/many2many')
+                                            % technical_fields_name
+                                        )
                                 else:
                                     raise ValidationError(
-                                        _('"%s" This m2x custom field is not available in system') % technical_fields_name)
+                                        _('"%s" This m2x custom field is not available in system')
+                                        % technical_fields_name
+                                    )
                             else:
-                                normal_fields = self.env['ir.model.fields'].search(
-                                    [('name', '=', normal_details), ('model_id', '=', model_id.id)])
+                                normal_fields = self.env["ir.model.fields"].search(
+                                    [("name", "=", normal_details), ("model_id", "=", model_id.id)]
+                                )
                                 if normal_fields.id:
-                                    if normal_fields.ttype == 'boolean':
+                                    if normal_fields.ttype == "boolean":
                                         boolean_check = False
                                         if int(values.get(i)) == 1:
                                             boolean_check = True
-                                        vals.update({
-                                            normal_details: boolean_check
-                                        })
-                                    elif normal_fields.ttype == 'char':
-                                        vals.update({
-                                            normal_details: values.get(i)
-                                        })
-                                    elif normal_fields.ttype == 'float':
-                                        if values.get(i) == '':
+                                        vals.update({normal_details: boolean_check})
+                                    elif normal_fields.ttype == "char":
+                                        vals.update({normal_details: values.get(i)})
+                                    elif normal_fields.ttype == "float":
+                                        if values.get(i) == "":
                                             float_value = 0.0
                                         else:
                                             float_value = float(values.get(i))
-                                        vals.update({
-                                            normal_details: float_value
-                                        })
-                                    elif normal_fields.ttype == 'integer':
-                                        if values.get(i) == '':
+                                        vals.update({normal_details: float_value})
+                                    elif normal_fields.ttype == "integer":
+                                        if values.get(i) == "":
                                             int_value = 0
                                         else:
                                             try:
                                                 int_value = int(float(values.get(i)))
                                             except:
                                                 raise ValidationError(_("Wrong value %s for Integer" % values.get(i)))
-                                        vals.update({
-                                            normal_details: int_value
-                                        })
-                                    elif normal_fields.ttype == 'selection':
-                                        vals.update({
-                                            normal_details: values.get(i)
-                                        })
-                                    elif normal_fields.ttype == 'text':
-                                        vals.update({
-                                            normal_details: values.get(i)
-                                        })
+                                        vals.update({normal_details: int_value})
+                                    elif normal_fields.ttype == "selection":
+                                        vals.update({normal_details: values.get(i)})
+                                    elif normal_fields.ttype == "text":
+                                        vals.update({normal_details: values.get(i)})
                                 else:
                                     raise ValidationError(
-                                        _('"%s" This custom field is not available in system') % normal_details)
-                    account_inv_brw.write({'invoice_line_ids': ([(0, 0, vals)])})
+                                        _('"%s" This custom field is not available in system') % normal_details
+                                    )
+                    account_inv_brw.write({"invoice_line_ids": ([(0, 0, vals)])})
                     return True
 
-            elif account_inv_brw.move_type == "in_invoice" and account_inv_brw.state == 'draft':
+            elif account_inv_brw.move_type == "in_invoice" and account_inv_brw.state == "draft":
                 vendor_account_id = product_id.property_account_expense_id.id
                 if vendor_account_id:
                     account_id = vendor_account_id
@@ -285,143 +293,137 @@ class import_invoice_wizard(models.TransientModel):
                     account_id = product_id.categ_id.property_account_expense_categ_id.id
 
                 vals = {
-                    'account_id': account_id,
-                    'product_id': product_id.id,
-                    'name': product_id.name,
-                    'quantity': values.get('quantity'),
-                    'product_uom_id': product_id.uom_id.id,
-                    'price_unit': product_id.list_price,
-                    'discount': values.get('disc')
-
+                    "account_id": account_id,
+                    "product_id": product_id.id,
+                    "name": product_id.name,
+                    "quantity": values.get("quantity"),
+                    "product_uom_id": product_id.uom_id.id,
+                    "price_unit": product_id.list_price,
+                    "discount": values.get("disc"),
                 }
                 main_list = values.keys()
                 for i in main_list:
-                    model_id = self.env['ir.model'].search([('model', '=', 'account.move.line')])
+                    model_id = self.env["ir.model"].search([("model", "=", "account.move.line")])
                     if type(i) == bytes:
-                        normal_details = i.decode('utf-8')
+                        normal_details = i.decode("utf-8")
                     else:
                         normal_details = i
-                    if normal_details.startswith('x_'):
+                    if normal_details.startswith("x_"):
                         any_special = self.check_splcharacter(normal_details)
                         if any_special:
                             split_fields_name = normal_details.split("@")
                             technical_fields_name = split_fields_name[0]
-                            many2x_fields = self.env['ir.model.fields'].search(
-                                [('name', '=', technical_fields_name), ('model_id', '=', model_id.id)])
+                            many2x_fields = self.env["ir.model.fields"].search(
+                                [("name", "=", technical_fields_name), ("model_id", "=", model_id.id)]
+                            )
 
                             if many2x_fields.id:
                                 if many2x_fields.ttype == "many2one":
                                     if values.get(i):
                                         fetch_m2o = self.env[many2x_fields.relation].search(
-                                            [('name', '=', values.get(i))])
+                                            [("name", "=", values.get(i))]
+                                        )
                                         if fetch_m2o.id:
-                                            vals.update({
-                                                technical_fields_name: fetch_m2o.id
-                                            })
+                                            vals.update({technical_fields_name: fetch_m2o.id})
                                         else:
                                             raise ValidationError(
-                                                _('"%s" This custom field value "%s" not available in system') % (
-                                                    i, values.get(i)))
+                                                _('"%s" This custom field value "%s" not available in system')
+                                                % (i, values.get(i))
+                                            )
                                 if many2x_fields.ttype == "many2many":
                                     m2m_value_lst = []
                                     if values.get(i):
-                                        if ';' in values.get(i):
-                                            m2m_names = values.get(i).split(';')
+                                        if ";" in values.get(i):
+                                            m2m_names = values.get(i).split(";")
                                             for name in m2m_names:
-                                                m2m_id = self.env[many2x_fields.relation].search([('name', '=', name)])
+                                                m2m_id = self.env[many2x_fields.relation].search([("name", "=", name)])
                                                 if not m2m_id:
                                                     raise ValidationError(
-                                                        _('"%s" This custom field value "%s" not available in system') % (
-                                                            i, name))
+                                                        _('"%s" This custom field value "%s" not available in system')
+                                                        % (i, name)
+                                                    )
                                                 m2m_value_lst.append(m2m_id.id)
 
-                                        elif ',' in values.get(i):
-                                            m2m_names = values.get(i).split(',')
+                                        elif "," in values.get(i):
+                                            m2m_names = values.get(i).split(",")
                                             for name in m2m_names:
-                                                m2m_id = self.env[many2x_fields.relation].search([('name', '=', name)])
+                                                m2m_id = self.env[many2x_fields.relation].search([("name", "=", name)])
                                                 if not m2m_id:
                                                     raise ValidationError(
-                                                        _('"%s" This custom field value "%s" not available in system') % (
-                                                            i, name))
+                                                        _('"%s" This custom field value "%s" not available in system')
+                                                        % (i, name)
+                                                    )
                                                 m2m_value_lst.append(m2m_id.id)
 
                                         else:
-                                            m2m_names = values.get(i).split(',')
+                                            m2m_names = values.get(i).split(",")
                                             m2m_id = self.env[many2x_fields.relation].search(
-                                                [('name', 'in', m2m_names)])
+                                                [("name", "in", m2m_names)]
+                                            )
                                             if not m2m_id:
                                                 raise ValidationError(
-                                                    _('"%s" This custom field value "%s" not available in system') % (
-                                                        i, m2m_names))
+                                                    _('"%s" This custom field value "%s" not available in system')
+                                                    % (i, m2m_names)
+                                                )
                                             m2m_value_lst.append(m2m_id.id)
-                                    vals.update({
-                                        technical_fields_name: m2m_value_lst
-                                    })
+                                    vals.update({technical_fields_name: m2m_value_lst})
                             else:
                                 raise ValidationError(
-                                    _('"%s" This m2x custom field is not available in system') % technical_fields_name)
+                                    _('"%s" This m2x custom field is not available in system') % technical_fields_name
+                                )
                         else:
-                            normal_fields = self.env['ir.model.fields'].search(
-                                [('name', '=', normal_details), ('model_id', '=', model_id.id)])
+                            normal_fields = self.env["ir.model.fields"].search(
+                                [("name", "=", normal_details), ("model_id", "=", model_id.id)]
+                            )
                             if normal_fields.id:
-                                if normal_fields.ttype == 'boolean':
+                                if normal_fields.ttype == "boolean":
                                     boolean_check = False
                                     if int(values.get(i)) == 1:
                                         boolean_check = True
-                                    vals.update({
-                                        normal_details: boolean_check
-                                    })
-                                elif normal_fields.ttype == 'char':
-                                    vals.update({
-                                        normal_details: values.get(i)
-                                    })
-                                elif normal_fields.ttype == 'float':
-                                    if values.get(i) == '':
+                                    vals.update({normal_details: boolean_check})
+                                elif normal_fields.ttype == "char":
+                                    vals.update({normal_details: values.get(i)})
+                                elif normal_fields.ttype == "float":
+                                    if values.get(i) == "":
                                         float_value = 0.0
                                     else:
                                         float_value = float(values.get(i))
-                                    vals.update({
-                                        normal_details: float_value
-                                    })
-                                elif normal_fields.ttype == 'integer':
-                                    if values.get(i) == '':
+                                    vals.update({normal_details: float_value})
+                                elif normal_fields.ttype == "integer":
+                                    if values.get(i) == "":
                                         int_value = 0
                                     else:
                                         try:
                                             int_value = int(float(values.get(i)))
                                         except:
                                             raise ValidationError(_("Wrong value %s for Integer" % values.get(i)))
-                                    vals.update({
-                                        normal_details: int_value
-                                    })
-                                elif normal_fields.ttype == 'selection':
-                                    vals.update({
-                                        normal_details: values.get(i)
-                                    })
-                                elif normal_fields.ttype == 'text':
-                                    vals.update({
-                                        normal_details: values.get(i)
-                                    })
+                                    vals.update({normal_details: int_value})
+                                elif normal_fields.ttype == "selection":
+                                    vals.update({normal_details: values.get(i)})
+                                elif normal_fields.ttype == "text":
+                                    vals.update({normal_details: values.get(i)})
                             else:
                                 raise ValidationError(
-                                    _('"%s" This custom field is not available in system') % normal_details)
-                account_inv_brw.write({'invoice_line_ids': ([(0, 0, vals)])})
+                                    _('"%s" This custom field is not available in system') % normal_details
+                                )
+                account_inv_brw.write({"invoice_line_ids": ([(0, 0, vals)])})
                 return True
 
-            elif account_inv_brw.state != 'draft':
-                raise UserError(_('We cannot import data in validated or confirmed Invoice.'))
+            elif account_inv_brw.state != "draft":
+                raise UserError(_("We cannot import data in validated or confirmed Invoice."))
 
         else:
-            uom = values.get('uom')
-            if self.import_prod_option == 'barcode':
-                product_obj_search = self.env['product.product'].search([('barcode', '=', values['product'])], limit=1)
-            elif self.import_prod_option == 'code':
-                product_obj_search = self.env['product.product'].search([('default_code', '=', values['product'])],
-                                                                        limit=1)
+            uom = values.get("uom")
+            if self.import_prod_option == "barcode":
+                product_obj_search = self.env["product.product"].search([("barcode", "=", values["product"])], limit=1)
+            elif self.import_prod_option == "code":
+                product_obj_search = self.env["product.product"].search(
+                    [("default_code", "=", values["product"])], limit=1
+                )
             else:
-                product_obj_search = self.env['product.product'].search([('name', '=', values['product'])], limit=1)
+                product_obj_search = self.env["product.product"].search([("name", "=", values["product"])], limit=1)
 
-            uom_obj_search = self.env['uom.uom'].search([('name', '=', uom)])
+            uom_obj_search = self.env["uom.uom"].search([("name", "=", uom)])
 
             if not uom_obj_search:
                 raise ValidationError(_('UOM "%s" is Not Available') % uom)
@@ -429,34 +431,38 @@ class import_invoice_wizard(models.TransientModel):
             if product_obj_search:
                 product_id = product_obj_search
             else:
-                if self.import_prod_option == 'name':
-                    product_id = self.env['product.product'].create(
-                        {'name': product, 'list_price': values.get('price')})
+                if self.import_prod_option == "name":
+                    product_id = self.env["product.product"].create(
+                        {"name": product, "list_price": values.get("price")}
+                    )
                 else:
                     raise ValidationError(
-                        _('%s product is not found" .\n If you want to create product then first select Import Product By Name option .') % values.get(
-                            'product'))
+                        _(
+                            '%s product is not found" .\n If you want to create product then first select Import Product By Name option .'
+                        )
+                        % values.get("product")
+                    )
 
-            if account_inv_brw.move_type == "out_invoice" and account_inv_brw.state == 'draft':
+            if account_inv_brw.move_type == "out_invoice" and account_inv_brw.state == "draft":
                 tax_id_lst = []
-                if values.get('tax'):
-                    if ';' in values.get('tax'):
-                        tax_names = values.get('tax').split(';')
+                if values.get("tax"):
+                    if ";" in values.get("tax"):
+                        tax_names = values.get("tax").split(";")
                         for name in tax_names:
-                            tax = self.env['account.tax'].search([('name', '=', name), ('type_tax_use', '=', 'sale')])
+                            tax = self.env["account.tax"].search([("name", "=", name), ("type_tax_use", "=", "sale")])
                             if not tax:
                                 raise ValidationError(_('"%s" Tax not in your system') % name)
                             tax_id_lst.append(tax.id)
-                    elif ',' in values.get('tax'):
-                        tax_names = values.get('tax').split(',')
+                    elif "," in values.get("tax"):
+                        tax_names = values.get("tax").split(",")
                         for name in tax_names:
-                            tax = self.env['account.tax'].search([('name', '=', name), ('type_tax_use', '=', 'sale')])
+                            tax = self.env["account.tax"].search([("name", "=", name), ("type_tax_use", "=", "sale")])
                             if not tax:
                                 raise ValidationError(_('"%s" Tax not in your system') % name)
                             tax_id_lst.append(tax.id)
                     else:
-                        tax_names = values.get('tax').split(',')
-                        tax = self.env['account.tax'].search([('name', '=', tax_names), ('type_tax_use', '=', 'sale')])
+                        tax_names = values.get("tax").split(",")
+                        tax = self.env["account.tax"].search([("name", "=", tax_names), ("type_tax_use", "=", "sale")])
                         if not tax:
                             raise ValidationError(_('"%s" Tax not in your system') % tax_names)
                         tax_id_lst.append(tax.id)
@@ -468,157 +474,154 @@ class import_invoice_wizard(models.TransientModel):
                     account_id = product_id.categ_id.property_account_income_categ_id.id
 
                 vals = {
-                    'account_id': account_id,
-                    'product_id': product_id.id,
-                    'name': values.get('description'),
-                    'quantity': values.get('quantity'),
-                    'product_uom_id': uom_obj_search.id,
-                    'price_unit': values.get('price'),
-                    'discount': values.get('disc')
+                    "account_id": account_id,
+                    "product_id": product_id.id,
+                    "name": values.get("description"),
+                    "quantity": values.get("quantity"),
+                    "product_uom_id": uom_obj_search.id,
+                    "price_unit": values.get("price"),
+                    "discount": values.get("disc"),
                 }
 
                 if tax_id_lst:
-                    vals.update({'tax_ids': ([(6, 0, tax_id_lst)])})
+                    vals.update({"tax_ids": ([(6, 0, tax_id_lst)])})
 
                 main_list = values.keys()
                 for i in main_list:
-                    model_id = self.env['ir.model'].search([('model', '=', 'account.move.line')])
+                    model_id = self.env["ir.model"].search([("model", "=", "account.move.line")])
                     if type(i) == bytes:
-                        normal_details = i.decode('utf-8')
+                        normal_details = i.decode("utf-8")
                     else:
                         normal_details = i
-                    if normal_details.startswith('x_'):
+                    if normal_details.startswith("x_"):
                         any_special = self.check_splcharacter(normal_details)
                         if any_special:
                             split_fields_name = normal_details.split("@")
                             technical_fields_name = split_fields_name[0]
-                            many2x_fields = self.env['ir.model.fields'].search(
-                                [('name', '=', technical_fields_name), ('model_id', '=', model_id.id)])
+                            many2x_fields = self.env["ir.model.fields"].search(
+                                [("name", "=", technical_fields_name), ("model_id", "=", model_id.id)]
+                            )
 
                             if many2x_fields.id:
                                 if many2x_fields.ttype == "many2one":
                                     if values.get(i):
                                         fetch_m2o = self.env[many2x_fields.relation].search(
-                                            [('name', '=', values.get(i))])
+                                            [("name", "=", values.get(i))]
+                                        )
 
                                         if fetch_m2o.id:
-                                            vals.update({
-                                                technical_fields_name: fetch_m2o.id
-                                            })
+                                            vals.update({technical_fields_name: fetch_m2o.id})
                                         else:
                                             raise ValidationError(
-                                                _('"%s" This custom field value "%s" not available in system') % (
-                                                    i, values.get(i)))
+                                                _('"%s" This custom field value "%s" not available in system')
+                                                % (i, values.get(i))
+                                            )
                                 if many2x_fields.ttype == "many2many":
                                     m2m_value_lst = []
                                     if values.get(i):
-                                        if ';' in values.get(i):
-                                            m2m_names = values.get(i).split(';')
+                                        if ";" in values.get(i):
+                                            m2m_names = values.get(i).split(";")
                                             for name in m2m_names:
-                                                m2m_id = self.env[many2x_fields.relation].search([('name', '=', name)])
+                                                m2m_id = self.env[many2x_fields.relation].search([("name", "=", name)])
                                                 if not m2m_id:
                                                     raise ValidationError(
-                                                        _('"%s" This custom field value "%s" not available in system') % (
-                                                            i, name))
+                                                        _('"%s" This custom field value "%s" not available in system')
+                                                        % (i, name)
+                                                    )
                                                 m2m_value_lst.append(m2m_id.id)
 
-                                        elif ',' in values.get(i):
-                                            m2m_names = values.get(i).split(',')
+                                        elif "," in values.get(i):
+                                            m2m_names = values.get(i).split(",")
                                             for name in m2m_names:
-                                                m2m_id = self.env[many2x_fields.relation].search([('name', '=', name)])
+                                                m2m_id = self.env[many2x_fields.relation].search([("name", "=", name)])
                                                 if not m2m_id:
                                                     raise ValidationError(
-                                                        _('"%s" This custom field value "%s" not available in system') % (
-                                                            i, name))
+                                                        _('"%s" This custom field value "%s" not available in system')
+                                                        % (i, name)
+                                                    )
                                                 m2m_value_lst.append(m2m_id.id)
 
                                         else:
-                                            m2m_names = values.get(i).split(',')
+                                            m2m_names = values.get(i).split(",")
                                             m2m_id = self.env[many2x_fields.relation].search(
-                                                [('name', 'in', m2m_names)])
+                                                [("name", "in", m2m_names)]
+                                            )
                                             if not m2m_id:
                                                 raise ValidationError(
-                                                    _('"%s" This custom field value "%s" not available in system') % (
-                                                        i, m2m_names))
+                                                    _('"%s" This custom field value "%s" not available in system')
+                                                    % (i, m2m_names)
+                                                )
                                             m2m_value_lst.append(m2m_id.id)
-                                    vals.update({
-                                        technical_fields_name: m2m_value_lst
-                                    })
+                                    vals.update({technical_fields_name: m2m_value_lst})
                             else:
                                 raise ValidationError(
-                                    _('"%s" This m2x custom field is not available in system') % technical_fields_name)
+                                    _('"%s" This m2x custom field is not available in system') % technical_fields_name
+                                )
                         else:
-                            normal_fields = self.env['ir.model.fields'].search(
-                                [('name', '=', normal_details), ('model_id', '=', model_id.id)])
+                            normal_fields = self.env["ir.model.fields"].search(
+                                [("name", "=", normal_details), ("model_id", "=", model_id.id)]
+                            )
                             if normal_fields.id:
-                                if normal_fields.ttype == 'boolean':
+                                if normal_fields.ttype == "boolean":
                                     boolean_check = False
                                     if int(values.get(i)) == 1:
                                         boolean_check = True
-                                    vals.update({
-                                        normal_details: boolean_check
-                                    })
-                                elif normal_fields.ttype == 'char':
-                                    vals.update({
-                                        normal_details: values.get(i)
-                                    })
-                                elif normal_fields.ttype == 'float':
-                                    if values.get(i) == '':
+                                    vals.update({normal_details: boolean_check})
+                                elif normal_fields.ttype == "char":
+                                    vals.update({normal_details: values.get(i)})
+                                elif normal_fields.ttype == "float":
+                                    if values.get(i) == "":
                                         float_value = 0.0
                                     else:
                                         float_value = float(values.get(i))
-                                    vals.update({
-                                        normal_details: float_value
-                                    })
-                                elif normal_fields.ttype == 'integer':
-                                    if values.get(i) == '':
+                                    vals.update({normal_details: float_value})
+                                elif normal_fields.ttype == "integer":
+                                    if values.get(i) == "":
                                         int_value = 0
                                     else:
                                         try:
                                             int_value = int(float(values.get(i)))
                                         except:
                                             raise ValidationError(_("Wrong value %s for Integer" % values.get(i)))
-                                    vals.update({
-                                        normal_details: int_value
-                                    })
-                                elif normal_fields.ttype == 'selection':
-                                    vals.update({
-                                        normal_details: values.get(i)
-                                    })
-                                elif normal_fields.ttype == 'text':
-                                    vals.update({
-                                        normal_details: values.get(i)
-                                    })
+                                    vals.update({normal_details: int_value})
+                                elif normal_fields.ttype == "selection":
+                                    vals.update({normal_details: values.get(i)})
+                                elif normal_fields.ttype == "text":
+                                    vals.update({normal_details: values.get(i)})
                             else:
                                 raise ValidationError(
-                                    _('"%s" This custom field is not available in system') % normal_details)
-                account_inv_brw.write({'invoice_line_ids': ([(0, 0, vals)])})
+                                    _('"%s" This custom field is not available in system') % normal_details
+                                )
+                account_inv_brw.write({"invoice_line_ids": ([(0, 0, vals)])})
 
                 return True
 
-            elif account_inv_brw.move_type == "in_invoice" and account_inv_brw.state == 'draft':
+            elif account_inv_brw.move_type == "in_invoice" and account_inv_brw.state == "draft":
                 tax_id_lst = []
-                if values.get('tax'):
-                    if ';' in values.get('tax'):
-                        tax_names = values.get('tax').split(';')
+                if values.get("tax"):
+                    if ";" in values.get("tax"):
+                        tax_names = values.get("tax").split(";")
                         for name in tax_names:
-                            tax = self.env['account.tax'].search(
-                                [('name', '=', name), ('type_tax_use', '=', 'purchase')])
+                            tax = self.env["account.tax"].search(
+                                [("name", "=", name), ("type_tax_use", "=", "purchase")]
+                            )
                             if not tax:
                                 raise ValidationError(_('"%s" Tax not in your system') % name)
                             tax_id_lst.append(tax.id)
-                    elif ',' in values.get('tax'):
-                        tax_names = values.get('tax').split(',')
+                    elif "," in values.get("tax"):
+                        tax_names = values.get("tax").split(",")
                         for name in tax_names:
-                            tax = self.env['account.tax'].search(
-                                [('name', '=', name), ('type_tax_use', '=', 'purchase')])
+                            tax = self.env["account.tax"].search(
+                                [("name", "=", name), ("type_tax_use", "=", "purchase")]
+                            )
                             if not tax:
                                 raise ValidationError(_('"%s" Tax not in your system') % name)
                             tax_id_lst.append(tax.id)
                     else:
-                        tax_names = values.get('tax').split(',')
-                        tax = self.env['account.tax'].search(
-                            [('name', '=', tax_names), ('type_tax_use', '=', 'purchase')])
+                        tax_names = values.get("tax").split(",")
+                        tax = self.env["account.tax"].search(
+                            [("name", "=", tax_names), ("type_tax_use", "=", "purchase")]
+                        )
                         if not tax:
                             raise ValidationError(_('"%s" Tax not in your system') % tax_names)
                         tax_id_lst.append(tax.id)
@@ -630,128 +633,122 @@ class import_invoice_wizard(models.TransientModel):
                     account_id = product_id.categ_id.property_account_expense_categ_id.id
 
                 vals = {
-                    'account_id': account_id,
-                    'product_id': product_id.id,
-                    'name': values.get('description'),
-                    'quantity': values.get('quantity'),
-                    'product_uom_id': uom_obj_search.id,
-                    'price_unit': values.get('price'),
-                    'discount': values.get('disc')
+                    "account_id": account_id,
+                    "product_id": product_id.id,
+                    "name": values.get("description"),
+                    "quantity": values.get("quantity"),
+                    "product_uom_id": uom_obj_search.id,
+                    "price_unit": values.get("price"),
+                    "discount": values.get("disc"),
                 }
                 if tax_id_lst:
-                    vals.update({'tax_ids': ([(6, 0, tax_id_lst)])})
+                    vals.update({"tax_ids": ([(6, 0, tax_id_lst)])})
                 main_list = values.keys()
                 for i in main_list:
-                    model_id = self.env['ir.model'].search([('model', '=', 'account.move.line')])
+                    model_id = self.env["ir.model"].search([("model", "=", "account.move.line")])
                     if type(i) == bytes:
-                        normal_details = i.decode('utf-8')
+                        normal_details = i.decode("utf-8")
                     else:
                         normal_details = i
-                    if normal_details.startswith('x_'):
+                    if normal_details.startswith("x_"):
                         any_special = self.check_splcharacter(normal_details)
                         if any_special:
                             split_fields_name = normal_details.split("@")
                             technical_fields_name = split_fields_name[0]
-                            many2x_fields = self.env['ir.model.fields'].search(
-                                [('name', '=', technical_fields_name), ('model_id', '=', model_id.id)])
+                            many2x_fields = self.env["ir.model.fields"].search(
+                                [("name", "=", technical_fields_name), ("model_id", "=", model_id.id)]
+                            )
                             if many2x_fields.id:
                                 if many2x_fields.ttype == "many2one":
                                     if values.get(i):
                                         fetch_m2o = self.env[many2x_fields.relation].search(
-                                            [('name', '=', values.get(i))])
+                                            [("name", "=", values.get(i))]
+                                        )
                                         if fetch_m2o.id:
-                                            vals.update({
-                                                technical_fields_name: fetch_m2o.id
-                                            })
+                                            vals.update({technical_fields_name: fetch_m2o.id})
                                         else:
                                             raise ValidationError(
-                                                _('"%s" This custom field value "%s" not available in system') % (
-                                                    i, values.get(i)))
+                                                _('"%s" This custom field value "%s" not available in system')
+                                                % (i, values.get(i))
+                                            )
                                 if many2x_fields.ttype == "many2many":
                                     m2m_value_lst = []
                                     if values.get(i):
-                                        if ';' in values.get(i):
-                                            m2m_names = values.get(i).split(';')
+                                        if ";" in values.get(i):
+                                            m2m_names = values.get(i).split(";")
                                             for name in m2m_names:
-                                                m2m_id = self.env[many2x_fields.relation].search([('name', '=', name)])
+                                                m2m_id = self.env[many2x_fields.relation].search([("name", "=", name)])
                                                 if not m2m_id:
                                                     raise ValidationError(
-                                                        _('"%s" This custom field value "%s" not available in system') % (
-                                                            i, name))
+                                                        _('"%s" This custom field value "%s" not available in system')
+                                                        % (i, name)
+                                                    )
                                                 m2m_value_lst.append(m2m_id.id)
 
-                                        elif ',' in values.get(i):
-                                            m2m_names = values.get(i).split(',')
+                                        elif "," in values.get(i):
+                                            m2m_names = values.get(i).split(",")
                                             for name in m2m_names:
-                                                m2m_id = self.env[many2x_fields.relation].search([('name', '=', name)])
+                                                m2m_id = self.env[many2x_fields.relation].search([("name", "=", name)])
                                                 if not m2m_id:
                                                     raise ValidationError(
-                                                        _('"%s" This custom field value "%s" not available in system') % (
-                                                            i, name))
+                                                        _('"%s" This custom field value "%s" not available in system')
+                                                        % (i, name)
+                                                    )
                                                 m2m_value_lst.append(m2m_id.id)
 
                                         else:
-                                            m2m_names = values.get(i).split(',')
+                                            m2m_names = values.get(i).split(",")
                                             m2m_id = self.env[many2x_fields.relation].search(
-                                                [('name', 'in', m2m_names)])
+                                                [("name", "in", m2m_names)]
+                                            )
                                             if not m2m_id:
                                                 raise ValidationError(
-                                                    _('"%s" This custom field value "%s" not available in system') % (
-                                                        i, m2m_names))
+                                                    _('"%s" This custom field value "%s" not available in system')
+                                                    % (i, m2m_names)
+                                                )
                                             m2m_value_lst.append(m2m_id.id)
-                                    vals.update({
-                                        technical_fields_name: m2m_value_lst
-                                    })
+                                    vals.update({technical_fields_name: m2m_value_lst})
                             else:
                                 raise ValidationError(
-                                    _('"%s" This m2x custom field is not available in system') % technical_fields_name)
+                                    _('"%s" This m2x custom field is not available in system') % technical_fields_name
+                                )
                         else:
-                            normal_fields = self.env['ir.model.fields'].search(
-                                [('name', '=', normal_details), ('model_id', '=', model_id.id)])
+                            normal_fields = self.env["ir.model.fields"].search(
+                                [("name", "=", normal_details), ("model_id", "=", model_id.id)]
+                            )
                             if normal_fields.id:
-                                if normal_fields.ttype == 'boolean':
+                                if normal_fields.ttype == "boolean":
                                     boolean_check = False
                                     if int(values.get(i)) == 1:
                                         boolean_check = True
-                                    vals.update({
-                                        normal_details: boolean_check
-                                    })
-                                elif normal_fields.ttype == 'char':
-                                    vals.update({
-                                        normal_details: values.get(i)
-                                    })
-                                elif normal_fields.ttype == 'float':
-                                    if values.get(i) == '':
+                                    vals.update({normal_details: boolean_check})
+                                elif normal_fields.ttype == "char":
+                                    vals.update({normal_details: values.get(i)})
+                                elif normal_fields.ttype == "float":
+                                    if values.get(i) == "":
                                         float_value = 0.0
                                     else:
                                         float_value = float(values.get(i))
-                                    vals.update({
-                                        normal_details: float_value
-                                    })
-                                elif normal_fields.ttype == 'integer':
-                                    if values.get(i) == '':
+                                    vals.update({normal_details: float_value})
+                                elif normal_fields.ttype == "integer":
+                                    if values.get(i) == "":
                                         int_value = 0
                                     else:
                                         try:
                                             int_value = int(float(values.get(i)))
                                         except:
                                             raise ValidationError(_("Wrong value %s for Integer" % values.get(i)))
-                                    vals.update({
-                                        normal_details: int_value
-                                    })
-                                elif normal_fields.ttype == 'selection':
-                                    vals.update({
-                                        normal_details: values.get(i)
-                                    })
-                                elif normal_fields.ttype == 'text':
-                                    vals.update({
-                                        normal_details: values.get(i)
-                                    })
+                                    vals.update({normal_details: int_value})
+                                elif normal_fields.ttype == "selection":
+                                    vals.update({normal_details: values.get(i)})
+                                elif normal_fields.ttype == "text":
+                                    vals.update({normal_details: values.get(i)})
                             else:
                                 raise ValidationError(
-                                    _('"%s" This custom field is not available in system') % normal_details)
-                account_inv_brw.write({'invoice_line_ids': ([(0, 0, vals)])})
+                                    _('"%s" This custom field is not available in system') % normal_details
+                                )
+                account_inv_brw.write({"invoice_line_ids": ([(0, 0, vals)])})
                 return True
 
-            elif account_inv_brw.state != 'draft':
-                raise UserError(_('We cannot import data in validated or confirmed Invoice.'))
+            elif account_inv_brw.state != "draft":
+                raise UserError(_("We cannot import data in validated or confirmed Invoice."))

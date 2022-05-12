@@ -8,7 +8,10 @@
     "author": "ADHOC SA," "Tecnativa, " "Onestein, " "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/project",
     "license": "AGPL-3",
-    "depends": ["base", "project",],
+    "depends": [
+        "base",
+        "project",
+    ],
     "data": [
         "views/project_type_views.xml",
         "views/project_project_views.xml",

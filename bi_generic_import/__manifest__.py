@@ -2,14 +2,14 @@
 # Part of BrowseInfo. See LICENSE file for full copyright and licensing details.
 
 {
-    'name': 'Odoo all import for Sales, Purchase, Invoice, Inventory, Pricelist, BOM, Payment, Bank Statement, Journal Entry, Picking, Product, Customer.',
-    'version': '15.0.0.4',
-    'sequence': 4,
-    'summary': 'Odoo import Data Import All in one import Invoice import Sales import Inventory import Purchase import stock inventory import Picking import Product image import Customer import serial import lot import bank statement import journal entry import payment',
-    'price': 84,
-    'currency': 'EUR',
-    'category': 'Extra Tools',
-    'description': """
+    "name": "Odoo all import for Sales, Purchase, Invoice, Inventory, Pricelist, BOM, Payment, Bank Statement, Journal Entry, Picking, Product, Customer.",
+    "version": "15.0.0.4",
+    "sequence": 4,
+    "summary": "Odoo import Data Import All in one import Invoice import Sales import Inventory import Purchase import stock inventory import Picking import Product image import Customer import serial import lot import bank statement import journal entry import payment",
+    "price": 84,
+    "currency": "EUR",
+    "category": "Extra Tools",
+    "description": """
     
 
 	BrowseInfo developed a new odoo/OpenERP module apps
@@ -584,16 +584,24 @@ Este módulo usa para importar imagens de produtos, importar imagens no produto,
 Importar imagens do produto do caminho, importar imagens do caminho do sistema local. Importar o diretório de imagens. Adicione a imagem do produto. Atualize a imagem do produto. Importe a imagem do produto, importe imagens do Excel, Importe imagens do produto do arquivo excel, Importe os dados do produto do arquivo excel. Defina a imagem do produto a partir do excel, Importe imagens do produto do Excel, Importe imagens do produto do arquivo excel. IMPORTE a imagem do produto do excel.
 
     """,
-    'author': 'BrowseInfo',
-    'license': 'OPL-1',
-    'website': 'https://www.browseinfo.in',
-    'live_test_url': 'https://www.youtube.com/watch?v=bG7ImzFkSfo',
-    'depends': ['base', 'sale_management', 'account', 'mrp', 'purchase', 'stock', 'product_expiry',
-                'bi_import_chart_of_accounts'],
-    'data': [
+    "author": "BrowseInfo",
+    "license": "OPL-1",
+    "website": "https://www.browseinfo.in",
+    "live_test_url": "https://www.youtube.com/watch?v=bG7ImzFkSfo",
+    "depends": [
+        "base",
+        "sale_management",
+        "account",
+        "mrp",
+        "purchase",
+        "stock",
+        "product_expiry",
+        "bi_import_chart_of_accounts",
+    ],
+    "data": [
         "security/import_security.xml",
-        'security/ir.model.access.csv',
-        'data/data.xml',
+        "security/ir.model.access.csv",
+        "data/data.xml",
         "views/account_invoice.xml",
         "views/purchase_invoice.xml",
         "views/sale.xml",
@@ -614,13 +622,11 @@ Importar imagens do produto do caminho, importar imagens do caminho do sistema l
         "views/import_dashboard_action.xml",
         "views/import_dashboard.xml",
     ],
-    'qweb': [
-    ],
-    'demo': [],
-    'test': [],
-    'installable': True,
-    'application': True,
-    'auto_install': False,
-    'images': ['static/description/Banner.png'],
-
+    "qweb": [],
+    "demo": [],
+    "test": [],
+    "installable": True,
+    "application": True,
+    "auto_install": False,
+    "images": ["static/description/Banner.png"],
 }
