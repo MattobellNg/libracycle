@@ -1,5 +1,3 @@
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
-
 from odoo import models, fields, api
 
 
@@ -7,9 +5,7 @@ class CrmTeamInherit(models.Model):
 
     _inherit = "crm.team"
 
-    type_team = fields.Selection(
-        [("sale", "Sale"), ("project", "Project")], string="Type", default="sale"
-    )
+    type_team = fields.Selection([("sale", "Sale"), ("project", "Project")], string="Type", default="sale")
 
     team_members = fields.Many2many(
         "res.users",
@@ -36,11 +32,8 @@ class PhlProjectProject(models.Model):
         help="""Project's
                                members are users who can have an access to
                                the tasks related to this project.""",
-        states={"close": [("readonly", True)], "cancelled": [("readonly", True)]},
     )
-    team_id = fields.Many2one(
-        "crm.team", string="Project Team", domain=[("type_team", "=", "project")]
-    )
+    team_id = fields.Many2one("crm.team", string="Project Team", domain=[("type_team", "=", "project")])
 
     @api.model
     def create(self, vals):
@@ -58,9 +51,7 @@ class PhlProjectProject(models.Model):
         update_member_list = False
         if vals.get("team_id"):
             team_id = vals.get("team_id", self.team_id.id)
-            team_recs = self.env["crm.team"].search(
-                [("type_team", "=", "project"), ("id", "=", int(team_id))]
-            )
+            team_recs = self.env["crm.team"].search([("type_team", "=", "project"), ("id", "=", int(team_id))])
             if team_recs:
                 update_member_list = True
                 vals["members"] = [(6, 0, team_recs.team_members.ids)]
@@ -71,17 +62,17 @@ class PhlProjectProject(models.Model):
         return res
 
     def _get_users_to_project_subscribe(self, project=False):
-        users = self.env["res.users"]
+        partner_ids = self.env["res.partner"]
         project = project or self
         if project.user_id:
-            users |= project.user_id
+            partner_ids |= project.user_id.partner_id
         if project.members:
-            users |= project.members
-        return users
+            partner_ids |= project.members.mapped("partner_id")
+        return partner_ids
 
     def _add_project_followers(self):
         users = self._get_users_to_project_subscribe()
-        self.message_subscribe_users(user_ids=users.ids)
+        self.message_subscribe(partner_ids=users.ids)
 
     @api.onchange("team_id")
     def get_team_members_rec(self):

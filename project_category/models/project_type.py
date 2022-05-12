@@ -8,20 +8,22 @@ class ProjectType(models.Model):
     _rec_name = "complete_name"
 
     parent_id = fields.Many2one(comodel_name="project.type", string="Parent Type")
-    child_ids = fields.One2many(
-        comodel_name="project.type", inverse_name="parent_id", string="Subtypes"
-    )
+    child_ids = fields.One2many(comodel_name="project.type", inverse_name="parent_id", string="Subtypes")
     service_means_type = fields.Selection(
         [("sea", "Sea"), ("air", "AIR")],
         "Means of Service",
         default="sea",
         required=True,
     )
-    name = fields.Char(string="Name", required=True, translate=True,)
-    complete_name = fields.Char(
-        string="Complete Name", compute="_compute_complete_name", store=True, recursive=True
+    name = fields.Char(
+        string="Name",
+        required=True,
+        translate=True,
     )
-    description = fields.Text(translate=True,)
+    complete_name = fields.Char(string="Complete Name", compute="_compute_complete_name", store=True, recursive=True)
+    description = fields.Text(
+        translate=True,
+    )
     project_ok = fields.Boolean(string="Can be applied for projects", default=True)
     task_ok = fields.Boolean(string="Can be applied for tasks")
 

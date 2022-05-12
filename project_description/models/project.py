@@ -1,6 +1,3 @@
-# Copyright 2015-2017 Tecnativa - Jairo Llopis <jairo.llopis@tecnativa.com>
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
-
 from odoo import fields, models, api
 from odoo.exceptions import UserError, ValidationError
 
@@ -137,73 +134,73 @@ class ProjectProject(models.Model):
     job_allocation_date = fields.Date(
         "Allocation Date",
         required=True,
-        track_visibility="onchange",
+        tracking=True,
     )
     client_ref = fields.Char(
         "Client Ref.",
         oldname="x_clientref",
-        track_visibility="onchange",
+        tracking=True,
     )
     job_form_m = fields.Char(
         "Form M./NXP",
         oldname="x_formm",
-        track_visibility="onchange",
+        tracking=True,
     )
     job_form_m_date = fields.Date(
         "Form M./NXP Collection",
-        track_visibility="onchange",
+        tracking=True,
     )
     bol_awb_ref = fields.Char(
         "BOL/AWB Number",
         oldname="x_bol_awb",
-        track_visibility="onchange",
+        tracking=True,
     )
     job_carrier_id = fields.Many2one(
         "res.partner",
         string="Carrier",
         oldname="x_carrier",
         help="Ensure partner carrier flag is enable on partner",
-        track_visibility="onchange",
+        tracking=True,
     )
     discharge_port_id = fields.Many2one(
         "project.port",
         "Discharge Port",
         required=True,
-        track_visibility="onchange",
+        tracking=True,
     )
     loading_port_id = fields.Many2one(
         "project.port",
         "Loading Port",
         required=True,
-        track_visibility="onchange",
+        tracking=True,
     )
 
     loading_terminal_id = fields.Many2one(
         "stock.location",
         "Loading Terminal",
         required=True,
-        track_visibility="onchange",
+        tracking=True,
     )
     discharge_terminal_id = fields.Many2one(
         "stock.location",
         "Discharge Terminal",
         required=True,
-        track_visibility="onchange",
+        tracking=True,
         domain=[("usage", "in", ["transit", "internal"])],
     )
     clearing_agent_id = fields.Many2one("res.partner", string="Clearing Agents", domain=[("supplier", "=", True)])
-    vessel_det = fields.Char("Vessel", oldname="x_vessel", track_visibility="onchange")
+    vessel_det = fields.Char("Vessel", oldname="x_vessel", tracking=True)
     origin_country_id = fields.Many2one(
         "res.country",
         "Country of origin",
         required=True,
-        track_visibility="onchange",
+        tracking=True,
     )
     destination_country_id = fields.Many2one(
         "res.country",
         "Country of destination",
         required=True,
-        track_visibility="onchange",
+        tracking=True,
     )
     items_count = fields.Integer(compute="_compute_items_count", string="Tasks")
     project_schedule_items_ids = fields.One2many("project.schedule.items", "project_id", "Job Items")
@@ -213,158 +210,158 @@ class ProjectProject(models.Model):
     analysis_balance = fields.Monetary(compute="_compute_project_balance", string="Balance")
     arrival_date = fields.Date(
         "Arrival Date",
-        track_visibility="onchange",
+        tracking=True,
     )
     job_son = fields.Char(
         "SON",
-        track_visibility="onchange",
+        tracking=True,
     )
     job_liner = fields.Char(
         "TERMINAL",
-        track_visibility="onchange",
+        tracking=True,
     )
     job_ba_number = fields.Char(
         "BA Number",
-        track_visibility="onchange",
+        tracking=True,
     )
     job_cbm = fields.Char(
         "CBM",
-        track_visibility="onchange",
+        tracking=True,
     )
     bill_of_lading = fields.Date(
         "Bill of lading",
-        track_visibility="onchange",
+        tracking=True,
     )
     shipping_doc = fields.Date(
         "Shipping Doc",
-        track_visibility="onchange",
+        tracking=True,
     )
     job_paar = fields.Date(
         "PAAR/NEPZA",
-        track_visibility="onchange",
+        tracking=True,
     )
     job_assessment = fields.Date(
         "Assessment Notice",
-        track_visibility="onchange",
+        tracking=True,
     )
     job_duty = fields.Date(
         "Duty Payment Date",
-        track_visibility="onchange",
+        tracking=True,
     )
     job_shipping_co = fields.Selection(
         [("unpaid", "UNPAID"), ("paid", "PAID")],
         "Shipping Co/Airline",
         default="unpaid",
-        track_visibility="onchange",
+        tracking=True,
     )
     job_terminal_payment = fields.Selection(
         [("unpaid", "UNPAID"), ("paid", "PAID")],
         "Terminal Payment",
         default="unpaid",
-        track_visibility="onchange",
+        tracking=True,
     )
-    custom_release_date = fields.Date("Custom Release Date", track_visibility="onchange")
-    job_tdo = fields.Date("TDO", track_visibility="onchange")
+    custom_release_date = fields.Date("Custom Release Date", tracking=True)
+    job_tdo = fields.Date("TDO", tracking=True)
     job_plant_delivery_date = fields.Date(
         "Plan delivery date",
-        track_visibility="onchange",
+        tracking=True,
     )
     exchange_control_returned = fields.Date(
         "Exchange control returned",
-        track_visibility="onchange",
+        tracking=True,
     )
 
     shipping_rating_till = fields.Date(
         "Shipping Rate Till",
-        track_visibility="onchange",
+        tracking=True,
     )
     terminal_rating_till = fields.Date(
         "Terminal Rate Till",
-        track_visibility="onchange",
+        tracking=True,
     )
     cleared_date = fields.Date(
         "Cleared Date",
-        track_visibility="onchange",
+        tracking=True,
     )
     loading_date = fields.Date(
         "Loading Date",
-        track_visibility="onchange",
+        tracking=True,
     )
     delivery_date = fields.Date(
         "Delivery Date",
-        track_visibility="onchange",
+        tracking=True,
     )
     container_return_date = fields.Date(
         "Container Return Date",
-        track_visibility="onchange",
+        tracking=True,
     )
     total_cycle = fields.Char(
         "Total Cycle",
         compute="_cal_total_cycle",
         store=True,
         default="0",
-        track_visibility="onchange",
+        tracking=True,
     )
     job_do = fields.Date(
         "DO",
-        track_visibility="onchange",
+        tracking=True,
     )
     ecd_date = fields.Date(
         "ECD Date",
-        track_visibility="onchange",
+        tracking=True,
     )
     refund_demurrage_option = fields.Selection(
         [("none", "None"), ("refund", "Refund"), ("demurrage", "Demurrage")],
         "Demurrage/Refund",
         default="none",
-        track_visibility="onchange",
+        tracking=True,
     )
-    refund_demurrage_benef_id = fields.Many2one("res.partner", "R/D Beneficiary", track_visibility="onchange")
-    refund_demurrage_amount = fields.Float("Amount", track_visibility="onchange")
+    refund_demurrage_benef_id = fields.Many2one("res.partner", "R/D Beneficiary", tracking=True)
+    refund_demurrage_amount = fields.Float("Amount", tracking=True)
 
-    cdr_beneficiary_id = fields.Many2one("res.partner", "CDR Beneficiary", track_visibility="onchange")
+    cdr_beneficiary_id = fields.Many2one("res.partner", "CDR Beneficiary", tracking=True)
     cdr_amount_deposit = fields.Float(
         "Amount Deposited",
-        track_visibility="onchange",
+        tracking=True,
     )
     cdr_amount_paid = fields.Float(
         "Amount Paid",
-        track_visibility="onchange",
+        tracking=True,
     )
     cdr_comment = fields.Char(
         "cdr comment",
-        track_visibility="onchange",
+        tracking=True,
     )
 
     etr_invoice_number = fields.Char(
         "Invoice Number",
-        track_visibility="onchange",
+        tracking=True,
     )
     etr_credit_memo = fields.Float(
         "Credit Memo",
-        track_visibility="onchange",
+        tracking=True,
     )
     etr_amount = fields.Float(
         "Amount",
-        track_visibility="onchange",
+        tracking=True,
     )
 
-    etd = fields.Date("ETD", track_visibility="onchange")
-    eta = fields.Date("ETA", track_visibility="onchange")
-    ata = fields.Date("ATA", track_visibility="onchange")
-    discharge_date = fields.Date("Discharge Date", track_visibility="onchange")
-    doc_to_agent = fields.Char("Doc. to agent", track_visibility="onchange")
-    rotation_number = fields.Char("Rotation Number", track_visibility="onchange")
-    nafdac_1_stamp_date = fields.Date("NAFDAC 1st stamp date", track_visibility="onchange")
-    nafdac_2_stamp_date = fields.Date("NAFDAC 2nd stamp sate", track_visibility="onchange")
-    son_date = fields.Date("SON date", track_visibility="onchange")
-    pod = fields.Char("POD", track_visibility="onchange")
-    free_days = fields.Char("No of Free days", track_visibility="onchange")
-    custom_exam_date = fields.Date("Custom Exams Booking Date", track_visibility="onchange")
-    custom_date = fields.Date("Custom Exams Date", track_visibility="onchange")
-    fou_release_date = fields.Date("FOU release Date", track_visibility="onchange")
-    gate_release_date = fields.Date("Gate release Date", track_visibility="onchange")
-    empty_container_return_date = fields.Date("Empty Container return Date", track_visibility="onchange")
+    etd = fields.Date("ETD", tracking=True)
+    eta = fields.Date("ETA", tracking=True)
+    ata = fields.Date("ATA", tracking=True)
+    discharge_date = fields.Date("Discharge Date", tracking=True)
+    doc_to_agent = fields.Char("Doc. to agent", tracking=True)
+    rotation_number = fields.Char("Rotation Number", tracking=True)
+    nafdac_1_stamp_date = fields.Date("NAFDAC 1st stamp date", tracking=True)
+    nafdac_2_stamp_date = fields.Date("NAFDAC 2nd stamp sate", tracking=True)
+    son_date = fields.Date("SON date", tracking=True)
+    pod = fields.Char("POD", tracking=True)
+    free_days = fields.Char("No of Free days", tracking=True)
+    custom_exam_date = fields.Date("Custom Exams Booking Date", tracking=True)
+    custom_date = fields.Date("Custom Exams Date", tracking=True)
+    fou_release_date = fields.Date("FOU release Date", tracking=True)
+    gate_release_date = fields.Date("Gate release Date", tracking=True)
+    empty_container_return_date = fields.Date("Empty Container return Date", tracking=True)
     job_invoiced = fields.Selection(
         [("yes", "YES"), ("no", "NO")],
         "Job Invoiced",
@@ -386,7 +383,7 @@ class ProjectProject(models.Model):
         ],
         "Status",
         default="new",
-        track_visibility="onchange",
+        tracking=True,
     )
 
     invoice_nos = fields.Char("Invoice No(s)")

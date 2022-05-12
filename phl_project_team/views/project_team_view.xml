@@ -5,7 +5,6 @@
             <field name="domain">[('type_team','=','sale')]</field>
             <field name="context">{'default_type_team':'sale'}</field>
         </record>
-        <!-- Project Team Form View -->
         <record id="project_team_form_view" model="ir.ui.view">
             <field name="name">crm.team.form</field>
             <field name="model">crm.team</field>
@@ -28,14 +27,17 @@
                         <notebook>
                             <page name="members" string="Team Members">
                                 <field name="team_members" widget="many2many_kanban">
-                                    <kanban quick_create="false" create="true" delete="true">
+                                    <kanban quick_create="false" create="true" delete="true" mode="kanban">
                                         <field name="name" />
+                                        <field name="image_128" />
                                         <templates>
                                             <t t-name="kanban-box">
                                                 <div class="oe_kanban_global_click" style="position: relative">
                                                     <a t-if="! read_only_mode" type="delete" style="position: absolute; right: 0; padding: 4px; diplay: inline-block">X</a>
                                                     <div class="oe_module_vignette">
-                                                        <img t-att-src="kanban_image('res.users', 'image_small', record.id.value)" class="oe_avatar oe_kanban_avatar_smallbox" t-att-alt="record.id"/>
+                                                        <div class="o_kanban_image">
+                                                            <img t-att-src="kanban_image('res.users', 'image_128', record.image_128)" class="oe_avatar oe_kanban_avatar_smallbox" alt="record" />
+                                                        </div>
                                                         <div class="oe_module_desc">
                                                             <field name="name" />
                                                         </div>
@@ -63,7 +65,6 @@
                 </form>
             </field>
         </record>
-        <!-- Project Team Tree View -->
         <record id="project_team_tree_view" model="ir.ui.view">
             <field name="name">crm.team.tree</field>
             <field name="model">crm.team</field>
@@ -74,7 +75,6 @@
                 </tree>
             </field>
         </record>
-        <!-- CRM Team action View -->
         <record id="project_team_action_tree" model="ir.actions.act_window">
             <field name="name">Projects Team</field>
             <field name="res_model">crm.team</field>
@@ -114,33 +114,29 @@
             <field name="model">project.project</field>
             <field name="inherit_id" ref="project.edit_project" />
             <field name="arch" type="xml">
-                <!-- <field name="user_id" position="replace" /> -->
                 <xpath expr="//field[@name='user_id']" position="replace">
-                    <h1>
-                        <field name="team_id" placeholder="Select Job Team" options="{'no_create': True}" />
-                    </h1>
-                    <h1 attrs="{'invisible': [('team_id', '=', False)] }">
-                        <field name="user_id" placeholder="Select Job Owner" string="Dealer" required="1" options="{'no_create': True}" />
-                    </h1>
+                    <field name="team_id" placeholder="Select Job Team" options="{'no_create': True}" />
+                    <field name="user_id" placeholder="Select Job Owner" string="Dealer" required="1" options="{'no_create': True}" attrs="{'invisible': [('team_id', '=', False)] }" />
                 </xpath>
-
                 <xpath expr="//field[@name='user_id']" position="attributes">
                     <attribute name="required">True</attribute>
                     <attribute name="string">Dealer</attribute>
                     <attribute name="widget">selection</attribute>
                 </xpath>
-
-                <xpath expr="//group[last()]" position="after">
-                    <group string="Team">
+                <xpath expr="//page[last()]" position="before">
+                    <page name="team" string="Team">
                         <field name="members" widget="many2many_kanban" nolabel="1" context="{'form_view_ref': 'project_team.project_team_form_view', 'default_type_team':'project'}">
-                            <kanban quick_create="false" create="true" delete="true">
+                            <kanban quick_create="false" create="true" delete="true" mode="kanban">
                                 <field name="name" />
+                                <field name="image_128" />
                                 <templates>
                                     <t t-name="kanban-box">
-                                        <div style="position: relative">
+                                        <div class="oe_kanban_global_click" style="position: relative">
                                             <a t-if="! read_only_mode" type="delete" style="position: absolute; right: 0; padding: 4px; diplay: inline-block">X</a>
                                             <div class="oe_module_vignette">
-                                                <img t-att-src="kanban_image('res.users', 'image_small', record.id.value)" class="oe_avatar oe_kanban_avatar_smallbox" t-att-alt="record.id"/>
+                                                <div class="o_kanban_image">
+                                                    <img t-att-src="kanban_image('res.users', 'image_128', record.image_128)" class="oe_avatar oe_kanban_avatar_smallbox" alt="record" />
+                                                </div>
                                                 <div class="oe_module_desc">
                                                     <field name="name" />
                                                 </div>
@@ -150,7 +146,7 @@
                                 </templates>
                             </kanban>
                         </field>
-                    </group>
+                    </page>
                 </xpath>
             </field>
         </record>
