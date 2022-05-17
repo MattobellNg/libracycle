@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="project_container_movement_form_view" model="ir.ui.view">
+            <field name="name">project.container.movement.form</field>
+            <field name="model">project.container.movement</field>
+            <field name="arch" type="xml">
+                <form string="Return Container">
+                    <sheet>
+                        <group col="4" colspan="4">
+                            <field name="project_id"/>
+                            <field name="item_id" widget="selection"/>
+                        </group>
+                        <group col="4" colspan="4">
+                            <field name="current_location_id"/>
+                            <field name="destination_location_id"/>
+                        </group>
+                        <group>
+                            <field name="movement_date"/>
+                            <field name="arrived_date"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="project_container_movement_tree_view" model="ir.ui.view">
+            <field name="name">project.container.movement.tree</field>
+            <field name="model">project.container.movement</field>
+            <field name="arch" type="xml">
+                <tree string="Return Container">
+                    <field name="project_id" invisible="1"/>
+                    <field name="item_id"/>
+                    <field name="current_location_id"/>
+                    <field name="destination_location_id"/>
+                    <field name="movement_date"/>
+                    <field name="arrived_date"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="project_container_movement_search_view" model="ir.ui.view">
+            <field name="name">project.container.movement.search</field>
+            <field name="model">project.container.movement</field>
+            <field name="arch" type="xml">
+                <search string="Return Container">
+                    <group expand="1" string="Group By">
+                        <filter string="Project" name="project_id" domain="[]"
+                                context="{'group_by':'project_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="project_container_movement_act_window" model="ir.actions.act_window">
+            <field name="name">Returned Container</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">project.container.movement</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    There is no returned container, click here to add new returned container.
+                </p>
+            </field>
+        </record>
+
+        <menuitem name="Container Return" id="project_container_movement_menu" parent="project.menu_main_pm" action="project_container_movement_act_window"/>
+
+    </data>
+</odoo>

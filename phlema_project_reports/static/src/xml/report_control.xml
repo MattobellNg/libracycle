@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+        <!--reports template-->
+	<div t-name="phlema_project_reports.DynamicProjectReports"
+		 class="o_dynamic_project_report panel-container-vertical">
+        <div class="dynamic_control_header panel-top">
+            <t t-call="ReportController"/>
+        </div>
+		<div class="splitter-horizontal"/>
+		<div class="dynamic_report_body panel-bottom"/>
+    </div>
+	<div t-name="project_report_id" class="ctrl_col">
+		<div class="col_label">
+			<span>Job Report</span>
+		</div>
+
+		<div class="col_body">
+			<select class="report_type project_report_id select_2 o_required"
+					name="project_report_id">
+				<option value=""/>
+				<t t-foreach="widget.report_type" t-as="r_type">
+					<option t-att-value="r_type['id']">
+						<t t-esc="r_type['name']"/>
+					</option>
+				</t>
+			</select>
+		</div>
+	</div>
+	<div t-name="date_filter_by" class="ctrl_col">
+		<div class="col_label">
+			<span>Date filter by</span>
+		</div>
+
+		<div class="col_body">
+			<select class="date_filter_by select_2" name="datefilterby">
+				<option value="filter_allocation_date">Job allocation date</option>
+				<option value="filter_job_create_date">Job Creation date</option>
+				<option value="filter_job_arrival_date">Job Arrival date</option>
+			</select>
+		</div>
+	</div>
+	<div t-name="date_from" class="ctrl_col date_start_div">
+		<div class="col_label">
+			<span>Start date</span>
+		</div>
+
+		<div class="col_body">
+			<input type="date" name="date_from"
+				   class="date_from"/>
+		</div>
+	</div>
+
+	<div t-name="date_to" class="ctrl_col">
+		<div class="col_label">
+			<span>End date</span>
+		</div>
+
+		<div class="col_body">
+			<input type="date" name="date_to" class="date_to"/>
+		</div>
+	</div>
+    	<!--report controller-->
+	<div t-name="ReportController">
+		<div class="ctrl_body">
+			<div class="h_row">
+				<t t-call="project_report_id"/>
+			</div>
+		</div>
+
+		<div class="h_row footer">
+            <div class="fetch_report">
+                <span class="fetch_report_btn">Fetch Report</span>
+            </div>
+			<div class="report_buttons">
+				<div class="print_pdf" title="Print Pdf">
+					<i class="fa fa-print"/>
+				</div>
+				<div class="print_excel" title="Export Excel">
+					<i class="fa fa-table"/>
+				</div>
+			</div>
+        </div>
+		<!--
+				<div class="h_row ctrl">
+					<i class="fa fa-angle-up"/>
+				</div>
+		-->
+    </div>
+	<div class="ctrl_body" t-name="cap_details">
+		<div class="h_row">
+			<t t-call="project_report_id"/>
+			<t t-call="date_filter_by"/>
+			<t t-call="date_from"/>
+			<t t-call="date_to"/>
+<!--			<t t-call="target_move"/>-->
+<!--			<t t-call="debit_credit"/>-->
+		</div>
+	</div>
+	<div class="ctrl_body" t-name="mpr_details">
+		<div class="h_row">
+			<t t-call="project_report_id"/>
+			<t t-call="date_filter_by"/>
+			<t t-call="date_from"/>
+			<t t-call="date_to"/>
+<!--			<t t-call="target_move"/>-->
+<!--			<t t-call="debit_credit"/>-->
+		</div>
+	</div>
+	<div class="ctrl_body" t-name="cap_summary_report">
+		<div class="h_row">
+			<t t-call="project_report_id"/>
+			<t t-call="date_filter_by"/>
+			<t t-call="date_from"/>
+			<t t-call="date_to"/>
+		</div>
+	</div>
+</templates>

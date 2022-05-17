@@ -1,0 +1,186 @@
+.o_dynamic_report {
+    width: 98%;
+    max-width: 99%;
+    padding: 10px;
+    height: 98%;
+    max-height: 99%;
+    overflow: auto;
+}
+/*controller start*/
+.dynamic_control_header {
+    width: 100%;
+    padding: 5px 30px 5px 30px;
+    border: 1px solid;
+    border-color: #7c7bad;
+    border-radius: 3px;
+    background-color: #fff;
+    font-size: 12px;
+    min-height: 20px;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+}
+
+/*.ctrl_body {
+    width: 100%;
+}*/
+
+.ctrl_date {
+    width: 100%;
+    float: left;
+}
+
+.inner_row {
+	margin-bottom: 15px;
+}
+.ctrl_body .inner_row {
+    width: 24%;
+    float: left;
+    margin-top: 8px;
+    padding: 2px;
+}
+.ctrl_date .inner_row {
+    width: 49%;
+    float: left;
+    margin-top: 8px;
+    padding: 2px;
+}
+
+.ctrl_col.journals {
+    width: 55%;
+}
+
+.col_label {
+    font-weight: 600;
+}
+
+.select_2 {
+    min-width: 95%;
+}
+/*.account_report_id {
+	min-width: 30%;
+}*/
+
+.fetch_report_btn {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 4px 11px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 3px;
+    font-size: 13px;
+    font-weight: 600;
+}
+/*controller end*/
+
+.h_row.footer {
+    padding: 7px 0px 1px 0px;
+}
+.dynamic_report_body {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid lightgray;
+}
+.page .dynamic_report_body {
+    margin:unset !important;
+    display:max-content;
+}
+
+.dynamic_body, .r_header {
+	width:100%;
+}
+.r_header {
+    font-weight: 600;
+}
+.r_header .h_col {
+    margin-left: 15px;
+}
+
+.r_content {
+    width: 100%;
+}
+
+table.table_r_content {
+    width: 100%;
+}
+
+tr.r_line {
+    border-bottom: 1px solid;
+    border-color: #1b66a942;
+}
+
+tr.r_line td {
+    padding-top: 6px;
+}
+
+tr[data-id="0"] {
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.r_line.root_line {
+    font-weight: bold;
+}
+
+.r_line.root, .r_line.section_heading, .r_line.font_bold {
+    font-weight: bold;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.h_row {
+	display: flex;
+}
+.h_row.ctrl {
+    width: 100%;
+    column-count: 1;
+    padding: unset;
+}
+.h_row.ctrl > i {
+    width: 100%;
+    text-align: center;
+    font-weight: bolder;
+    font-size: 25px;
+    cursor: pointer;
+}
+.ctrl_col {
+    width: 18%;
+}
+.ctrl_col input {
+	width: 95%;
+}
+
+.r_line td span {
+    padding-left: 7px;
+}
+
+.report_buttons {
+     font-size: 17px;
+     font-weight: bold;
+     color: #443834;
+     display: flex;
+ }
+.report_buttons > div {
+    cursor: pointer;
+    padding: 4px;
+}
+.report_buttons > div:hover {
+  padding: : 2px;
+}
+
+@media only screen and (max-width: 670px) {
+    .ctrl_body .inner_row {
+        width: 100%;
+    }
+    .dynamic_report_body {
+        max-width: 99%;
+        overflow: auto;
+    }
+}
+
