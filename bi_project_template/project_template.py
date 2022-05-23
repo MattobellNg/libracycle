@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-# Part of BrowseInfo. See LICENSE file for full copyright and licensing details.
-
 from odoo import models, fields, api
 
 class project_template_task(models.Model):
@@ -106,5 +103,3 @@ class project_project(models.Model):
 			
 	stage_id = fields.Many2one('project.task.type', string="state")
 	sequence_state = fields.Integer(compute="count_sequence", string="State Check")
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

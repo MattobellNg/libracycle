@@ -130,7 +130,6 @@ class DynamicReportConfig(models.TransientModel):
 
     @api.model
     def check_report(self, data):
-        print "The DATA", data
         currency_data = {
             "symbol": "",
             "position": "after",

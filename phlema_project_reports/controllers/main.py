@@ -3,7 +3,6 @@
 import json
 from odoo import http
 from odoo.http import content_disposition, request
-from odoo.addons.web.controllers.main import _TODO
 from odoo.tools import html_escape
 
 
@@ -31,7 +30,7 @@ class XLSXReportController(http.Controller):
             return response
 
         except Exception as e:
-            se = _TODO["ir.http"].serialize_exception(e)
+            se = request.env["ir.http"].serialize_exception(e)
             error = {"code": 200, "message": "Odoo Server Error", "data": se}
 
             return request.make_response(html_escape(json.dumps(error)))

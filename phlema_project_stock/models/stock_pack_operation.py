@@ -13,7 +13,7 @@ class PackOperationMovement(models.Model):
 
 
 class PackOperation(models.Model):
-    _inherit = "stock.pack.operation"
+    _inherit = "stock.move.operation"
 
     in_transit_done = fields.Float(
         "In Transit Done",
