@@ -55,7 +55,7 @@ class StockSaleOrder(models.Model):
                             "picking_type_id": project_category_id.delivery_type_id.id,
                             "sale_id": order.id,
                             "has_delivery_process": True,
-                            # 'code': 'outgoing', # There is need to make this dynamic,
+                       
                         }
                         pickings = stock_picking.create(det_dev)
                         if pickings:

@@ -13,13 +13,10 @@
     'data': [
               'project_template_view.xml',
             ],
-    'demo': [],
-    'test': [],
+
     'installable':True,
     'auto_install':False,
     'application':True,
     'live_test_url':'https://youtu.be/Es9jFjAptAQ',
     "images":['static/description/Banner.png'],
 }
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
