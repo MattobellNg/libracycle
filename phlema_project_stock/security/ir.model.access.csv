@@ -1,5 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_project_container_movement_user,container movement User Access,model_project_container_movement,project.group_project_user,1,1,1,0
-access_project_container_movement_manager,container movement Manager,model_project_container_movement,project.group_project_manager,1,1,1,1
-access_stock_pack_sub_operation_user,Stock User Access,model_stock_pack_sub_operation,stock.group_stock_user,1,1,1,0
-access_stock_pack_sub_operation_manager,Stock Manager Access,model_stock_pack_sub_operation,stock.group_stock_manager,1,1,1,1
