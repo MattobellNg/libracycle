@@ -4,12 +4,13 @@
 {
     "name": "Project Description",
     "summary": "Add a description to projects",
-    "version": "15.0.1.0.0",
+    "version": "15.0.1.0.1",
     "category": "Project",
     "website": "https://github.com/OCA/project",
     "author": "Tecnativa, " "C2i Change 2 improve, " "Odoo Community Association (OCA)",
     "license": "AGPL-3",
     "depends": [
+        "hr",
         "project",
         "sale_timesheet",
         "product",
@@ -35,7 +36,7 @@
         "data/task_mail_template.xml",
         "data/task_cron_data.xml",
         "wizard/schedule_item_import_view.xml",
-        # "views/project_view.xml",
+        "views/project_view.xml",
         # "views/port_view.xml",
         "views/project_schedule_items_view.xml",
         "views/product_template.xml",

@@ -7,7 +7,7 @@
             <field name="name">Deliverable Items</field>
         </record>
 
-<!--         <record id="project_product_item_01" model="product.product">
+        <record id="project_product_item_01" model="product.product">
             <field name="name">Container</field>
             <field name="categ_id" ref="project_product_category_main"/>
             <field name="standard_price">1</field>
@@ -33,7 +33,7 @@
             <field name="description">Parcel(s) products</field>
             <field name="default_code">PARCEL_DILV</field>
             <field name="is_project_item">True</field>
-        </record> -->
+        </record>
 
         
 
