@@ -18,9 +18,7 @@ class AccountInvoiceLine(models.Model):
 
     @api.onchange("product_id")
     def _onchange_product_id(self):
-        res = super(AccountInvoiceLine, self)._onchange_product_id()
 
-        if self.invoice_id.job_id and self.product_id:
-            self.account_analytic_id = self.invoice_id.job_id.analytic_account_id.id
+        if self.move_id.job_id and self.product_id:
+            self.analytic_account_id = self.move_id.job_id.analytic_account_id.id
 
-        return res

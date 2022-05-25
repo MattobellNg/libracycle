@@ -112,6 +112,8 @@ class ProjectScheduleItems(models.Model):
         for rec in self:
             if rec.size and rec.product_uom_id:
                 rec.description = "%s%s" % (rec.size, rec.product_uom_id.name)
+            else:
+                rec.description = False
 
     @api.onchange("product_id", "product_uom_id")
     def onchange_product_id(self):
@@ -126,9 +128,8 @@ class ProjectScheduleItems(models.Model):
 
 
 class ProjectProject(models.Model):
-    # _inherit = ""
-    _name = "project.project"
-    _inherit = ["project.project", "mail.thread"]
+
+    _inherit = "project.project"
 
     description = fields.Html()
     job_allocation_date = fields.Date(
@@ -196,6 +197,59 @@ class ProjectProject(models.Model):
         required=True,
         tracking=True,
     )
+    has_job_form_m = fields.Boolean()
+    has_bol_awb_ref = fields.Boolean()
+    has_arrival_date = fields.Boolean()
+    has_job_form_m_date = fields.Date()
+    has_job_son = fields.Boolean()
+    has_job_liner = fields.Boolean()
+    has_job_ba_number = fields.Boolean()
+    has_job_cbm = fields.Boolean()
+    has_bill_of_lading = fields.Boolean()
+    has_shipping_doc = fields.Boolean()
+    has_job_paar = fields.Boolean()
+    has_job_assessment = fields.Boolean()
+    has_job_duty = fields.Boolean()
+    has_job_shipping_co = fields.Boolean()
+    has_job_terminal_payment = fields.Boolean()
+    has_custom_release_date = fields.Boolean()
+    has_job_tdo = fields.Boolean()
+    has_job_plant_delivery_date = fields.Boolean()
+    has_exchange_control_returned = fields.Boolean()
+    has_shipping_rating_till = fields.Boolean()
+    has_terminal_rating_till = fields.Boolean()
+    has_cleared_date = fields.Boolean()
+    has_loading_date = fields.Boolean()
+    has_delivery_date = fields.Boolean()
+    has_container_return_date = fields.Boolean()
+    has_total_cycle = fields.Boolean()
+    has_job_do = fields.Boolean()
+    has_ecd_date = fields.Boolean()
+    has_refund_demurrage = fields.Boolean()
+    has_cdr = fields.Boolean()
+    has_etr = fields.Boolean()
+    has_etd = fields.Boolean()
+    has_eta = fields.Boolean()
+    has_ata = fields.Boolean()
+    has_discharge_date = fields.Boolean()
+    has_doc_to_agent = fields.Boolean()
+    has_rotation_number = fields.Boolean()
+    has_nafdac_1_stamp_date = fields.Boolean()
+    has_nafdac_2_stamp_date = fields.Boolean()
+    has_son_date = fields.Boolean()
+    has_pod = fields.Boolean()
+    has_free_days = fields.Boolean()
+    has_discharge_date = fields.Boolean()
+    has_custom_exam_date = fields.Boolean()
+    has_fou_release_date = fields.Boolean()
+    has_custom_date = fields.Boolean()
+    has_gate_release_date = fields.Boolean()
+    has_discharge_date = fields.Boolean()
+    has_discharge_date = fields.Boolean()
+
+
+
+    project_categ_id = fields.Many2one("project.project.category", "Project Category")
     destination_country_id = fields.Many2one(
         "res.country",
         "Country of destination",
