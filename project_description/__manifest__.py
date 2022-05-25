@@ -1,10 +1,7 @@
-# Copyright 2015-2017 Tecnativa - Jairo Llopis <jairo.llopis@tecnativa.com>
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
-
 {
     "name": "Project Description",
     "summary": "Add a description to projects",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "category": "Project",
     "website": "https://github.com/OCA/project",
     "author": "Tecnativa, " "C2i Change 2 improve, " "Odoo Community Association (OCA)",
@@ -33,17 +30,17 @@
     # active down
 
         # "data/project_data.xml",
-        "data/task_mail_template.xml",
-        "data/task_cron_data.xml",
-        "wizard/schedule_item_import_view.xml",
-        "views/project_view.xml",
-        # "views/port_view.xml",
-        "views/project_schedule_items_view.xml",
-        "views/product_template.xml",
-        "views/sale_order_view.xml",
-        "views/project_type_view_ext.xml",
-        "views/purchase_order_view.xml",
-        "views/account_move.xml",
+        # "data/task_mail_template.xml",
+        # "data/task_cron_data.xml",
+        # "wizard/schedule_item_import_view.xml",
+        # "views/project_view.xml",
+
+        # "views/project_schedule_items_view.xml",
+        # "views/product_template.xml",
+        # "views/sale_order_view.xml",
+        # "views/project_type_view_ext.xml",
+        # "views/purchase_order_view.xml",
+        # "views/account_move.xml",
 
     ],
     "installable": True,
