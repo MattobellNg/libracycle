@@ -4,7 +4,7 @@
 {
     "name": "Project Description",
     "summary": "Add a description to projects",
-    "version": "2.0.1",
+    "version": "1.0.1",
     "category": "Project",
     "website": "https://github.com/OCA/project",
     "author": "Tecnativa, " "C2i Change 2 improve, " "Odoo Community Association (OCA)",
@@ -32,7 +32,7 @@
 
     # active down
 
-        "data/project_data.xml",
+        # "data/project_data.xml",
         "data/task_mail_template.xml",
         "data/task_cron_data.xml",
         "wizard/schedule_item_import_view.xml",
