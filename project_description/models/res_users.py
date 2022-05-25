@@ -2,7 +2,7 @@ from odoo import fields, models, api
 
 
 class ResUsers(models.Model):
-    _inherit = "res.users"
+    _inherit = "hr.employee"
 
     def _get_related_employees(self):
         return self.employee_id
