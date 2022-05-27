@@ -4,15 +4,18 @@
             <field name="name">project.project.form</field>
             <field name="model">project.project</field>
             <field name="inherit_id" ref="project.edit_project"/>
-            <field name="arch" type="xml">
+            <field name="arch" type="xml">               
                 <xpath expr='//field[@name="user_id"]' position="after">
                     <field name="job_select"/>
                     <field name="document"/>
                 </xpath>
                 <xpath expr="//field[@name='tag_ids']" position='after'>
-                    <field name="container"/>                    
+                    <field name="container"/> 
+                    <field name="status_delivered"/>
+                    <field name="status_completed" attrs="{'invisible': [('status_delivered', '=', False)]}"/>
                 </xpath>
             </field>
-        </record>  
+        </record> 
     </data>
 </odoo>
+
