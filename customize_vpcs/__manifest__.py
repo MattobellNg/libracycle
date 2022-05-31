@@ -6,13 +6,19 @@
     'category': '',
     'description': """
     """,
-    'depends': ['project'],
+    'depends': ['project','web'],
     'data': [
-        'views/project_views.xml'
+        'security/project_access.xml',
+        'views/project_views.xml',
     ],
     'qweb': [
     ],
     'auto_install': True,
     'installable': True,
+    'assets': {       
+        'web.assets_backend': [            
+            'customize_vpcs/static/src/js/project_project.js',
+        ],
+    },
     'license': 'OEEL-1',
 }

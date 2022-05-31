@@ -9,13 +9,26 @@
                     <field name="job_select"/>
                     <field name="document"/>
                 </xpath>
+                <xpath expr='//field[@name="stage_id"]' position='after'>
+                    <button name="edit_mode" type="object" string="Edit mode" class="oe_highlight" groups="customize_vpcs.group_edit_mode_button" />
+                </xpath>
                 <xpath expr="//field[@name='tag_ids']" position='after'>
                     <field name="container"/> 
                     <field name="status_delivered"/>
                     <field name="status_completed" attrs="{'invisible': [('status_delivered', '=', False)]}"/>
+                    <field name="stage_id_done"/>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                    <field name="check_bool" invisible='1'/>
+                </xpath>
+                <xpath expr="//field[@name='company_id']" position='after'>
+                    <field name='date_out'/>
+                    <field name='barging_date'/>
+                    <field name='Load_out_date'/>
+                    <field name='offloading_date'/>
+                    <field name='return_date'/>
                 </xpath>
             </field>
         </record> 
     </data>
 </odoo>
-
