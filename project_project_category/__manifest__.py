@@ -3,7 +3,7 @@
 
 {
     "name": "Project Configurable Category",
-    "version": "10.0.2.0.0",
+    "version": "10.0.2.1.0",
     "category": "Project Management",
     "website": "https://www.elico-corp.com",
     "support": "support@elico-corp.com",
