@@ -11,7 +11,7 @@ FIELD_SELECTION = [("required", "Required"), ("optional", "Optional"), ("no", "N
 class ProjectProjectTask(models.Model):
     _inherit = "project.task"
 
-    # @api.model
+    
     def get_project_fields(self):
         project_fld_arr = []
         filter = [
@@ -110,13 +110,13 @@ class ProjectProjectTask(models.Model):
     project_field_float = fields.Float("Amount Value")
     hide_action_buttons = fields.Boolean("Enable Edit Mode", compute="_compute_edit_mode")
 
-    @api.depends("project_id.user_id")
+    @api.depends("project_id")
     def _compute_edit_mode(self):
         for rec in self:
             current_user = self.env.user
             team_leader = rec.project_id.user_id
             admin_access = self.env.ref("base.user_root").id
-            if rec.user_id == current_user or current_user == team_leader or current_user.id == admin_access:
+            if current_user == team_leader or current_user.id == admin_access:
                 rec.hide_action_buttons = False
             else:
                 rec.hide_action_buttons = True
