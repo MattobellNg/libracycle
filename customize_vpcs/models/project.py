@@ -18,11 +18,11 @@ class ProjectProject(models.Model):
     end_date = fields.Date(string="End date")
     check_bool = fields.Boolean(string="check boolean")
     stage_id_done = fields.Boolean(string='Task/Activity Done?')
-    date_out = fields.Date(string="Date out",tracking=True)
-    barging_date = fields.Date(string="Barging date",tracking=True)
-    Load_out_date = fields.Date(string="Load out date",tracking=True)
-    offloading_date = fields.Date(string="Offloading date",tracking=True)
-    return_date = fields.Date(string=" Return date",tracking=True)  
+    date_out = fields.Date(string="Date out",tracking=True,required=True)
+    barging_date = fields.Date(string="Barging date",tracking=True,required=True)
+    Load_out_date = fields.Date(string="Load out date",tracking=True,required=True)
+    offloading_date = fields.Date(string="Offloading date",tracking=True,required=True)
+    return_date = fields.Date(string=" Return date",tracking=True,required=True)  
 
     def edit_mode(self):
         for rec in self:
