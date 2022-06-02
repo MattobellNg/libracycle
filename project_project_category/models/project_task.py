@@ -116,7 +116,7 @@ class ProjectProjectTask(models.Model):
             current_user = self.env.user
             team_leader = rec.project_id.user_id
             admin_access = self.env.ref("base.user_root").id
-            if rec.user_id == current_user or current_user == team_leader or current_user.id == admin_access:
+            if current_user == team_leader or current_user.id == admin_access:
                 rec.hide_action_buttons = False
             else:
                 rec.hide_action_buttons = True
