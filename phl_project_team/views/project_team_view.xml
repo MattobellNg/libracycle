@@ -53,7 +53,7 @@
                                     <field name="active" />
                                 </group>
                                 <group string="Company" groups="base.group_multi_company">
-                                    <field name="company_id" options="{'no_create': True}" />
+                                    <field name="company_id" />
                                 </group>
                             </page>
                         </notebook>
@@ -104,8 +104,8 @@
             <field name="inherit_id" ref="project.project_project_view_form_simplified" />
             <field name="arch" type="xml">
                 <field name="name" position="after">
-                    <field name="team_id" options="{'no_create': True}" />
-                    <field name="user_id" string="Dealer" options="{'no_create': True}" required="1" attrs="{'invisible': [('team_id', '=', False)] }" />
+                    <field name="team_id" />
+                    <field name="user_id" string="Dealer" required="1" attrs="{'invisible': [('team_id', '=', False)] }" />
                 </field>
             </field>
         </record>
@@ -115,8 +115,8 @@
             <field name="inherit_id" ref="project.edit_project" />
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='user_id']" position="replace">
-                    <field name="team_id" placeholder="Select Job Team" options="{'no_create': True}" />
-                    <field name="user_id" placeholder="Select Job Owner" string="Dealer" required="1" options="{'no_create': True}" attrs="{'invisible': [('team_id', '=', False)] }" />
+                    <field name="team_id" placeholder="Select Job Team" />
+                    <field name="user_id" placeholder="Select Job Owner" string="Dealer" required="1" attrs="{'invisible': [('team_id', '=', False)] }" />
                 </xpath>
                 <xpath expr="//field[@name='user_id']" position="attributes">
                     <attribute name="required">True</attribute>
