@@ -12,7 +12,7 @@
                             <field
                                 groups="base.group_multi_company"
                                 name="company_id"
-                                options="{'no_create': True}"
+                               
                             />
                             <label for="duration_count" />
                             <div>
