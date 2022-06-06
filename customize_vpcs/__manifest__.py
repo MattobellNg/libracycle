@@ -6,7 +6,7 @@
     'category': '',
     'description': """
     """,
-    'depends': ['project','web'],
+    'depends': ['project','web','project_project_category'],
     'data': [
         'security/project_access.xml',
         'views/project_views.xml',
