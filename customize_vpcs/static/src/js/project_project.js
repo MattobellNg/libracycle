@@ -10,9 +10,11 @@ var QWeb = core.qweb;
 FormController.include({
 	_onEdit: function () {
 		if (this.modelName == "project.project"){
-			console.log('___ this : ', this);
-			if (this.renderer.state.data.check_bool){
+			if (this.renderer.state.data.edit_button_check_bool){
 				this._super();
+			}
+			if (this.renderer.state.data.lock_document_check_bool){
+				return;
 			}
 			var currentId = this.getSelectedIds();
    			var d = new Date();
@@ -23,7 +25,7 @@ FormController.include({
 		    ((''+day).length<2 ? '0' : '') + day; 
 			if (this.renderer.state.data.end_date._i == output){
 				return;
-			}
+			}			
 			else{
         		this._super();
 			}

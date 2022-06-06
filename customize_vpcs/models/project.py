@@ -16,18 +16,48 @@ class ProjectProject(models.Model):
     status_completed = fields.Boolean(string="Completed")
     start_date = fields.Date(string="Start date")
     end_date = fields.Date(string="End date")
-    check_bool = fields.Boolean(string="check boolean")
+    # this boolean is for edit mode button when button is clicked
+    edit_button_check_bool = fields.Boolean(string="check boolean")
+    # this boolean is for lock document button when button is clicked
+    lock_document_check_bool = fields.Boolean(string="lock document")
     stage_id_done = fields.Boolean(string='Task/Activity Done?')
     date_out = fields.Date(string="Date out",tracking=True,required=True)
     barging_date = fields.Date(string="Barging date",tracking=True,required=True)
     Load_out_date = fields.Date(string="Load out date",tracking=True,required=True)
     offloading_date = fields.Date(string="Offloading date",tracking=True,required=True)
-    return_date = fields.Date(string=" Return date",tracking=True,required=True)  
+    return_date = fields.Date(string=" Return date",tracking=True,required=True)
+    # this boolean field is for if document field is visible or not
+    document_show = fields.Boolean(string="document show")
+
+
+    @api.model
+    def visible_button(self):
+        get_group = self.env['res.groups'].search([('name','=','lock button')])
+        get_department_id = self.env['hr.department'].search([('name','=','QAC')])
+        get_employee_id = self.env['hr.employee'].search([('department_id','=',get_department_id.id)]).user_id                      
+        get_group.update({
+            'users':get_employee_id  
+        })
+
+    def lock_document(self):
+        for rec in self:
+            rec.lock_document_check_bool = True
 
     def edit_mode(self):
         for rec in self:
             if rec.end_date == fields.Date.today():
-                rec.check_bool = True
+                rec.edit_button_check_bool = True
+
+    @api.onchange('project_categ_id')
+    def onchange_project_categ_id(self):
+        for rec in self:
+            if rec.project_categ_id:
+                if rec.project_categ_id.document_bool:
+                    rec.document_show = True
+                else:
+                    rec.document_show = False
+
+
 
     @api.onchange('stage_id_done')
     def change_stage_id(self):
@@ -83,3 +113,7 @@ class ProjectProject(models.Model):
                     rec.state = "pending"
 
    
+class ProjectProjectCategory(models.Model):
+    _inherit = "project.project.category"
+
+    document_bool = fields.Boolean(string="Document Upload?")
