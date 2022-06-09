@@ -10,6 +10,7 @@
     'data': [
         'security/project_access.xml',
         'views/project_views.xml',
+        'views/project_project_category.xml',
     ],
     'qweb': [
     ],
