@@ -6,6 +6,32 @@ class ProjectProject(models.Model):
 
     _inherit = "project.project"
 
+
+    sn_state = fields.Selection(
+        [
+            ("pre_alert", "Pre-alert"),
+            ("awaiting_arrival", "AWAITING ARRIVAL"),
+            ("in_clearing", "IN CLEARING"),
+            ("ready_to_load", "READY TO LOAD"),
+            ("post_delivery", "POST DELIVERY"),
+        ],
+        "SN Status",
+        default="pre_alert",
+        tracking=True,
+    )
+    sn_status = fields.Selection(
+        [
+            ("pre_alert", "Pre-alert"),
+            ("awaiting_arrival", "AWAITING ARRIVAL"),
+            ("in_clearing", "IN CLEARING"),
+            ("ready_to_load", "READY TO LOAD"),
+            ("post_delivery", "POST DELIVERY"),
+        ],
+        "SN Status",
+        default="pre_alert",
+        tracking=True,
+    )
+
 ################### PRE-ALERT ###################################
     job_refs = fields.Char(string="Job Reference")
     client_name = fields.Many2one('res.partner',string="client name")
@@ -390,6 +416,7 @@ class ProjectProject(models.Model):
     job_select = fields.Selection([("NAFDAC", "NAFDAC"), ("SON", "SON"),("NESREA","NESREA")],
         "Job selection",
     )
+    job_select_ids = fields.Many2many('job.selection',string='Job selection')
     document = fields.Binary(required=True, attachment=False, help="upload here your document")
     container = fields.Integer(string="Number of Container")
     status_delivered = fields.Boolean(string="Delivered")
@@ -408,6 +435,31 @@ class ProjectProject(models.Model):
     return_date = fields.Date(string=" Return date",tracking=True,required=True)
     # this boolean field is for if document field is visible or not
     document_show = fields.Boolean(string="document show")
+
+    def pre_alert_button(self):
+        pass
+
+    def awaiting_arrival_button(self):
+        self.sn_state = 'awaiting_arrival'
+
+    def in_clearing_button(self):
+        self.sn_state = 'in_clearing'
+
+    def ready_toload_button(self):
+        self.sn_state = 'ready_to_load'
+
+    def post_delivery_button(self):
+        self.sn_state = 'post_delivery'
+
+    def back_button(self):
+        if self.sn_state == 'awaiting_arrival':
+            self.sn_state = 'pre_alert'
+        if self.sn_state == 'in_clearing':
+            self.sn_state = 'awaiting_arrival'
+        if self.sn_state == 'ready_to_load':
+            self.sn_state = 'in_clearing'
+        if self.sn_state == 'post_delivery':
+            self.sn_state = 'ready_to_load'
 
     @api.onchange('job_form_m_mf','paar_received','duty_assesment','duty_received','shipping_released','fecd_custom_ack','fecd_client_ack','bol_awb_ref','nafdac_1_stamp_date','nafdac_2_stamp_date')
     def onchange_form_doc(self):
@@ -514,3 +566,9 @@ class ProjectProject(models.Model):
                         rec.state = 'deliver'               
                 else:
                     rec.state = "pending"
+
+class Jobselection(models.Model):
+
+    _name = "job.selection" 
+
+    name = fields.Char(string="Job Selection Name")
