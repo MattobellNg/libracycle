@@ -9,6 +9,7 @@
     'depends': ['project','web','project_project_category'],
     'data': [
         'security/project_access.xml',
+        "security/ir.model.access.csv",
         'views/project_views.xml',
         'views/project_project_category.xml',
     ],
