@@ -427,6 +427,11 @@ class ProjectProject(models.Model):
     edit_button_check_bool = fields.Boolean(string="check boolean")
     # this boolean is for lock document button when button is clicked
     lock_document_check_bool = fields.Boolean(string="lock document")
+    # this boolean is for when status is in completed stage
+    state_completed_check_bool = fields.Boolean(string="edit mode close completed")
+    #this field is for when QAC clicked the button approval then all the fields of that form is readonly.
+    approval_to_readonly_fields_bool = fields.Boolean()
+
     stage_id_done = fields.Boolean(string='Task/Activity Done?')
     date_out = fields.Date(string="Date out",tracking=True,required=True)
     barging_date = fields.Date(string="Barging date",tracking=True,required=True)
@@ -498,6 +503,45 @@ class ProjectProject(models.Model):
         for rec in self:
             rec.lock_document_check_bool = True
 
+    def approval_to_readonly_fields(self):
+        for rec in self:
+            if rec.sn_state == 'pre_alert':
+                rec.sn_state = 'awaiting_arrival'
+            elif rec.sn_state == 'awaiting_arrival':
+                rec.sn_state = 'in_clearing'
+            elif rec.sn_state == 'in_clearing':
+                rec.sn_state = 'ready_to_load'
+            elif rec.sn_state == 'ready_to_load':
+                rec.sn_state = 'post_delivery'
+
+
+
+    # def approval_to_readonly_fields(self):
+    #     # for rec in self:
+    #     #     rec.approval_to_readonly_fields_bool = True
+    #     return self.fields_view_get(view_id=None, view_type=False, toolbar=False,
+    #                                                        submenu=False)
+    # @api.model
+    # def fields_view_get(self, view_id=None, view_type=False, toolbar=False, submenu=False):
+    #     print ('___ fields_view_get : ',);
+    #     context = self._context
+    #     print ('___ context : ', context);
+    #     res = super(ProjectProject, self).fields_view_get(view_id=view_id, view_type=view_type, toolbar=toolbar,
+    #                                                        submenu=submenu)
+    #     # if context['params']:
+    #         # print ('___ context["params"] : ', context['params']);
+    #     print ('___ self.approval_to_readonly_fields_bool : ', self.approval_to_readonly_fields_bool);
+    #     if self.browse(context.get('active_id')).approval_to_readonly_fields_bool == True:  # Check for context value
+    #         print ('___ hello inside method : ', );            
+    #         doc = etree.XML(res['arch'])
+    #         if view_type == 'form':            # Applies only for form view
+    #             for node in doc.xpath("//field"):   # All the view fields to readonly
+    #                 node.set('readonly', '1')
+    #                 node.set('modifiers', simplejson.dumps({"readonly": True}))
+
+    #             res['arch'] = etree.tostring(doc)
+    #     return res
+
     def edit_mode(self):
         for rec in self:
             if rec.end_date == fields.Date.today():
@@ -545,6 +589,10 @@ class ProjectProject(models.Model):
         for rec in self:
             if rec.status_completed == True:
                 rec.write({'state':'done'})
+                # when status is changed to completed system should make all fields realonly. 
+                rec.state_completed_check_bool = True
+                # at the same time if edit mode is clicked then it need to be false because of conflict.
+                rec.edit_button_check_bool = False                
             else:
                 if rec.status_delivered == True:
                     rec.write({'state':'deliver'})
