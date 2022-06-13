@@ -14,6 +14,7 @@
                 <xpath expr='//field[@name="stage_id"]' position='after'>
                     <button name="edit_mode" type="object" string="Edit mode" class="oe_highlight" groups="customize_vpcs.group_edit_mode_button" />
                     <button name="lock_document" type="object" string="Lock document" class="oe_highlight" groups="customize_vpcs.group_hr_button" />
+                    <button name="approval_to_readonly_fields" type="object" string="Approval readonly" class="oe_highlight" groups="customize_vpcs.group_hr_button"/>
                 </xpath>
                 <xpath expr="//field[@name='tag_ids']" position='after'>
                     <field name="container"/> 
@@ -24,6 +25,8 @@
                     <field name="end_date"/>
                     <field name="edit_button_check_bool" invisible='1'/>
                     <field name="lock_document_check_bool" invisible='1'/>
+                    <field name="state_completed_check_bool" invisible='1'/>
+                    <field name="approval_to_readonly_fields_bool" invisible='1'/>
                 </xpath>
                 <xpath expr="//field[@name='company_id']" position='after'>
                     <field name='date_out'/>
@@ -55,12 +58,15 @@
                 <xpath expr="//sheet" position="before">
                     <header>
                         <field name="sn_state" widget="statusbar" />
-                        <button name="awaiting_arrival_button" type="object" string="AwaitingArrival" attrs="{'invisible': [('sn_state', 'in', ('awaiting_arrival','in_clearing','ready_to_load','post_delivery'))]}" class="oe_highlight" />
-                        <button name="in_clearing_button" type="object" string="InClearing" attrs="{'invisible': [('sn_state', 'in', ('pre_alert','in_clearing','ready_to_load','post_delivery'))]}"  class="oe_highlight" />
-                        <button name="ready_toload_button" type="object" string="ReadyToLoad" attrs="{'invisible': [('sn_state', 'in', ('pre_alert','awaiting_arrival','ready_to_load','post_delivery'))]}"  class="oe_highlight" />
-                        <button name="post_delivery_button" type="object" string="PostDelivery" attrs="{'invisible': [('sn_state', 'in', ('pre_alert','awaiting_arrival','in_clearing','post_delivery'))]}"  class="oe_highlight" />
-                        <button name='back_button' type='object' string="Back" class='oe_highlight' attrs="{'invisible': [('sn_state','=','pre_alert')]}"/>
+                        <button name="awaiting_arrival_button" type="object" string="AwaitingArrival" attrs="{'invisible': [('sn_state', 'in', ('awaiting_arrival','in_clearing','ready_to_load','post_delivery'))]}" class="oe_highlight" groups='customize_vpcs.group_status_visibility' />
+                        <button name="in_clearing_button" type="object" string="InClearing" attrs="{'invisible': [('sn_state', 'in', ('pre_alert','in_clearing','ready_to_load','post_delivery'))]}"  class="oe_highlight" groups='customize_vpcs.group_status_visibility'/>
+                        <button name="ready_toload_button" type="object" string="ReadyToLoad" attrs="{'invisible': [('sn_state', 'in', ('pre_alert','awaiting_arrival','ready_to_load','post_delivery'))]}"  class="oe_highlight" groups='customize_vpcs.group_status_visibility'/>
+                        <button name="post_delivery_button" type="object" string="PostDelivery" attrs="{'invisible': [('sn_state', 'in', ('pre_alert','awaiting_arrival','in_clearing','post_delivery'))]}"  class="oe_highlight" groups='customize_vpcs.group_status_visibility'/>
+                        <button name='back_button' type='object' string="Back" class='oe_highlight' attrs="{'invisible': [('sn_state','=','pre_alert')]}" groups='customize_vpcs.group_status_visibility'/>
                     </header>
+                </xpath>
+                <xpath expr='//button[@name="action_create_invoice" and @states="pending,progress"]' position='attributes'>
+                    <attribute name='invisible'>1</attribute>
                 </xpath>
                 <xpath expr='//field[@name="analytic_account_id"]' position="after">
                     <field name="has_job_refs" invisible='1'/>

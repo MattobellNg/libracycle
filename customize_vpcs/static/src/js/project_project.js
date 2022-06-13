@@ -16,6 +16,9 @@ FormController.include({
 			if (this.renderer.state.data.lock_document_check_bool){
 				return;
 			}
+			if (this.renderer.state.data.state_completed_check_bool){
+				return;
+			}
 			var currentId = this.getSelectedIds();
    			var d = new Date();
    			var month = d.getMonth()+1;
