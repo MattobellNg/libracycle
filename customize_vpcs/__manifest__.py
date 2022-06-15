@@ -10,8 +10,12 @@
     'data': [
         'security/project_access.xml',
         "security/ir.model.access.csv",
+        "data/seq.xml",
+        "data/batch_action.xml",
         'views/project_views.xml',
         'views/project_project_category.xml',
+        "data/email_template.xml",
+
     ],
     'qweb': [
     ],

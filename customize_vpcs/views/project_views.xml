@@ -50,6 +50,21 @@
             </field>
         </record>
 
+        <record id="inherit_account_move"  model='ir.ui.view'>
+            <field name='name'>account.move.form.inherit</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                    <button name="action_approve" string="Approve" class="oe_highlight" type="object" groups='customize_vpcs.group_hr_button'/>                               
+                </xpath>
+                <xpath expr='//sheet//notebook//page//tree//field[@name="price_unit"]' position='replace'>
+                    <field name='readonly_price_field' invisible='1'/>
+                    <field name="price_unit" string="Price" attrs="{'readonly':[('readonly_price_field','=',True)]}"/>
+                </xpath>
+            </field>
+        </record>
+
         <record id="project_edit_form_inherit" model="ir.ui.view">
             <field name="name">project.project.form</field>
             <field name="model">project.project</field>
@@ -63,10 +78,19 @@
                         <button name="ready_toload_button" type="object" string="ReadyToLoad" attrs="{'invisible': [('sn_state', 'in', ('pre_alert','awaiting_arrival','ready_to_load','post_delivery'))]}"  class="oe_highlight" groups='customize_vpcs.group_status_visibility'/>
                         <button name="post_delivery_button" type="object" string="PostDelivery" attrs="{'invisible': [('sn_state', 'in', ('pre_alert','awaiting_arrival','in_clearing','post_delivery'))]}"  class="oe_highlight" groups='customize_vpcs.group_status_visibility'/>
                         <button name='back_button' type='object' string="Back" class='oe_highlight' attrs="{'invisible': [('sn_state','=','pre_alert')]}" groups='customize_vpcs.group_status_visibility'/>
+                        <button name='action_truck_loaded' type='object' string='Truck loaded' class='oe_highlight' attrs="{'invisible': [('sn_state','in',('pre_alert','awaiting_arrival','in_clearing','post_delivery'))]}"/>
                     </header>
                 </xpath>
                 <xpath expr='//button[@name="action_create_invoice" and @states="pending,progress"]' position='attributes'>
                     <attribute name='invisible'>1</attribute>
+                </xpath>               
+                <xpath expr='//header//button[@name="create_purchases_receipt"]' position='replace'>
+                    <button name="creation_of_purchases_receipt" type="object" string="Create purchase Receipt" states="pending,progress" />
+                </xpath>
+                <xpath expr='//div[@name="button_box"]//button[@name="action_view_purchases_receipt"]' position='replace'>
+                    <button class="oe_stat_button" type="object" name="new_action_view_purchases_receipt" icon="fa-tasks">
+                        <field string="Purchase Receipts" name="purchase_order_receipt_count" widget="statinfo" options="{'label_field': 'label_items'}" />
+                    </button>
                 </xpath>
                 <xpath expr='//field[@name="analytic_account_id"]' position="after">
                     <field name="has_job_refs" invisible='1'/>
@@ -234,6 +258,60 @@
                     </group>                        
                 </xpath>
             </field>
-        </record>       
+        </record>
+
+        <!-- project.schedual.items tree view -->
+        <record id="schedual_items_view_tree" model="ir.ui.view">
+            <field name="name">project.schedual.items.view.tree</field>
+            <field name="model">project.schedule.items</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="barged_id"/>
+                    <field name="name" />
+                    <field name="product_id" widget="selection" />
+                    <field name="project_id" />
+                    <field name="description" />
+                    <field name="size" string="Size/Weight" sum="Total Size" />
+                    <field name="product_uom_id" />
+                    <field name="product_mesured_as" readonly="1" force_save="1" />
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- project.schedual.items form view -->
+        <record id="schedual_items_view_form" model="ir.ui.view">
+            <field name="name">project.schedual.items.view.form</field>
+            <field name="model">project.schedule.items</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                        <button name="action_in_transit" type="object" string='In Transit' attrs="{'invisible': [('state','!=','in_port')]}"/>
+                        <button name="action_barged_out" type="object" string='Barged Out' attrs="{'invisible': [('state','!=','in_transit')]}"/>
+                        <button name="action_dil_ship" type="object" string='Delivered/Shipped' attrs="{'invisible': [('state','!=','barged_out')]}"/>
+                        <button name="action_return_item" type="object" string='Return Item' attrs="{'invisible': [('state','!=','del_ship')]}"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="project_type_id" invisible='1'/>
+                                <field name="barged_id"/>
+                                <field name="name" />
+                                <field name="product_id" widget="selection" />
+                                <field name="project_id" />
+                            </group>
+                            <group>
+                                <field name="size" string="Size/Weight" sum="Total Size" />
+                                <field name="product_uom_id" />
+                                <field name="product_mesured_as" readonly="1" force_save="1" />
+                                <field name="description" />
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
     </data>
 </odoo>

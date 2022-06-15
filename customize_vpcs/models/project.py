@@ -1,3 +1,4 @@
+from email.policy import default
 from odoo import models, fields, api, _
 from datetime import datetime
 from odoo.exceptions import ValidationError
@@ -441,6 +442,71 @@ class ProjectProject(models.Model):
     # this boolean field is for if document field is visible or not
     document_show = fields.Boolean(string="document show")
 
+    def action_truck_loaded(self):       
+        composer_form_view_id = self.env.ref('mail.email_compose_message_wizard_form').id
+
+        template_id = self.env.ref('customize_vpcs.email_template').id
+
+        return {
+            'type': 'ir.actions.act_window',
+            'view_mode': 'form',
+            'res_model': 'mail.compose.message',
+            'view_id': composer_form_view_id,
+            'target': 'new',       
+            'context': {
+                # 'default_composition_mode': 'mass_mail' if len(self.ids) > 1 else 'comment',
+                'default_res_id': self.ids[0],
+                'default_model': 'project.project',
+                'default_use_template': bool(template_id),
+                'default_template_id': template_id,
+                # 'website_sale_send_recovery_email': True,
+                'active_ids': self.ids,
+            },     
+        }
+
+
+    def creation_of_purchases_receipt(self):
+        self.ensure_one()
+        action = self.env.ref("account.action_move_in_receipt_type")
+        context = eval(action.context) or {}
+        context.update(
+            {
+                "default_job_id": self.id,
+                "default_analytic_account_id": self.analytic_account_id.id,
+                "analytic_account_id": self.analytic_account_id.id,
+            }
+        )
+
+        return {
+            "name": action.name,
+            "help": action.help,
+            "type": action.type,
+            # "view_type": action.view_type,
+            "view_mode": "form",
+            "target": action.target,
+            "context": context,
+            "res_model": action.res_model,
+            "domain": [("job_id", "=", self.id)],
+        }
+
+    def new_action_view_purchases_receipt(self):
+        # rslt = super(ProjectProject, self).action_view_purchases_receipt()
+        self.ensure_one()
+        action = self.env.ref("account.action_move_in_receipt_type")
+
+        return {
+            "name": action.name,
+            "help": action.help,
+            "type": action.type,
+            # "view_type": action.view_type,
+            "view_mode": action.view_mode,
+            "target": action.target,
+            "context": "{}",
+            "res_model": action.res_model,
+            "domain": [("job_id", "=", self.id)],
+        }
+
+
     def pre_alert_button(self):
         pass
 
@@ -615,8 +681,77 @@ class ProjectProject(models.Model):
                 else:
                     rec.state = "pending"
 
+    def toggle_none(self):
+        return {
+            'Name': 'Schedual items',
+            'domain': [('project_id','=',self.id)],
+            'res_model': 'project.schedule.items',
+            'view_id':False,
+            'view_mode':'tree',
+            'type':'ir.actions.act_window',
+        }
+
+
+class ProjectScheduleItemsInherit(models.Model):
+
+    _inherit = 'project.schedule.items'
+
+    state = fields.Selection(string='Status', selection=[('in_port', 'In Port'), ('in_transit', 'In Transit'),('barged_out','Barged Out'),('del_ship','Delivered/Shipped'),('return','Return Item')],default='in_port',readonly=True)
+    barged_id = fields.Many2one(comodel_name='barged.out', string='Sequence')
+
+    def action_in_transit(self):
+        for rec in self:
+            rec.state = 'in_transit'
+
+    def action_barged_out(self):
+        number = self.env['ir.sequence'].next_by_code('barged.out') or _('New')
+        barged = self.env['barged.out'].create({
+                'name':number,
+            })
+        for rec in self:
+            rec.state = 'barged_out'
+            barged.update({
+                'items_ids':[(4,rec.id)]
+            })
+
+    def action_dil_ship(self):
+        for rec in self:
+            rec.state = 'del_ship'
+
+    def action_return_item(self):
+        for rec in self:
+            rec.state = "return"
+
+class BargedOut(models.Model):
+    _name = 'barged.out'
+
+    name = fields.Char('Name')
+    items_ids = fields.One2many(comodel_name='project.schedule.items', inverse_name='barged_id', string='Items')
+    
 class Jobselection(models.Model):
 
     _name = "job.selection" 
 
     name = fields.Char(string="Job Selection Name")
+
+class AccountMove(models.Model):
+
+    _inherit = "account.move"
+
+    def action_approve(self):
+        for rec in self.invoice_line_ids:
+            if rec.price_unit:
+                rec.readonly_price_field = True 
+        user_id = self.env.user
+        print ('___ self.move_type : ', self.move_type);
+        if self.move_type == 'in_receipt':
+            data = "User : %s approve this receipt on %s"%(user_id.name,datetime.now())
+        if self.move_type == 'in_invoice':
+            data = "User : %s approve this Vendor bill on %s"%(user_id.name,datetime.now())
+        send_message = self.message_post(body=data)
+
+class AccountMoveLine(models.Model):
+
+    _inherit = "account.move.line"
+
+    readonly_price_field = fields.Boolean()
