@@ -34,7 +34,7 @@
         # "data/task_cron_data.xml",
         "wizard/schedule_item_import_view.xml",
         "views/project_view.xml",
-
+        "views/port_view.xml",
         "views/project_schedule_items_view.xml",
         "views/product_template.xml",
         "views/sale_order_view.xml",

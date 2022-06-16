@@ -46,7 +46,7 @@ class ProjectScheduleItems(models.Model):
     project_type_id = fields.Many2one("project.type", "Project Type", related="project_id.type_id", store=True)
     project_service_means = fields.Selection(related="project_type_id.service_means_type", store=True)
     product_id = fields.Many2one(
-        "product.product",
+        "product.template",
         "Item Type",
         required=True,
         domain="[('is_project_item', '=', True), ('project_type_id', '=', project_type_id)]",
