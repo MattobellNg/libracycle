@@ -171,7 +171,7 @@
                             <field name="job_ba_number" attrs="{'invisible':['|',('has_job_ba_number','==','no'),('project_categ_id','=', False)], 'required': [('has_job_ba_number','==','required')], 'readonly':[('sn_state','in',('awaiting_arrival','in_clearing','ready_to_load','post_delivery'))]}" />
                         </group>
                     </group>                        
-                    <group string="AWAITING ARRIVAL" colspan='4' col='4'>
+                    <group string="AWAITING ARRIVAL" colspan='4' col='4' attrs="{'invisible': [('sn_state', '=', 'pre_alert')]}">
                         <group colspan='4' col='4'>
                             <field name="shipping_line" attrs="{'invisible':['|','|',('has_shipping_line','==','no'),('project_categ_id','=', False),('sn_state','=','pre_alert')], 'required': [('has_shipping_line','==','required')],'readonly':[('sn_state','in',('in_clearing','ready_to_load','post_delivery'))]}" />                      
                             <field name="vessel_line" attrs="{'invisible':['|','|',('has_vessel_name','==','no'),('project_categ_id','=', False),('sn_state','=','pre_alert')], 'required': [('has_vessel_name','==','required')],'readonly':[('sn_state','in',('in_clearing','ready_to_load','post_delivery'))]}" />                      
@@ -186,7 +186,7 @@
                             <field name="document_bol_awb_ref" attrs="{'invisible': [('doc_bol_awb_ref', '=', False),('sn_state','=','pre_alert')], 'required': [('doc_bol_awb_ref','==',True)]}"/>                            
                         </group> 
                     </group>                        
-                    <group string="IN CLEARING" colspan='4' col='4'>
+                    <group string="IN CLEARING" colspan='4' col='4' attrs="{'invisible': [('sn_state', 'in', ('pre_alert','awaiting_arrival'))]}">
                         <group colspan='4' col='4'>
                             <field name="paar_request" attrs="{'invisible':['|','|',('has_paar_request','==','no'),('project_categ_id','=', False),('sn_state','in',('pre_alert','awaiting_arrival'))], 'required': ['&amp;',('has_paar_request','==','required'),('sn_state','=','in_clearing')],'readonly':[('sn_state','in',('ready_to_load','post_delivery'))]}" />
                             <field name="nafdac_paid" attrs="{'invisible':['|','|',('has_nafdac_paid','==','no'),('project_categ_id','=', False),('sn_state','in',('pre_alert','awaiting_arrival'))], 'required': [('has_nafdac_paid','==','required'),('sn_state','=','in_clearing')],'readonly':[('sn_state','in',('ready_to_load','post_delivery'))]}" />
@@ -238,12 +238,12 @@
                             <field name="nepza_released" attrs="{'invisible':['|','|',('has_nepza_released','==','no'),('project_categ_id','=', False),('sn_state','in',('pre_alert','awaiting_arrival'))], 'required': [('has_nepza_released','==','required'),('sn_state','=','in_clearing')],'readonly':[('sn_state','in',('ready_to_load','post_delivery'))]}" />
                         </group>
                     </group>                        
-                    <group string="READY TO LOAD" colspan='4' col='4'>
+                    <group string="READY TO LOAD" colspan='4' col='4' attrs="{'invisible': [('sn_state', 'in', ('pre_alert','awaiting_arrival','in_clearing'))]}">
                         <field name="truck_in" attrs="{'invisible':['|','|',('has_truck_in','==','no'),('project_categ_id','=', False),('sn_state','in',('pre_alert','awaiting_arrival','in_clearing'))], 'required': [('has_truck_in','==','required'),('sn_state','=','ready_to_load')],'readonly':[('sn_state','=','post_delivery')]}" />
                         <field name="gate_out" attrs="{'invisible':['|','|',('has_gate_out','==','no'),('project_categ_id','=', False),('sn_state','in',('pre_alert','awaiting_arrival','in_clearing'))], 'required': [('has_gate_out','==','required'),('sn_state','=','ready_to_load')],'readonly':[('sn_state','=','post_delivery')]}" />
                         <field name="empty_container_returned" attrs="{'invisible':['|','|',('has_empty_container_returned','==','no'),('project_categ_id','=', False),('sn_state','in',('pre_alert','awaiting_arrival','in_clearing'))], 'required': [('has_empty_container_returned','==','required'),('sn_state','=','ready_to_load')],'readonly':[('sn_state','=','post_delivery')]}" />
                     </group>                        
-                    <group string='POST DELIVERY' colspan='4' col='4'>
+                    <group string='POST DELIVERY' colspan='4' col='4' attrs="{'invisible': [('sn_state', 'in', ('pre_alert','awaiting_arrival','in_clearing','ready_to_load'))]}">
                         <group colspan='4' col='4'>
                             <field name="fecd_rec_date" attrs="{'invisible':['|','|',('has_fecd_rec_date','==','no'),('project_categ_id','=', False),('sn_state','in',('pre_alert','awaiting_arrival','in_clearing','ready_to_load'))], 'required': [('has_fecd_rec_date','==','required'),('sn_state','=','post_delivery')]}" />
                         </group>
@@ -293,7 +293,7 @@
                         <field name="state" widget="statusbar"/>
                     </header>
                     <sheet>
-                        <group>
+                        <group> 
                             <group>
                                 <field name="project_type_id" invisible='1'/>
                                 <field name="barged_id"/>
@@ -312,6 +312,5 @@
                 </form>
             </field>
         </record>
-
     </data>
 </odoo>
