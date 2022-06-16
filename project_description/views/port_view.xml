@@ -59,6 +59,6 @@
                 </p>
             </field>
         </record>
-        <menuitem name="Port Management" id="project_port_menu" parent="project.menu_main_pm" action="project_port_act_window"/>
+        <menuitem name="Port Management" id="project_port_menu" parent="project.menu_project_config" action="project_port_act_window"/>
     </data>
 </odoo>
