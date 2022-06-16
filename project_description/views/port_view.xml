@@ -7,12 +7,9 @@
             <field name="arch" type="xml">
                 <form string="ModelTitle">
                     <sheet>
-                        <div class="oe_title">
-                            <label for="example_title" />
-                            <h1>
-                                <field name="name" placeholder="Port Name" />
-                            </h1>
-                        </div>
+                        <h1>
+                            <field name="name" placeholder="Port Name" />
+                        </h1>
                         <group>
                             <group>
                                 <field name="address" />
@@ -61,6 +58,6 @@
                 </p>
             </field>
         </record>
-                <menuitem name="Port Management" id="project_port_menu" parent="project.menu_main_pm" action="project_port_act_window"/>
+        <menuitem name="Port Management" id="project_port_menu" parent="project.menu_main_pm" action="project_port_act_window"/>
     </data>
 </odoo>
