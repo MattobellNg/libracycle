@@ -73,7 +73,7 @@ class ProjectProjectTask(models.Model):
     task_start_date = fields.Date("Start date")
     task_escalation_trigger = fields.Date("Escalation date")
     task_end_date = fields.Date("End Date")
-    # user_id = fields.Many2one(default='')
+    user_id = fields.Many2one('res.users',string="User")
     escalation_count = fields.Integer("escalation count", default=0)
     department_id = fields.Many2one("hr.department", string="Department")
     task_assign_id = fields.Many2one(

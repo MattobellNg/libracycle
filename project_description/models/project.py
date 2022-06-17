@@ -134,7 +134,7 @@ class ProjectProject(models.Model):
     description = fields.Html()
     job_allocation_date = fields.Date(
         "Allocation Date",
-        required=True,
+        required=False,
         tracking=True,
     )
     client_ref = fields.Char(
@@ -166,13 +166,13 @@ class ProjectProject(models.Model):
     discharge_port_id = fields.Many2one(
         "project.port",
         "Discharge Port",
-        required=True,
+        required=False,
         tracking=True,
     )
     loading_port_id = fields.Many2one(
         "project.port",
         "Loading Port",
-        required=True,
+        required=False,
         tracking=True,
     )
 
