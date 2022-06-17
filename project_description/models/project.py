@@ -134,8 +134,12 @@ class ProjectProject(models.Model):
     description = fields.Html()
     job_allocation_date = fields.Date(
         "Allocation Date",
+<<<<<<< HEAD
+        required=True,
+=======
         required=False,
         tracking=True,
+>>>>>>> e90b47c08bef0277d5fe89dfd50b4c8ffd27f3ec
     )
     client_ref = fields.Char(
         "Client Ref.",

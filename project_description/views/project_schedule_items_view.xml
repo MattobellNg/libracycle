@@ -2,7 +2,7 @@
 <odoo>
     <data>
 
-        <record id="project_schedule_items_form_view" model="ir.ui.view">
+        <!-- <record id="project_schedule_items_form_view" model="ir.ui.view">
             <field name="name">project.schedule.items.form</field>
             <field name="model">project.schedule.items</field>
             <field name="arch" type="xml">
@@ -46,7 +46,7 @@
                     <field name="project_type_id"/>
                 </tree>
             </field>
-        </record>
+        </record> -->
 
         <record id="project_schedule_items_search_view" model="ir.ui.view">
             <field name="name">project.schedule.items.search</field>
@@ -56,6 +56,7 @@
                     <group expand="1" string="Group By">
                         <filter string="Project" name="project_id" domain="[]"
                                 context="{'group_by':'project_id'}"/>
+                        <separator/>
                     </group>
                 </search>
             </field>
@@ -63,9 +64,8 @@
 
         <record id="project_schedule_items_act_window" model="ir.actions.act_window">
             <field name="name">Project Schedule Items</field>
-            <field name="type">ir.actions.act_window</field>
             <field name="res_model">project.schedule.items</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">tree,form,search</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
                     There is no project schedule click here to add new project schedule items.
