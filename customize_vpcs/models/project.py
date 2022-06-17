@@ -107,9 +107,19 @@ class ProjectProject(models.Model):
     fou_approved = fields.Date(string='FOU Approved')
     nepza_released  = fields.Date(string="NEPZA Released")
 ###########################READY TO LOAD ##############################
+    ################needs to be comment#############
     truck_in = fields.Date(string="Truck In")
     gate_out = fields.Date(string="Gate Out")
     empty_container_returned = fields.Date(string="Empty Container Returned")
+
+###############################DELIVERY START(TRUCK/BARGE)####################
+    date_delivery_start = fields.Date(string='Date Delivery Start')
+    Barge_date = fields.Date(string='Barge Date')
+    date_delivery_complete = fields.Date(string='Date Delivery Complete')
+
+    delivery_waybill_from_client = fields.Date(string='Delivery Waybill from Client')
+    document_delivery_waybill_from_client = fields.Binary(string='Document(Waybill from Client)')
+    doc_waybill_from_client = fields.Boolean()
 ##################POST DELIVERY###################################
 
     fecd_rec_date = fields.Date(string='FECD Rec Date')
@@ -121,6 +131,10 @@ class ProjectProject(models.Model):
     fecd_client_ack = fields.Date(string="FECD Client ACK")
     document_client = fields.Binary(string='Document(Client ACK)')
     doc_client = fields.Boolean()
+
+    nafdac_final_release = fields.Date(string='NAFDAC Final Release')
+    document_has_nafdac_final_release = fields.Binary(string='Document(NAFDAC Final Release)')
+    doc_nafdac_final_release = fields.Boolean() 
 
     has_job_refs = fields.Selection(
         [],
@@ -377,6 +391,8 @@ class ProjectProject(models.Model):
         related="project_categ_id.has_nepza_released",
         readonly=True
     )
+        ###############################needs to be comment#####################
+
     has_truck_in = fields.Selection(
         [],
         "",
@@ -395,6 +411,32 @@ class ProjectProject(models.Model):
         related="project_categ_id.has_empty_container_returned",
         readonly=True
     )
+
+    #############################################################
+    has_date_delivery_start = fields.Selection(
+        [],
+        "",
+        related="project_categ_id.has_date_delivery_start",
+        readonly=True
+    )
+    has_barge_date = fields.Selection(
+        [],
+        "",
+        related="project_categ_id.has_barge_date",
+        readonly=True
+    )
+    has_date_delivery_complete = fields.Selection(
+        [],
+        "",
+        related="project_categ_id.has_date_delivery_complete",
+        readonly=True
+    )
+    has_delivery_waybill_from_client = fields.Selection(
+        [],
+        "",
+        related="project_categ_id.has_delivery_waybill_from_client",
+        readonly=True
+    )
     has_fecd_rec_date = fields.Selection(
         [],
         "",
@@ -411,6 +453,12 @@ class ProjectProject(models.Model):
         [],
         "",
         related="project_categ_id.has_fecd_client_ack",
+        readonly=True
+    )
+    has_nafdac_final_release = fields.Selection(
+        [],
+        "",
+        related="project_categ_id.has_nafdac_final_release",
         readonly=True
     )
 
@@ -532,7 +580,7 @@ class ProjectProject(models.Model):
         if self.sn_state == 'post_delivery':
             self.sn_state = 'ready_to_load'
 
-    @api.onchange('job_form_m_mf','paar_received','duty_assesment','duty_received','shipping_released','fecd_custom_ack','fecd_client_ack','bol_awb_ref','nafdac_1_stamp_date','nafdac_2_stamp_date')
+    @api.onchange('job_form_m_mf','paar_received','duty_assesment','duty_received','shipping_released','fecd_custom_ack','fecd_client_ack','bol_awb_ref','nafdac_1_stamp_date','nafdac_2_stamp_date','delivery_waybill_from_client','nafdac_final_release')
     def onchange_form_doc(self):
         for rec in self:
             if rec.job_form_m_mf:
@@ -555,6 +603,10 @@ class ProjectProject(models.Model):
                 rec.doc_has_nafdac_1_stamp_date = True
             if rec.nafdac_2_stamp_date:
                 rec.doc_has_nafdac_2_stamp_date = True
+            if rec.delivery_waybill_from_client:
+                rec.doc_waybill_from_client = True
+            if rec.nafdac_final_release:
+                rec.doc_nafdac_final_release = True
 
     @api.model
     def visible_button(self):

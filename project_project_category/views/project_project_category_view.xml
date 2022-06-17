@@ -36,7 +36,7 @@
                                 <group colspan="4" col="4">
                                     <field name="has_job_form_m" string="Form M" widget="radio" options="{'horizontal': true}" />
                                     <field name="has_job_form_m_date" string="Form M Date" widget="radio" options="{'horizontal': true}" />
-                                    <field name="has_bol_awb_ref" string="BOL/AWB" widget="radio" options="{'horizontal': true}" />
+                                    <!-- <field name="has_bol_awb_ref" string="BOL/AWB" widget="radio" options="{'horizontal': true}" /> -->
                                     <field name="has_arrival_date" string="Arrival Date" widget="radio" options="{'horizontal': true}" />
                                     <field name="has_job_son" string="SON" widget="radio" options="{'horizontal': true}" />
                                     <field name="has_job_liner" string="LINER" widget="radio" options="{'horizontal': true}" />
@@ -48,7 +48,7 @@
                                     <field name="has_job_assessment" string="Assessment" widget="radio" options="{'horizontal': true}" />
                                     <field name="has_job_shipping_co" string="Shipping Co." widget="radio" options="{'horizontal': true}" />
                                     <field name="has_job_terminal_payment" string="Terminal Payment" widget="radio" options="{'horizontal': true}" />
-                                    <field name="has_custom_release_date" string="Custom Release Date" widget="radio" options="{'horizontal': true}" />
+                                    <!-- <field name="has_custom_release_date" string="Custom Release Date" widget="radio" options="{'horizontal': true}" /> -->
                                     <field name="has_job_tdo" string="TDO" widget="radio" options="{'horizontal': true}" />
                                     <field name="has_job_plant_delivery_date" string="Plant Delivery Date" widget="radio" options="{'horizontal': true}" />
                                     <field name="has_exchange_control_returned" string="Exchange Control Returned" widget="radio" options="{'horizontal': true}" />
@@ -57,17 +57,17 @@
                                     <field name="has_cleared_date" string="Cleared Date" widget="radio" options="{'horizontal': true}" />
                                     <field name="has_loading_date" string="Loading Date" widget="radio" options="{'horizontal': true}" />
                                     <field name="has_delivery_date" string="Delivery Date" widget="radio" options="{'horizontal': true}" />
-                                    <field name="has_etd" string="ETD" widget="radio" options="{'horizontal': true}" />
-                                    <field name="has_eta" string="ETA" widget="radio" options="{'horizontal': true}" />
-                                    <field name="has_ata" string="ATA" widget="radio" options="{'horizontal': true}" />
+                                    <!-- <field name="has_etd" string="ETD" widget="radio" options="{'horizontal': true}" />
+                                    <field name="has_eta" string="ETA" widget="radio" options="{'horizontal': true}" /> -->
+                                    <!-- <field name="has_ata" string="ATA" widget="radio" options="{'horizontal': true}" /> -->
                                     <field name="has_discharge_date" string="Discharge Date" widget="radio" options="{'horizontal': true}" />
                                     <field name="has_doc_to_agent" string="Doc. to Agent" widget="radio" options="{'horizontal': true}" />
                                     <field name="has_rotation_number" string="Rotation Number" widget="radio" options="{'horizontal': true}" />
-                                    <field name="has_nafdac_1_stamp_date" string="NAFDAC 1st Stamp" widget="radio" options="{'horizontal': true}" />
-                                    <field name="has_nafdac_2_stamp_date" string="NAFDAC 2nd Stamp" widget="radio" options="{'horizontal': true}" />
+                                    <!-- <field name="has_nafdac_1_stamp_date" string="NAFDAC 1st Stamp" widget="radio" options="{'horizontal': true}" />
+                                    <field name="has_nafdac_2_stamp_date" string="NAFDAC 2nd Stamp" widget="radio" options="{'horizontal': true}" /> -->
                                     <field name="has_son_date" string="SON Date" widget="radio" options="{'horizontal': true}" />
                                     <field name="has_pod" string="POD" widget="radio" options="{'horizontal': true}" />
-                                    <field name="has_free_days" string="No of Free days" widget="radio" options="{'horizontal': true}" />
+                                    <!-- <field name="has_free_days" string="No of Free days" widget="radio" options="{'horizontal': true}" /> -->
                                     <field name="has_custom_exam_date" string="Custom Exams Booking Date" widget="radio" options="{'horizontal': true}" />
                                     <field name="has_custom_date" string="Custom Exams Date" widget="radio" options="{'horizontal': true}" />
                                     <field name="has_fou_release_date" string="FOU release Date" widget="radio" options="{'horizontal': true}" />

@@ -26,6 +26,7 @@ class ProjectProjectCategory(models.Model):
     has_port_of_loading = fields.Selection(FIELD_SELECTION,'PORT OF LOADING',default='no')
     has_rotation_received = fields.Selection(FIELD_SELECTION,'Rotation not received',default='no')
 #############################IN CLEARING#################################
+    has_agent_name = fields.Selection(FIELD_SELECTION,'Agent Name',default='no')
     has_paar_request = fields.Selection(FIELD_SELECTION,"PAAR REQUEST",default="no")
     has_paar_received = fields.Selection(FIELD_SELECTION,"PAAR RECEIVED",default='no')
     has_duty_assesment = fields.Selection(FIELD_SELECTION,"Duty Assessment",default='no')
@@ -52,15 +53,25 @@ class ProjectProjectCategory(models.Model):
     has_fou_approved = fields.Selection(FIELD_SELECTION,'FOU Approved',default='no')
     has_nepza_released = fields.Selection(FIELD_SELECTION,'NEPZA Received',default='no')
 ##################READY TO LOAD##################################
+    #########################needs to be comment#################
 
     has_truck_in = fields.Selection(FIELD_SELECTION,'TRUCK IN ',default='no')
     has_gate_out = fields.Selection(FIELD_SELECTION,'GATE OUT',default='no')
     has_empty_container_returned = fields.Selection(FIELD_SELECTION,'EMPTY CONAINER RETURN',default='no')
+
+###############################DELIVERY START(TRUCK/BARGE)####################
+
+    has_date_delivery_start = fields.Selection(FIELD_SELECTION,'Date Delivery Start',default='no')
+    has_barge_date = fields.Selection(FIELD_SELECTION,'Barge Date',default='no')
+    has_date_delivery_complete = fields.Selection(FIELD_SELECTION,'Date Delivery Complete',default='no')
+    has_delivery_waybill_from_client = fields.Selection(FIELD_SELECTION,'Delivery Waybill from Client',default='no')
+
 ##################POST DELIVERY###################################
 
     has_fecd_rec_date = fields.Selection(FIELD_SELECTION,'FECD REC DATE',default='no')
     has_fecd_custom_ack = fields.Selection(FIELD_SELECTION,'FECD: customs ACK ',default='no')
     has_fecd_client_ack =fields.Selection(FIELD_SELECTION,'FECD: To Client ACK',default='no')
+    has_nafdac_final_release = fields.Selection(FIELD_SELECTION,'NAFDAC Final Release',default='no')
     # has_job_ba_number = fields.Selection(
     #     FIELD_SELECTION,
     #     "BA Number",
