@@ -298,7 +298,7 @@
             </field>
             <xpath expr="//sheet" position="before">
                 <header>
-                    <field name="state" widget="statusbar" statusbar_visible="pending,progress,deliver,done" />
+                    <field name="state" widget="statusbar" statusbar_visible="new,pending,progress,deliver,done" />
                     <button name="create_job_quotation" type="object" string="Quotation" states="pending,progress" class="oe_highlight" />
                     <button name="create_purchases_receipt" type="object" string="Create purchase Receipt" states="pending,progress" />
                     <button name="action_create_vendor_bill" type="object" string="Create Vendor Bill" states="pending,progress" />
@@ -451,7 +451,7 @@
                 </div>
             </xpath> -->
             <xpath expr="//field[@name='name']" position="attributes">
-                <attribute name="attrs">{'readonly': [('state', '!=', 'new')]}</attribute>
+                <attribute name="attrs">{'readonly': [('state', '==', 'new')]}</attribute>
             </xpath>
         </field>
     </record>
