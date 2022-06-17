@@ -15,6 +15,7 @@
         'views/project_views.xml',
         'views/project_project_category.xml',
         "data/email_template.xml",
+        "reports/report.xml",
 
     ],
     'qweb': [
