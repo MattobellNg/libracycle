@@ -756,15 +756,21 @@ class ProjectScheduleItemsInherit(models.Model):
             rec.state = 'in_transit'
 
     def action_barged_out(self):
-        number = self.env['ir.sequence'].next_by_code('barged.out') or _('New')
-        barged = self.env['barged.out'].create({
-                'name':number,
-            })
-        for rec in self:
-            rec.state = 'barged_out'
-            barged.update({
-                'items_ids':[(4,rec.id)]
-            })
+        if not self.barged_id:
+            number = self.env['ir.sequence'].next_by_code('barged.out') or _('New')
+            barged = self.env['barged.out'].create({
+                    'name':number,
+                })
+            for rec in self:
+                rec.state = 'barged_out'
+                barged.update({
+                    'items_ids':[(4,rec.id)]
+                })
+        else:
+            for rec in self:
+                rec.state = "barged_out"
+        
+        return self.env.ref('customize_vpcs.report_barged_xlsx').report_action(self)
 
     def action_dil_ship(self):
         for rec in self:
@@ -773,6 +779,10 @@ class ProjectScheduleItemsInherit(models.Model):
     def action_return_item(self):
         for rec in self:
             rec.state = "return"
+
+    def action_set_to_draft(self):
+        for rec in self:
+            rec.state = "in_port" 
 
 class BargedOut(models.Model):
     _name = 'barged.out'

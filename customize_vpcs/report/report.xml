@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <report id="report_waybill_xlsx" model="project.schedule.items" string="Waybill XLS Report" report_type="xlsx" name="customize_vpcs.report_waybill_xlsx" file="customize_vpcs.report_waybill_xlsx" attachment_use="False"/>
+
+    <report id="report_barged_xlsx" model="project.schedule.items" string="Barged XLS Report" report_type="xlsx" name="customize_vpcs.report_barged_xlsx" file="customize_vpcs.report_barged_xlsx" attachment_use="False"/>
+
+</odoo>
