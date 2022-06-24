@@ -35,6 +35,11 @@
                     <field name='offloading_date'/>
                     <field name='return_date'/>                
                 </xpath>
+                <xpath expr="//div[@name='button_box']/button[@name='action_view_all_rating']" position="before">
+                    <button class="oe_stat_button" type="object" name="toggle_none" icon="fa-tasks">
+                        <field string="Schedule items" name="items_count" widget="statinfo" options="{'label_field': 'label_items'}" />
+                    </button>
+                </xpath>
             </field>
         </record>
         <function model='project.project' name="visible_button"/>
@@ -322,6 +327,7 @@
                         <button name="action_barged_out" type="object" string='Barged Out' attrs="{'invisible': [('state','!=','in_transit')]}"/>
                         <button name="action_dil_ship" type="object" string='Delivered/Shipped' attrs="{'invisible': [('state','!=','barged_out')]}"/>
                         <button name="action_return_item" type="object" string='Return Item' attrs="{'invisible': [('state','!=','del_ship')]}"/>
+                        <button name="action_set_to_draft" type="object" string="Set To Draft" attrs="{'invisible': [('state','!=','return')]}" />
                         <field name="state" widget="statusbar"/>
                     </header>
                     <sheet>
