@@ -489,6 +489,45 @@ class ProjectProject(models.Model):
     return_date = fields.Date(string=" Return date",tracking=True,required=True)
     # this boolean field is for if document field is visible or not
     document_show = fields.Boolean(string="document show")
+    name = fields.Char('Sequence Number',required=True,index=True,copy=False,default='New')
+    feet_forty = fields.Integer(string='40FT')
+    feet_twenty = fields.Integer(string='20FT')
+    cbm = fields.Integer(string='CBM')
+    kg = fields.Integer(string='KG')
+    days_in_port = fields.Integer(string='Days in Port')
+    major_cause_of_delay = fields.Char(string='Major Cause Of Delay')
+    container_transfer = fields.Date(string='CONT-Transfer')
+    # duty = fields.Float(string='Duty')
+    # Shipping_charge = fields.Float(string='Shipping Charge')
+    # Terminal_charge = fields.Float(string='Terminal Charge')
+    # nafdac = fields.Float(string='Nafdac')
+    # son = fields.Float(string='SON')
+    # Agency = fields.Float(string='Agency')
+    # transportation = fields.Float(string='Transportation')
+    # others_cost = fields.Float(string='Others Cost')
+    # total_cost = fields.Float(string='Total Cost(N)')
+
+    def action_cb_report(self):
+        print ('___ self : ', self);
+        return {
+
+
+            'type': 'ir.actions.act_window', 
+
+            'view_type': 'form', 
+
+            'view_mode': 'form',
+
+            'res_model': 'report.customize_vpcs.report_tracking_xlsx', 
+
+            'target': 'new', 
+
+        }
+
+    @api.model
+    def create(self,vals):
+        vals['name'] = self.env['ir.sequence'].next_by_code('project.project') or _('New')
+        return super(ProjectProject,self).create(vals)
 
     def action_truck_loaded(self):       
         composer_form_view_id = self.env.ref('mail.email_compose_message_wizard_form').id
