@@ -2,6 +2,12 @@ from email.policy import default
 from odoo import models, fields, api, _
 from datetime import datetime
 from odoo.exceptions import ValidationError
+import io
+from odoo.tools.misc import xlsxwriter
+from odoo.http import content_disposition, request
+import json
+
+
 
 class ProjectProject(models.Model):
 
@@ -506,6 +512,7 @@ class ProjectProject(models.Model):
     # transportation = fields.Float(string='Transportation')
     # others_cost = fields.Float(string='Others Cost')
     # total_cost = fields.Float(string='Total Cost(N)')
+
 
     def action_cb_report(self):
         print ('___ self : ', self);
