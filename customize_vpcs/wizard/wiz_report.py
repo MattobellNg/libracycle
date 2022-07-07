@@ -11,9 +11,20 @@ class CBReport(models.TransientModel):
     project_id = fields.Many2one('project.project',string='project')
 
     def generate_xlsx_report(self):
-        print("print_xls_report called XXXXXXXXXXX")
-        data = self.read()[0]
-        return self.env.ref('customize_vpcs.action_report_cbreport_xlsx').report_action(self, data=data)
+        return {
+            'type': 'ir.actions.act_url',
+            'url': '/project/excel_report',
+            'target': 'self',
+        }
+        # print("print_xls_report called XXXXXXXXXXX")
+        # data = self.read()[0]
+        # datas = {
+        #     'ids': [],
+        #     'model': 'project.project',
+        #     'form': data
+        # }
+        # print ('___ datas : ', datas);
+        # return self.env.ref('customize_vpcs.action_report_cbreport_xlsx').report_action(self, data=datas)
         # return {
         #     'type': 'ir.actions.report',
         #     'report_type': 'XLSX',
