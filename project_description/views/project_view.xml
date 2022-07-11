@@ -87,7 +87,7 @@
                 <field name="etd" string="ETD" />
                 <field name="eta" string="ETA" />
                 <field name="ata" string="ATA" />
-                <field name="last_project_comment" string="Comment" widget="html" />
+                <!-- <field name="last_project_comment" string="Comment" widget="html" /> -->
             </tree>
         </field>
     </record>
@@ -114,7 +114,7 @@
                 <field name="cleared_date" string="Cleared Date" />
                 <field name="loading_date" string="Loading date" />
                 <field name="delivery_date" string="Delivery Date" />
-                <field name="last_project_comment" string="Comment" widget="html" />
+                <!-- <field name="last_project_comment" string="Comment" widget="html" /> -->
             </tree>
         </field>
     </record>
@@ -324,9 +324,6 @@
                 <button class="oe_stat_button" type="object" name="action_view_cost_revenue" icon="fa-bar-chart" groups="analytic.group_analytic_accounting">
                     <field string="Cost/Revenue" name="analysis_balance" widget="monetary" options="{'label_field': 'label_items'}" />
                 </button>
-                <button class="oe_stat_button" type="object" name="toggle_none" icon="fa-tasks">
-                    <field string="Schedule items" name="items_count" widget="statinfo" options="{'label_field': 'label_items'}" />
-                </button>
             </div>
             <xpath expr="//div[hasclass('oe_title')]" position="after">
                 <h1>
@@ -396,7 +393,7 @@
                             <field name="nafdac_2_stamp_date" attrs="{'invisible':['|',('has_nafdac_2_stamp_date','==','no'),('project_categ_id','=', False)], 'required': [('has_nafdac_2_stamp_date','==','required')]}" /> -->
                             <field name="son_date" attrs="{'invisible':['|',('has_son_date','==','no'),('project_categ_id','=', False)], 'required': [('has_son_date','==','required')]}" />
                             <field name="pod" attrs="{'invisible':['|',('has_pod','==','no'),('project_categ_id','=', False)], 'required': [('has_pod','==','required')]}" />
-                            <field name="free_days" attrs="{'invisible':['|',('has_free_days','==','no'),('project_categ_id','=', False)], 'required': [('has_free_days','==','required')]}" />
+                            <!-- <field name="free_days" attrs="{'invisible':['|',('has_free_days','==','no'),('project_categ_id','=', False)], 'required': [('has_free_days','==','required')]}" /> -->
                             <field name="custom_exam_date" attrs="{'invisible':['|',('has_custom_exam_date','==','no'),('project_categ_id','=', False)], 'required': [('has_custom_exam_date','==','required')]}" />
                             <field name="custom_date" attrs="{'invisible':['|',('has_custom_date','==','no'),('project_categ_id','=', False)], 'required': [('has_custom_date','==','required')]}" />
                             <field name="fou_release_date" attrs="{'invisible':['|',('has_fou_release_date','==','no'),('project_categ_id','=', False)], 'required': [('has_fou_release_date','==','required')]}" />
@@ -424,7 +421,7 @@
                     <label for="description" string="Job description" />
                     <field name="description" />
                 </page>
-                <page name="job_details" string="Items lines">
+                <page name="job_details" string="Items lines" invisible="1">
                     <div>
                         <button name="download_schedule_item_csv" type="object" string="Downlaod Template" class="oe_edit_only" />
                         <button name="import_schedule_item" type="object" string="Import Items" class="btn-primary oe_edit_only" />

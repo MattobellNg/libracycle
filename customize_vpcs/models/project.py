@@ -503,6 +503,8 @@ class ProjectProject(models.Model):
     days_in_port = fields.Integer(string='Days in Port')
     major_cause_of_delay = fields.Char(string='Major Cause Of Delay')
     container_transfer = fields.Date(string='CONT-Transfer')
+    report_wizard_bool = fields.Boolean(string='C&B Report',default=False)
+    # report_many2one = fields.Many2one('report.customize_vpcs.report_cb_report')
     # duty = fields.Float(string='Duty')
     # Shipping_charge = fields.Float(string='Shipping Charge')
     # Terminal_charge = fields.Float(string='Terminal Charge')
@@ -512,7 +514,8 @@ class ProjectProject(models.Model):
     # transportation = fields.Float(string='Transportation')
     # others_cost = fields.Float(string='Others Cost')
     # total_cost = fields.Float(string='Total Cost(N)')
-
+    def action_tracking_report(self):
+        print ('___ hello : ',);
 
     def action_cb_report(self):
         print ('___ self : ', self);

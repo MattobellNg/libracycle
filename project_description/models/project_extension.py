@@ -92,19 +92,19 @@ class ProjectProject(models.Model):
 
     def action_view_vendor_bill(self):
         self.ensure_one()
-        action = self.env.ref("account.action_invoice_tree2")
+        action = self.env.ref("account.action_move_in_invoice_type")
 
         return {
             "name": action.name,
             "help": action.help,
             "type": action.type,
-            "view_type": action.view_type,
+            # "view_type": action.view_type,
             "view_mode": "tree",
-            "view_id": self.env.ref("account.move_supplier_tree").id,
+            # "view_id": self.env.ref("account.move_supplier_tree").id,
             "target": action.target,
             "context": "{}",
             "res_model": action.res_model,
-            "domain": [("job_id", "=", self.id), ("type", "=", "in_invoice")],
+            "domain": [("job_id", "=", self.id), ("move_type", "=", "in_invoice")],
         }
 
     def action_view_invoice(self):
@@ -145,7 +145,7 @@ class ProjectProject(models.Model):
 
     def action_create_vendor_bill(self):
 
-        action = self.env.ref("account.action_invoice_tree2")
+        action = self.env.ref("account.action_move_in_invoice_type")
         context = eval(action.context) or {}
         context.update({"default_job_id": self.id})
 
@@ -153,9 +153,9 @@ class ProjectProject(models.Model):
             "name": action.name,
             "help": action.help,
             "type": action.type,
-            "view_type": action.view_type,
+            # "view_type": action.view_type,
             "view_mode": "form",
-            "view_id": self.env.ref("account.move_supplier_form").id,
+            # "view_id": self.env.ref("account.move_supplier_form").id,
             "target": action.target,
             "context": context,
             "res_model": action.res_model,
