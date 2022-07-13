@@ -8,7 +8,6 @@ class Custom_Quickbook_controller(http.Controller):
 
     @http.route('/project/excel_report', type="http", auth="public", website=True)
     def get_auth_code(self, **kwarg):
-        print ('___ hello : ',);
         response = request.make_response(
                     None,
                     headers=[
@@ -40,7 +39,7 @@ class Custom_Quickbook_controller(http.Controller):
             sheet.write(row,column,i,header_format)
             sheet.set_column(0,column,15)
             column+=1
-        project_data = request.env['project.project'].search([])
+        project_data = request.env['project.project'].search([('report_wizard_bool','=',True)])
         final_row = ''
         sum_feet_forty = 0
         sum_feet_twenty = 0
@@ -57,7 +56,6 @@ class Custom_Quickbook_controller(http.Controller):
             item_desc = ''
             for i in pro.project_schedule_items_ids:
                 item_desc+=i.product_id.name
-                print ('___ item_desc : ', item_desc);
             sheet.write(new_row,7,str(item_desc),cell_format)
             sheet.write(new_row,8,pro.shipping_line,cell_format)
             sheet.write(new_row,9,pro.terminal,cell_format)
@@ -67,6 +65,10 @@ class Custom_Quickbook_controller(http.Controller):
             sheet.write(new_row,12,pro.job_tdo or '',format2)
             sheet.write(new_row,13,pro.date_delivery_complete or '',format2)
             sheet.write(new_row,14,pro.dest_port,cell_format)
+            duty = 0
+            for j in pro.job_vendor_bill_ids.invoice_line_ids:
+                duty+=j.price_subtotal
+            sheet.write(new_row,16,duty,cell_format)
             no_tag = re.compile('<.*?>')
             new_description = re.sub(no_tag,'',pro.description)
             sheet.write(new_row,39,new_description,cell_format)

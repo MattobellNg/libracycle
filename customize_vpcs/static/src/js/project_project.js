@@ -40,6 +40,4 @@ FormController.include({
     },
 
 })
-// core.action_registry.add('project_project_custom_action', GreetingMessage);
-
 });
