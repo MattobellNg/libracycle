@@ -384,21 +384,11 @@
 
             </field>
         </record>
-        <!-- <record id="action_project_tree_view" model="ir.actions.act_window">
-            <field name="name">Project Tree view</field>
-            <field name="res_model">project.project</field>
-            <field name="view_mode">tree</field>
-            <field name="search_view_id" ref="view_account_analytic_default_form_search"/>
-            <field name="context">{"search_default_current":1}</field>
-        </record> -->
+        
         <record id="custom_action_menu" model="ir.actions.client">
             <field name="name">Tracking Report</field>
             <field name="tag">project_project_custom_action</field>
         </record>
-        <!-- <menuitem id="custom_tracking_report" name="Tracking Report"
-            groups="project.group_project_manager"
-            action="action_project_tree_view"
-            parent="project.menu_main_pm" sequence="20"/> -->
 
         <record id="project.menu_projects_config" model="ir.ui.menu">
             <field name="name">Operations Report</field>
@@ -406,30 +396,6 @@
             <field name="parent_id" ref="project.menu_project_report"></field>
             <!-- <field name="active" eval="False"></field> -->
         </record>
-
-       <!--  <record id="action_generate_cb_report" model="ir.actions.server">
-            <field name="name">C &amp; B Report</field>
-            <field name="model_id" ref="project.model_project_project"/>
-            <field name="binding_model_id" ref="project.model_project_project"/>
-            <field name="state">code</field>
-            <field name="code">
-                action = model.action_cb_report()
-            </field>
-        </record>
- -->
-       <!--  <record id="act_cb_report" model="ir.actions.act_window">
-            <field name="name">C &amp; B Report</field>
-            <field name="res_model">report.customize_vpcs.report_cb_report</field>
-            <field name="view_mode">form</field>
-            <field name="view_id" ref="sample_data_form_view"/>
-            <field name="target">new</field>
-        </record>
-
-
-        <menuitem id="custom_cb_report" name="C &amp; B Report"
-            groups="customize_vpcs.group_cb_report_visibility"
-            action="act_cb_report"
-            parent="project.menu_main_pm" sequence="20"/> -->
 
         <record id="action_report_cbreport_xlsx" model="ir.actions.report">
             <field name="name">C &amp; B Report</field>
@@ -439,6 +405,68 @@
             <field name="report_file">customize_vpcs.report_cbreport_xlsx</field>
             <field name="binding_type">report</field>
         </record>
-       
+        
+        <record id="view_custom_tracking_report_list" model="ir.ui.view">
+            <field name="name">Tracking Report</field>
+            <field name="model">custom.tracking.report</field>
+            <field name="arch" type="xml">
+                <tree editable="top" multi_edit="1" string="Tracking Report">
+                    <field name="sn_no"/>
+                    <field name="client_name"/>
+                    <field name="liner"/>
+                    <field name="Container_number"/>
+                    <field name="bl_number"/>
+                    <field name="container_size"/>
+                    <field name="date_tdo_received"/>
+                    <field name="delivery_begin_date"/>
+                    <field name="truck_loading_date"/>
+                    <field name="days_of_initial_terminal"/>
+                    <field name="days_out_terminal"/>
+                    <field name="barge_or_road"/>
+                    <field name="days_before_barge"/>
+                    <field name="import_barge_date"/>
+                    <field name="barged_from"/>
+                    <field name="barged_to"/>
+                    <field name="barge_arrival_date"/>
+                    <field name="tug"/>
+                    <field name="barge_name_operator"/>
+                    <field name="barge_offloading_date"/>
+                    <field name="container_age"/>
+                    <field name="container_age_terminal"/>
+                    <field name="truck_out_loading_date"/>
+                    <field name="last_known_location"/>
+                    <field name="arrival_client_side"/>
+                    <field name="time_to_destination"/>
+                    <field name="offloading_location"/>
+                    <field name="truck_offloading_date"/>
+                    <field name="offload_delay"/>
+                    <field name="reasons_for_delay"/>
+                    <field name="waybill_no"/>
+                    <field name="truck_number"/>
+                    <field name="transportar_name"/>
+                    <field name="driver_name"/>
+                    <field name="phone_number"/>
+                    <field name="return_empties"/>
+                    <field name="date_return_to_terminal"/>
+                    <field name="current_empty_location"/>
+                    <field name="do_expiry_date"/>
+                    <field name="comments"/>            
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_tracking_report" model="ir.actions.act_window">
+            <field name="name">Custom Tracking report</field>
+            <field name="res_model">custom.tracking.report</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_custom_tracking_report_list"/>
+        </record>
+
+
+        <menuitem id="custom_tracking_report" name="Tracking Report"
+            groups="customize_vpcs.group_tracking_report_visibility"
+            action="action_tracking_report"
+            parent="project.menu_main_pm" sequence="22"/>
+
     </data>
 </odoo>

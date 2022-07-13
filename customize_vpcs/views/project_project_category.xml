@@ -129,13 +129,5 @@
                 </xpath>
             </field>
         </record>
-        <!-- <record id="inherit_project_category_form" model="ir.ui.view">
-            <field name="name">project.project.category.form</field>
-            <field name="model">project.project.category</field>
-            <field name="inherit_id" ref="project_project_category.view_base_project_category_form"/>
-            <field name="arch" type="xml">
-                
-            </field>
-        </record> -->
     </data>
 </odoo>
