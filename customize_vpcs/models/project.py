@@ -488,11 +488,11 @@ class ProjectProject(models.Model):
     approval_to_readonly_fields_bool = fields.Boolean()
 
     stage_id_done = fields.Boolean(string='Task/Activity Done?')
-    date_out = fields.Date(string="Date out",tracking=True,required=True)
-    barging_date = fields.Date(string="Barging date",tracking=True,required=True)
-    Load_out_date = fields.Date(string="Load out date",tracking=True,required=True)
-    offloading_date = fields.Date(string="Offloading date",tracking=True,required=True)
-    return_date = fields.Date(string=" Return date",tracking=True,required=True)
+    date_out = fields.Date(string="Date out",tracking=True)
+    barging_date = fields.Date(string="Barging date",tracking=True)
+    Load_out_date = fields.Date(string="Load out date",tracking=True)
+    offloading_date = fields.Date(string="Offloading date",tracking=True)
+    return_date = fields.Date(string=" Return date",tracking=True)
     # this boolean field is for if document field is visible or not
     document_show = fields.Boolean(string="document show")
     name = fields.Char('Sequence Number',required=True,index=True,copy=False,default='New')
