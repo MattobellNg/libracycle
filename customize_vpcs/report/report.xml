@@ -4,8 +4,6 @@
 
     <report id="report_barged_xlsx" model="project.schedule.items" string="Barged XLS Report" report_type="xlsx" name="customize_vpcs.report_barged_xlsx" file="customize_vpcs.report_barged_xlsx" attachment_use="False"/>
 
-    <!-- <report id="report_tracking_xlsx" model="project.project" string="Tracking report" report_type="xlsx" name="customize_vpcs.report_tracking_xlsx" file="customize_vpcs.report_tracking_xlsx" attachment_use="False"/> -->
-
     <report id="report_operation_report" model="project.project" string="Operation Report" report_type="xlsx" name="customize_vpcs.report_operation_report" file="customize_vpcs.report_operation_report" attachment_use="False"/>
 
 </odoo>

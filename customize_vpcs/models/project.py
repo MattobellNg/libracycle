@@ -503,6 +503,8 @@ class ProjectProject(models.Model):
     days_in_port = fields.Integer(string='Days in Port')
     major_cause_of_delay = fields.Char(string='Major Cause Of Delay')
     container_transfer = fields.Date(string='CONT-Transfer')
+    report_wizard_bool = fields.Boolean(string='C&B Report',default=False)
+    # report_many2one = fields.Many2one('report.customize_vpcs.report_cb_report')
     # duty = fields.Float(string='Duty')
     # Shipping_charge = fields.Float(string='Shipping Charge')
     # Terminal_charge = fields.Float(string='Terminal Charge')
@@ -512,7 +514,8 @@ class ProjectProject(models.Model):
     # transportation = fields.Float(string='Transportation')
     # others_cost = fields.Float(string='Others Cost')
     # total_cost = fields.Float(string='Total Cost(N)')
-
+    def action_tracking_report(self):
+        print ('___ hello : ',);
 
     def action_cb_report(self):
         print ('___ self : ', self);
@@ -863,3 +866,48 @@ class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
 
     readonly_price_field = fields.Boolean()
+
+class CustomTrackingReport(models.Model):
+
+    _name = "custom.tracking.report"
+
+    sn_no = fields.Char(string='S/N No')
+    client_name = fields.Char(string='Client name')
+    liner = fields.Char(string='Liner')
+    Container_number = fields.Char(string='Container Number')
+    bl_number = fields.Char(string='BL Number')
+    container_size = fields.Char(string='Container Size')
+    date_tdo_received = fields.Date(string='Date TDO Received')
+    delivery_begin_date = fields.Date(string='Delivery Begin Date')
+    truck_loading_date = fields.Date(string='Truck Loading Date')
+    days_of_initial_terminal = fields.Char(string='No. of Days Before Initial Loading Out Of Terminal')
+    days_out_terminal = fields.Char(string='No. of Days Out of Terminal')
+    barge_or_road = fields.Char(string='Barge or Road')
+    days_before_barge = fields.Char(string='Days Before Barge Out')
+    import_barge_date = fields.Date(string='Import Barge Out Date')
+    barged_from = fields.Char(string='Barged From')
+    barged_to = fields.Char(string='Barged To')
+    barge_arrival_date = fields.Date(string='Barge Arrival Date')
+    tug = fields.Char(string='Tug')
+    barge_name_operator = fields.Char(string='Barge Name/Operator')
+    barge_offloading_date = fields.Date(string='Barge Offloading Date')
+    container_age = fields.Char(string='Container Age In Ikorodu')
+    container_age_terminal = fields.Char(string='Container Age In the Terminal')
+    truck_out_loading_date = fields.Date(string='Truck Out Loading Date')
+    last_known_location = fields.Char(string='Last Known Location')
+    arrival_client_side = fields.Date(string="Arrival  Date at Client's Site")
+    time_to_destination = fields.Char(string='Time to Destination')
+    offloading_location = fields.Char(string='Offloading Location')
+    truck_offloading_date = fields.Date(string='Truck Offloading Date')
+    offload_delay = fields.Char(string='Offload Delay')
+    reasons_for_delay = fields.Char(string='Reason for delay')
+    waybill_no = fields.Char(string='Waybill No')
+    truck_number = fields.Char(string='Truck Number')
+    transportar_name = fields.Char(string="Transporter's Name")
+    driver_name = fields.Char(string='Drivers Name')
+    phone_number = fields.Char(string='Phone Number')
+    return_empties = fields.Char(string='Returning Empties? (Y/N)')
+    date_return_to_terminal = fields.Date(string='Date returned to ternimal')
+    current_empty_location = fields.Char(string='Current empty location')
+    do_expiry_date = fields.Date(string='DO Expiry Date')
+    comments = fields.Char(string='Comments')
