@@ -7,7 +7,7 @@
             <tree string="Job List">
                 <field name="partner_id" string="Client" />
                 <field name="clearing_agent_id" string="Clearing Agent" />
-                <field name="team_id" string="Job Team" />
+                <!-- <field name="team_id" string="Job Team" /> -->
                 <field name="user_id" string="Dealer" />
                 <field name="job_allocation_date" />
                 <field name="bol_awb_ref" />

@@ -2,4 +2,8 @@ id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
 access_job_selection,access_job_selection,model_job_selection,base.group_user,1,1,1,1
 access_barged_out,access_barged_out,model_barged_out,base.group_user,1,1,1,1
 report_customize_vpcs_report_cb_report_id,report_customize_vpcs_report_cb_report_id,model_report_customize_vpcs_report_cb_report,customize_vpcs.group_cb_report_visibility,1,1,1,1
+<<<<<<< HEAD
 
+=======
+access_custom_tracking_report,access_custom_tracking_report,model_custom_tracking_report,customize_vpcs.group_tracking_report_visibility,1,1,1,1
+>>>>>>> 76b4b6fec3a0ace6bc4e7c2286b204ff0be69f90
