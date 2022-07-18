@@ -405,6 +405,68 @@
             <field name="report_file">customize_vpcs.report_cbreport_xlsx</field>
             <field name="binding_type">report</field>
         </record>
+        
+        <record id="view_custom_tracking_report_list" model="ir.ui.view">
+            <field name="name">Tracking Report</field>
+            <field name="model">custom.tracking.report</field>
+            <field name="arch" type="xml">
+                <tree editable="top" multi_edit="1" string="Tracking Report">
+                    <field name="sn_no" width='100px'/>
+                    <field name="client_name" string='Client Name' width='100px'/>
+                    <field name="liner" string='Liner' width='100px'/>
+                    <field name="Container_number" string='Container Number' width='100px'/>
+                    <field name="bl_number" width='100px'/>
+                    <field name="container_size" width='100px'/>
+                    <field name="date_tdo_received" width='100px'/>
+                    <field name="delivery_begin_date" width='100px'/>
+                    <field name="truck_loading_date" width='100px'/>
+                    <field name="days_of_initial_terminal" width='100px' optional='show'/>
+                    <field name="days_out_terminal" width='100px' optional='show'/>
+                    <field name="barge_or_road" width='100px' optional='show'/>
+                    <field name="days_before_barge" width='100px' optional='show'/>
+                    <field name="import_barge_date" width='100px' optional='show'/>
+                    <field name="barged_from" width='100px' optional='show'/>
+                    <field name="barged_to" width='100px' optional='show'/>
+                    <field name="barge_arrival_date" width='100px' optional='show'/>
+                    <field name="tug" width='100px' optional='show'/>
+                    <field name="barge_name_operator" width='100px' optional='show'/>
+                    <field name="barge_offloading_date" width='100px' optional='show'/>
+                    <field name="container_age" width='100px' optional='show'/>
+                    <field name="container_age_terminal" width='100px' optional='show'/>
+                    <field name="truck_out_loading_date" width='100px' optional='show'/>
+                    <field name="last_known_location" width='100px' optional='show'/>
+                    <field name="arrival_client_side" width='100px' optional='show'/>
+                    <field name="time_to_destination" width='100px' optional='show'/>
+                    <field name="offloading_location" width='100px' optional='show'/>
+                    <field name="truck_offloading_date" width='100px' optional='show'/>
+                    <field name="offload_delay" width='100px' optional='show'/>
+                    <field name="reasons_for_delay" width='100px' optional='show'/>
+                    <field name="waybill_no" width='100px' optional='show'/>
+                    <field name="truck_number" width='100px' optional='show'/>
+                    <field name="transportar_name" width='100px' optional='show'/>
+                    <field name="driver_name" width='100px' optional='show'/>
+                    <field name="phone_number" width='100px' optional='show'/>
+                    <field name="return_empties" width='100px' optional='show'/>
+                    <field name="date_return_to_terminal" width='100px' optional='show'/>
+                    <field name="current_empty_location" width='100px' optional='show'/>
+                    <field name="do_expiry_date" width='100px' optional='show'/>
+                    <field name="comments" width='100px' optional='show'/>            
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_tracking_report" model="ir.actions.act_window">
+            <field name="name">Custom Tracking report</field>
+            <field name="res_model">custom.tracking.report</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_custom_tracking_report_list"/>
+        </record>
+
+
+        <menuitem id="custom_tracking_report" name="Tracking Report"
+            groups="customize_vpcs.group_tracking_report_visibility"
+            action="action_tracking_report"
+            parent="project.menu_main_pm" sequence="22"/>
 
     </data>
 </odoo>
