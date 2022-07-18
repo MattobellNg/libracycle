@@ -411,46 +411,46 @@
             <field name="model">custom.tracking.report</field>
             <field name="arch" type="xml">
                 <tree editable="top" multi_edit="1" string="Tracking Report">
-                    <field name="sn_no"/>
-                    <field name="client_name"/>
-                    <field name="liner"/>
-                    <field name="Container_number"/>
-                    <field name="bl_number"/>
-                    <field name="container_size"/>
-                    <field name="date_tdo_received"/>
-                    <field name="delivery_begin_date"/>
-                    <field name="truck_loading_date"/>
-                    <field name="days_of_initial_terminal"/>
-                    <field name="days_out_terminal"/>
-                    <field name="barge_or_road"/>
-                    <field name="days_before_barge"/>
-                    <field name="import_barge_date"/>
-                    <field name="barged_from"/>
-                    <field name="barged_to"/>
-                    <field name="barge_arrival_date"/>
-                    <field name="tug"/>
-                    <field name="barge_name_operator"/>
-                    <field name="barge_offloading_date"/>
-                    <field name="container_age"/>
-                    <field name="container_age_terminal"/>
-                    <field name="truck_out_loading_date"/>
-                    <field name="last_known_location"/>
-                    <field name="arrival_client_side"/>
-                    <field name="time_to_destination"/>
-                    <field name="offloading_location"/>
-                    <field name="truck_offloading_date"/>
-                    <field name="offload_delay"/>
-                    <field name="reasons_for_delay"/>
-                    <field name="waybill_no"/>
-                    <field name="truck_number"/>
-                    <field name="transportar_name"/>
-                    <field name="driver_name"/>
-                    <field name="phone_number"/>
-                    <field name="return_empties"/>
-                    <field name="date_return_to_terminal"/>
-                    <field name="current_empty_location"/>
-                    <field name="do_expiry_date"/>
-                    <field name="comments"/>            
+                    <field name="sn_no" width='100px'/>
+                    <field name="client_name" string='Client Name' width='100px'/>
+                    <field name="liner" string='Liner' width='100px'/>
+                    <field name="Container_number" string='Container Number' width='100px'/>
+                    <field name="bl_number" width='100px'/>
+                    <field name="container_size" width='100px'/>
+                    <field name="date_tdo_received" width='100px'/>
+                    <field name="delivery_begin_date" width='100px'/>
+                    <field name="truck_loading_date" width='100px'/>
+                    <field name="days_of_initial_terminal" width='100px' optional='show'/>
+                    <field name="days_out_terminal" width='100px' optional='show'/>
+                    <field name="barge_or_road" width='100px' optional='show'/>
+                    <field name="days_before_barge" width='100px' optional='show'/>
+                    <field name="import_barge_date" width='100px' optional='show'/>
+                    <field name="barged_from" width='100px' optional='show'/>
+                    <field name="barged_to" width='100px' optional='show'/>
+                    <field name="barge_arrival_date" width='100px' optional='show'/>
+                    <field name="tug" width='100px' optional='show'/>
+                    <field name="barge_name_operator" width='100px' optional='show'/>
+                    <field name="barge_offloading_date" width='100px' optional='show'/>
+                    <field name="container_age" width='100px' optional='show'/>
+                    <field name="container_age_terminal" width='100px' optional='show'/>
+                    <field name="truck_out_loading_date" width='100px' optional='show'/>
+                    <field name="last_known_location" width='100px' optional='show'/>
+                    <field name="arrival_client_side" width='100px' optional='show'/>
+                    <field name="time_to_destination" width='100px' optional='show'/>
+                    <field name="offloading_location" width='100px' optional='show'/>
+                    <field name="truck_offloading_date" width='100px' optional='show'/>
+                    <field name="offload_delay" width='100px' optional='show'/>
+                    <field name="reasons_for_delay" width='100px' optional='show'/>
+                    <field name="waybill_no" width='100px' optional='show'/>
+                    <field name="truck_number" width='100px' optional='show'/>
+                    <field name="transportar_name" width='100px' optional='show'/>
+                    <field name="driver_name" width='100px' optional='show'/>
+                    <field name="phone_number" width='100px' optional='show'/>
+                    <field name="return_empties" width='100px' optional='show'/>
+                    <field name="date_return_to_terminal" width='100px' optional='show'/>
+                    <field name="current_empty_location" width='100px' optional='show'/>
+                    <field name="do_expiry_date" width='100px' optional='show'/>
+                    <field name="comments" width='100px' optional='show'/>            
                 </tree>
             </field>
         </record>
