@@ -1,9 +1,9 @@
 {
     'name': "Libracycle Payroll",
-    'summary': """Libracycle Payroll""",
-    'description': """Libracycle Payroll""",
-    'author': "My Company",
-    'website': "http://www.yourcompany.com",
+    'summary': """Libracycle Payroll Customization""",
+    'description': """Libracycle Payroll Customization""",
+    'author': "Matt O'Bell",
+    'website': "https://www.mattobell.net",
     'category': 'Uncategorized',
     'version': '1..0.0',
     'depends': ['base', 'hr_payroll'],
