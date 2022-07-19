@@ -2,9 +2,13 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 {
     'name' : 'libra circle Customization',
-    'summary': '',
-    'category': '',
+    'version': '15.0.1.0.0',
+    'author': 'VperfectCS',
+    'website': 'http://www.vperfectcs.com',
     'description': """
+    This module coveres following milestones
+    (1) Project
+    (2) QAC
     """,
     'depends': ['project','web','project_project_category'],
     'data': [
