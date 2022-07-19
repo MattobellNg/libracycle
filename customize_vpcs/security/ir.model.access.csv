@@ -3,3 +3,10 @@ access_job_selection,access_job_selection,model_job_selection,base.group_user,1,
 access_barged_out,access_barged_out,model_barged_out,base.group_user,1,1,1,1
 report_customize_vpcs_report_cb_report_id,report_customize_vpcs_report_cb_report_id,model_report_customize_vpcs_report_cb_report,customize_vpcs.group_cb_report_visibility,1,1,1,1
 access_custom_tracking_report,access_custom_tracking_report,model_custom_tracking_report,customize_vpcs.group_tracking_report_visibility,1,1,1,1
+access_project_regulate,access_project_regulate,model_project_regulate,base.group_user,1,1,1,1
+access_shipping_line,access_shipping_line,model_shipping_line,base.group_user,1,1,1,1
+access_vessel_line,access_vessel_line,model_vessel_line,base.group_user,1,1,1,1
+access_destination_port,access_destination_port,model_destination_port,base.group_user,1,1,1,1
+access_custom_terminal,access_custom_terminal,model_custom_terminal,base.group_user,1,1,1,1
+access_port_loading,access_port_loading,model_port_loading,base.group_user,1,1,1,1
+access_mode_shipment,access_mode_shipment,model_mode_shipment,base.group_user,1,1,1,1

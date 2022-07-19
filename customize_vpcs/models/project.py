@@ -7,7 +7,47 @@ from odoo.tools.misc import xlsxwriter
 from odoo.http import content_disposition, request
 import json
 
+class ProjectRegulate(models.Model):
 
+    _name = "project.regulate"
+
+    name = fields.Char(string='Regulatory Name')
+
+class ShippingLine(models.Model):
+
+    _name = "shipping.line"
+
+    name = fields.Char(string='Shipping Name')
+
+class VesselLine(models.Model):
+
+    _name = "vessel.line"
+
+    name = fields.Char(string='Vessel Name')
+
+class DestinationPort(models.Model):
+
+    _name = "destination.port"
+
+    name = fields.Char(string='Destination Port Name')
+
+class CustomTerminal(models.Model):
+
+    _name = "custom.terminal"
+
+    name = fields.Char(string='Terminal')
+
+class PortLoading(models.Model):
+
+    _name = "port.loading"
+
+    name = fields.Char(string='Port of Loading')
+
+class ModeShipment(models.Model):
+
+    _name = "mode.shipment"
+
+    name = fields.Char(string='Mode Shipment(Air/Sea)')
 
 class ProjectProject(models.Model):
 
@@ -44,6 +84,7 @@ class ProjectProject(models.Model):
     client_name = fields.Many2one('res.partner',string="client name")
     pre_alert_date = fields.Date(string="pre-alert date")
     project_team = fields.Many2one('res.users',string="Project Team")
+    project_employee = fields.Many2one('hr.employee',string='Project Team')
     account_officer = fields.Many2one('res.users', string="Account Officer")
     item_description = fields.Char(string="Item Description")
 
@@ -53,16 +94,23 @@ class ProjectProject(models.Model):
     doc_boolean = fields.Boolean()
 
     mode_shipment = fields.Char(string="Mode Shipment")
+    mode_shipment_air_sea =fields.Many2one('mode.shipment',string='Mode Shipment(Air/Sea)')
 ################## AWAITING ARRIVAL ############################
     shipping_line = fields.Char(string="Shipping/Air line")
+    ship_line = fields.Many2one('shipping.line',string='Shipping/Air line')
     vessel_line = fields.Char(string="Vessel/Flight name")
+    ves_line = fields.Many2one('vessel.line',string='Vessel/Flight name')
     dest_port = fields.Char(string='Destination port')
+    destination_port = fields.Many2one('destination.port',string='Destination Port')
     terminal = fields.Char(string="Terminal")
+    custom_terminal = fields.Many2one('custom.terminal',string='Terminal')
     country_of_loading = fields.Many2one('res.country',string="Country of loading")
-    port_of_loading = fields.Char(string='PORT OF LOADING')
+    port_of_loading = fields.Char(string='Port Of Loading')
+    port_many_loading = fields.Many2one('port.loading',string='PORT OF LOADING')
     rotation_not_received = fields.Date(string="Rotation not received")
 
     ######base field#####
+    custom_free_days = fields.Integer(string='Free Period')
     document_bol_awb_ref = fields.Binary(string='Document(BOL/AWB)')
     doc_bol_awb_ref = fields.Boolean() 
 
@@ -116,7 +164,7 @@ class ProjectProject(models.Model):
     ################needs to be comment#############
     truck_in = fields.Date(string="Truck In")
     gate_out = fields.Date(string="Gate Out")
-    empty_container_returned = fields.Date(string="Empty Container Returned")
+    empty_container_returned = fields.Char(string="Empty Container Returned")
 
 ###############################DELIVERY START(TRUCK/BARGE)####################
     date_delivery_start = fields.Date(string='Date Delivery Start')
@@ -141,6 +189,25 @@ class ProjectProject(models.Model):
     nafdac_final_release = fields.Date(string='NAFDAC Final Release')
     document_has_nafdac_final_release = fields.Binary(string='Document(NAFDAC Final Release)')
     doc_nafdac_final_release = fields.Boolean() 
+
+#################client needs field###############
+    regulatory_field = fields.Many2one('project.regulate',string='Regulatory Required')
+    agent_name = fields.Char(string='Agent Name')
+
+    has_agent_name = fields.Selection(
+        [],
+        "Agent Name",
+        related="project_categ_id.has_agent_name",
+        readonly=True,
+        default="no",
+    )
+    has_regulatory_field = fields.Selection(
+        [],
+        "Regulatory Required",
+        related="project_categ_id.has_regulatory_field",
+        readonly=True,
+        default="no",
+    )
 
     has_job_refs = fields.Selection(
         [],

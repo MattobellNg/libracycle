@@ -72,6 +72,9 @@ class ProjectProjectCategory(models.Model):
     has_fecd_custom_ack = fields.Selection(FIELD_SELECTION,'FECD: customs ACK ',default='no')
     has_fecd_client_ack =fields.Selection(FIELD_SELECTION,'FECD: To Client ACK',default='no')
     has_nafdac_final_release = fields.Selection(FIELD_SELECTION,'NAFDAC Final Release',default='no')
+
+###############Client Need########################
+    has_regulatory_field = fields.Selection(FIELD_SELECTION,'Regulatory Field',default='no')
     # has_job_ba_number = fields.Selection(
     #     FIELD_SELECTION,
     #     "BA Number",
