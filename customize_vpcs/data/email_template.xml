@@ -17,5 +17,20 @@
                  ]]>
            </field>
        </record>
+       <!-- <record id="template_tracking_team_update" model="mail.template">
+           <field name="name">Tracking Team Template</field>
+           <field name="model_id" ref="project.model_project_project"/>
+           <field name="email_from">{{object.user_id.email}}</field>
+           <field name="email_to">{{object.partner_id.email}}</field>
+           <field name="subject">Project TDO Date Received</field>
+           <field name="lang">${object.partner_id.lang}</field>
+           <field name="body_html"><![CDATA[
+                <p>Hi</p>
+                <br/>
+                <p>Your Truck is loaded</p>
+                <br/>
+                 ]]>
+           </field>
+       </record> -->
    </data>
 </odoo>

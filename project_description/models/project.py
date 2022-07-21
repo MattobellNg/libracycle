@@ -185,7 +185,7 @@ class ProjectProject(models.Model):
     discharge_terminal_id = fields.Many2one(
         "stock.location",
         "Discharge Terminal",
-        required=True,
+        required=False,
         tracking=True,
         domain=[("usage", "in", ["transit", "internal"])],
     )
@@ -194,7 +194,7 @@ class ProjectProject(models.Model):
     origin_country_id = fields.Many2one(
         "res.country",
         "Country of origin",
-        required=True,
+        required=False,
         tracking=True,
     )
     has_job_form_m = fields.Boolean()
@@ -253,7 +253,7 @@ class ProjectProject(models.Model):
     destination_country_id = fields.Many2one(
         "res.country",
         "Country of destination",
-        required=True,
+        required=False,
         tracking=True,
     )
     items_count = fields.Integer(compute="_compute_items_count", string="Tasks")
