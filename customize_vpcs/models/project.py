@@ -83,8 +83,12 @@ class ProjectProject(models.Model):
     job_refs = fields.Char(string="Job Reference")
     client_name = fields.Many2one('res.partner',string="client name")
     pre_alert_date = fields.Date(string="pre-alert date")
+    #####needs to be remove##########
     project_team = fields.Many2one('res.users',string="Project Team")
     project_employee = fields.Many2one('hr.employee',string='Project Team')
+    ####################################
+    client_project_team = fields.Many2one('crm.team',string='Project Team')
+
     account_officer = fields.Many2one('res.users', string="Account Officer")
     item_description = fields.Char(string="Item Description")
 
@@ -95,6 +99,11 @@ class ProjectProject(models.Model):
 
     mode_shipment = fields.Char(string="Mode Shipment")
     mode_shipment_air_sea =fields.Many2one('mode.shipment',string='Mode Shipment(Air/Sea)')
+    paar_request = fields.Date(string="PAAR REQUEST")
+
+    paar_received = fields.Date(string='PAAR RECEIVED')
+    document_paar_received = fields.Binary(string="Document(Paar Received)")
+    doc_paar_bool = fields.Boolean()
 ################## AWAITING ARRIVAL ############################
     shipping_line = fields.Char(string="Shipping/Air line")
     ship_line = fields.Many2one('shipping.line',string='Shipping/Air line')
@@ -107,7 +116,7 @@ class ProjectProject(models.Model):
     country_of_loading = fields.Many2one('res.country',string="Country of loading")
     port_of_loading = fields.Char(string='Port Of Loading')
     port_many_loading = fields.Many2one('port.loading',string='PORT OF LOADING')
-    rotation_not_received = fields.Date(string="Rotation not received")
+    rotation_not_received = fields.Date(string="Rotation No Received Date")
 
     ######base field#####
     custom_free_days = fields.Integer(string='Free Period')
@@ -121,11 +130,6 @@ class ProjectProject(models.Model):
     doc_has_nafdac_2_stamp_date = fields.Boolean()
 
 #############################IN CLEARING#################################
-    paar_request = fields.Date(string="PAAR REQUEST")
-
-    paar_received = fields.Date(string='PAAR RECEIVED')
-    document_paar_received = fields.Binary(string="Document(Paar Received)")
-    doc_paar_bool = fields.Boolean()
 
     duty_assesment = fields.Date(string='Duty Assessment')
     document_duty_assesment = fields.Binary(string='Document(Duty Assessment)')
@@ -310,7 +314,7 @@ class ProjectProject(models.Model):
     )
     has_rotation_received = fields.Selection(
         [],
-        "Rotation not received",
+        "Rotation No Received Date",
         related="project_categ_id.has_rotation_received",
         readonly=True
     )
@@ -571,6 +575,7 @@ class ProjectProject(models.Model):
     major_cause_of_delay = fields.Char(string='Major Cause Of Delay')
     container_transfer = fields.Date(string='CONT-Transfer')
     report_wizard_bool = fields.Boolean(string='C&B Report',default=False)
+    mail_boolean = fields.Boolean(string='Mail Send?')
     # report_many2one = fields.Many2one('report.customize_vpcs.report_cb_report')
     # duty = fields.Float(string='Duty')
     # Shipping_charge = fields.Float(string='Shipping Charge')
@@ -581,6 +586,57 @@ class ProjectProject(models.Model):
     # transportation = fields.Float(string='Transportation')
     # others_cost = fields.Float(string='Others Cost')
     # total_cost = fields.Float(string='Total Cost(N)')
+
+    @api.onchange('job_tdo')
+    def onchange_job_tdo(self):
+        self.mail_boolean = False
+
+    # @api.model
+    # def tracking_team_update_mail(self):
+    #     group_ref = self.env.ref('customize_vpcs.group_tracking_report_visibility')
+    #     user_ids = group_ref.users
+    #     all_seq = ''
+    #     today = fields.Date.context_today(self)
+    #     project_id = self.env['project.project'].search([('job_tdo','=',today)])
+    #     for i in project_id:
+    #         all_seq += i.name
+    #         if i.mail_boolean == False:
+    #             self.mail_send(user_ids,all_seq,group_ref)
+    #             i.mail_boolean = True
+
+
+    # def mail_send(self,user_ids,all_seq,group_ref):
+
+    #     template = self.env.ref(
+    #         "customize_vpcs.template_tracking_team_update"
+    #     )
+    #     values = {"recipient_ids": [(4, user.partner_id.id) for user in user_ids]}
+    #     print ('___ values : ', values);
+    #     res = template.send_mail(
+    #         self.id,
+    #         force_send=True,
+    #         email_values=values,
+    #         notif_layout="mail.mail_notification_light",
+    #     )                    
+        # # for user in user_ids:
+        # # body_html = group_ref._render()
+        # # msg = self.env["mail.message"].sudo().new(dict(body=body_html))
+        # # full_mail = self.env["mail.render.mixin"]._render_encapsulate(
+        # #     "mail.mail_notification_light",
+        # #     body_html,
+        # #     add_context=dict(message=msg, model_description=_("Wishlist")),
+        # # )
+        # vals = {
+        #     "subject": "TDO Date is reached",
+        #     "body_html": "check this record " + all_seq ,
+        #     # "email_to": (user.partner_id.email_formatted for user in user_ids),
+        #     # "email_from": self.env.user.email_formatted,
+        # }
+        # mail_id = self.env["mail.mail"].create(vals)
+        # mail_id.send()
+
+        # group_id = self.env['res.groups'].search([])
+
     def action_tracking_report(self):
         print ('___ hello : ',);
 
@@ -938,8 +994,9 @@ class CustomTrackingReport(models.Model):
 
     _name = "custom.tracking.report"
 
+    project_id = fields.Many2one('project.project',string='Project')
     sn_no = fields.Char(string='S/N No')
-    client_name = fields.Char(string='Client name')
+    client_name = fields.Many2one('res.partner',string='Client name',related='project_id.client_name')
     liner = fields.Char(string='Liner')
     Container_number = fields.Char(string='Container Number')
     bl_number = fields.Char(string='BL Number')
