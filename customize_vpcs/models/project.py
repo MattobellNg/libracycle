@@ -87,7 +87,7 @@ class ProjectProject(models.Model):
     project_team = fields.Many2one('res.users',string="Project Team")
     project_employee = fields.Many2one('hr.employee',string='Project Team')
     ####################################
-    client_project_team = fields.Many2one('crm.team',string='Project Team')
+    client_project_team = fields.Many2one('crm.team',string='Team Lead')
 
     account_officer = fields.Many2one('res.users', string="Account Officer")
     item_description = fields.Char(string="Item Description")
@@ -195,7 +195,7 @@ class ProjectProject(models.Model):
     doc_nafdac_final_release = fields.Boolean() 
 
 #################client needs field###############
-    regulatory_field = fields.Many2one('project.regulate',string='Regulatory Required')
+    regulatory_field = fields.Many2many('project.regulate',string='Regulatory Required')
     agent_name = fields.Char(string='Agent Name')
 
     has_agent_name = fields.Selection(
@@ -598,22 +598,18 @@ class ProjectProject(models.Model):
         all_seq = ''
         today = fields.Date.context_today(self)
         project_id = self.env['project.project'].search([('job_tdo','=',today)])
-        print ('___ project_id : ', project_id);
         for i in project_id:
             all_seq += i.name
             if i.mail_boolean == False:
-                print ('___ False : ',);
                 self.mail_tracking_send(user_ids,all_seq,group_ref,project_id)
                 i.mail_boolean = True
 
 
     def mail_tracking_send(self,user_ids,all_seq,group_ref,project_id):
-        print ('___ mail_tracking_send : ',);
         template = self.env.ref(
             "customize_vpcs.template_tracking_team_update"
         )
         values = {"recipient_ids": [(4, user.partner_id.id) for user in user_ids]}
-        print ('___ values : ', values);
         res = template.send_mail(
             self.id,
             force_send=True,
