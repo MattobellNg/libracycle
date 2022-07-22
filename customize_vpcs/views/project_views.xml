@@ -18,23 +18,23 @@
                 </xpath>
                 <xpath expr="//field[@name='tag_ids']" position='after'>
                     <field name="container"/> 
-                    <field name="status_delivered"/>
-                    <field name="status_completed" attrs="{'invisible': [('status_delivered', '=', False)]}"/>
-                    <field name="stage_id_done"/>
-                    <field name="start_date"/>
-                    <field name="end_date"/>
+                    <!-- <field name="status_delivered"/> -->
+                    <!-- <field name="status_completed" attrs="{'invisible': [('status_delivered', '=', False)]}"/> -->
+                    <!-- <field name="stage_id_done"/> -->
+                    <!-- <field name="start_date"/> -->
+                    <!-- <field name="end_date"/> -->
                     <field name="edit_button_check_bool" invisible='1'/>
                     <field name="lock_document_check_bool" invisible='1'/>
                     <field name="state_completed_check_bool" invisible='1'/>
                     <field name="approval_to_readonly_fields_bool" invisible='1'/>
                 </xpath>
                 <xpath expr="//field[@name='company_id']" position='after'>
-                    <field name='date_out'/>
+                    <!-- <field name='date_out'/>
                     <field name='barging_date'/>
                     <field name='Load_out_date'/>
                     <field name='offloading_date'/>
-                    <field name='return_date'/>                
-                    <field name='mail_boolean' invisible='1'/>                
+                    <field name='return_date'/>  -->               
+                    <field name='mail_boolean'/>                
                 </xpath>
                 <xpath expr="//div[@name='button_box']/button[@name='action_view_all_rating']" position="before">
                     <button class="oe_stat_button" type="object" name="toggle_none" icon="fa-tasks">
@@ -44,14 +44,23 @@
                 <xpath expr='//field[@name="name"]' position='replace'>
                     <field name='name' readonly='1'/>
                 </xpath>
-                <xpath expr='//field[@name="end_date"]' position='after'>
+                <xpath expr='//field[@name="container"]' position='after'>
                     <field name='feet_forty'/>
                     <field name='feet_twenty'/>
                     <field name='cbm'/>
                     <field name='kg'/>
-                    <field name='days_in_port'/>
-                    <field name='major_cause_of_delay'/>
-                    <field name='container_transfer'/>
+                    <!-- <field name='days_in_port'/> -->
+                    <!-- <field name='major_cause_of_delay'/> -->
+                    <!-- <field name='container_transfer'/> -->
+                </xpath>
+                <xpath expr='//div[@name="dates"]' position='attributes'>
+                    <attribute name='invisible'>1</attribute>
+                </xpath>
+                <xpath expr='//label[@for="date_start"]' position='attributes'>
+                    <attribute name='invisible'>1</attribute>
+                </xpath>
+                <xpath expr='//field[@name="tag_ids"]' position='attributes'>
+                    <attribute name='invisible'>1</attribute>
                 </xpath>
             </field>
         </record>
@@ -202,7 +211,7 @@
                     <group string='PRE ALERT' colspan="4" col="4">
                         <group colspan="4" col="4">
                             <field name="job_refs" attrs="{'invisible':['|',('has_job_refs','==','no'),('project_categ_id','=', False)], 'required': [('has_job_refs','==','required')], 'readonly':[('sn_state','in',('awaiting_arrival','in_clearing','ready_to_load','post_delivery'))]}" />
-                            <field name="has_field_visibility"/>
+                            <field name="has_field_visibility" invisible='1'/>
                             <field name="regulatory_field" attrs="{'invisible':['|',('has_regulatory_field','==','no'),('project_categ_id','=', False)], 'required': [('has_regulatory_field','==','required')],'readonly':[('sn_state','in',('awaiting_arrival','in_clearing','ready_to_load','post_delivery'))]}"/>
                             <field name="pre_alert_date" attrs="{'invisible':['|',('has_pre_alert_date','==','no'),('project_categ_id','=', False)], 'required': [('has_pre_alert_date','==','required')], 'readonly':[('sn_state','in',('awaiting_arrival','in_clearing','ready_to_load','post_delivery'))]}" />
                             <field name="client_project_team" attrs="{'invisible':['|',('has_project_team','==','no'),('project_categ_id','=', False)], 'required': [('has_project_team','==','required')], 'readonly':[('sn_state','in',('awaiting_arrival','in_clearing','ready_to_load','post_delivery'))]}" />
