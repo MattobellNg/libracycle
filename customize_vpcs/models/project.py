@@ -559,11 +559,11 @@ class ProjectProject(models.Model):
     approval_to_readonly_fields_bool = fields.Boolean()
 
     stage_id_done = fields.Boolean(string='Task/Activity Done?')
-    date_out = fields.Date(string="Date out",tracking=True,required=True)
-    barging_date = fields.Date(string="Barging date",tracking=True,required=True)
-    Load_out_date = fields.Date(string="Load out date",tracking=True,required=True)
-    offloading_date = fields.Date(string="Offloading date",tracking=True,required=True)
-    return_date = fields.Date(string=" Return date",tracking=True,required=True)
+    date_out = fields.Date(string="Date out",tracking=True,required=False)
+    barging_date = fields.Date(string="Barging date",tracking=True,required=False)
+    Load_out_date = fields.Date(string="Load out date",tracking=True,required=False)
+    offloading_date = fields.Date(string="Offloading date",tracking=True,required=False)
+    return_date = fields.Date(string=" Return date",tracking=True,required=False)
     # this boolean field is for if document field is visible or not
     document_show = fields.Boolean(string="document show")
     name = fields.Char('Sequence Number',required=True,index=True,copy=False,default='New')
@@ -591,41 +591,43 @@ class ProjectProject(models.Model):
     def onchange_job_tdo(self):
         self.mail_boolean = False
 
-    # @api.model
-    # def tracking_team_update_mail(self):
-    #     group_ref = self.env.ref('customize_vpcs.group_tracking_report_visibility')
-    #     user_ids = group_ref.users
-    #     all_seq = ''
-    #     today = fields.Date.context_today(self)
-    #     project_id = self.env['project.project'].search([('job_tdo','=',today)])
-    #     for i in project_id:
-    #         all_seq += i.name
-    #         if i.mail_boolean == False:
-    #             self.mail_send(user_ids,all_seq,group_ref)
-    #             i.mail_boolean = True
+    @api.model
+    def tracking_team_update_mail(self):
+        group_ref = self.env.ref('customize_vpcs.group_tracking_report_visibility')
+        user_ids = group_ref.users
+        all_seq = ''
+        today = fields.Date.context_today(self)
+        project_id = self.env['project.project'].search([('job_tdo','=',today)])
+        print ('___ project_id : ', project_id);
+        for i in project_id:
+            all_seq += i.name
+            if i.mail_boolean == False:
+                print ('___ False : ',);
+                self.mail_tracking_send(user_ids,all_seq,group_ref,project_id)
+                i.mail_boolean = True
 
 
-    # def mail_send(self,user_ids,all_seq,group_ref):
-
-    #     template = self.env.ref(
-    #         "customize_vpcs.template_tracking_team_update"
-    #     )
-    #     values = {"recipient_ids": [(4, user.partner_id.id) for user in user_ids]}
-    #     print ('___ values : ', values);
-    #     res = template.send_mail(
-    #         self.id,
-    #         force_send=True,
-    #         email_values=values,
-    #         notif_layout="mail.mail_notification_light",
-    #     )                    
-        # # for user in user_ids:
-        # # body_html = group_ref._render()
-        # # msg = self.env["mail.message"].sudo().new(dict(body=body_html))
-        # # full_mail = self.env["mail.render.mixin"]._render_encapsulate(
-        # #     "mail.mail_notification_light",
-        # #     body_html,
-        # #     add_context=dict(message=msg, model_description=_("Wishlist")),
-        # # )
+    def mail_tracking_send(self,user_ids,all_seq,group_ref,project_id):
+        print ('___ mail_tracking_send : ',);
+        template = self.env.ref(
+            "customize_vpcs.template_tracking_team_update"
+        )
+        values = {"recipient_ids": [(4, user.partner_id.id) for user in user_ids]}
+        print ('___ values : ', values);
+        res = template.send_mail(
+            self.id,
+            force_send=True,
+            email_values=values,
+            notif_layout="mail.mail_notification_light",
+        )                    
+        # for user in user_ids:
+        # body_html = group_ref._render()
+        # msg = self.env["mail.message"].sudo().new(dict(body=body_html))
+        # full_mail = self.env["mail.render.mixin"]._render_encapsulate(
+        #     "mail.mail_notification_light",
+        #     body_html,
+        #     add_context=dict(message=msg, model_description=_("Wishlist")),
+        # )
         # vals = {
         #     "subject": "TDO Date is reached",
         #     "body_html": "check this record " + all_seq ,
@@ -636,9 +638,6 @@ class ProjectProject(models.Model):
         # mail_id.send()
 
         # group_id = self.env['res.groups'].search([])
-
-    def action_tracking_report(self):
-        print ('___ hello : ',);
 
     def action_cb_report(self):
         print ('___ self : ', self);

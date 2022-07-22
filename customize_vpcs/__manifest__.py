@@ -29,7 +29,7 @@
     'installable': True,
     'assets': {       
         'web.assets_backend': [            
-            'customize_vpcs/static/src/js/project_project.js',
+            # 'customize_vpcs/static/src/js/project_project.js',
         ],
     },
     'license': 'OEEL-1',
