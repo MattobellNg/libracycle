@@ -992,7 +992,7 @@ class CustomTrackingReport(models.Model):
     project_id = fields.Many2one('project.project',string='Project')
     sn_no = fields.Selection('_compute_sn_no',string='S/N No')
     client_name = fields.Selection('_compute_client',string='Client name')
-    liner = fields.Selection('_compute_liner',string='Liner')
+    liner = fields.Char(string='Liner')
     Container_number = fields.Char(string='Container Number')
     bl_number = fields.Char(string='BL Number')
     container_size = fields.Char(string='Container Size')
@@ -1048,7 +1048,3 @@ class CustomTrackingReport(models.Model):
 
     def _compute_client(self):
         return self.get_project_field_dynamic('client_name')
-
-    def _compute_liner(self):
-        return self.get_project_field_dynamic('job_liner')
-        
