@@ -990,9 +990,9 @@ class CustomTrackingReport(models.Model):
     _name = "custom.tracking.report"
 
     project_id = fields.Many2one('project.project',string='Project')
-    sn_no = fields.Char(string='S/N No')
-    client_name = fields.Many2one('res.partner',string='Client name',related='project_id.client_name')
-    liner = fields.Char(string='Liner')
+    sn_no = fields.Selection('_compute_sn_no',string='S/N No')
+    client_name = fields.Selection('_compute_client',string='Client name')
+    liner = fields.Selection('_compute_liner',string='Liner')
     Container_number = fields.Char(string='Container Number')
     bl_number = fields.Char(string='BL Number')
     container_size = fields.Char(string='Container Size')
@@ -1030,3 +1030,25 @@ class CustomTrackingReport(models.Model):
     current_empty_location = fields.Char(string='Current empty location')
     do_expiry_date = fields.Date(string='DO Expiry Date')
     comments = fields.Char(string='Comments')
+
+    def get_project_field_dynamic(self,field):
+        selection_field = []
+        data_res = self.env['project.project'].search([]).mapped(field)
+        if field == 'client_name':
+            for field in data_res:
+                selection_field.append((field.name, field.name))
+        else:
+            for field in data_res:
+                selection_field.append((field, field))
+        return selection_field
+
+    def _compute_sn_no(self):
+        data = self.get_project_field_dynamic('name')
+        return data
+
+    def _compute_client(self):
+        return self.get_project_field_dynamic('client_name')
+
+    def _compute_liner(self):
+        return self.get_project_field_dynamic('job_liner')
+        
