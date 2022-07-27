@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_libra_payment_process_flow_libra_payment_process_flow,libra_payment_process_flow.libra_payment_process_flow,model_libra_payment_process_flow_libra_payment_process_flow,base.group_user,1,1,1,1
