@@ -59,7 +59,7 @@ class AccountMove(models.Model):
         for rec in self:
             url = self.request_link()
             email_from = self.env.user.partner_id.email
-            recipients = users = ''.join(self.env.ref('libracycle_process_workflow.director_2').users.mapped("email"))
+            recipients = users = ''.join(self.env.ref('libracycle_process_workflow.group_director_2').users.mapped("email"))
             mail_template = self.env.ref('libracycle_process_workflow.libracycle_mail_template')
             mail_template.with_context({'recipient': recipients, 'url': url, 'email_from': email_from, 'title': "Officer"}).send_mail(self.id, force_send=False)
             rec.write({'state': 'director_2'})
