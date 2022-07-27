@@ -1,6 +1,8 @@
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 
+from urllib.parse import urljoin, urlencode
+
 class AccountMove(models.Model):
     _inherit = "account.move"
 
@@ -25,13 +27,11 @@ class AccountMove(models.Model):
     def action_submit(self):
         for rec in self:
             if rec.partner_id:
-                subject = "Approval Request for %s" % (self.name,)
-                body = """<p>%s</p>
-                <p>%s has been submitted for your attention, kindy check and attend to the document accordingly.</p>
-                <br/>
-                <p>Regards</p>
-            """ % (self.env.user.name, self.name)
-                self.send_notification(body, subject, group="libracycle_process_workflow.group_officer")
+                url = self.request_link()
+                email_from = self.env.user.partner_id.email
+                recipients = users = ''.join(self.env.ref('libracycle_process_workflow.group_officer').users.mapped("email"))
+                mail_template = self.env.ref('libracycle_process_workflow.libracycle_mail_template')
+                mail_template.with_context({'recipient': recipients, 'url': url, 'email_from': email_from, 'title': "Officer"}).send_mail(self.id, force_send=False)
                 rec.write({"state": "officer"})
             else:
                 raise ValidationError("Add a partner to the bill")
@@ -39,35 +39,29 @@ class AccountMove(models.Model):
 
     def action_officer_approve(self):
         for rec in self:
-            subject = "Approval Request for %s" % (self.name,)
-            body = """<p>%s</p>
-                <p>%s has been submitted for your attention, kindy check and attend to the document accordingly.</p>
-                <br/>
-                <p>Regards</p>
-            """ % (self.env.user.name, self.name)
-            self.send_notification(body, subject, group="libracycle_process_workflow.group_qac")
+            url = self.request_link()
+            email_from = self.env.user.partner_id.email
+            recipients = users = ''.join(self.env.ref('libracycle_process_workflow.group_qac').users.mapped("email"))
+            mail_template = self.env.ref('libracycle_process_workflow.libracycle_mail_template')
+            mail_template.with_context({'recipient': recipients, 'url': url, 'email_from': email_from, 'title': "Officer"}).send_mail(self.id, force_send=False)
             rec.write({'state': 'qac'})
 
     def action_qac_approve(self):
         for rec in self:
-            subject = "Approval Request for %s" % (self.name,)
-            body = """<p>%s</p>
-                <p>%s has been submitted for your attention, kindy check and attend to the document accordingly.</p>
-                <br/>
-                <p>Regards</p>
-            """ % (self.env.user.name, self.name)
-            self.send_notification(body, subject, group="libracycle_process_workflow.group_director_1")
+            url = self.request_link()
+            email_from = self.env.user.partner_id.email
+            recipients = users = ''.join(self.env.ref('libracycle_process_workflow.group_director_1').users.mapped("email"))
+            mail_template = self.env.ref('libracycle_process_workflow.libracycle_mail_template')
+            mail_template.with_context({'recipient': recipients, 'url': url, 'email_from': email_from, 'title': "Officer"}).send_mail(self.id, force_send=False)
             rec.write({'state': 'director_1'})
 
     def action_director1_approve(self):
         for rec in self:
-            subject = "Approval Request for %s" % (self.name,)
-            body = """<p>%s</p>
-                <p>%s has been submitted for your attention, kindy check and attend to the document accordingly.</p>
-                <br/>
-                <p>Regards</p>
-            """ % (self.env.user.name, self.name)
-            self.send_notification(body, subject, group="libracycle_process_workflow.group_director_2")
+            url = self.request_link()
+            email_from = self.env.user.partner_id.email
+            recipients = users = ''.join(self.env.ref('libracycle_process_workflow.director_2').users.mapped("email"))
+            mail_template = self.env.ref('libracycle_process_workflow.libracycle_mail_template')
+            mail_template.with_context({'recipient': recipients, 'url': url, 'email_from': email_from, 'title': "Officer"}).send_mail(self.id, force_send=False)
             rec.write({'state': 'director_2'})
 
     def action_director2_approve(self):
@@ -78,7 +72,7 @@ class AccountMove(models.Model):
     def action_reject(self):
         pass
 
-    def send_notification(self, body, subject, group):
+    def send_notification(self, body, subject, group, email_from):
         partner_ids = []
         
         users = self.env.ref(group).users
@@ -88,8 +82,24 @@ class AccountMove(models.Model):
         if partner_ids:
             self.message_post(
                 body=body,
+                email_from=email_from,
                 subject=subject,
                 partner_ids=partner_ids,
                 message_type="email",
+                notify_by_email=True
             )
         return True
+
+
+    def request_link(self):
+        fragment = {}
+        base_url = self.env['ir.config_parameter'].sudo(
+        ).get_param('web.base.url')
+        fragment.update(base_url=base_url)
+        fragment.update(model='account.move')
+        fragment.update(view_type='form')
+        fragment.update(id=self.id)
+        query = {'db': self.env.cr.dbname}
+        res = urljoin(base_url, "?%s#%s" %
+                      (urlencode(query), urlencode(fragment)))
+        return res
