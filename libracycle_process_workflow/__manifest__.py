@@ -6,13 +6,14 @@
     """,
     "author": "Matt O'Bell",
     "website": "http://www.yourcompany.com",
-    "version": "1.0",
+    "version": "1..0.1",
     "depends": ["base", "account_accountant", "purchase_requisition"],
     "data": [
         # 'security/ir.model.access.csv',
         "security/res_group.xml",
         "views/account_move.xml",
         "views/templates.xml",
+        "data/mail_template.xml",
     ],
     "license": "LGPL-3",
 }
