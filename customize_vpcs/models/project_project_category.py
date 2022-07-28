@@ -17,9 +17,8 @@ class ProjectProjectCategory(models.Model):
     has_item_description = fields.Selection(FIELD_SELECTION,"Item description",default="optional",help="Display Item description on project",)
     has_form_m_mf = fields.Selection(FIELD_SELECTION,"Form M(MF)",default="optional",help="Display Form M(MF) on project")
     has_mode_shipment = fields.Selection(FIELD_SELECTION,"Mode Shipment",default="optional",help="Display Mode Shipment on project")
-    has_paar_request = fields.Selection(FIELD_SELECTION,"PAAR REQUEST",default="optional")
-    has_paar_received = fields.Selection(FIELD_SELECTION,"PAAR RECEIVED",default='optional')
 ##########################AWAITING ARRIVAL###########################
+    has_barge_operator = fields.Selection(FIELD_SELECTION,"Barge Operator",default='optional')
     has_duty_assesment = fields.Selection(FIELD_SELECTION,"Duty Assessment",default='optional')
     has_shipping_line = fields.Selection(FIELD_SELECTION,'SHIPPING LINE/AIR LINE',default='optional')
     has_vessel_name = fields.Selection(FIELD_SELECTION,'VESSEL /FLIGHT NAME',default='optional')
@@ -29,6 +28,8 @@ class ProjectProjectCategory(models.Model):
     has_port_of_loading = fields.Selection(FIELD_SELECTION,'PORT OF LOADING',default='optional')
     has_rotation_received = fields.Selection(FIELD_SELECTION,'Rotation not received',default='optional')
 #############################IN CLEARING#################################
+    has_paar_request = fields.Selection(FIELD_SELECTION,"PAAR REQUEST",default="optional")
+    has_paar_received = fields.Selection(FIELD_SELECTION,"PAAR RECEIVED",default='optional')
     has_agent_name = fields.Selection(FIELD_SELECTION,'Agent Name',default='no')
     has_duty_received = fields.Selection(FIELD_SELECTION,"Duty Received",default='no')
     has_nafdac_paid = fields.Selection(FIELD_SELECTION,'NAFDAC paid',default='no')
@@ -57,7 +58,7 @@ class ProjectProjectCategory(models.Model):
 
     has_truck_in = fields.Selection(FIELD_SELECTION,'TRUCK IN ',default='no')
     has_gate_out = fields.Selection(FIELD_SELECTION,'GATE OUT',default='no')
-    has_empty_container_returned = fields.Selection(FIELD_SELECTION,'EMPTY CONAINER RETURN',default='no')
+    has_empty_container_returned = fields.Selection(FIELD_SELECTION,'EMPTY CONTAINER RETURN',default='no')
 
 ###############################DELIVERY START(TRUCK/BARGE)####################
 

@@ -10,3 +10,4 @@ access_destination_port,access_destination_port,model_destination_port,base.grou
 access_custom_terminal,access_custom_terminal,model_custom_terminal,base.group_user,1,1,1,1
 access_port_loading,access_port_loading,model_port_loading,base.group_user,1,1,1,1
 access_mode_shipment,access_mode_shipment,model_mode_shipment,base.group_user,1,1,1,1
+access_barge_operator,access_barge_operator,model_barge_operator,base.group_user,1,1,1,1
