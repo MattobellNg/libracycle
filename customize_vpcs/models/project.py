@@ -43,6 +43,12 @@ class PortLoading(models.Model):
 
     name = fields.Char(string='Port of Loading')
 
+class BargeOperator(models.Model):
+
+    _name = "barge.operator"
+
+    name = fields.Char(string='Barge Name/Operator')
+
 class ModeShipment(models.Model):
 
     _name = "mode.shipment"
@@ -87,7 +93,7 @@ class ProjectProject(models.Model):
     project_team = fields.Many2one('res.users',string="Project Team")
     project_employee = fields.Many2one('hr.employee',string='Project Team')
     ####################################
-    client_project_team = fields.Many2one('crm.team',string='Team Lead')
+    client_project_team = fields.Many2one('crm.team',string='Team')
 
     account_officer = fields.Many2one('res.users', string="Account Officer")
     item_description = fields.Char(string="Item Description")
@@ -99,12 +105,8 @@ class ProjectProject(models.Model):
 
     mode_shipment = fields.Char(string="Mode Shipment")
     mode_shipment_air_sea =fields.Many2one('mode.shipment',string='Mode Shipment(Air/Sea)')
-    paar_request = fields.Date(string="PAAR REQUEST")
-
-    paar_received = fields.Date(string='PAAR RECEIVED')
-    document_paar_received = fields.Binary(string="Document(Paar Received)")
-    doc_paar_bool = fields.Boolean()
 ################## AWAITING ARRIVAL ############################
+    barge_operator = fields.Many2one('barge.operator',string='Barge Name/Operator')
     shipping_line = fields.Char(string="Shipping/Air line")
     ship_line = fields.Many2one('shipping.line',string='Shipping/Air line')
     vessel_line = fields.Char(string="Vessel/Flight name")
@@ -130,6 +132,11 @@ class ProjectProject(models.Model):
     doc_has_nafdac_2_stamp_date = fields.Boolean()
 
 #############################IN CLEARING#################################
+    paar_request = fields.Date(string="PAAR REQUEST")
+
+    paar_received = fields.Date(string='PAAR RECEIVED')
+    document_paar_received = fields.Binary(string="Document(Paar Received)")
+    doc_paar_bool = fields.Boolean()
 
     duty_assesment = fields.Date(string='Duty Assessment')
     document_duty_assesment = fields.Binary(string='Document(Duty Assessment)')
@@ -197,6 +204,14 @@ class ProjectProject(models.Model):
 #################client needs field###############
     regulatory_field = fields.Many2many('project.regulate',string='Regulatory Required')
     agent_name = fields.Char(string='Agent Name')
+
+    has_barge_operator = fields.Selection(
+        [],
+        "Barge Name/Operator",
+        related="project_categ_id.has_barge_operator",
+        readonly=True,
+        default="no",
+    )
 
     has_agent_name = fields.Selection(
         [],
@@ -752,28 +767,52 @@ class ProjectProject(models.Model):
         for rec in self:
             if rec.job_form_m_mf:
                 rec.doc_job_bool = True
+            else:
+                rec.doc_job_bool = False
             if rec.paar_received:
                 rec.doc_paar_bool = True
+            else:
+                rec.doc_paar_bool = False
             if rec.duty_assesment:
                 rec.doc_duty_asses = True
+            else:
+                rec.doc_duty_asses = False
             if rec.duty_received:
                 rec.doc_duty_received = True
+            else:
+                rec.doc_duty_received = False
             if rec.shipping_released:
                 rec.doc_ship_released =True
+            else:
+                rec.doc_ship_released = False
             if rec.fecd_custom_ack:
                 rec.doc_custom = True
+            else:
+                rec.doc_custom = False
             if rec.fecd_client_ack:
                 rec.doc_client = True
+            else:
+                rec.doc_client = False
             if rec.bol_awb_ref:
                 rec.doc_bol_awb_ref = True
+            else:
+                rec.doc_bol_awb_ref = False
             if rec.nafdac_1_stamp_date:
                 rec.doc_has_nafdac_1_stamp_date = True
+            else:
+                rec.doc_has_nafdac_1_stamp_date = False
             if rec.nafdac_2_stamp_date:
                 rec.doc_has_nafdac_2_stamp_date = True
+            else:
+                rec.doc_has_nafdac_2_stamp_date = False
             if rec.delivery_waybill_from_client:
                 rec.doc_waybill_from_client = True
+            else:
+                rec.doc_waybill_from_client = False
             if rec.nafdac_final_release:
                 rec.doc_nafdac_final_release = True
+            else:
+                rec.doc_nafdac_final_release = False
 
     @api.model
     def visible_button(self):
@@ -988,33 +1027,34 @@ class AccountMoveLine(models.Model):
 class CustomTrackingReport(models.Model):
 
     _name = "custom.tracking.report"
+    # _rec_name = 'sn_no'
 
-    project_id = fields.Many2one('project.project',string='Project')
-    sn_no = fields.Selection('_compute_sn_no',string='S/N No')
-    client_name = fields.Selection('_compute_client',string='Client name')
-    liner = fields.Char(string='Liner')
+    # project_id = fields.Many2one('project.project',string='Project')
+    sn_no = fields.Many2one('project.project',string='S/N No')
+    client_name = fields.Many2one('res.partner',string='Client name',related='sn_no.partner_id')
+    liner = fields.Many2one('shipping.line',string='Liner',related='sn_no.ship_line')
     Container_number = fields.Char(string='Container Number')
-    bl_number = fields.Char(string='BL Number')
+    bl_number = fields.Char(string='BL Number',related='sn_no.job_refs')
     container_size = fields.Char(string='Container Size')
-    date_tdo_received = fields.Date(string='Date TDO Received')
+    date_tdo_received = fields.Date(string='Date TDO Received',related='sn_no.job_tdo')
     delivery_begin_date = fields.Date(string='Delivery Begin Date')
-    truck_loading_date = fields.Date(string='Truck Loading Date')
-    days_of_initial_terminal = fields.Char(string='No. of Days Before Initial Loading Out Of Terminal')
-    days_out_terminal = fields.Char(string='No. of Days Out of Terminal')
+    truck_loading_date = fields.Date(string='Truck Loading Date',related='sn_no.date_delivery_start')
+    days_of_initial_terminal = fields.Char(compute='comp_init_terminal',string='No. of Days Before Initial Loading Out Of Terminal',store=True)
+    days_out_terminal = fields.Char(compute='comp_init_terminal',string='No. of Days Out of Terminal',store=True)
     barge_or_road = fields.Char(string='Barge or Road')
-    days_before_barge = fields.Char(string='Days Before Barge Out')
-    import_barge_date = fields.Date(string='Import Barge Out Date')
-    barged_from = fields.Char(string='Barged From')
-    barged_to = fields.Char(string='Barged To')
-    barge_arrival_date = fields.Date(string='Barge Arrival Date')
-    tug = fields.Char(string='Tug')
-    barge_name_operator = fields.Char(string='Barge Name/Operator')
-    barge_offloading_date = fields.Date(string='Barge Offloading Date')
-    container_age = fields.Char(string='Container Age In Ikorodu')
-    container_age_terminal = fields.Char(string='Container Age In the Terminal')
+    days_before_barge = fields.Char(compute='comp_init_terminal',string='Days Before Barge Out',store=True)
+    import_barge_date = fields.Date(string='Import Barge Out Date',related='sn_no.Barge_date')
+    barged_from = fields.Many2one('custom.terminal',string='Barged From',related='sn_no.custom_terminal')
+    barged_to = fields.Many2one('destination.port',string='Barged To',related='sn_no.destination_port')
+    barge_arrival_date = fields.Date(string='Barge Arrival Date',related='sn_no.eta')
+    tug = fields.Many2one('vessel.line',string='Tug',related='sn_no.ves_line')
+    barge_name_operator = fields.Many2one('barge.operator',string='Barge Name/Operator',related='sn_no.barge_operator')
+    barge_offloading_date = fields.Date(string='Barge Offloading Date',related='sn_no.etd')
+    container_age = fields.Char(compute='comp_init_terminal',string='Container Age In Ikorodu',store=True)
+    container_age_terminal = fields.Char(compute='comp_init_terminal',string='Container Age In the Terminal',store=True)
     truck_out_loading_date = fields.Date(string='Truck Out Loading Date')
-    last_known_location = fields.Char(string='Last Known Location')
-    arrival_client_side = fields.Date(string="Arrival  Date at Client's Site")
+    last_known_location = fields.Selection(string='Last Known Location',related='sn_no.state')
+    arrival_client_side = fields.Date(string="Arrival  Date at Client's Site",related='sn_no.eta')
     time_to_destination = fields.Char(string='Time to Destination')
     offloading_location = fields.Char(string='Offloading Location')
     truck_offloading_date = fields.Date(string='Truck Offloading Date')
@@ -1025,26 +1065,87 @@ class CustomTrackingReport(models.Model):
     transportar_name = fields.Char(string="Transporter's Name")
     driver_name = fields.Char(string='Drivers Name')
     phone_number = fields.Char(string='Phone Number')
-    return_empties = fields.Char(string='Returning Empties? (Y/N)')
+    return_empties = fields.Char(string='Returning Empties? (Y/N)',related='sn_no.empty_container_returned')
     date_return_to_terminal = fields.Date(string='Date returned to ternimal')
     current_empty_location = fields.Char(string='Current empty location')
     do_expiry_date = fields.Date(string='DO Expiry Date')
     comments = fields.Char(string='Comments')
 
-    def get_project_field_dynamic(self,field):
-        selection_field = []
-        data_res = self.env['project.project'].search([]).mapped(field)
-        if field == 'client_name':
-            for field in data_res:
-                selection_field.append((field.name, field.name))
-        else:
-            for field in data_res:
-                selection_field.append((field, field))
-        return selection_field
+    @api.depends('truck_loading_date','date_tdo_received','sn_no','date_return_to_terminal','import_barge_date','truck_out_loading_date','barge_offloading_date','barge_arrival_date')
+    def comp_init_terminal(self):
+        for record in self:
+            if record.sn_no:
+                if record.truck_loading_date and record.date_tdo_received:
+                    d1 = datetime.strptime(str(record.truck_loading_date), '%Y-%m-%d')
+                    d2 = datetime.strptime(str(record.date_tdo_received), '%Y-%m-%d')
+                    date_difference = d2-d1
+                    if date_difference.days > 0:
+                        record.days_of_initial_terminal = date_difference.days
+                    else:
+                        record.days_of_initial_terminal = 0                        
+                if record.date_return_to_terminal and record.truck_loading_date:
+                    d2 = datetime.strptime(str(record.date_return_to_terminal), '%Y-%m-%d')
+                    d1 = datetime.strptime(str(record.truck_loading_date), '%Y-%m-%d')
+                    date_difference = d2-d1
+                    if date_difference.days > 0:
+                        record.days_out_terminal = date_difference.days
+                    else:
+                        record.days_out_terminal = 0                        
+                if record.import_barge_date and record.date_tdo_received:
+                    d2 = datetime.strptime(str(record.import_barge_date), '%Y-%m-%d')
+                    d1 = datetime.strptime(str(record.date_tdo_received), '%Y-%m-%d')
+                    date_difference = d2-d1
+                    if date_difference.days > 0:                    
+                        record.days_before_barge = date_difference.days
+                    else:
+                        record.days_before_barge = 0
+                if record.truck_out_loading_date and record.barge_offloading_date:
+                    d2 = datetime.strptime(str(record.truck_out_loading_date), '%Y-%m-%d')
+                    d1 = datetime.strptime(str(record.barge_offloading_date), '%Y-%m-%d')
+                    date_difference = d2-d1
+                    if date_difference.days > 0:                                        
+                        record.container_age_terminal = date_difference.days
+                    else:
+                        record.container_age_terminal = 0
+                if record.truck_out_loading_date and record.barge_arrival_date:
+                    d2 = datetime.strptime(str(record.truck_out_loading_date), '%Y-%m-%d')
+                    d1 = datetime.strptime(str(record.barge_arrival_date), '%Y-%m-%d')
+                    date_difference = d2-d1
+                    if date_difference.days > 0:                    
+                        record.container_age = date_difference.days
+                    else:
+                        record.container_age = 0
 
-    def _compute_sn_no(self):
-        data = self.get_project_field_dynamic('name')
-        return data
+    # def get_project_field_dynamic(self,field):
+    #     selection_field = []
+    #     data_res = self.env['project.project'].search([]).mapped(field)
+    #     if field == 'client_name':
+    #         for field in data_res:
+    #             selection_field.append((field.name, field.name))
+    #     else:
+    #         for field in data_res:
+    #             selection_field.append((field, field))
+    #     return selection_field
 
-    def _compute_client(self):
-        return self.get_project_field_dynamic('client_name')
+    # def _compute_sn_no(self):
+    #     data = self.get_project_field_dynamic('name')
+    #     return data
+
+    # @api.onchange('sn_no')
+    # def _onchange_sn(self):
+    #     if self.sn_no:
+    #         if self.truck_loading_date and self.date_tdo_received:
+    #             d1 = datetime.strptime(str(self.truck_loading_date), '%Y-%m-%d')
+    #             d2 = datetime.strptime(str(self.date_tdo_received), '%Y-%m-%d')
+    #             date_difference = d2-d1
+    #             self.days_of_initial_terminal = date_difference.days
+    #         elif self.date_return_to_terminal and self.truck_loading_date:
+    #             d1 = datetime.strptime(str(self.date_return_to_terminal), '%Y-%m-%d')
+    #             d2 = datetime.strptime(str(self.truck_loading_date), '%Y-%m-%d')
+    #             date_difference = d2-d1
+    #             self.days_of_initial_terminal = date_difference.days
+    #         else:
+    #             self.days_of_initial_terminal = ''
+
+    # def _compute_client(self):
+    #     return self.get_project_field_dynamic('client_name')
