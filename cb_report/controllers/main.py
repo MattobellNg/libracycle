@@ -70,7 +70,7 @@ class Custom_Quickbook_controller(http.Controller):
                 duty+=j.price_subtotal
             sheet.write(new_row,16,duty,cell_format)
             no_tag = re.compile('<.*?>')
-            new_description = re.sub(no_tag,'',pro.description)
+            new_description = re.sub(no_tag,'',(pro.description) if pro.description else '')
             sheet.write(new_row,39,new_description,cell_format)
             final_row = str(new_row)
             sum_feet_forty += pro.feet_forty

@@ -2,8 +2,8 @@
 <odoo>
     <data>
         <record model="ir.ui.view" id="sample_data_form_view">
-            <field name="name">report.customize_vpcs.report_cb_report.form</field>
-            <field name="model">report.customize_vpcs.report_cb_report</field>
+            <field name="name">report.report_cb_report.form</field>
+            <field name="model">report.report_cb_report</field>
             <field name="arch" type="xml">
                 <form string="Sample Data">
                     <group  colspan="4" col="4">
@@ -54,14 +54,14 @@
         <record id="act_cb_report" model="ir.actions.act_window">
             <field name="name">C &amp; B Report</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">report.customize_vpcs.report_cb_report</field>
+            <field name="res_model">report.report_cb_report</field>
             <field name="view_mode">form</field>
             <field name="view_id" ref="sample_data_form_view"/>
             <field name="target">new</field>
         </record>
 
         <menuitem id="custom_cb_report" name="C &amp; B Report"
-            groups="customize_vpcs.group_cb_report_visibility"
+            groups="cb_report.group_cb_report_visibility"
             action="act_cb_report"
             parent="project.menu_main_pm" sequence="22"/>
     </data>

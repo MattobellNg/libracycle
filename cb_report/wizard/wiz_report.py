@@ -6,7 +6,7 @@ from odoo.tools import DEFAULT_SERVER_DATE_FORMAT
 import json
 
 class CBReport(models.TransientModel):
-    _name = 'report.customize_vpcs.report_cb_report'
+    _name = 'report.report_cb_report'
 
     project_ids = fields.Many2many('project.project',string='Project many2many')
     select_all_rec = fields.Boolean(string="Select All",default=False)

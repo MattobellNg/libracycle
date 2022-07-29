@@ -14,7 +14,6 @@
     'data': [
         'security/project_access.xml',
         "security/ir.model.access.csv",
-        "wizard/view_wiz_report.xml",
         "data/seq.xml",
         "data/batch_action.xml",
         'views/project_views.xml',

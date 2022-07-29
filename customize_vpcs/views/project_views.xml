@@ -435,14 +435,14 @@
             <!-- <field name="active" eval="False"></field> -->
         </record>
 
-        <record id="action_report_cbreport_xlsx" model="ir.actions.report">
+        <!-- <record id="action_report_cbreport_xlsx" model="ir.actions.report">
             <field name="name">C &amp; B Report</field>
             <field name="model">report.customize_vpcs.report_cb_report</field>
             <field name="report_type">xlsx</field>
             <field name="report_name">customize_vpcs.report_cbreport_xlsx</field>
             <field name="report_file">customize_vpcs.report_cbreport_xlsx</field>
             <field name="binding_type">report</field>
-        </record>
+        </record> -->
         
         <record id="view_custom_tracking_report_list" model="ir.ui.view">
             <field name="name">Tracking Report</field>
