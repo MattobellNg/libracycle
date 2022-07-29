@@ -165,6 +165,7 @@
                     <field name="has_rotation_received" invisible='1'/>
                     <field name="has_paar_request" invisible='1'/>
                     <field name="has_paar_received" invisible='1'/>
+                    <field name="has_barge_operator" invisible='1'/>
                     <field name="doc_paar_bool" invisible='1'/>
                     <field name="has_duty_assesment" invisible='1'/>
                     <field name="doc_duty_asses" invisible='1'/>
@@ -220,7 +221,7 @@
                             <field name="client_project_team" attrs="{'invisible':['|',('has_project_team','==','no'),('project_categ_id','=', False)], 'required': [('has_project_team','==','required')], 'readonly':[('sn_state','in',('awaiting_arrival','in_clearing','ready_to_load','post_delivery'))]}" />
                             <field name="account_officer" attrs="{'invisible':['|',('has_account_officer','==','no'),('project_categ_id','=', False)], 'required': [('has_account_officer','==','required')], 'readonly':[('sn_state','in',('awaiting_arrival','in_clearing','ready_to_load','post_delivery'))]}" />
                             <field name="item_description" attrs="{'invisible':['|',('has_item_description','==','no'),('project_categ_id','=', False)], 'required': [('has_item_description','==','required')], 'readonly':[('sn_state','in',('awaiting_arrival','in_clearing','ready_to_load','post_delivery'))]}" />
-                            <field name="paar_request" attrs="{'invisible':['|',('has_paar_request','==','no'),('project_categ_id','=', False)], 'required': [('has_paar_request','==','required')],'readonly':[('sn_state','in',('awaiting_arrival','in_clearing','ready_to_load','post_delivery'))]}" />
+                            <!-- <field name="paar_request" attrs="{'invisible':['|',('has_paar_request','==','no'),('project_categ_id','=', False)], 'required': [('has_paar_request','==','required')],'readonly':[('sn_state','in',('awaiting_arrival','in_clearing','ready_to_load','post_delivery'))]}" /> -->
                         </group>
                         <group colspan="4" col="4">
                             <field name="job_form_m_mf" attrs="{'invisible':['|',('has_form_m_mf','==','no'),('project_categ_id','=', False)], 'required': [('has_form_m_mf','==','required')], 'readonly':[('sn_state','in',('awaiting_arrival','in_clearing','ready_to_load','post_delivery'))]}" />
@@ -230,13 +231,10 @@
                             <field name="mode_shipment_air_sea" attrs="{'invisible':['|',('has_mode_shipment','==','no'),('project_categ_id','=', False)], 'required': [('has_mode_shipment','==','required')], 'readonly':[('sn_state','in',('awaiting_arrival','in_clearing','ready_to_load','post_delivery'))]}" />
                             <field name="job_ba_number" attrs="{'invisible':['|',('has_job_ba_number','==','no'),('project_categ_id','=', False)], 'required': [('has_job_ba_number','==','required')], 'readonly':[('sn_state','in',('awaiting_arrival','in_clearing','ready_to_load','post_delivery'))]}" />
                         </group>
-                        <group colspan='4' col='4'>
-                            <field name="paar_received" attrs="{'invisible':['|',('has_paar_received','==','no'),('project_categ_id','=', False)], 'required': [('has_paar_received','==','required')],'readonly':[('sn_state','in',('awaiting_arrival','in_clearing','ready_to_load','post_delivery'))]}"/>
-                            <field name="document_paar_received" attrs="{'invisible': [('doc_paar_bool', '=', False)], 'required': [('doc_paar_bool','==',True)],'readonly':[('sn_state','in',('awaiting_arrival','in_clearing','ready_to_load','post_delivery'))]}" />
-                        </group>
                     </group>                        
                     <group string="AWAITING ARRIVAL" colspan='4' col='4' attrs="{'invisible': [('sn_state', '=', 'pre_alert')]}">
                         <group colspan='4' col='4'>
+                            <field name="barge_operator" attrs="{'invisible':['|','|',('has_barge_operator','==','no'),('project_categ_id','=', False),('sn_state','=','pre_alert')], 'required': ['&amp;',('has_barge_operator','==','required'),('sn_state','=','awaiting_arrival')],'readonly':[('sn_state','in',('in_clearing','ready_to_load','post_delivery'))]}" />  
                             <field name="ship_line" attrs="{'invisible':['|','|',('has_shipping_line','==','no'),('project_categ_id','=', False),('sn_state','=','pre_alert')], 'required': ['&amp;',('has_shipping_line','==','required'),('sn_state','=','awaiting_arrival')],'readonly':[('sn_state','in',('in_clearing','ready_to_load','post_delivery'))]}" />                      
                             <field name="ves_line" attrs="{'invisible':['|','|',('has_vessel_name','==','no'),('project_categ_id','=', False),('sn_state','=','pre_alert')], 'required': ['&amp;',('has_vessel_name','==','required'),('sn_state','=','awaiting_arrival')],'readonly':[('sn_state','in',('in_clearing','ready_to_load','post_delivery'))]}" />
                             <field name="rotation_number" attrs="{'invisible':['|','|',('has_rotation_number','==','no'),('project_categ_id','=', False),('sn_state','=','pre_alert')], 'required': ['&amp;',('has_rotation_number','==','required'),('sn_state','=','awaiting_arrival')],'readonly':[('sn_state','in',('in_clearing','ready_to_load','post_delivery'))]}" />                      
@@ -262,6 +260,7 @@
                             <field name="ata" attrs="{'invisible':['|','|',('has_ata','==','no'),('project_categ_id','=', False),('sn_state','in',('pre_alert','awaiting_arrival'))], 'required': ['&amp;',('has_ata','==','required'),('sn_state','=','in_clearing')],'readonly':[('sn_state','in',('ready_to_load','post_delivery'))]}" />
                             <field name="nafdac_paid" attrs="{'invisible':['|','|',('has_nafdac_paid','==','no'),('project_categ_id','=', False),('sn_state','in',('pre_alert','awaiting_arrival'))], 'required': [('has_nafdac_paid','==','required'),('sn_state','=','in_clearing')],'readonly':[('sn_state','in',('ready_to_load','post_delivery'))]}" />
                             <field name='agent_name' attrs="{'invisible':['|',('has_agent_name','==','no'),('project_categ_id','=', False)]}"/>
+                            <field name="paar_request" attrs="{'invisible':['|','|',('has_paar_request','==','no'),('project_categ_id','=', False),('sn_state','in',('pre_alert','awaiting_arrival'))], 'required': [('has_paar_request','==','required'),('sn_state','=','in_clearing')],'readonly':[('sn_state','in',('ready_to_load','post_delivery'))]}" />
                         </group>
                         <group colspan='4' col='4'>
                             <field name="nafdac_1_stamp_date" attrs="{'invisible':['|','|',('has_nafdac_1_stamp_date','==','no'),('project_categ_id','=', False),('sn_state','in',('pre_alert','awaiting_arrival'))], 'required': [('has_nafdac_1_stamp_date','==','required'),('sn_state','=','in_clearing')],'readonly':[('sn_state','in',('ready_to_load','post_delivery'))]}" />
@@ -277,6 +276,10 @@
                         <group colspan='4' col='4'>
                             <field name="duty_received" attrs="{'invisible':['|','|',('has_duty_received','==','no'),('project_categ_id','=', False),('sn_state','in',('pre_alert','awaiting_arrival'))], 'required': [('has_duty_received','==','required'),('sn_state','=','in_clearing')],'readonly':[('sn_state','in',('ready_to_load','post_delivery'))]}" />
                             <field name="document_duty_received" attrs="{'invisible': ['|',('doc_duty_received', '=', False),('sn_state','in',('pre_alert','awaiting_arrival'))], 'required': [('doc_duty_received','==',True)],'readonly':[('sn_state','in',('ready_to_load','post_delivery'))]}"/>                         
+                        </group>
+                        <group colspan='4' col='4'>
+                            <field name="paar_received" attrs="{'invisible':['|','|',('has_paar_received','==','no'),('project_categ_id','=', False),('sn_state','in',('pre_alert','awaiting_arrival'))], 'required': [('has_paar_received','==','required'),('sn_state','=','in_clearing')],'readonly':[('sn_state','in',('ready_to_load','post_delivery'))]}"/>
+                            <field name="document_paar_received" attrs="{'invisible': ['|','|',('paar_received','=',False),('doc_paar_bool', '=', False),('sn_state','in',('pre_alert','awaiting_arrival'))], 'required': [('doc_paar_bool','==',True)],'readonly':[('sn_state','in',('ready_to_load','post_delivery'))]}" />
                         </group>
                         <group colspan='4' col='4'>
                             <field name="custom_release_date" attrs="{'invisible':['|','|',('has_custom_release_date','==','no'),('project_categ_id','=', False),('sn_state','in',('pre_alert','awaiting_arrival'))], 'required': [('has_custom_release_date','==','required'),('sn_state','=','in_clearing')],'readonly':[('sn_state','in',('ready_to_load','post_delivery'))]}" /> 
