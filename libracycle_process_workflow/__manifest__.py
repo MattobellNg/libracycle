@@ -13,7 +13,9 @@
         "security/res_group.xml",
         "views/account_move.xml",
         "views/templates.xml",
+        "views/actions.xml",
         "data/mail_template.xml",
+
     ],
     "license": "LGPL-3",
 }
