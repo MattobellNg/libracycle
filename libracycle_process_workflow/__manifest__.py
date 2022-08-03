@@ -6,16 +6,20 @@
     """,
     "author": "Matt O'Bell",
     "website": "http://www.yourcompany.com",
-    "version": "1.2.2",
-    "depends": ["base", "account_accountant", "purchase_requisition"],
+    "version": "1.2.3",
+    "depends": [
+        "base",
+        "account_accountant",
+        "purchase_requisition",
+        "hr_payroll_account",
+    ],
     "data": [
         # 'security/ir.model.access.csv',
         "security/res_group.xml",
         "views/account_move.xml",
-        "views/templates.xml",
         "views/actions.xml",
+        "views/hr_payslip_run.xml",
         "data/mail_template.xml",
-
     ],
     "license": "LGPL-3",
 }

@@ -4,17 +4,20 @@ from odoo.exceptions import ValidationError
 from urllib.parse import urljoin, urlencode
 
 
-class AccountMove(models.Model):
-    _inherit = "account.move"
+class HrPayslipRun(models.Model):
+
+    _name = "hr.payslip.run"
+    _inherit = ["hr.payslip.run", "mail.thread"]
 
     state = fields.Selection(
         selection_add=[
-            ("posted",),
-            ("admin", "Admin"),
-            ("officer", "Officer"),
-            ("qac", "QAC"),
-            ("director_1", "Director 1"),
-            ("director_2", "Director 2"),
+            ("admin", "Await Admin"),
+            ("officer", "Await Officer"),
+            ("qac", "Await QAC"),
+            ("director_1", "Await Director I"),
+            ("director_2", "Await Director II"),
+            ("account", "Await Account"),
+            ("close",),
         ],
         ondelete={
             "admin": lambda m: m.write({"state": "draft"}),
@@ -22,35 +25,33 @@ class AccountMove(models.Model):
             "qac": lambda m: m.write({"state": "draft"}),
             "director_1": lambda m: m.write({"state": "draft"}),
             "director_2": lambda m: m.write({"state": "draft"}),
-        },
+        }, tracking=True
     )
 
-    def action_submit(self):
+    def action_submit_to_admin(self):
         for rec in self:
-            if rec.partner_id:
-                url = self.request_link()
-                email_from = self.env.user.partner_id.email
-                recipients = users = "".join(
-                    self.env.ref(
-                        "libracycle_process_workflow.group_officer"
-                    ).users.mapped("email")
-                )
-                mail_template = self.env.ref(
-                    "libracycle_process_workflow.libracycle_mail_template"
-                )
-                mail_template.with_context(
-                    {
-                        "recipient": recipients,
-                        "url": url,
-                        "email_from": email_from,
-                        "title": "Officer",
-                    }
-                ).send_mail(self.id, force_send=False)
-                rec.write({"state": "officer"})
-            else:
-                raise ValidationError("Add a partner to the bill")
 
-    def action_officer_approve(self):
+            url = self.request_link()
+            email_from = self.env.user.partner_id.email
+            recipients = users = "".join(
+                self.env.ref("libracycle_process_workflow.group_officer").users.mapped(
+                    "email"
+                )
+            )
+            mail_template = self.env.ref(
+                "libracycle_process_workflow.mail_template_payslip_run"
+            )
+            mail_template.with_context(
+                {
+                    "recipient": recipients,
+                    "url": url,
+                    "email_from": email_from,
+                    "title": "Officer",
+                }
+            ).send_mail(self.id, force_send=False)
+            rec.write({"state": "admin"})
+
+    def action_submit_to_officer(self):
         for rec in self:
             url = self.request_link()
             email_from = self.env.user.partner_id.email
@@ -60,7 +61,29 @@ class AccountMove(models.Model):
                 )
             )
             mail_template = self.env.ref(
-                "libracycle_process_workflow.libracycle_mail_template"
+                "libracycle_process_workflow.mail_template_payslip_run"
+            )
+            mail_template.with_context(
+                {
+                    "recipient": recipients,
+                    "url": url,
+                    "email_from": email_from,
+                    "title": "Officer",
+                }
+            ).send_mail(self.id, force_send=False)
+            rec.write({"state": "officer"})
+
+    def action_submit_to_qac(self):
+        for rec in self:
+            url = self.request_link()
+            email_from = self.env.user.partner_id.email
+            recipients = users = "".join(
+                self.env.ref("libracycle_process_workflow.group_qac").users.mapped(
+                    "email"
+                )
+            )
+            mail_template = self.env.ref(
+                "libracycle_process_workflow.mail_template_payslip_run"
             )
             mail_template.with_context(
                 {
@@ -82,7 +105,7 @@ class AccountMove(models.Model):
                 ).users.mapped("email")
             )
             mail_template = self.env.ref(
-                "libracycle_process_workflow.libracycle_mail_template"
+                "libracycle_process_workflow.mail_template_payslip_run"
             )
             mail_template.with_context(
                 {
@@ -104,7 +127,7 @@ class AccountMove(models.Model):
                 ).users.mapped("email")
             )
             mail_template = self.env.ref(
-                "libracycle_process_workflow.libracycle_mail_template"
+                "libracycle_process_workflow.mail_template_payslip_run"
             )
             mail_template.with_context(
                 {
@@ -118,7 +141,25 @@ class AccountMove(models.Model):
 
     def action_director2_approve(self):
         for rec in self:
-            rec.action_post()
+            url = self.request_link()
+            email_from = self.env.user.partner_id.email
+            recipients = users = "".join(
+                self.env.ref(
+                    "libracycle_process_workflow.group_director_2"
+                ).users.mapped("email")
+            )
+            mail_template = self.env.ref(
+                "libracycle_process_workflow.mail_template_payslip_run"
+            )
+            mail_template.with_context(
+                {
+                    "recipient": recipients,
+                    "url": url,
+                    "email_from": email_from,
+                    "title": "Officer",
+                }
+            ).send_mail(self.id, force_send=False)
+            rec.write({"state": "account"})
 
     def action_reject(self):
         pass
