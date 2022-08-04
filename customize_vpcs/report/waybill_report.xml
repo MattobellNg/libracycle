@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>        
+    <record id="action_manifest_report" model="ir.actions.report">
+        <field name="name">Waybill</field>
+        <field name="model">custom.manifest.report</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">customize_vpcs.custom_manifest_report</field>
+        <field name="report_file">customize_vpcs.custom_manifest_report</field>
+        <field name="binding_model_id" ref="model_custom_manifest_report"/>
+    </record>
+
+     <template id="external_layout_footer">
+        <div class="footer">
+            <div class="text-center" style="border-top: 1px solid black;">
+                <ul class="list-inline">
+                    <li>Developed By: Hassan Enterprises</li>
+
+                    <li>&amp;bull;</li>
+                    <li>Phone: +92 321 1234567</li>
+
+                    <li>&amp;bull;</li>
+                    <li>Email: abc@gmail.com</li>
+                </ul>
+
+                <ul class="list-inline">
+                    <li>Page:</li>
+                    <li><span class="page"/></li>
+                    <li>/</li>
+                    <li><span class="topage"/></li>
+                </ul>
+            </div>
+        </div>    
+    </template>
+
+
+    <template id="custom_manifest_report">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">                                     
+                    <div class="page">
+                        <div class="page">
+                            <div class="mb-4 mt-3">
+                                <div class="row">
+                                    <div class="col-6" t-if="o.sn_no.partner_id">
+                                        Partner: <span t-field="o.sn_no.partner_id.name"/><br></br>
+                                        address: <span t-field="o.sn_no.partner_id.street"/><br></br>
+                                        <span t-field="o.sn_no.partner_id.street2"/><br></br>
+                                        <span t-field="o.sn_no.partner_id.city"/><br></br>
+                                        <span t-field="o.sn_no.partner_id.state_id.name"/><br></br>
+                                        <span t-field="o.sn_no.partner_id.zip"/><br></br>
+                                        <span t-field="o.sn_no.partner_id.country_id.name"/><br></br>
+                                    </div>
+                                </div>                               
+                            </div>                        
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <template id='custom_footer'>
+         <div class="footer">
+            <div class="text-center" style="border-top: 1px solid black;">
+                <!-- <ul>
+                    <li>ssfsfjbgjsdk</li>
+                </ul> -->
+                <ul class="list-inline mb4 text-nowrap">
+                    <li class="list-inline-item d-inline">Phone: <span class="o_force_ltr"/>(234) 909 8710 778, (234) 818 4792 309</li>
+                    <li class="list-inline-item d-inline">Email: <span>info@libracircle.com</span></li>
+                    <li class="list-inline-item d-inline">Website: <span>https://libracircle.com/</span></li>
+                </ul>
+            </div>
+        </div>
+    </template>
+</odoo>
