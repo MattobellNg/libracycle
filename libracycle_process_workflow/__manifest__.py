@@ -6,13 +6,15 @@
     """,
     "author": "Matt O'Bell",
     "website": "http://www.yourcompany.com",
-    "version": "1.2.3",
+    "version": "1.2.4",
     "depends": [
         "base",
         "account_accountant",
         "purchase_requisition",
         "hr_payroll_account",
         "sale_management",
+        "analytic_enterprise",
+        "sale_project",
     ],
     "data": [
         # 'security/ir.model.access.csv',
