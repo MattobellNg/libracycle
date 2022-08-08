@@ -6,7 +6,7 @@
     """,
     "author": "Matt O'Bell",
     "website": "http://www.yourcompany.com",
-    "version": "1.2.4",
+    "version": "1.2.5",
     "depends": [
         "base",
         "account_accountant",
@@ -25,6 +25,7 @@
         "views/hr_payslip_run.xml",
         "views/sale_order.xml",
         "data/mail_template.xml",
+        "report/report_saleorder.xml",
     ],
     "license": "LGPL-3",
 }
