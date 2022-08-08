@@ -488,7 +488,33 @@
                     <field name="date_return_to_terminal" width='100px' optional='show'/>
                     <field name="current_empty_location" width='100px' optional='show'/>
                     <field name="do_expiry_date" width='100px' optional='show'/>
-                    <field name="comments" width='100px' optional='show'/>            
+                    <field name="comments" width='100px' optional='show'/>
+                    <field name="schedule_status" width='100px' optional='show' widget='selection'/>
+                    <field name="weight" width='100px' optional='show'/>
+                    <field name = "bool_track_to_manifest" invisible='1'/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_custom_manifest_report" model="ir.ui.view">
+            <field name="name">Manifest Report</field>
+            <field name="model">custom.manifest.report</field>
+            <field name="arch" type="xml">
+                <tree editable="top" multi_edit="1" string="Manifest Report">
+                    <field name="sn_no"/>
+                    <field name="Container_number"/>
+                    <field name="bl_number"/>
+                    <field name="container_size"/>
+                    <field name="client_name"/>
+                    <field name="liner"/>
+                    <field name="driver_name"/>
+                    <field name="phone_number"/>
+                    <field name="barge_arrival_date"/>
+                    <field name="time_to_destination"/>
+                    <field name="weight"/>
+                    <field name="sealed"/>
+                    <field name="tracker_found"/>
+                    <field name="bool_manifest" invisible='1'/>
                 </tree>
             </field>
         </record>
@@ -498,13 +524,34 @@
             <field name="res_model">custom.tracking.report</field>
             <field name="view_mode">tree</field>
             <field name="view_id" ref="view_custom_tracking_report_list"/>
+            <field name="domain">[('bool_track_to_manifest','=', False)]</field>
         </record>
 
+        <record id="action_tracking_report_manifest" model="ir.actions.act_window">
+            <field name="name">Manifest Report</field>
+            <field name="res_model">custom.manifest.report</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_custom_manifest_report"/>
+            <field name="domain">[('bool_manifest','=', True)]</field>            
+        </record>
+
+        <record id="move_rec_tracking_manifest_action" model="ir.actions.server">
+            <field name="name">Move to manifest</field>
+            <field name="model_id" ref="customize_vpcs.model_custom_tracking_report"/>
+            <field name="binding_model_id" ref="customize_vpcs.model_custom_tracking_report"/>
+            <field name="binding_view_types">list</field>
+            <field name="state">code</field>
+            <field name="code">action = records.action_move_into_manifest()</field>
+        </record>
 
         <menuitem id="custom_tracking_report" name="Tracking Report"
             groups="customize_vpcs.group_tracking_report_visibility"
             action="action_tracking_report"
             parent="project.menu_main_pm" sequence="22"/>
+
+        <menuitem id="custom_manifest_report" name="Manifest Report"
+            action="action_tracking_report_manifest"
+            parent="project.menu_project_report" sequence="22"/>
 
     </data>
 </odoo>

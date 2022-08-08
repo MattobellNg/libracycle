@@ -73,7 +73,7 @@
             </field>
         </record>
 
-        <menuitem name="Project Schedule items" id="project_schedule_items_menu" parent="project.menu_main_pm" action="project_schedule_items_act_window"/>
+        <!-- <menuitem name="Project Schedule items" id="project_schedule_items_menu" parent="project.menu_main_pm" action="project_schedule_items_act_window"/> -->
 
     </data>
 </odoo>
