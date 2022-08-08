@@ -1,76 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>        
     <record id="action_manifest_report" model="ir.actions.report">
-        <field name="name">Waybill</field>
+        <field name="name">Generate Waybill</field>
         <field name="model">custom.manifest.report</field>
         <field name="report_type">qweb-pdf</field>
-        <field name="report_name">customize_vpcs.custom_manifest_report</field>
-        <field name="report_file">customize_vpcs.custom_manifest_report</field>
+        <field name="report_name">customize_vpcs.custom_template_manifest_report</field>
+        <field name="report_file">customize_vpcs.custom_template_manifest_report</field>
         <field name="binding_model_id" ref="model_custom_manifest_report"/>
     </record>
 
-     <template id="external_layout_footer">
-        <div class="footer">
-            <div class="text-center" style="border-top: 1px solid black;">
-                <ul class="list-inline">
-                    <li>Developed By: Hassan Enterprises</li>
-
-                    <li>&amp;bull;</li>
-                    <li>Phone: +92 321 1234567</li>
-
-                    <li>&amp;bull;</li>
-                    <li>Email: abc@gmail.com</li>
-                </ul>
-
-                <ul class="list-inline">
-                    <li>Page:</li>
-                    <li><span class="page"/></li>
-                    <li>/</li>
-                    <li><span class="topage"/></li>
-                </ul>
-            </div>
-        </div>    
-    </template>
-
-
-    <template id="custom_manifest_report">
+    <template id="custom_template_manifest_report">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
                 <t t-call="web.external_layout">                                     
-                    <div class="page">
-                        <div class="page">
-                            <div class="mb-4 mt-3">
-                                <div class="row">
-                                    <div class="col-6" t-if="o.sn_no.partner_id">
-                                        Partner: <span t-field="o.sn_no.partner_id.name"/><br></br>
-                                        address: <span t-field="o.sn_no.partner_id.street"/><br></br>
-                                        <span t-field="o.sn_no.partner_id.street2"/><br></br>
-                                        <span t-field="o.sn_no.partner_id.city"/><br></br>
-                                        <span t-field="o.sn_no.partner_id.state_id.name"/><br></br>
-                                        <span t-field="o.sn_no.partner_id.zip"/><br></br>
-                                        <span t-field="o.sn_no.partner_id.country_id.name"/><br></br>
-                                    </div>
-                                </div>                               
-                            </div>                        
+                    <div class="page">                        
+                        <div class="mb-4 mt-3">
+                            <div class="row">
+                                <div class="col-6" t-if="o.sn_no.partner_id">
+                                    Partner: <span t-field="o.sn_no.partner_id.name"/><br></br>
+                                    address: <span t-field="o.sn_no.partner_id.street"/><br></br>
+                                    <span t-field="o.sn_no.partner_id.street2"/><br></br>
+                                    <span t-field="o.sn_no.partner_id.city"/><br></br>
+                                    <span t-field="o.sn_no.partner_id.state_id.name"/><br></br>
+                                    <span t-field="o.sn_no.partner_id.zip"/><br></br>
+                                    <span t-field="o.sn_no.partner_id.country_id.name"/><br></br>
+                                    <span style='border:2px solid black;margin-top:20px;padding:5px;'>WAYBILL/DELIVERY NOTE</span><br></br>                                       
+                                </div>
+
+                                <div class='col-6'>
+                                    NO:<span t-field="o.waybill_no"/><br></br>                                        
+                                    <table style='border-collapse:collapse;width:100%;'>
+                                        <tr>
+                                            <td style='border:1px solid black;text-align:left;padding:8px;'><strong>Date: </strong></td>
+                                            <td style='border:1px solid black;text-align:left;padding:8px;'><t t-esc='o.delivery_begin_date'/></td>
+                                        </tr>                                                             
+                                    </table>
+
+                                </div>
+                                <div class='col-6'>
+                                    Transporter's Name : <span t-field="o.transportar_name"/><br></br>
+                                    Vehicle No : <span t-field="o.truck_number"/><br></br>
+                                </div>
+                                <div class='col-6'>
+                                    Driver Name : <span t-field="o.driver_name"/><br></br>
+                                    Driver Phone No : <span t-field="o.phone_number"/><br></br>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">                                        
+                                    <table style="border:1px solid black;width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th colspan="2" style='border:1px solid black;text-align:left;padding:8px;'>QTY.</th>
+                                                <th style="border:1px solid black;text-align:left;padding:8px;width:70%">DESCRIPTION OF GOODS</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                              <!-- <td rowspan="2" colspan="2">A large cell</td> -->
+                                              <td style='border:1px solid black;text-align:left;padding:8px;' rowspan='2' colspan='2'><t t-esc='o.container_size'/></td>
+                                              <td style='border:1px solid black;text-align:left;padding:8px;'> <strong>BOL NO  :</strong><t t-esc='o.bl_number'/></td>
+                                            </tr>
+                                            <tr>
+                                                <td style='border:1px solid black;text-align:left;padding:8px;'><strong>CONTAINER NO  :</strong><t t-esc='o.Container_number'/></td>
+                                            </tr>
+                                            <tr>
+                                                <td style='border:1px solid black;text-align:left;padding:8px;' rowspan='2' colspan='2'></td>
+                                                <td style='border:1px solid black;text-align:left;padding:8px;' ><strong>CONTAINER SEAL NO  :</strong><t t-esc='o.container_seal_no'/></td>
+                                            </tr>
+                                            <tr>                                                    
+                                                <td style='border:1px solid black;text-align:left;padding:8px;'><strong>QTY. RECEIVED (ORIGIN)  :</strong><t t-esc='o.qty_received_origin'/></td>
+                                            </tr>
+                                            <tr>
+                                                <td style='border:1px solid black;text-align:left;padding:8px;' rowspan='2' colspan='2'></td>
+                                                <td style='border:1px solid black;text-align:left;padding:8px;'><strong>QTY. RECEIVED (DEST)  :</strong><t t-esc='o.qty_received_dest'/></td>
+                                            </tr>
+                                            <tr>                                                    
+                                                <td style='border:1px solid black;text-align:left;padding:8px;'><strong>CARGO NAME  :</strong><t t-esc='o.cargo_name'/></td>
+                                            </tr>
+                                            <tr>
+                                                <td style='border:1px solid black;text-align:left;padding:8px;' rowspan='2' colspan='2'></td>
+                                                <td style='border:1px solid black;text-align:left;padding:8px;'><strong>DESTINATION  :</strong><t t-esc='o.time_to_destination'/></td>
+                                            </tr>
+                                            <tr>                                                   
+                                                <td style='border:1px solid black;text-align:left;padding:8px;'><strong>SEALED (YES/NO)  :</strong><t t-esc='o.sealed'/></td>
+                                            </tr>
+                                            <tr>
+                                                <td style='border:1px solid black;text-align:left;padding:8px;' rowspan='2' colspan='2'></td>
+                                                <td style='border:1px solid black;text-align:left;padding:8px;'><strong>TRACKER FOUND (YES/NO)  :</strong><t t-esc='o.tracker_found'/></td>
+                                            </tr>
+                                            <tr>
+                                                <td style='border:1px solid black;text-align:left;padding:8px;'><strong>ARRIVAL DATE  :</strong><t t-esc='o.barge_arrival_date'/></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <span><strong>The Good(s) above is(are) delivered and received in good condition.</strong></span>
+                                </div> 
+                                <div class='col-6'>
+                                    <strong>Delivered By :</strong><br></br>
+                                    <strong>Sign :</strong><br></br>
+                                    <strong>Date :</strong><br></br>
+                                </div>
+                                <div class='col-6'>
+                                    <strong>Received By :</strong><br></br>
+                                    <strong>Sign :</strong><br></br>
+                                    <strong>Date :</strong><br></br>
+                                </div>
+                            </div>                               
                         </div>
                     </div>
                 </t>
             </t>
         </t>
-    </template>
-
-    <template id='custom_footer'>
-         <div class="footer">
-            <div class="text-center" style="border-top: 1px solid black;">
-                <!-- <ul>
-                    <li>ssfsfjbgjsdk</li>
-                </ul> -->
-                <ul class="list-inline mb4 text-nowrap">
-                    <li class="list-inline-item d-inline">Phone: <span class="o_force_ltr"/>(234) 909 8710 778, (234) 818 4792 309</li>
-                    <li class="list-inline-item d-inline">Email: <span>info@libracircle.com</span></li>
-                    <li class="list-inline-item d-inline">Website: <span>https://libracircle.com/</span></li>
-                </ul>
-            </div>
-        </div>
     </template>
 </odoo>

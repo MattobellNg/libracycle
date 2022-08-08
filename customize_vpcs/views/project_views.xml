@@ -514,6 +514,10 @@
                     <field name="weight"/>
                     <field name="sealed"/>
                     <field name="tracker_found"/>
+                    <field name="container_seal_no"/>
+                    <field name="cargo_name"/>
+                    <field name="qty_received_origin"/>
+                    <field name="qty_received_dest"/>
                     <field name="bool_manifest" invisible='1'/>
                 </tree>
             </field>

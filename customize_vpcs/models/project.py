@@ -1043,9 +1043,18 @@ class CustomManifestReport(models.Model):
     sealed = fields.Char(string='Sealed(Yes/No)')
     tracker_found = fields.Char(string='Tracker Found(Yes/No)')
     client_ref = fields.Char(string='Client Ref./ File No')
+    container_seal_no = fields.Char(string='Container Seal No')
+    cargo_name = fields.Char(string='Cargo Name')
+    qty_received_origin = fields.Char(string='QTY. Received (ORIGIN)')
+    qty_received_dest = fields.Char(string='QTY. Received (DEST)')
     # needs to remove
     # bool_track_to_manifest = fields.Boolean()
     bool_manifest = fields.Boolean()
+    # this field dont need to show on view
+    waybill_no = fields.Char(string='Waybill No')
+    delivery_begin_date = fields.Date(string='Delivery Begin Date')
+
+
 
 
 
@@ -1138,7 +1147,11 @@ class CustomTrackingReport(models.Model):
                     'barge_arrival_date': rec.barge_arrival_date,
                     "bool_manifest" : rec.bool_track_to_manifest,
                     'weight' : rec.weight,
-                    'client_ref' : rec.sn_no.client_ref, 
+                    'client_ref' : rec.sn_no.client_ref,
+                    'waybill_no': rec.waybill_no,
+                    'delivery_begin_date': rec.delivery_begin_date,
+                    'truck_number':rec.truck_number,
+                    'transportar_name':rec.transportar_name, 
                 }
             )
 
