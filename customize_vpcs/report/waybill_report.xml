@@ -15,20 +15,35 @@
                 <t t-call="web.external_layout">                                     
                     <div class="page">                        
                         <div class="mb-4 mt-3">
-                            <div class="row">
+                            <div class="row">                                
                                 <div class="col-6" t-if="o.sn_no.partner_id">
-                                    Partner: <span t-field="o.sn_no.partner_id.name"/><br></br>
-                                    address: <span t-field="o.sn_no.partner_id.street"/><br></br>
-                                    <span t-field="o.sn_no.partner_id.street2"/><br></br>
-                                    <span t-field="o.sn_no.partner_id.city"/><br></br>
-                                    <span t-field="o.sn_no.partner_id.state_id.name"/><br></br>
-                                    <span t-field="o.sn_no.partner_id.zip"/><br></br>
-                                    <span t-field="o.sn_no.partner_id.country_id.name"/><br></br>
-                                    <span style='border:2px solid black;margin-top:20px;padding:5px;'>WAYBILL/DELIVERY NOTE</span><br></br>                                       
+                                    <div style='text-align:left;'>
+                                        Partner
+                                        <span style='float:right;' t-field='o.sn_no.partner_id.name'/>
+                                    </div>
+                                    <div style='text-align:left;'>
+                                        Address
+                                        <span style='float:right;' t-field='o.sn_no.partner_id.street'/><br></br>
+                                        <span style='float:right;' t-field='o.sn_no.partner_id.street2'/><br></br>
+                                        <span style='float:right;' t-field='o.sn_no.partner_id.city'/><br></br>
+                                        <span style='float:right;' t-field='o.sn_no.partner_id.state_id.name'/><br></br>
+                                        <span style='float:right;' t-field='o.sn_no.partner_id.zip'/><br></br>
+                                        <span style='float:right;' t-field='o.sn_no.partner_id.country_id.name'/><br></br>
+                                    </div>
+                                    <div style='text-align:left;margin-bottom:20px;'>
+                                        <span style='border:2px solid black;padding:5px;'>WAYBILL/DELIVERY NOTE</span><br></br>
+                                    </div>                                   
                                 </div>
 
                                 <div class='col-6'>
-                                    NO:<span t-field="o.waybill_no"/><br></br>                                        
+                                    <div style='text-align:left;'>
+                                        Status
+                                        <span style='float:right;' t-field='o.custom_tracking_id.schedule_status'/>
+                                    </div>
+                                    <div style='text-align:left;'>
+                                        No
+                                        <span style='float:right;' t-field='o.waybill_no'/>
+                                    </div>
                                     <table style='border-collapse:collapse;width:100%;'>
                                         <tr>
                                             <td style='border:1px solid black;text-align:left;padding:8px;'><strong>Date: </strong></td>
@@ -38,12 +53,24 @@
 
                                 </div>
                                 <div class='col-6'>
-                                    Transporter's Name : <span t-field="o.transportar_name"/><br></br>
-                                    Vehicle No : <span t-field="o.truck_number"/><br></br>
+                                    <div style='text-align:left;'>
+                                        Transporter's Name
+                                        <span style='float:right;' t-field='o.transportar_name'/>
+                                    </div>
+                                    <div style='text-align:left;'>
+                                        Vehicle No
+                                        <span style='float:right;' t-field='o.truck_number'/>
+                                    </div>
                                 </div>
                                 <div class='col-6'>
-                                    Driver Name : <span t-field="o.driver_name"/><br></br>
-                                    Driver Phone No : <span t-field="o.phone_number"/><br></br>
+                                    <div style='text-align:left;'>
+                                        Driver Name
+                                        <span style='float:right;' t-field='o.driver_name'/>
+                                    </div>
+                                    <div style='text-align:left;'>
+                                        Driver Phone No
+                                        <span style='float:right;' t-field='o.phone_number'/>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row">
@@ -59,38 +86,90 @@
                                             <tr>
                                               <!-- <td rowspan="2" colspan="2">A large cell</td> -->
                                               <td style='border:1px solid black;text-align:left;padding:8px;' rowspan='2' colspan='2'><t t-esc='o.container_size'/></td>
-                                              <td style='border:1px solid black;text-align:left;padding:8px;'> <strong>BOL NO  :</strong><t t-esc='o.bl_number'/></td>
+                                              <td style='border:1px solid black;text-align:left;padding:8px;'> 
+                                                <div style='text-align:left;'>
+                                                    BOL NO
+                                                    <span style='float:right;' t-field='o.bl_number'/>
+                                                </div>
+                                              </td>
                                             </tr>
                                             <tr>
-                                                <td style='border:1px solid black;text-align:left;padding:8px;'><strong>CONTAINER NO  :</strong><t t-esc='o.Container_number'/></td>
+                                                <td style='border:1px solid black;text-align:left;padding:8px;'>
+                                                    <div style='text-align:left;'>
+                                                        CONTAINER NO
+                                                        <span style='float:right;' t-field='o.Container_number'/>
+                                                    </div>
+                                                    <!-- <strong>CONTAINER NO  :</strong><t t-esc='o.Container_number'/> -->
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td style='border:1px solid black;text-align:left;padding:8px;' rowspan='2' colspan='2'></td>
-                                                <td style='border:1px solid black;text-align:left;padding:8px;' ><strong>CONTAINER SEAL NO  :</strong><t t-esc='o.container_seal_no'/></td>
+                                                <td style='border:1px solid black;text-align:left;padding:8px;' >
+                                                    <div style='text-align:left;'>
+                                                        CONTAINER SEAL NO
+                                                        <span style='float:right;' t-field='o.container_seal_no'/>
+                                                    </div>                                                    
+                                                </td>
                                             </tr>
                                             <tr>                                                    
-                                                <td style='border:1px solid black;text-align:left;padding:8px;'><strong>QTY. RECEIVED (ORIGIN)  :</strong><t t-esc='o.qty_received_origin'/></td>
+                                                <td style='border:1px solid black;text-align:left;padding:8px;'>
+                                                    <div style='text-align:left;'>
+                                                        QTY. RECEIVED (ORIGIN)
+                                                        <span style='float:right;' t-field='o.qty_received_origin'/>
+                                                    </div>                                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td style='border:1px solid black;text-align:left;padding:8px;' rowspan='2' colspan='2'></td>
-                                                <td style='border:1px solid black;text-align:left;padding:8px;'><strong>QTY. RECEIVED (DEST)  :</strong><t t-esc='o.qty_received_dest'/></td>
+
+                                                <td style='border:1px solid black;text-align:left;padding:8px;'>
+                                                    <div style='text-align:left;'>
+                                                        QTY. RECEIVED (DEST)
+                                                        <span style='float:right;' t-field='o.qty_received_dest'/>
+                                                    </div>                                                    
+                                                </td>
                                             </tr>
                                             <tr>                                                    
-                                                <td style='border:1px solid black;text-align:left;padding:8px;'><strong>CARGO NAME  :</strong><t t-esc='o.cargo_name'/></td>
+                                                <td style='border:1px solid black;text-align:left;padding:8px;'>
+                                                    <div style='text-align:left;'>
+                                                        CARGO NAME
+                                                        <span style='float:right;' t-field='o.cargo_name'/>
+                                                    </div>
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td style='border:1px solid black;text-align:left;padding:8px;' rowspan='2' colspan='2'></td>
-                                                <td style='border:1px solid black;text-align:left;padding:8px;'><strong>DESTINATION  :</strong><t t-esc='o.time_to_destination'/></td>
+                                                <td style='border:1px solid black;text-align:left;padding:8px;'>
+                                                    <div style='text-align:left;'>
+                                                        DESTINATION
+                                                        <span style='float:right;' t-field='o.time_to_destination'/>
+                                                    </div>
+                                                </td>
                                             </tr>
                                             <tr>                                                   
-                                                <td style='border:1px solid black;text-align:left;padding:8px;'><strong>SEALED (YES/NO)  :</strong><t t-esc='o.sealed'/></td>
+                                                <td style='border:1px solid black;text-align:left;padding:8px;'>
+                                                    <div style='text-align:left;'>
+                                                        SEALED (YES/NO)
+                                                        <span style='float:right;' t-field='o.sealed'/>
+                                                    </div>
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td style='border:1px solid black;text-align:left;padding:8px;' rowspan='2' colspan='2'></td>
-                                                <td style='border:1px solid black;text-align:left;padding:8px;'><strong>TRACKER FOUND (YES/NO)  :</strong><t t-esc='o.tracker_found'/></td>
+                                                <td style='border:1px solid black;text-align:left;padding:8px;'>
+                                                    <div style='text-align:left;'>
+                                                        TRACKER FOUND (YES/NO)
+                                                        <span style='float:right;' t-field='o.tracker_found'/>
+                                                    </div>
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <td style='border:1px solid black;text-align:left;padding:8px;'><strong>ARRIVAL DATE  :</strong><t t-esc='o.barge_arrival_date'/></td>
+                                                <td style='border:1px solid black;text-align:left;padding:8px;'>
+                                                    <div style='text-align:left;'>
+                                                        ARRIVAL DATE
+                                                        <span style='float:right;' t-field='o.barge_arrival_date'/>
+                                                    </div>
+                                                </td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -98,12 +177,10 @@
                                 </div> 
                                 <div class='col-6'>
                                     <strong>Delivered By :</strong><br></br>
-                                    <strong>Sign :</strong><br></br>
                                     <strong>Date :</strong><br></br>
                                 </div>
                                 <div class='col-6'>
-                                    <strong>Received By :</strong><br></br>
-                                    <strong>Sign :</strong><br></br>
+                                    <strong>Received By :</strong><br></br>                                    
                                     <strong>Date :</strong><br></br>
                                 </div>
                             </div>                               

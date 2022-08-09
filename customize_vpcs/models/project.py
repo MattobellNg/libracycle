@@ -1027,6 +1027,7 @@ class AccountMoveLine(models.Model):
 class CustomManifestReport(models.Model):
     _name = "custom.manifest.report"
 
+    custom_tracking_id = fields.Many2one('custom.tracking.report',string='Custom tracking id')
     sn_no = fields.Many2one('project.project',string='S/N No')
     Container_number = fields.Char(string='Container Number')
     bl_number = fields.Char(string='BL Number')
@@ -1137,6 +1138,7 @@ class CustomTrackingReport(models.Model):
             manifest_id = self.env['custom.manifest.report'].create(
                 {
                     'sn_no':rec.sn_no.id,
+                    'custom_tracking_id' : rec.id,
                     'Container_number' : rec.Container_number,
                     'bl_number' : rec.bl_number,
                     'container_size': rec.container_size,
