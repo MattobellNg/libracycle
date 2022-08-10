@@ -1,7 +1,7 @@
-from odoo import models, fields, api
-from odoo.exceptions import ValidationError
+from urllib.parse import urlencode, urljoin
 
-from urllib.parse import urljoin, urlencode
+from odoo import api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class HrPayslipRun(models.Model):
@@ -25,7 +25,8 @@ class HrPayslipRun(models.Model):
             "qac": lambda m: m.write({"state": "draft"}),
             "director_1": lambda m: m.write({"state": "draft"}),
             "director_2": lambda m: m.write({"state": "draft"}),
-        }, tracking=True
+        },
+        tracking=True,
     )
 
     def action_submit_to_admin(self):

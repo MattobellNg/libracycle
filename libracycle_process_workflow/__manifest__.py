@@ -6,7 +6,7 @@
     """,
     "author": "Matt O'Bell",
     "website": "http://www.yourcompany.com",
-    "version": "1.2.5",
+    "version": "1.2.6",
     "depends": [
         "base",
         "account_accountant",
@@ -15,6 +15,7 @@
         "sale_management",
         "analytic_enterprise",
         "sale_project",
+        "hr_expense",
     ],
     "data": [
         # 'security/ir.model.access.csv',
@@ -24,6 +25,7 @@
         "data/ir_sequence.xml",
         "views/hr_payslip_run.xml",
         "views/sale_order.xml",
+        "views/hr_expense_sheet.xml",
         "data/mail_template.xml",
         "report/report_saleorder.xml",
     ],

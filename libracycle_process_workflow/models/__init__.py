@@ -1,4 +1,1 @@
-from . import account_move
-from . import hr_payslip_run
-from . import res_partner
-from . import sale_order
+from . import account_move, hr_payslip_run, res_partner, sale_order, hr_expense_sheet

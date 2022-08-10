@@ -1,7 +1,7 @@
-from odoo import models, fields, api
-from odoo.exceptions import ValidationError
+from urllib.parse import urlencode, urljoin
 
-from urllib.parse import urljoin, urlencode
+from odoo import api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class AccountMove(models.Model):
