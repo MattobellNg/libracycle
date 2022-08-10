@@ -1027,6 +1027,7 @@ class AccountMoveLine(models.Model):
 class CustomManifestReport(models.Model):
     _name = "custom.manifest.report"
 
+    custom_tracking_id = fields.Many2one('custom.tracking.report',string='Custom tracking id')
     sn_no = fields.Many2one('project.project',string='S/N No')
     Container_number = fields.Char(string='Container Number')
     bl_number = fields.Char(string='BL Number')
@@ -1043,9 +1044,18 @@ class CustomManifestReport(models.Model):
     sealed = fields.Char(string='Sealed(Yes/No)')
     tracker_found = fields.Char(string='Tracker Found(Yes/No)')
     client_ref = fields.Char(string='Client Ref./ File No')
+    container_seal_no = fields.Char(string='Container Seal No')
+    cargo_name = fields.Char(string='Cargo Name')
+    qty_received_origin = fields.Char(string='QTY. Received (ORIGIN)')
+    qty_received_dest = fields.Char(string='QTY. Received (DEST)')
     # needs to remove
     # bool_track_to_manifest = fields.Boolean()
     bool_manifest = fields.Boolean()
+    # this field dont need to show on view
+    waybill_no = fields.Char(string='Waybill No')
+    delivery_begin_date = fields.Date(string='Delivery Begin Date')
+
+
 
 
 
@@ -1057,11 +1067,11 @@ class CustomTrackingReport(models.Model):
 
     # project_id = fields.Many2one('project.project',string='Project')
     sn_no = fields.Many2one('project.project',string='S/N No')
-    client_name = fields.Many2one('res.partner',string='Client name',related='sn_no.partner_id')
+    client_name = fields.Many2one('res.partner',string='Client name',related='sn_no.partner_id',store=True)
     liner = fields.Many2one('shipping.line',string='Liner',related='sn_no.ship_line')
     Container_number = fields.Char(string='Container Number')
     bl_number = fields.Char(string='BL Number',related='sn_no.job_refs')
-    container_size = fields.Char(string='Container Size')
+    container_size = fields.Integer(string='Container Size')
     date_tdo_received = fields.Date(string='Date TDO Received',related='sn_no.job_tdo')
     delivery_begin_date = fields.Date(string='Delivery Begin Date')
     truck_loading_date = fields.Date(string='Truck Loading Date',related='sn_no.date_delivery_start')
@@ -1075,6 +1085,7 @@ class CustomTrackingReport(models.Model):
     barge_arrival_date = fields.Date(string='Barge Arrival Date',related='sn_no.eta')
     tug = fields.Many2one('vessel.line',string='Tug',related='sn_no.ves_line')
     barge_name_operator = fields.Many2one('barge.operator',string='Barge Name/Operator',related='sn_no.barge_operator')
+    unique_barge_name = fields.Char(string='Unique Barge Ref.Number')
     barge_offloading_date = fields.Date(string='Barge Offloading Date',related='sn_no.etd')
     container_age = fields.Char(compute='comp_init_terminal',string='Container Age In Ikorodu',store=True)
     container_age_terminal = fields.Char(compute='comp_init_terminal',string='Container Age In the Terminal',store=True)
@@ -1096,7 +1107,7 @@ class CustomTrackingReport(models.Model):
     current_empty_location = fields.Char(string='Current empty location')
     do_expiry_date = fields.Date(string='DO Expiry Date')
     comments = fields.Char(string='Comments')
-    weight = fields.Char(string='Weight')
+    weight = fields.Integer(string='Weight')
     # project_schedule_items_ids
     # project_schedule_id = fields.Many2one('project.schedule.items',string='Project schedule Items')
     # schedule_status = fields.Selection(related='project_schedule_id.state',string='Schedule items status')
@@ -1128,6 +1139,7 @@ class CustomTrackingReport(models.Model):
             manifest_id = self.env['custom.manifest.report'].create(
                 {
                     'sn_no':rec.sn_no.id,
+                    'custom_tracking_id' : rec.id,
                     'Container_number' : rec.Container_number,
                     'bl_number' : rec.bl_number,
                     'container_size': rec.container_size,
@@ -1138,7 +1150,11 @@ class CustomTrackingReport(models.Model):
                     'barge_arrival_date': rec.barge_arrival_date,
                     "bool_manifest" : rec.bool_track_to_manifest,
                     'weight' : rec.weight,
-                    'client_ref' : rec.sn_no.client_ref, 
+                    'client_ref' : rec.sn_no.client_ref,
+                    'waybill_no': rec.waybill_no,
+                    'delivery_begin_date': rec.delivery_begin_date,
+                    'truck_number':rec.truck_number,
+                    'transportar_name':rec.transportar_name, 
                 }
             )
 
