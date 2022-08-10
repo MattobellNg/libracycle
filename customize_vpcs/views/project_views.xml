@@ -480,8 +480,7 @@
                     <field name="barged_to" width='100px' optional='show'/>
                     <field name="barge_arrival_date" width='100px' optional='show'/>
                     <field name="tug" width='100px' optional='show'/>
-                    <field name="barge_name_operator" width='100px' optional='show'/>
-                    <field name="unique_barge_name" width='100px' optional='show'/>
+                    <field name="barge_name_operator" width='100px' optional='show'/>                    
                     <field name="barge_offloading_date" width='100px' optional='show'/>
                     <field name="container_age" width='100px' optional='show'/>
                     <field name="container_age_terminal" width='100px' optional='show'/>
@@ -516,6 +515,7 @@
             <field name="arch" type="xml">
                 <tree editable="top" multi_edit="1" string="Manifest Report">
                     <field name="sn_no"/>
+                    <field name="unique_barge_name" width='100px' optional='show'/>
                     <field name="Container_number"/>
                     <field name="bl_number"/>
                     <field name="container_size"/>
@@ -530,6 +530,7 @@
                     <field name="tracker_found"/>
                     <field name="container_seal_no"/>
                     <field name="cargo_name"/>
+                    <field name="barge_date_manifest"/>                    
                     <field name="qty_received_origin"/>
                     <field name="qty_received_dest"/>
                     <field name="bool_manifest" invisible='1'/>
