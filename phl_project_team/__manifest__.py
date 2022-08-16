@@ -1,5 +1,3 @@
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
-
 {
     "name": "Project Team",
     "author": "Serpent Consulting Services Pvt. Ltd.",
@@ -12,4 +10,5 @@
     "data": ["security/project_team_security.xml", "views/project_team_view.xml"],
     "installable": True,
     "auto_install": False,
+    "license": "LGPL-3",
 }

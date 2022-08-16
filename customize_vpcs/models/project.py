@@ -965,7 +965,7 @@ class ProjectScheduleItemsInherit(models.Model):
         if not self.barged_id:
             number = self.env['ir.sequence'].next_by_code('barged.out') or _('New')
             barged = self.env['barged.out'].create({
-                    'name':number,
+                    'name':number,  
                 })
             for rec in self:
                 rec.state = 'barged_out'
@@ -1024,6 +1024,40 @@ class AccountMoveLine(models.Model):
 
     readonly_price_field = fields.Boolean()
 
+class CustomManifestReport(models.Model):
+    _name = "custom.manifest.report"
+
+    custom_tracking_id = fields.Many2one('custom.tracking.report',string='Custom tracking id')
+    sn_no = fields.Many2one('project.project',string='S/N No')
+    Container_number = fields.Char(string='Container Number')
+    bl_number = fields.Char(string='BL Number')
+    container_size = fields.Char(string='Container Size')
+    client_name = fields.Many2one('res.partner',string='Client name')
+    liner = fields.Many2one('shipping.line',string='Liner')
+    driver_name = fields.Char(string='Drivers Name')
+    phone_number = fields.Char(string='Phone Number')
+    barge_arrival_date = fields.Date(string='Barge Arrival Date')
+    time_to_destination = fields.Char(string='Time to Destination')
+    truck_number = fields.Char(string='Truck Number')
+    transportar_name = fields.Char(string="Transporter's Name")
+    weight = fields.Char(string='Weight')
+    sealed = fields.Char(string='Sealed(Yes/No)')
+    tracker_found = fields.Char(string='Tracker Found(Yes/No)')
+    client_ref = fields.Char(string='Client Ref./ File No')
+    container_seal_no = fields.Char(string='Container Seal No')
+    cargo_name = fields.Char(string='Cargo Name')
+    qty_received_origin = fields.Char(string='QTY. Received (ORIGIN)')
+    qty_received_dest = fields.Char(string='QTY. Received (DEST)')
+    # needs to remove
+    # bool_track_to_manifest = fields.Boolean()
+    bool_manifest = fields.Boolean()
+    # this field dont need to show on view
+    waybill_no = fields.Char(string='Waybill No')
+    delivery_begin_date = fields.Date(string='Delivery Begin Date')
+    unique_barge_name = fields.Char(string='Unique Barge Ref.Number')
+    barge_date_manifest = fields.Date(string='Barge Date') 
+
+
 class CustomTrackingReport(models.Model):
 
     _name = "custom.tracking.report"
@@ -1031,11 +1065,11 @@ class CustomTrackingReport(models.Model):
 
     # project_id = fields.Many2one('project.project',string='Project')
     sn_no = fields.Many2one('project.project',string='S/N No')
-    client_name = fields.Many2one('res.partner',string='Client name',related='sn_no.partner_id')
+    client_name = fields.Many2one('res.partner',string='Client name',related='sn_no.partner_id',store=True)
     liner = fields.Many2one('shipping.line',string='Liner',related='sn_no.ship_line')
     Container_number = fields.Char(string='Container Number')
     bl_number = fields.Char(string='BL Number',related='sn_no.job_refs')
-    container_size = fields.Char(string='Container Size')
+    container_size = fields.Integer(string='Container Size')
     date_tdo_received = fields.Date(string='Date TDO Received',related='sn_no.job_tdo')
     delivery_begin_date = fields.Date(string='Delivery Begin Date')
     truck_loading_date = fields.Date(string='Truck Loading Date',related='sn_no.date_delivery_start')
@@ -1049,6 +1083,7 @@ class CustomTrackingReport(models.Model):
     barge_arrival_date = fields.Date(string='Barge Arrival Date',related='sn_no.eta')
     tug = fields.Many2one('vessel.line',string='Tug',related='sn_no.ves_line')
     barge_name_operator = fields.Many2one('barge.operator',string='Barge Name/Operator',related='sn_no.barge_operator')
+    # unique_barge_name = fields.Char(string='Unique Barge Ref.Number')
     barge_offloading_date = fields.Date(string='Barge Offloading Date',related='sn_no.etd')
     container_age = fields.Char(compute='comp_init_terminal',string='Container Age In Ikorodu',store=True)
     container_age_terminal = fields.Char(compute='comp_init_terminal',string='Container Age In the Terminal',store=True)
@@ -1070,6 +1105,85 @@ class CustomTrackingReport(models.Model):
     current_empty_location = fields.Char(string='Current empty location')
     do_expiry_date = fields.Date(string='DO Expiry Date')
     comments = fields.Char(string='Comments')
+    weight = fields.Integer(string='Weight')
+    # project_schedule_items_ids
+    # project_schedule_id = fields.Many2one('project.schedule.items',string='Project schedule Items')
+    # schedule_status = fields.Selection(related='project_schedule_id.state',string='Schedule items status')
+    schedule_status = fields.Selection(string='Schedule items status', 
+        selection=[('in_port', 'In Port'), ('in_transit', 'In Transit'),('barged_out','Barged Out'),('del_ship','Delivered/Shipped'),('return','Return Item')],default='in_port')
+    # needs to be delete
+    bool_track_to_manifest = fields.Boolean()
+
+    def action_in_tracking_transit(self):
+        for rec in self:
+            rec.schedule_status = 'in_transit'
+
+    def action_barged_out_tracking(self):
+        number = self.env['ir.sequence'].next_by_code('barged.out') or _('New')
+        for rec in self:
+            barged = self.env['barged.out'].create({
+                    'name':number,  
+                })
+            rec.schedule_status = 'barged_out'
+            get_date = datetime.today()
+            if rec.schedule_status == 'barged_out':
+                rec.bool_track_to_manifest = True
+                manifest_id = self.env['custom.manifest.report'].create(
+                    {
+                        'sn_no':rec.sn_no.id,
+                        'custom_tracking_id' : rec.id,
+                        'Container_number' : rec.Container_number,
+                        'bl_number' : rec.bl_number,
+                        'container_size': rec.container_size,
+                        'client_name': rec.client_name.id,
+                        'liner' : rec.liner.id,
+                        'driver_name' : rec.driver_name,
+                        'phone_number' : rec.phone_number,
+                        'barge_arrival_date': rec.barge_arrival_date,
+                        "bool_manifest" : rec.bool_track_to_manifest,
+                        'weight' : rec.weight,
+                        'client_ref' : rec.sn_no.client_ref,
+                        'waybill_no': rec.waybill_no,
+                        'delivery_begin_date': rec.delivery_begin_date,
+                        'truck_number':rec.truck_number,
+                        'transportar_name':rec.transportar_name,
+                        'unique_barge_name':barged.name,
+                        'barge_date_manifest':get_date, 
+                    }
+                )
+
+    def action_in_tracking_delivery(self):
+        for rec in self:
+            rec.schedule_status = 'del_ship'
+
+    def action_return_item_tracking(self):
+        for rec in self:
+            rec.schedule_status = 'return'
+
+    def action_move_into_manifest(self):
+        for rec in self:
+            rec.bool_track_to_manifest = True
+            manifest_id = self.env['custom.manifest.report'].create(
+                {
+                    'sn_no':rec.sn_no.id,
+                    'custom_tracking_id' : rec.id,
+                    'Container_number' : rec.Container_number,
+                    'bl_number' : rec.bl_number,
+                    'container_size': rec.container_size,
+                    'client_name': rec.client_name.id,
+                    'liner' : rec.liner.id,
+                    'driver_name' : rec.driver_name,
+                    'phone_number' : rec.phone_number,
+                    'barge_arrival_date': rec.barge_arrival_date,
+                    "bool_manifest" : rec.bool_track_to_manifest,
+                    'weight' : rec.weight,
+                    'client_ref' : rec.sn_no.client_ref,
+                    'waybill_no': rec.waybill_no,
+                    'delivery_begin_date': rec.delivery_begin_date,
+                    'truck_number':rec.truck_number,
+                    'transportar_name':rec.transportar_name, 
+                }
+            )            
 
     @api.depends('truck_loading_date','date_tdo_received','sn_no','date_return_to_terminal','import_barge_date','truck_out_loading_date','barge_offloading_date','barge_arrival_date')
     def comp_init_terminal(self):

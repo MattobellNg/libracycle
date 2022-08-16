@@ -17,6 +17,7 @@
         'views/view.xml',
         # 'views/credit_application_sequence.xml',
     ],
+    "license": "LGPL-3",
     'installable': True,
     'auto_install': False,
 }

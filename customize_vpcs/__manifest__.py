@@ -10,17 +10,19 @@
     (1) Project
     (2) QAC
     """,
-    'depends': ['project','web','project_project_category'],
+    'depends': ['project','web','project_project_category','report_xlsx'],
     'data': [
         'security/project_access.xml',
         "security/ir.model.access.csv",
         "data/seq.xml",
         "data/batch_action.xml",
+        "data/batch_action_tracking.xml",
         'views/project_views.xml',
         'views/project_project_category.xml',
         "data/email_template.xml",
         "report/report.xml",
         "report/report_pdf.xml",
+        "report/waybill_report.xml",
     ],
     'qweb': [
     ],
