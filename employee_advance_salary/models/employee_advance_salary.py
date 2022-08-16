@@ -1,6 +1,3 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
-
 import time
 
 # from openerp import models, fields, api, _
@@ -22,31 +19,68 @@ class EmployeeAdvanceSalary(models.Model):
         return self.env.user.company_id.currency_id
 
     employee_id = fields.Many2one(
-        "hr.employee", required=True, readonly=True, string="Employee", states={"draft": [("readonly", False)]}
+        "hr.employee",
+        required=True,
+        readonly=True,
+        string="Employee",
+        states={"draft": [("readonly", False)]},
     )
     request_date = fields.Date(
-        string="Request Date", default=fields.Date.today(), readonly=True, states={"draft": [("readonly", False)]}
+        string="Request Date",
+        default=fields.Date.today(),
+        readonly=True,
+        states={"draft": [("readonly", False)]},
     )
     confirm_date = fields.Date(string="Confirmed Date", readonly=True, copy=False)
-    dept_approved_date = fields.Date(string="Approved Date(Department)", readonly=True, copy=False)
-    hr_validate_date = fields.Date(string="Approved Date(HR)", readonly=True, copy=False)
-    director_validate_date = fields.Date(string="Approved Date(Director)", readonly=True, copy=False)
+    dept_approved_date = fields.Date(
+        string="Approved Date(Department)", readonly=True, copy=False
+    )
+    hr_validate_date = fields.Date(
+        string="Approved Date(HR)", readonly=True, copy=False
+    )
+    director_validate_date = fields.Date(
+        string="Approved Date(Director)", readonly=True, copy=False
+    )
     account_validate_date = fields.Date(string="Paid Date", readonly=True, copy=False)
-    confirm_by_id = fields.Many2one("res.users", string="Confirm By", readonly=True, copy=False)
-    dept_manager_by_id = fields.Many2one("res.users", string="Department Manager", readonly=True, copy=False)
-    hr_manager_by_id = fields.Many2one("res.users", string="HR Manager", readonly=True, copy=False)
-    director_by_id = fields.Many2one("res.users", string="Director", readonly=True, copy=False)
-    account_by_id = fields.Many2one("res.users", string="Paid By", readonly=True, copy=False)
+    confirm_by_id = fields.Many2one(
+        "res.users", string="Confirm By", readonly=True, copy=False
+    )
+    dept_manager_by_id = fields.Many2one(
+        "res.users", string="Department Manager", readonly=True, copy=False
+    )
+    hr_manager_by_id = fields.Many2one(
+        "res.users", string="HR Manager", readonly=True, copy=False
+    )
+    director_by_id = fields.Many2one(
+        "res.users", string="Director", readonly=True, copy=False
+    )
+    account_by_id = fields.Many2one(
+        "res.users", string="Paid By", readonly=True, copy=False
+    )
 
     department_id = fields.Many2one(
-        "hr.department", string="Department", readonly=True, states={"draft": [("readonly", False)]}
+        "hr.department",
+        string="Department",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
     )
-    job_id = fields.Many2one("hr.job", string="Job Title", readonly=True, states={"draft": [("readonly", False)]})
+    job_id = fields.Many2one(
+        "hr.job",
+        string="Job Title",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+    )
     manager_id = fields.Many2one(
-        "hr.employee", string="Department Manager", readonly=True, states={"draft": [("readonly", False)]}
+        "hr.employee",
+        string="Department Manager",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
     )
     request_amount = fields.Float(
-        string="Request Amount", required=True, readonly=True, states={"draft": [("readonly", False)]}
+        string="Request Amount",
+        required=True,
+        readonly=True,
+        states={"draft": [("readonly", False)]},
     )
     currency_id = fields.Many2one(
         "res.currency",
@@ -57,12 +91,22 @@ class EmployeeAdvanceSalary(models.Model):
         states={"draft": [("readonly", False)]},
     )
     comment = fields.Text(string="Comment")
-    user_id = fields.Many2one("res.users", default=lambda self: self.env.user, string="Request User", readonly=True)
+    user_id = fields.Many2one(
+        "res.users",
+        default=lambda self: self.env.user,
+        string="Request User",
+        readonly=True,
+    )
     company_id = fields.Many2one(
-        "res.company", default=lambda self: self.env.user.company_id, string="Company", readonly=True
+        "res.company",
+        default=lambda self: self.env.user.company_id,
+        string="Company",
+        readonly=True,
     )
     reason_for_advance = fields.Text(
-        string="Reason For Advance", readonly=True, states={"draft": [("readonly", False)]}
+        string="Reason For Advance",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
     )
     state = fields.Selection(
         selection=[
@@ -90,7 +134,9 @@ class EmployeeAdvanceSalary(models.Model):
         for line in self:
             line.paid_amount = line.payment_id.amount
 
-    paid_amount = fields.Float(compute=_compute_payed_amount, string="Paid Amount", store=True, readonly=True)
+    paid_amount = fields.Float(
+        compute=_compute_payed_amount, string="Paid Amount", store=True, readonly=True
+    )
 
     @api.onchange("employee_id", "employee_id.address_home_id")
     def get_department(self):
@@ -99,46 +145,50 @@ class EmployeeAdvanceSalary(models.Model):
             line.job_id = line.employee_id.job_id.id
             line.manager_id = line.employee_id.parent_id.id
             line.partner_id = (
-                line.employee_id.sudo().address_home_id and line.employee_id.sudo().address_home_id.id or False
+                line.employee_id.sudo().address_home_id
+                and line.employee_id.sudo().address_home_id.id
+                or False
             )
 
-    # @api.multi #odoo13
+
     def request_set(self):
         self.state = "draft"
 
-    # @api.multi #odoo13
+
     def exit_cancel(self):
         self.state = "cancel"
 
-    # @api.multi #odoo13
+
     def get_confirm(self):
         self.state = "confirm"
-        self.confirm_date = time.strftime("%Y-%m-%d")
+        self.confirm_date = fields.Date.today()
         self.confirm_by_id = self.env.user.id
         if self.job_id.salary_limit_amount < self.request_amount:
             raise ValidationError(
-                _("You can not request advance salary more than limit amount, please contact your manager.")
+                _(
+                    "You can not request advance salary more than limit amount, please contact your manager."
+                )
             )
 
-    # @api.multi #odoo13
+    
     def get_apprv_dept_manager(self):
         self.state = "approved_dept_manager"
-        self.dept_approved_date = time.strftime("%Y-%m-%d")
+        self.dept_approved_date = fields.Date.today()
         self.dept_manager_by_id = self.env.user.id
 
-    # @api.multi #odoo13
+    
     def get_apprv_hr_manager(self):
         self.state = "approved_hr_manager"
-        self.hr_validate_date = time.strftime("%Y-%m-%d")
+        self.hr_validate_date = fields.Date.today()
         self.hr_manager_by_id = self.env.user.id
 
-    # @api.multi #odoo13
+    
     def get_apprv_director(self):
         self.state = "approved_director"
-        self.director_validate_date = time.strftime("%Y-%m-%d")
+        self.director_validate_date = fields.Date.today()
         self.director_by_id = self.env.user.id
 
-    # @api.multi #odoo13
+    
     def get_apprv_account(self):
         if not self.partner_id or not self.journal_id:
             raise ValidationError(
@@ -147,9 +197,8 @@ class EmployeeAdvanceSalary(models.Model):
                 )
             )
         self.state = "paid"
-        self.account_validate_date = time.strftime("%Y-%m-%d")
+        self.account_validate_date = fields.Date.today()
         self.account_by_id = self.env.user.id
-        #        payment_methods = self.journal_id.inbound_payment_method_ids
         payment_methods = self.journal_id.inbound_payment_method_line_ids
         payment_method_id = payment_methods and payment_methods[0] or False
         payment_obj = self.env["account.payment"]
@@ -158,26 +207,26 @@ class EmployeeAdvanceSalary(models.Model):
             "journal_id": self.journal_id.id,
             "amount": self.request_amount,
             "currency_id": self.currency_id.id,
-            #                'payment_method_id': payment_method_id.id,
-            "payment_method_line_id": payment_method_id.id if payment_method_id else False,
+
+            "payment_method_line_id": payment_method_id.id
+            if payment_method_id
+            else False,
             "payment_type": "outbound",
             "partner_type": "supplier",
         }
         pay_id = payment_obj.create(vals)
-        #        res = self.env.ref('account.action_account_payments')
+
         res = self.env.ref("account.action_account_payments_payable")
         res = res.sudo().read()[0]
         res["domain"] = str([("id", "in", [pay_id.id])])
         self.payment_id = pay_id.id
         return res
 
-    # @api.multi #odoo13
+    
     def get_done(self):
         self.state = "done"
 
-    # @api.multi #odoo13
+    
     def get_reject(self):
         self.state = "reject"
 
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

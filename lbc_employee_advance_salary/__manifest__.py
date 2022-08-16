@@ -7,7 +7,7 @@
     "description": """Employee Advance Salary Requests and Workflow - Integrated with Accounting""",
     "author": "Probuse Consulting Service Pvt. Ltd.",
     "website": "www.probuse.com",
-    "depends": ["lbc_employee_advance_salary", "libracycle_process_workflow"],
+    "depends": ["employee_advance_salary", "libracycle_process_workflow"],
     "data": [
         # "security/employee_advance_salary_security.xml",
        
