@@ -6,7 +6,7 @@
     """,
     "author": "Matt O'Bell",
     "website": "http://www.yourcompany.com",
-    "version": "1.2.6",
+    "version": "1.2.7",
     "depends": [
         "base",
         "account_accountant",
@@ -22,6 +22,7 @@
         "security/res_group.xml",
         "views/account_move.xml",
         "views/res_partner.xml",
+        "views/project_project.xml",
         "data/ir_sequence.xml",
         "views/hr_payslip_run.xml",
         "views/sale_order.xml",
