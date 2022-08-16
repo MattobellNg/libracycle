@@ -16,6 +16,7 @@
         "analytic_enterprise",
         "sale_project",
         "hr_expense",
+        "customize_vpcs"
     ],
     "data": [
         # 'security/ir.model.access.csv',

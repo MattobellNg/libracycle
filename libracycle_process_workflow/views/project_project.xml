@@ -6,7 +6,8 @@
         <field name="inherit_id" ref="project.edit_project" />
         <field name="arch" type="xml">
             <field name="name" position="replace">
-                <field name="name" attrs="{'readonly', [('sn_state', 'not in', ['pre_alert', 'awaiting_arrival'])]}"/>
+                <field name="sn_state" invisible="1"/>
+                <field name="name" attrs="{'readonly': [('sn_state', 'not in', ['pre_alert', 'awaiting_arrival'])]}" />
             </field>
         </field>
     </record>
