@@ -3,7 +3,6 @@ from urllib.parse import urlencode, urljoin
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
-
 class AccountMove(models.Model):
     _inherit = "account.move"
 
@@ -125,6 +124,7 @@ class AccountMove(models.Model):
 
     def send_notification(self, body, subject, group, email_from):
         partner_ids = []
+
 
         users = self.env.ref(group).users
         for user in users:
