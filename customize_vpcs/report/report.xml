@@ -1,6 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<odoo>
-    
+<odoo> 
     <record id="report_waybill_xlsx" model="ir.actions.report">
         <field name="name">Waybill XLS Report</field>
         <field name="model">project.schedule.items</field>
@@ -28,5 +27,4 @@
         <field name="binding_model_id" ref="model_project_project"/>
         <field name="binding_type">report</field>
     </record>
-
 </odoo>
