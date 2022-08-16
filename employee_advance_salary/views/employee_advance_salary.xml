@@ -9,7 +9,7 @@
             <field name="arch" type="xml">
             <form>
                 <header>
-                    <button string="Confirm" name="get_confirm" states="draft" type="object" class="oe_highlight" groups="base.group_user"/>
+                    <button string="Submit" name="get_confirm" states="draft" type="object" class="oe_highlight" groups="base.group_user"/>
                     <button string="Approve by Department Manager" name="get_apprv_dept_manager" states="confirm" type="object" groups="employee_advance_salary.group_department_manager_for_salary_id" class="oe_highlight"/>
                     <button string="Approve by HR Manager" name="get_apprv_hr_manager" states="approved_dept_manager" type="object" groups="hr.group_hr_user" class="oe_highlight"/>
                     <button string="Approve by Director" name="get_apprv_director" states="approved_hr_manager" type="object" groups="employee_advance_salary.group_director_manager_for_salary_id" class="oe_highlight"/>
@@ -166,8 +166,8 @@
             <!-- <field name="view_type">form</field> --> <!-- odoo13 -->
         </record>
         
-        <menuitem name="Advance Salary" parent="hr.menu_hr_root" id="menu_advance_salary" sequence="7" />
-        <menuitem name="Advance Salary Requests" id="menu_advance_salary_request" action="action_employee_advance_salary" parent="menu_advance_salary" sequence="12" />
+        <menuitem name="Salary Advance" parent="hr.menu_hr_root" id="menu_advance_salary" sequence="90" />
+        <menuitem name="Salary Advance Requests" id="menu_advance_salary_request" action="action_employee_advance_salary" parent="menu_advance_salary" sequence="12" />
         <menuitem name="Department Approvals" id="menu_department_approval" groups="employee_advance_salary.group_department_manager_for_salary_id" action="action_department_approval" parent="menu_advance_salary" sequence="13" />
         <menuitem name="HR Approvals" id="menu_hr_approval" action="action_hr_approval" groups="hr.group_hr_user" parent="menu_advance_salary" sequence="14" />
         <menuitem name="Director Approvals" id="menu_director_approval" action="action_director_approval" groups="employee_advance_salary.group_director_manager_for_salary_id" parent="menu_advance_salary" sequence="15" />

@@ -5,27 +5,38 @@ from odoo.exceptions import Warning, ValidationError
 
 
 class EmployeeAdvanceSalary(models.Model):
+    _name = "employee.advance.salary"
     _inherit = "employee.advance.salary"
 
 
     state = fields.Selection(
-        selection=[
-            ("draft", "Draft"),
-            ("confirm", "Confirmed"),
-            ("approved_dept_manager", "Approved by Department"),
-            ("approved_hr_manager", "Approved by HR"),
-            ("approved_director", "Approved by Director"),
-            ("paid", "Paid"),
-            ("done", "Done"),
-            ("cancel", "Cancelled"),
-            ("reject", "Rejected"),
+        selection_add=[
+            ("admin", "Admin"),
+            ("officer", "Officer"),
+            ("qac", "QAC"),
+            ("director_1", "Director 1"),
+            ("director_2", "Director 2"),
+             ("confirm",),
         ],
-        string="State",
-        readonly=True,
-        default="draft",
-        track_visibility="onchange",
+        ondelete={
+            "admin": lambda m: m.write({"state": "draft"}),
+            "officer": lambda m: m.write({"state": "draft"}),
+            "qac": lambda m: m.write({"state": "draft"}),
+            "director_1": lambda m: m.write({"state": "draft"}),
+            "director_2": lambda m: m.write({"state": "draft"}),
+        }
     )
-    partner_id = fields.Many2one("res.partner", string="Employee Partner")
+    
+    def get_confirm(self):
+        self.state = "admin"
+        self.confirm_date = fields.Date.today()
+        self.confirm_by_id = self.env.user.id
+        if self.job_id.salary_limit_amount < self.request_amount:
+            raise ValidationError(
+                _(
+                    "You can not request advance salary more than limit amount, please contact your manager."
+                )
+            )
    
 
 

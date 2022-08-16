@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="employee_advance_salary_form_view" model="ir.ui.view">
+        <field name="name">hr.expense.sheet.lbc.form</field>
+        <field name="model">employee.advance.salary</field>
+        <field name='inherit_id' ref="employee_advance_salary.employee_advance_salary_form_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='state']" position="replace">
+                <field name="state" widget="statusbar" statusbar_visible="draft,admin,officer,qac,director_1,director_2,done" />
+            </xpath>
+            <xpath expr="//button[@name='exit_cancel']" position="replace">
+                <button string="Reject" name="get_reject" states="admin,officer,qac,director_1,director_2,done" type="object" />
+            </xpath>
+        </field>
+    </record>
+</odoo>

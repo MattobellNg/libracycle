@@ -10,6 +10,7 @@
     "depends": ["employee_advance_salary", "libracycle_process_workflow"],
     "data": [
         # "security/employee_advance_salary_security.xml",
+        "views/employee_advance_salary.xml"
        
     ],
 
