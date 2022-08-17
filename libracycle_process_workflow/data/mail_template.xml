@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <data noupdate="0">
+    <data noupdate="1">
         <record id="libracycle_mail_template" model="mail.template">
             <field name="name">Request Approval</field>
             <field name="email_from">{{ ctx.get('email_from') }}</field>
@@ -38,8 +38,7 @@
                 </div>
             </field>
         </record>
-
-            <record id="mail_template_expense_sheet" model="mail.template">
+        <record id="mail_template_expense_sheet" model="mail.template">
             <field name="name">Expense Request For Attention</field>
             <field name="email_from">{{ ctx.get('email_from') }}</field>
             <field name="subject">Expense Request For Attention</field>
