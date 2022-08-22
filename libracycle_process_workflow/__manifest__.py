@@ -6,7 +6,7 @@
     """,
     "author": "Matt O'Bell",
     "website": "http://www.yourcompany.com",
-    "version": "1.2.7",
+    "version": "1.2.8",
     "depends": [
         "base",
         "account_accountant",
