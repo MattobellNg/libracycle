@@ -1,4 +1,5 @@
 import time
+
 from urllib.parse import urlencode, urljoin
 
 from odoo import models, fields, api, _
@@ -211,6 +212,29 @@ class EmployeeAdvanceSalary(models.Model):
         res["domain"] = str([("id", "in", [pay_id.id])])
         self.payment_id = pay_id.id
         return res
+
+    state = fields.Selection(
+        selection=[
+            ("draft", "Draft"),
+            ("confirm", "Confirmed"),
+            ("approved_dept_manager", "Approved by Department"),
+            ("approved_hr_manager", "Approved by HR"),
+            ("approved_director", "Approved by Director"),
+            ("paid", "Paid"),
+            ("done", "Done"),
+            ("cancel", "Cancelled"),
+            ("reject", "Rejected"),
+        ],
+        string="State",
+        readonly=True,
+        default="draft",
+        track_visibility="onchange",
+    )
+    partner_id = fields.Many2one("res.partner", string="Employee Partner")
+   
+
+
+
 
 
 class HrJob(models.Model):
