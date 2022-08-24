@@ -101,5 +101,5 @@ class project_project(models.Model):
 				i.write({'stage_id':state_progress_id.id, 'sequence_state':2})
 			return 
 			
-	stage_id = fields.Many2one('project.task.type', string="state")
+	# stage_id = fields.Many2one('project.task.type', string="state")
 	sequence_state = fields.Integer(compute="count_sequence", string="State Check")
