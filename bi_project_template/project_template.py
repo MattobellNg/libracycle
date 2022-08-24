@@ -10,40 +10,40 @@ class project_project(models.Model):
 
 	_inherit = "project.project"
 
-	@api.model
-	def default_get(self, flds):
-		stage_type_obj = self.env['project.task.type']
-		state_new_id = stage_type_obj.search([('name', '=', 'New')], limit=1)
-		if state_new_id:
-			state_new_id.write({'sequence':1, 'project_check':True})
-		else:
-			state_new_id = stage_type_obj.create({'name':'New', 'sequence':1, 'project_check':True})
-		state_in_progress_id = stage_type_obj.search([('name', '=', 'In Progress')], limit=1)
-		if state_in_progress_id:
-			state_in_progress_id.write({'sequence':2, 'project_check':True})
-		else:
-			progress_id = stage_type_obj.create({'name':'In Progress', 'sequence':2, 'project_check':True})
-		state_cancel_id = stage_type_obj.search([('name', '=', 'Cancelled')], limit=1)
-		if state_cancel_id:
-			state_cancel_id.write({'sequence':3, 'project_check':True})
-		else:
-			cancel_id = stage_type_obj.create({'name':'Cancelled', 'sequence':3, 'project_check':True})
-		state_pending_id = stage_type_obj.search([('name', '=', 'Pending')], limit=1)
-		if state_pending_id:
-			state_pending_id.write({'sequence':4, 'project_check':True})
-		else:
-			pending_id = stage_type_obj.create({'name':'Pending', 'sequence':4, 'project_check':True})
-		state_closed_id = stage_type_obj.search([('name', '=', 'Closed')], limit=1)
-		if state_closed_id:
-			state_closed_id.write({'sequence':5, 'project_check':True})
-		else:
-			closed_id = stage_type_obj.create({'name':'Closed', 'sequence':4, 'project_check':True})
-		stage_list = []
-		result = super(project_project, self).default_get(flds)
-		for i in state_new_id:
-			result['stage_id'] = i.id
-		#result['task_count'] = True
-		return result
+	# @api.model
+	# def default_get(self, flds):
+	# 	stage_type_obj = self.env['project.task.type']
+	# 	state_new_id = stage_type_obj.search([('name', '=', 'New')], limit=1)
+	# 	if state_new_id:
+	# 		state_new_id.write({'sequence':1, 'project_check':True})
+	# 	else:
+	# 		state_new_id = stage_type_obj.create({'name':'New', 'sequence':1, 'project_check':True})
+	# 	state_in_progress_id = stage_type_obj.search([('name', '=', 'In Progress')], limit=1)
+	# 	if state_in_progress_id:
+	# 		state_in_progress_id.write({'sequence':2, 'project_check':True})
+	# 	else:
+	# 		progress_id = stage_type_obj.create({'name':'In Progress', 'sequence':2, 'project_check':True})
+	# 	state_cancel_id = stage_type_obj.search([('name', '=', 'Cancelled')], limit=1)
+	# 	if state_cancel_id:
+	# 		state_cancel_id.write({'sequence':3, 'project_check':True})
+	# 	else:
+	# 		cancel_id = stage_type_obj.create({'name':'Cancelled', 'sequence':3, 'project_check':True})
+	# 	state_pending_id = stage_type_obj.search([('name', '=', 'Pending')], limit=1)
+	# 	if state_pending_id:
+	# 		state_pending_id.write({'sequence':4, 'project_check':True})
+	# 	else:
+	# 		pending_id = stage_type_obj.create({'name':'Pending', 'sequence':4, 'project_check':True})
+	# 	state_closed_id = stage_type_obj.search([('name', '=', 'Closed')], limit=1)
+	# 	if state_closed_id:
+	# 		state_closed_id.write({'sequence':5, 'project_check':True})
+	# 	else:
+	# 		closed_id = stage_type_obj.create({'name':'Closed', 'sequence':4, 'project_check':True})
+	# 	stage_list = []
+	# 	result = super(project_project, self).default_get(flds)
+	# 	for i in state_new_id:
+	# 		result['stage_id'] = i.id
+	# 	#result['task_count'] = True
+	# 	return result
 
 	def count_sequence(self):
 		for a in self:
