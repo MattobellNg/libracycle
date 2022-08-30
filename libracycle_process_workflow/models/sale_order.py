@@ -13,6 +13,8 @@ class SaleOrder(models.Model):
         index=True,
     )
 
+    bank_account_id = fields.Many2one('res.bank.account', string='Bank Account',  required=True)
+
     @api.model
     def create(self, vals):
         name = vals.get("name")
@@ -29,3 +31,8 @@ class SaleOrder(models.Model):
             project_ids = rec.analytic_account_id.project_ids
             if project_ids:
                 rec.project_id = project_ids[0].id
+
+    def _prepare_invoice(self):
+        invoice_vals = super(SaleOrder, self)._prepare_invoice()
+        invoice_vals.update(bank_account_id=self.bank_account_id)
+        return invoice_vals
