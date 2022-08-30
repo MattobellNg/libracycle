@@ -8,3 +8,7 @@ class AccountMove(models.Model):
 
 
     name = fields.Char(string="Name", store=True)
+
+    _sql_constraints = [
+        ('project_uniq_name', 'unique(name)', "Project's name must be unique!"),
+    ]
