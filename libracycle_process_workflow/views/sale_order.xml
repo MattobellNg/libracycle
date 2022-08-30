@@ -8,6 +8,9 @@
             <field name="name" position="replace">
                 <field name="name" />
             </field>
+            <xpath expr="//field[@name='partner_shipping_id']" position="after">
+                <field name="bank_account_id" />
+            </xpath>
         </field>
     </record>
 </odoo>
