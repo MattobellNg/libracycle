@@ -667,10 +667,10 @@ class ProjectProject(models.Model):
 
         }
 
-    @api.model
-    def create(self,vals):
-        vals['name'] = self.env['ir.sequence'].next_by_code('project.project') or _('New')
-        return super(ProjectProject,self).create(vals)
+    # @api.model
+    # def create(self,vals):
+    #     vals['name'] = self.env['ir.sequence'].next_by_code('project.project') or _('New')
+    #     return super(ProjectProject,self).create(vals)
 
     def action_truck_loaded(self):       
         composer_form_view_id = self.env.ref('mail.email_compose_message_wizard_form').id
