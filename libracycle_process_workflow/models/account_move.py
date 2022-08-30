@@ -24,6 +24,8 @@ class AccountMove(models.Model):
         },
     )
 
+    bank_account_id = fields.Many2one('res.bank.account', string='Bank Account',  required=True)
+
     def action_submit(self):
         for rec in self:
             if rec.partner_id:

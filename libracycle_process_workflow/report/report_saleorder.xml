@@ -70,5 +70,32 @@
                 </div>
             </div>
         </xpath>
+        <xpath expr="//p[@id='fiscal_position_remark']" position="after">
+            <div class="row">
+                <div class="col-6 offset-6" style="font-size: 11px;  text-transform: uppercase;">
+                    <p t-field="doc.bank_account_id.description" />
+                    <table class="table table-striped table-borderless table-sm">
+                        <tbody>
+                            <tr>
+                                <td>Bank Name</td>
+                                <td><span t-field="doc.bank_account_id.bank_id" /> </td>
+                            </tr>
+                            <tr>
+                                <td>Account Number</td>
+                                <td><span t-field="doc.bank_account_id.acc_number" /></td>
+                            </tr>
+                            <tr>
+                                <td>Account Holder Name</td>
+                                <td><span t-field="doc.bank_account_id.acc_holder_name" /></td>
+                            </tr>
+                            <tr>
+                                <td>Currency</td>
+                                <td><span t-field="doc.bank_account_id.currency_id" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </xpath>
     </template>
 </odoo>
