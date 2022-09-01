@@ -63,7 +63,7 @@
                     <strong>Invoicing and Shipping Address:</strong>
                     <span t-field="doc.partner_id.name" style="{margin: 0px;padding: 0px;}" /><br />
                     <span t-field="doc.partner_id.street" style="{margin: 0px;padding: 0px;}" /><br />
-                    <span t-field="doc.partner_id.city" style="{margin: 0px;padding: 0px;}" />,
+                    <span t-field="doc.partner_id.city" style="{margin: 0px;padding: 0px;}" /> 
                     <span t-field="doc.partner_id.state_id" style="{margin: 0px;padding: 0px;}" /><br />
                     <span t-field="doc.partner_id.country_id" style="{margin: 0px;padding: 0px;}" />
                     <br />
@@ -143,6 +143,7 @@
                     <strong>Job Type:</strong>
                     <t>
                         <p class="m-0" t-field="doc.project_id.mode_shipment_air_sea" t-if="doc.project_id.mode_shipment_air_sea" />
+                        <p class="m-0" t-field="doc.project_id.size_of_container" t-if="doc.project_id.size_of_container" />
                         <p class="m-0" t-else=""><span>&#160;</span></p>
                     </t>
                 </div>
