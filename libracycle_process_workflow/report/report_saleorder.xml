@@ -1,42 +1,52 @@
 <?xml version="1.0"?>
 <odoo>
-    <template id="external_layout_standard" inherit_id="web.external_layout_standard">
-        <xpath expr="*" position='replace'>
-            <div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style">
-                <div class="row m-0">
-                    <div class="col-1 ">
-                    </div>
-                    <div class="col-7">
-                        <img t-if="company.logo" t-att-src="'/libracycle_process_workflow/static/src/lbc.png'" height="100px" alt="Logo" />
-                    </div>
-                    <div class="col-4 ">
-                    </div>
+    <template id="web.external_layout_standard">
+        <t t-if="not o" t-set="o" t-value="doc" />
+        <t t-if="not company">
+            <!-- Multicompany -->
+            <t t-if="company_id">
+                <t t-set="company" t-value="company_id" />
+            </t>
+            <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+                <t t-set="company" t-value="o.company_id.sudo()" />
+            </t>
+            <t t-else="else">
+                <t t-set="company" t-value="res_company" />
+            </t>
+        </t>
+        <div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style">
+            <div class="row">
+                <div class="col-1 ">
                 </div>
-                <div class="row zero_min_height m-0">
-                    <div class="col-12">
-                        <div style="border-bottom: 1px solid black;" />
-                    </div>
+                <div class="col-7">
+                    <img t-if="company.logo" t-att-src="'/libracycle_process_workflow/static/src/lbc.png'" height="100px" alt="Logo" />
                 </div>
-            </div>
-            <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout {{  'o_layout_background' if company.layout_background in ['Geometric', 'Custom']  else  '' }}" t-attf-style="background-image: url({{ 'data:image/png;base64,%s' % company.layout_background_image.decode('utf-8') if company.layout_background_image and company.layout_background == 'Custom' else '/base/static/img/bg_background_template.jpg' if company.layout_background == 'Geometric' else ''}});" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
-                <div class="pt-0 m-0">
-                    <!-- This div ensures that the address is not cropped by the header. -->
-                    <t t-call="web.address_layout" />
-                </div>
-                <t t-out="0" />
-            </div>
-            <div t-attf-class="footer o_standard_footer o_company_#{company.id}_layout">
-                <div class="text-center" style="border-top: 1px solid black;">
-                    <ul class="list-inline mb4">
-                        <div t-field="company.report_footer" />
-                    </ul>
-                    <div t-if="report_type == 'pdf'" class="text-muted">
-                        Page: <span class="page" /> / <span class="topage" />
-                    </div>
+                <div class="col-4 ">
                 </div>
             </div>
-
-        </xpath>
+            <div class="row zero_min_height m-0">
+                <div class="col-12">
+                    <div style="border-bottom: 1px solid black;" />
+                </div>
+            </div>
+        </div>
+        <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout {{  'o_layout_background' if company.layout_background in ['Geometric', 'Custom']  else  '' }}" t-attf-style="background-image: url({{ 'data:image/png;base64,%s' % company.layout_background_image.decode('utf-8') if company.layout_background_image and company.layout_background == 'Custom' else '/base/static/img/bg_background_template.jpg' if company.layout_background == 'Geometric' else ''}});" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+            <div class="pt-0 m-0">
+                <t t-call="web.address_layout" />
+            </div>
+            <t t-out="0" />
+        </div>
+        <div t-attf-class="footer o_standard_footer o_company_#{company.id}_layout">
+            <div class="text-center" style="border-top: 1px solid black;">
+                <ul class="list-inline mb4">
+                    <div t-field="company.report_footer" />
+                </ul>
+                <div t-if="report_type == 'pdf'" class="text-muted">
+                    Page: <span class="page" /> / <span class="topage" />
+                </div>
+            </div>
+            <!-- <div style="page-break-after: always;" /> -->
+        </div>
     </template>
     <template id="report_saleorder_document" inherit_id="sale.report_saleorder_document">
         <xpath expr="//div[hasclass('page')]" position="before">
@@ -65,12 +75,11 @@
         </xpath>
         <xpath expr="//t[@t-set='information_block']" position="replace" />
         <xpath expr="//h2[hasclass('mt16')]" position="replace">
-            <h6>
+            <h3>
                 <span t-field="doc.name" />
-            </h6>
+            </h3>
         </xpath>
-        <xpath expr="//p[@t-if='not is_html_empty(doc.payment_term_id.note)']" position="replace"/>
-
+        <xpath expr="//p[@t-if='not is_html_empty(doc.payment_term_id.note)']" position="replace" />
         <xpath expr="//div[@id='informations']" position="replace">
             <div class="row mt32 mb32" id="informations">
                 <div t-if="doc.name" class="col-auto col-3 mw-100 mb-2">
@@ -225,7 +234,6 @@
                     </table>
                 </div>
             </div>
-
         </xpath>
     </template>
 </odoo>
