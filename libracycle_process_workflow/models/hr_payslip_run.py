@@ -11,16 +11,12 @@ class HrPayslipRun(models.Model):
 
     state = fields.Selection(
         selection_add=[
-            ("admin", "Await Admin"),
             ("officer", "Await Officer"),
             ("qac", "Await QAC"),
-            ("director_1", "Await Director I"),
-            ("director_2", "Await Director II"),
             ("account", "Await Account"),
             ("close",),
         ],
         ondelete={
-            "admin": lambda m: m.write({"state": "draft"}),
             "officer": lambda m: m.write({"state": "draft"}),
             "qac": lambda m: m.write({"state": "draft"}),
 
@@ -28,28 +24,6 @@ class HrPayslipRun(models.Model):
         tracking=True,
     )
 
-    def action_submit_to_admin(self):
-        for rec in self:
-
-            url = self.request_link()
-            email_from = self.env.user.partner_id.email
-            recipients = users = "".join(
-                self.env.ref("libracycle_process_workflow.group_officer").users.mapped(
-                    "email"
-                )
-            )
-            mail_template = self.env.ref(
-                "libracycle_process_workflow.mail_template_payslip_run"
-            )
-            mail_template.with_context(
-                {
-                    "recipient": recipients,
-                    "url": url,
-                    "email_from": email_from,
-                    "title": "Officer",
-                }
-            ).send_mail(self.id, force_send=False)
-            rec.write({"state": "admin"})
 
     def action_submit_to_officer(self):
         for rec in self:
@@ -120,7 +94,8 @@ class HrPayslipRun(models.Model):
 
             
     def action_reject(self):
-        pass
+        for rec in self:
+            rec.action_draft()
 
     def send_notification(self, body, subject, group, email_from):
         partner_ids = []
