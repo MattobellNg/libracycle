@@ -14,8 +14,7 @@
                     <button name="action_submit_to_officer" type="object" string="Submit" states="admin" class="oe_highlight" />
                     <button name="action_submit_to_qac" type="object" string="Review" states="officer" class="oe_highlight" />
                     <button name="action_qac_approve" type="object" string="Approve" states="qac" class="oe_highlight" />
-                    <button name="action_director1_approve" type="object" string="Approve" states="director_1" class="oe_highlight" />
-                    <button name="action_director2_approve" type="object" string="Approve" states="director_2" class="oe_highlight" />
+
                     <button name="action_reject" type="object" string="Reject" states="admin,officer,qac,director_1,director_2" confirm="Are you sure you want to reject this record?" />
                 </xpath>
                 <xpath expr="//sheet" position="after">
