@@ -13,7 +13,7 @@ class SaleOrder(models.Model):
         index=True,
     )
 
-    bank_account_id = fields.Many2one('res.bank.account', string='Bank Account',  required=True)
+    bank_account_id = fields.Many2one('res.bank.account', string='Bank Account',  required=False)
 
     @api.model
     def create(self, vals):
