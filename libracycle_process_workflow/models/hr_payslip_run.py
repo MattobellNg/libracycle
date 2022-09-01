@@ -23,8 +23,7 @@ class HrPayslipRun(models.Model):
             "admin": lambda m: m.write({"state": "draft"}),
             "officer": lambda m: m.write({"state": "draft"}),
             "qac": lambda m: m.write({"state": "draft"}),
-            "director_1": lambda m: m.write({"state": "draft"}),
-            "director_2": lambda m: m.write({"state": "draft"}),
+
         },
         tracking=True,
     )
@@ -69,7 +68,7 @@ class HrPayslipRun(models.Model):
                     "recipient": recipients,
                     "url": url,
                     "email_from": email_from,
-                    "title": "Officer",
+                    "title": self.env.user.name,
                 }
             ).send_mail(self.id, force_send=False)
             rec.write({"state": "officer"})
@@ -91,7 +90,7 @@ class HrPayslipRun(models.Model):
                     "recipient": recipients,
                     "url": url,
                     "email_from": email_from,
-                    "title": "Officer",
+                    "title": self.env.user.name,
                 }
             ).send_mail(self.id, force_send=False)
             rec.write({"state": "qac"})
@@ -113,55 +112,13 @@ class HrPayslipRun(models.Model):
                     "recipient": recipients,
                     "url": url,
                     "email_from": email_from,
-                    "title": "Officer",
-                }
-            ).send_mail(self.id, force_send=False)
-            rec.write({"state": "director_1"})
-
-    def action_director1_approve(self):
-        for rec in self:
-            url = self.request_link()
-            email_from = self.env.user.partner_id.email
-            recipients = users = "".join(
-                self.env.ref(
-                    "libracycle_process_workflow.group_director_2"
-                ).users.mapped("email")
-            )
-            mail_template = self.env.ref(
-                "libracycle_process_workflow.mail_template_payslip_run"
-            )
-            mail_template.with_context(
-                {
-                    "recipient": recipients,
-                    "url": url,
-                    "email_from": email_from,
-                    "title": "Officer",
-                }
-            ).send_mail(self.id, force_send=False)
-            rec.write({"state": "director_2"})
-
-    def action_director2_approve(self):
-        for rec in self:
-            url = self.request_link()
-            email_from = self.env.user.partner_id.email
-            recipients = users = "".join(
-                self.env.ref(
-                    "libracycle_process_workflow.group_director_2"
-                ).users.mapped("email")
-            )
-            mail_template = self.env.ref(
-                "libracycle_process_workflow.mail_template_payslip_run"
-            )
-            mail_template.with_context(
-                {
-                    "recipient": recipients,
-                    "url": url,
-                    "email_from": email_from,
-                    "title": "Officer",
+                    "title": self.env.user.name,
                 }
             ).send_mail(self.id, force_send=False)
             rec.write({"state": "account"})
 
+
+            
     def action_reject(self):
         pass
 
