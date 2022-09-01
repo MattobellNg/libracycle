@@ -8,9 +8,9 @@ class AccountMove(models.Model):
 
     state = fields.Selection(
         selection_add=[
-            ("posted",),
             ("officer", "Officer"),
             ("qac", "QAC"),
+            ("posted",),
         ],
         ondelete={
             "officer": lambda m: m.write({"state": "draft"}),

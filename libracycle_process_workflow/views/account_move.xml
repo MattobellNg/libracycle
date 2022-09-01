@@ -11,7 +11,7 @@
                     <button name="action_officer_approve" string="Approve" type="object" class="oe_highlight" states="officer" />
                     <button name="action_qac_approve" string="Review" type="object" class="oe_highlight" states="qac" />
 
-                    <button name="action_reject" string="Reject" type="object" class="oe_link" states="officer,qac" />
+                    <button name="action_reject" string="Reject" type="object" class="oe_link" states="officer,qac" confirm="Are you sure you want to reject this record? the record will be set back to draft" />
                 </xpath>
                 <xpath expr="//button[@name='action_post'][2]" position="replace">
                     <button name="action_post" string="Post" class="oe_highlight" type="object" groups="account.group_account_invoice,account.group_account_manager" data-hotkey="v" attrs="{'invisible': ['|', ('auto_post', '=', True), ('move_type', '!=', 'entry')]}" states="approved" />
