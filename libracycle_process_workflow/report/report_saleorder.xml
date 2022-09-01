@@ -35,7 +35,7 @@
                     </div>
                 </div>
             </div>
-            <div style="page-break-after: always;"/>
+
         </xpath>
     </template>
     <template id="report_saleorder_document" inherit_id="sale.report_saleorder_document">
@@ -95,7 +95,7 @@
                 <div class="col-auto col-3 mw-100 mb-2" name="payment_terms">
                     <strong>Payment Terms:</strong>
                     <t>
-                        <p class="m-0" t-field="doc.payment_term_id" t-if="payment_term_id" />
+                        <p class="m-0" t-field="doc.payment_term_id" t-if="doc.payment_term_id" />
                         <p class="m-0" t-else=""><span>&#160;</span></p>
                     </t>
                 </div>
@@ -225,6 +225,7 @@
                     </table>
                 </div>
             </div>
+
         </xpath>
     </template>
 </odoo>
