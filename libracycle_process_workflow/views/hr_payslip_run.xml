@@ -10,12 +10,10 @@
                     <button name="action_validate" type="object" string="Validate" states="account" class="oe_highlight" context="{'payslip_generate_pdf': True}" groups="account.group_account_user,account.group_account_manager" />
                 </xpath>
                 <xpath expr="//button[@name='action_draft']" position="before">
-                    <button name="action_submit_to_admin" type="object" string="Submit" states="verify" class="oe_highlight" />
-                    <button name="action_submit_to_officer" type="object" string="Submit" states="admin" class="oe_highlight" />
-                    <button name="action_submit_to_qac" type="object" string="Review" states="officer" class="oe_highlight" />
-                    <button name="action_qac_approve" type="object" string="Approve" states="qac" class="oe_highlight" />
-
-                    <button name="action_reject" type="object" string="Reject" states="admin,officer,qac,director_1,director_2" confirm="Are you sure you want to reject this record?" />
+                    <button name="action_submit_to_officer" type="object" string="Submit" states="verify" class="oe_highlight" />
+                    <button name="action_submit_to_qac" type="object" string="Submit" states="officer" class="oe_highlight" />
+                    <button name="action_qac_approve" type="object" string="Review" states="qac" class="oe_highlight" />
+                    <button name="action_reject" type="object" string="Reject" states="admin,officer,qac" confirm="Are you sure you want to reject this record? the record will be set back to draft" />
                 </xpath>
                 <xpath expr="//sheet" position="after">
                     <div class="oe_chatter">
