@@ -560,6 +560,7 @@ class ProjectProject(models.Model):
     job_select_ids = fields.Many2many('job.selection',string='Job selection')
     document = fields.Binary(required=True, attachment=False, help="upload here your document")
     container = fields.Integer(string="Number of Container")
+    size_of_container = fields.Char(string="Size of Container")
     status_delivered = fields.Boolean(string="Delivered")
     status_completed = fields.Boolean(string="Completed")
     start_date = fields.Date(string="Start date")
