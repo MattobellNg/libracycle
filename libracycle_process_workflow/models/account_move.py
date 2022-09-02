@@ -10,11 +10,13 @@ class AccountMove(models.Model):
         selection_add=[
             ("officer", "Officer"),
             ("qac", "QAC"),
+            ("review", "Reviewed"),
             ("posted",),
         ],
         ondelete={
             "officer": lambda m: m.write({"state": "draft"}),
             "qac": lambda m: m.write({"state": "draft"}),
+            "review": lambda m: m.write({"state": "draft"}),
         },
     )
 
@@ -71,7 +73,23 @@ class AccountMove(models.Model):
 
     def action_qac_approve(self):
         for rec in self:
-            rec.action_post()
+            recipients = users = "".join(
+                self.env.ref("account.group_account_manager").users.mapped(
+                    "email"
+                )
+            )
+            mail_template = self.env.ref(
+                "libracycle_process_workflow.libracycle_mail_template_move"
+            )
+            mail_template.with_context(
+                {
+                    "recipient": recipients,
+                    "url": url,
+                    "email_from": email_from,
+                    "title": self.env.user.name,
+                }
+            ).send_mail(self.id, force_send=False)
+            rec.write({'state': 'review'})
 
     def action_reject(self):
         for rec in self:
