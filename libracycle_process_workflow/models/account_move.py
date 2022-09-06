@@ -25,7 +25,7 @@ class AccountMove(models.Model):
 
     def action_post(self):
         res = super(AccountMove,self).action_post()
-        if res.move_type=='in_invoice':
+        if self.move_type =='in_invoice':
             self.broadcast_notification_qac()
         return res
 
