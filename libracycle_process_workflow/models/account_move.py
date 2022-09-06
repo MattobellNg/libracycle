@@ -21,6 +21,7 @@ class AccountMove(models.Model):
     )
 
     bank_account_id = fields.Many2one('res.bank.account', string='Bank Account',  required=False)
+    invoice_date = fields.Date(string='Invoice/Bill Date', readonly=True, index=True, copy=False)
 
     def action_submit(self):
         for rec in self:

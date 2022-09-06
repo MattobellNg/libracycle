@@ -21,12 +21,12 @@
                 <xpath expr="//field[@name='payment_reference']" position="after">
                     <field name="bank_account_id" />
                 </xpath>
-          <!--        <xpath expr="//button[@name='action_post'][1]"  position="attributes">
-                    <attribute name="invisible">1</attribute>
+                 <xpath expr="//field[@name='invoice_date']" position="replace">
+                     <field name="invoice_date" nolabel="1" options="{'datepicker': {'warn_future': true}}"
+                                       attrs="{'invisible': [('move_type', 'not in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt'))]}"/>
                 </xpath>
-                   <xpath expr="//button[@name='action_post'][2]"  position="replace">
-                    <attribute name="invisible">1</attribute>
-                </xpath> -->
+                  
+     
             </field>
         </record>
     </data>
