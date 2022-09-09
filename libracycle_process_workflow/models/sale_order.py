@@ -29,6 +29,7 @@ class SaleOrder(models.Model):
     def _onchange_analytic_account_id(self):
         for rec in self:
             project_ids = rec.analytic_account_id.project_ids
+            print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@', project_ids)
             if project_ids:
                 rec.project_id = project_ids[0].id
 
