@@ -57,8 +57,6 @@
                     <span t-field="doc.partner_id.city" style="{margin: 0px;padding: 0px;}" />
                     <span t-field="doc.partner_id.state_id" style="{margin: 0px;padding: 0px;}" /><br />
                     <span t-field="doc.partner_id.country_id" style="{margin: 0px;padding: 0px;}" />
-                    <br />
-                    <br />
                 </div>
                 <div class="col-auto col-4 mw-100 mb-2" />
                 <div class="col-auto col-4 mw-100 mb-2" />
@@ -67,8 +65,7 @@
         <xpath expr="//t[@t-set='information_block']" position="replace" />
         <xpath expr="//h2[hasclass('mt16')]" position="replace">
             <div class="row mb-2">
-                <div class="col-1" />
-                <div class="col-10">
+                <div class="col-12">
                     <h3 t-field="doc.name" />
                 </div>
             </div>
@@ -114,7 +111,7 @@
                 </div>
                 <div class="col-auto col-3 mw-100 mb-2">
                     <strong>Client Ref:</strong>
-                    <p class="m-0" t-field="doc.client_order_ref" t-if="doc.client_order_ref" />
+                    <p class="m-0" t-field="doc.project_id.client_ref" />
                 </div>
                 <div class="col-auto col-3 mw-100 mb-2">
                 </div>
@@ -145,11 +142,11 @@
                 </div>
                 <div class="col-auto col-3 mw-100 mb-2">
                     <strong>Port of Dishcarge:</strong>
-                    <p class="m-0" t-field="doc.project_id.destination_port" />
+                    <p class="m-0" t-field="doc.project_id.discharge_port_id" />
                 </div>
                 <div class="col-auto col-3 mw-100 mb-2">
                     <strong>Destination:</strong>
-                    <p class="m-0">Nigeria</p>
+                    <p class="m-0" t-field="doc.project_id.destination_port" />
                 </div>
                 <div class="col-auto col-3 mw-100 mb-2">
                 </div>
