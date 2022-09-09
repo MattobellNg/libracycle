@@ -85,6 +85,8 @@ class ProjectProject(models.Model):
         tracking=True,
     )
 
+    client_ref = fields.Char(string="Client Reference")
+
 ################### PRE-ALERT ###################################
     job_refs = fields.Char(string="Job Reference")
     client_name = fields.Many2one('res.partner',string="client name")

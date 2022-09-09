@@ -19,6 +19,7 @@
                 <xpath expr="//field[@name='tag_ids']" position='after'>
                     <field name="container"/> 
                     <field name="size_of_container"/>
+                    <field name="client_ref"/>
                     <!-- <field name="status_delivered"/> -->
                     <!-- <field name="status_completed" attrs="{'invisible': [('status_delivered', '=', False)]}"/> -->
                     <!-- <field name="stage_id_done"/> -->
