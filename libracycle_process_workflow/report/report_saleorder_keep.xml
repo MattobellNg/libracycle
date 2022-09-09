@@ -45,6 +45,7 @@
                     Page: <span class="page" /> / <span class="topage" />
                 </div>
             </div>
+            <!-- <div style="page-break-after: always;" /> -->
         </div>
     </template>
     <template id="report_saleorder_document" inherit_id="sale.report_saleorder_document">
@@ -66,16 +67,13 @@
         </xpath>
         <xpath expr="//t[@t-set='information_block']" position="replace" />
         <xpath expr="//h2[hasclass('mt16')]" position="replace">
-            <div class="row mb-2">
-                <div class="col-1" />
-                <div class="col-10">
-                    <h3 t-field="doc.name" />
-                </div>
-            </div>
+            <h3>
+                <span t-field="doc.name" />
+            </h3>
         </xpath>
         <xpath expr="//p[@t-if='not is_html_empty(doc.payment_term_id.note)']" position="replace" />
         <xpath expr="//div[@id='informations']" position="replace">
-            <div class="row mt32 mb32" id="informations">
+            <div class="row mt32 mb64" id="informations">
                 <div t-if="doc.name" class="col-auto col-3 mw-100 mb-2">
                     <strong>Your Reference:</strong>
                     <p class="m-0" t-field="doc.name" />
@@ -92,82 +90,58 @@
                     <strong>Salesperson:</strong>
                     <t>
                         <p class="m-0" t-field="doc.user_id" t-if="doc.user_id.name" />
+                        <p class="m-0" t-else=""><span>&#160;</span></p>
                     </t>
                 </div>
                 <div class="col-auto col-3 mw-100 mb-2" name="payment_terms">
                     <strong>Payment Terms:</strong>
                     <t>
                         <p class="m-0" t-field="doc.payment_term_id" t-if="doc.payment_term_id" />
+                        <p class="m-0" t-else=""><span>&#160;</span></p>
                     </t>
                 </div>
             </div>
         </xpath>
         <xpath expr="//div[@id='informations']" position="after">
-            <div class="row mb-32" id="lbc1">
-                <div class="col-auto col-3 mw-100 mb-2">
-                    <strong>Job Reference:</strong>
-                    <p class="m-0" t-field="doc.project_id.job_refs" t-if="doc.project_id.job_refs" />
-                </div>
-                <div class="col-auto col-3 mw-100 mb-2">
-                    <strong>Carrier:</strong>
-                    <p class="m-0" t-field="doc.project_id.ship_line" t-if="doc.project_id.ship_line" />
-                </div>
-                <div class="col-auto col-3 mw-100 mb-2">
-                    <strong>Client Ref:</strong>
-                    <p class="m-0" t-field="doc.client_order_ref" t-if="doc.client_order_ref" />
-                </div>
-                <div class="col-auto col-3 mw-100 mb-2">
-                </div>
-            </div>
-            <div class="row mt64 mb64" id="lbc2">
-                <div class="col-auto col-3 mw-100 mb-2">
-                    <strong>Job Type:</strong>
-                    <t>
-                        <p class="m-0" t-field="doc.project_id.mode_shipment_air_sea" t-if="doc.project_id.mode_shipment_air_sea" />
-                        <p class="m-0" t-field="doc.project_id.size_of_container" t-if="doc.project_id.size_of_container" />
-                    </t>
-                </div>
-                <div class="col-auto col-3 mw-100 mb-2">
-                    <strong>Port of Loading:</strong>
-                    <p class="m-0" t-field="doc.project_id.port_many_loading" />
-                </div>
-                <div class="col-auto col-3 mw-100 mb-2">
-                    <strong>Port Of Origin:</strong>
-                    <p class="m-0" t-field="doc.project_id.country_of_loading" />
-                </div>
-                <div class="col-auto col-3 mw-100 mb-2">
-                </div>
-            </div>
-            <div class="row mt64 mb64" id="lbc2">
-                <div class="col-auto col-3 mw-100 mb-2">
-                    <strong>BOL/AWB Number:</strong>
-                    <p class="m-0" t-field="doc.project_id.bol_awb_ref" />
-                </div>
-                <div class="col-auto col-3 mw-100 mb-2">
-                    <strong>Port of Dishcarge:</strong>
-                    <p class="m-0" t-field="doc.project_id.destination_port" />
-                </div>
-                <div class="col-auto col-3 mw-100 mb-2">
-                    <strong>Destination:</strong>
-                    <p class="m-0">Nigeria</p>
-                </div>
-                <div class="col-auto col-3 mw-100 mb-2">
-                </div>
-            </div>
-            <div class="row mt64 mb64" id="lbc3">
-                <div class="col-auto col-3 mw-100 mb-2">
-                    <strong>Form M Number:</strong>
-                    <p class="m-0" t-field="doc.project_id.job_form_m" />
-                </div>
-                <div class="col-auto col-3 mw-100 mb-2">
-                    <strong>Terminal:</strong>
-                    <p class="m-0" t-field="doc.project_id.custom_terminal" />
-                </div>
-                <div class="col-auto col-3 mw-100 mb-2">
-                    <strong>Vessel:</strong>
-                    <p class="m-0" t-field="doc.project_id.ves_line" />
-                </div>
-                <div class="col-auto col-3 mw-100 mb-2">
+            <div class="row">
+                <div class="col-auto col-10 pull-2" style="padding:10px">
+                    <table class="table table-borderless table-sm">
+                        <tbody>
+                            <tr>
+                                <td max-width="10x"><strong>Job Reference:</strong></td>
+                                <td width="10px"><span t-field="doc.project_id.job_refs" /> </td>
+                                <td width="10px"><strong>Carrier:</strong></td>
+                                <td width="10px"><span t-field="doc.project_id.ship_line" /> </td>
+                                <td width="10px"><strong>Client Ref:</strong></td>
+                                <td width="10px"><span t-field="doc.project_id.ship_line" /> </td>
+                            </tr>
+                            <tr>
+                                <td width="10px"><strong>Job Type:</strong></td>
+                                <td width="25px"><span t-field="doc.project_id.mode_shipment_air_sea" /> <span class="m-0" t-field="doc.project_id.size_of_container" t-if="doc.project_id.size_of_container" /></td>
+                                <td width="10px"><strong>Port of Loading:</strong></td>
+                                <td width="25px"><span t-field="doc.project_id.port_many_loading" /> </td>
+                                <td width="10px"><strong>Port Of Origin:</strong></td>
+                                <td width="20px"><span t-field="doc.project_id.country_of_loading" /> </td>
+                            </tr>
+                            <tr>
+                                <td width="10px"><strong>BOL/AWB Number:</strong></td>
+                                <td width="25px"><span t-field="doc.project_id.bol_awb_ref" /></td>
+                                <td width="10px"><strong>Port of Dishcarge:</strong></td>
+                                <td width="25px"><span t-field="doc.project_id.destination_port" /> </td>
+                                <td width="10px"><strong>Destination:</strong></td>
+                                <td width="25px"><span>Nigeria</span> </td>
+                            </tr>
+                            <tr>
+                                <td width="10px"><strong>Form M Number:</strong></td>
+                                <td width="25px"><span t-field="doc.project_id.job_form_m" /></td>
+                                <td width="10px"><strong>Terminal:</strong></td>
+                                <td width="25px"><span t-field="doc.project_id.custom_terminal" /> </td>
+                                <td width="10px"><strong>Vessel:</strong></td>
+                                <td width="25px"><span t-field="doc.project_id.ves_line" /> </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br />
                 </div>
             </div>
         </xpath>
