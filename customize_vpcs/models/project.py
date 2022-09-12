@@ -118,6 +118,7 @@ class ProjectProject(models.Model):
     terminal = fields.Char(string="Terminal")
     custom_terminal = fields.Many2one('custom.terminal',string='Terminal')
     country_of_loading = fields.Many2one('res.country',string="Country of loading")
+    country_of_destination = fields.Many2one('res.country',string="Country of loading")
     port_of_loading = fields.Char(string='Port Of Loading')
     port_many_loading = fields.Many2one('port.loading',string='PORT OF LOADING')
     rotation_not_received = fields.Date(string="Rotation No Received Date")
