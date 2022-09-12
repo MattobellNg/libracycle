@@ -121,7 +121,6 @@
                     <strong>Job Type:</strong>
                     <t>
                         <p class="m-0" t-field="doc.project_id.mode_shipment_air_sea" t-if="doc.project_id.mode_shipment_air_sea" />
-                        <p class="m-0" t-field="doc.project_id.size_of_container" t-if="doc.project_id.size_of_container" />
                     </t>
                 </div>
                 <div class="col-auto col-3 mw-100 mb-2">
@@ -142,7 +141,7 @@
                 </div>
                 <div class="col-auto col-3 mw-100 mb-2">
                     <strong>Port of Discharge:</strong>
-                    <p class="m-0" t-field="doc.project_id.destination_port"/>
+                    <p class="m-0" t-field="doc.project_id.destination_port" />
                 </div>
                 <div class="col-auto col-3 mw-100 mb-2">
                     <strong>Destination:</strong>
