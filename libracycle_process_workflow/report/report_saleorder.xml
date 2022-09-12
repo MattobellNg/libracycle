@@ -151,7 +151,7 @@
                 <div class="col-auto col-3 mw-100 mb-2">
                 </div>
             </div>
-            <div class="row mt64 mb64" id="lbc3">
+            <div class="row" id="lbc3">
                 <div class="col-auto col-3 mw-100 mb-2">
                     <strong>Form M Number:</strong>
                     <p class="m-0" t-field="doc.project_id.job_form_m_mf" />
