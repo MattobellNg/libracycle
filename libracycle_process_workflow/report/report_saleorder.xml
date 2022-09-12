@@ -16,12 +16,12 @@
         </t>
         <div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style">
             <div class="row">
-                <div class="col-1 ">
+                <div class="col-2">
                 </div>
-                <div class="col-7">
+                <div class="col-8">
                     <img t-if="company.logo" t-att-src="'/libracycle_process_workflow/static/src/lbc.png'" height="100px" alt="Logo" />
                 </div>
-                <div class="col-4 ">
+                <div class="col-2">
                 </div>
             </div>
             <div class="row zero_min_height m-0">
@@ -141,12 +141,12 @@
                     <p class="m-0" t-field="doc.project_id.bol_awb_ref" />
                 </div>
                 <div class="col-auto col-3 mw-100 mb-2">
-                    <strong>Port of Dishcarge:</strong>
-                    <p class="m-0" t-field="doc.project_id.discharge_port_id" />
+                    <strong>Port of Discharge:</strong>
+                    <p class="m-0" t-field="doc.project_id.destination_port"/>
                 </div>
                 <div class="col-auto col-3 mw-100 mb-2">
                     <strong>Destination:</strong>
-                    <p class="m-0" t-field="doc.project_id.destination_port" />
+                    <p class="m-0" t-field="doc.project_id.country_of_destination" />
                 </div>
                 <div class="col-auto col-3 mw-100 mb-2">
                 </div>
@@ -154,7 +154,7 @@
             <div class="row mt64 mb64" id="lbc3">
                 <div class="col-auto col-3 mw-100 mb-2">
                     <strong>Form M Number:</strong>
-                    <p class="m-0" t-field="doc.project_id.job_form_m" />
+                    <p class="m-0" t-field="doc.project_id.job_form_m_mf" />
                 </div>
                 <div class="col-auto col-3 mw-100 mb-2">
                     <strong>Terminal:</strong>
