@@ -111,13 +111,8 @@ class AccountMove(models.Model):
     def request_link(self):
         fragment = {}
         base_url = self.env["ir.config_parameter"].sudo().get_param("web.base.url")
-        fragment.update(base_url=base_url)
-        fragment.update(model=self._name)
-        fragment.update(view_type="form")
-        fragment.update(id=self.id)
-        query = {"db": self.env.cr.dbname}
-        res = urljoin(base_url, "?%s#%s" % (urlencode(query), urlencode(fragment)))
-        return res
+        fragment.update(model=self._name, view_type="form", db=self.env.cr.dbname)
+        return urljoin(base_url, "/web?#id=%s&%s" % (self.id, urlencode(fragment)))
 
  
 
