@@ -28,6 +28,7 @@
                         <group>
                             <field name="bank_id" />
                             <field name="currency_id" groups="base.group_multi_currency" options="{'no_create': True}" />
+                            <field name="sortcode" />
                             <field name="active" invisible="1" />
                         </group>
                     </group>
@@ -46,6 +47,7 @@
                 <field name="company_id" groups="base.group_multi_company" />
                 <field name="partner_id" />
                 <field name="acc_holder_name" invisible="1" />
+                <field name="sortcode" />
             </tree>
         </field>
     </record>

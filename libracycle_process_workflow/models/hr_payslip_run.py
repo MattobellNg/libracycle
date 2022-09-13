@@ -11,8 +11,8 @@ class HrPayslipRun(models.Model):
 
     state = fields.Selection(
         selection_add=[
-            ("officer", "Await Officer"),
             ("qac", "Await QAC"),
+            ("officer", "Await Officer"),
             ("account", "Await Account"),
             ("close",),
         ],
@@ -69,13 +69,13 @@ class HrPayslipRun(models.Model):
             ).send_mail(self.id, force_send=False)
             rec.write({"state": "qac"})
 
-    def action_qac_approve(self):
+    def action_officer_approved(self):
         for rec in self:
             url = self.request_link()
             email_from = self.env.user.partner_id.email
             recipients = users = "".join(
                 self.env.ref(
-                    "libracycle_process_workflow.group_director_1"
+                    "account.group_account_user"
                 ).users.mapped("email")
             )
             mail_template = self.env.ref(
@@ -118,10 +118,6 @@ class HrPayslipRun(models.Model):
     def request_link(self):
         fragment = {}
         base_url = self.env["ir.config_parameter"].sudo().get_param("web.base.url")
-        fragment.update(base_url=base_url)
-        fragment.update(model=self._name)
-        fragment.update(view_type="form")
-        fragment.update(id=self.id)
-        query = {"db": self.env.cr.dbname}
-        res = urljoin(base_url, "?%s#%s" % (urlencode(query), urlencode(fragment)))
-        return res
+        fragment.update(model=self._name, view_type="form", db=self.env.cr.dbname)
+        return urljoin(base_url, "/web?#id=%s&%s" % (self.id, urlencode(fragment)))
+        
