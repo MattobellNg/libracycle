@@ -23,6 +23,13 @@ class HrPayslipRun(models.Model):
         },
         tracking=True,
     )
+    currency_id = fields.Many2one(comodel_name='res.currency', string='Currency', default=lambda self: self.env.user.company_id.currency_id.id)
+    payroll_total = fields.Monetary(string="Payroll Total", compute='_compute_total_payroll', currency_field='currency_id')
+
+    def _compute_total_payroll(self):
+        for rec in self:
+            payslips = self.env['hr.payslip'].search([('payslip_run_id', '=', rec.id)])
+            rec.payroll_total = sum([p.net_wage for p in payslips])
 
 
     def action_submit_to_officer(self):
