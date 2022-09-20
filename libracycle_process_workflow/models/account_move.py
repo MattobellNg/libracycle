@@ -8,15 +8,15 @@ class AccountMove(models.Model):
 
     state = fields.Selection(
         selection_add=[
-            ("officer", "Officer"),
             ("qac", "QAC"),
-            ("review", "Reviewed"),
+            ("officer", "Officer"), 
+            ("approved", "Approved"),
             ("posted",),
         ],
         ondelete={
             "officer": lambda m: m.write({"state": "draft"}),
             "qac": lambda m: m.write({"state": "draft"}),
-            "review": lambda m: m.write({"state": "draft"}),
+            "approved": lambda m: m.write({"state": "draft"}),
         },
     )
 
@@ -25,43 +25,97 @@ class AccountMove(models.Model):
 
     def action_post(self):
         res = super(AccountMove,self).action_post()
-        if self.move_type =='in_invoice':
-            self.broadcast_notification_qac()
+        if self.move_type == 'in_receipt':
+            self.broadcast_notification_qac_done()
         return res
 
-
-    @api.model_create_multi
-    def create(self, vals_list):
-        res =  super(AccountMove, self).create(vals_list)
-        if res.move_type=='in_invoice':
-            res.broadcast_notification()
-
-        return res
 
     def action_submit(self):
         for rec in self:
             if rec.partner_id:
-                rec.write({"state": "officer"})
+                rec.write({"state": "qac"})
+                self.broadcast_notification_qac()
             else:
                 raise ValidationError("Add a partner to the bill")
 
     def action_officer_approve(self):
         for rec in self:
-            rec.broadcast_notification_qac()
-            rec.write({"state": "qac"})
+            rec.broadcast_notification_account()
+            rec.write({"state": "approved"})
 
 
 
     def action_qac_approve(self):
         for rec in self:
-            
-            rec.write({'state': 'review'})
+            rec.broadcast_notification_officer()
+            rec.write({'state': 'officer'})
 
     def action_reject(self):
         for rec in self:
             rec.write({'state': 'draft'})
 
     def broadcast_notification_qac(self):
+        url = self.request_link()
+        email_from = self.env.user.partner_id.email
+        recipients = users = "".join(
+        self.env.ref("libracycle_process_workflow.group_qac").users.mapped(
+                    "email"
+                )
+            )
+        mail_template = self.env.ref(
+                "libracycle_process_workflow.libracycle_mail_template_move"
+            )
+        mail_template.with_context(
+                {
+                    "recipient": recipients,
+                    "url": url,
+                    "email_from": email_from,
+                    "title": self.env.user.name,
+                }
+            ).send_mail(self.id, force_send=False)
+
+    def broadcast_notification_officer(self):
+        url = self.request_link()
+        email_from = self.env.user.partner_id.email
+        recipients = users = "".join(
+        self.env.ref("libracycle_process_workflow.group_officer").users.mapped(
+                    "email"
+                )
+            )
+        mail_template = self.env.ref(
+                "libracycle_process_workflow.libracycle_mail_template_move"
+            )
+        mail_template.with_context(
+                {
+                    "recipient": recipients,
+                    "url": url,
+                    "email_from": email_from,
+                    "title": self.env.user.name,
+                }
+            ).send_mail(self.id, force_send=False)
+
+
+    def broadcast_notification_account(self):
+        url = self.request_link()
+        email_from = self.env.user.partner_id.email
+        recipients = users = "".join(
+        self.env.ref("account.group_account_manager").users.mapped(
+                    "email"
+                )
+            )
+        mail_template = self.env.ref(
+                "libracycle_process_workflow.libracycle_mail_template_move"
+            )
+        mail_template.with_context(
+                {
+                    "recipient": recipients,
+                    "url": url,
+                    "email_from": email_from,
+                    "title": self.env.user.name,
+                }
+            ).send_mail(self.id, force_send=False)
+
+    def broadcast_notification_qac_done(self):
         url = self.request_link()
         email_from = self.env.user.partner_id.email
         recipients = users = "".join(
@@ -81,32 +135,6 @@ class AccountMove(models.Model):
                 }
             ).send_mail(self.id, force_send=False)
 
-    def broadcast_notification(self):
-        recipients = []
-
-        url = self.request_link()
-        partner_ids_1 = self.env.ref("account.group_account_manager").users.mapped('email')
-        partner_ids_2 = self.env.ref("libracycle_process_workflow.group_qac").users.mapped('email')
-        partner_ids_3 = self.env.ref("libracycle_process_workflow.group_officer").users.mapped('email')
-        recipients.extend(partner_ids_1)
-        recipients.extend(partner_ids_2)
-        recipients.extend(partner_ids_3)
-        recipients = ", ".join(recipients)
-
-  
-        email_from = self.env.user.partner_id.email
-        mail_template = self.env.ref(
-                "libracycle_process_workflow.libracycle_mail_template_move"
-            )
-        mail_template.with_context(
-                {
-                    "recipient": recipients,
-                    "url": url,
-                    "email_from": email_from,
-                    "title": self.env.user.name,
-                }
-            ).send_mail(self.id, force_send=False)
-  
 
     def request_link(self):
         fragment = {}
