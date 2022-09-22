@@ -16,7 +16,8 @@
         "analytic_enterprise",
         "sale_project",
         "hr_expense",
-        "customize_vpcs"
+        "customize_vpcs",
+        "hr_holidays",
     ],
     "data": [
         'security/ir.model.access.csv',
@@ -31,6 +32,7 @@
         "views/hr_expense_sheet.xml",
         "data/mail_template.xml",
         "report/report_saleorder.xml",
+        "views/hr_leave.xml",
     ],
     "license": "LGPL-3",
 }
