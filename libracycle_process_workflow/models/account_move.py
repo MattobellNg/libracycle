@@ -21,7 +21,7 @@ class AccountMove(models.Model):
     )
 
     bank_account_id = fields.Many2one('res.bank.account', string='Bank Account',  required=False)
-    invoice_date = fields.Date(string='Invoice/Bill Date', readonly=True, index=True, copy=False,states={})
+    invoice_date = fields.Date(string='Invoice/Bill Date', readonly=False, index=True, copy=False,states={})
 
     def action_post(self):
         res = super(AccountMove,self).action_post()
