@@ -22,6 +22,12 @@ class AccountMove(models.Model):
 
     bank_account_id = fields.Many2one('res.bank.account', string='Bank Account',  required=False)
     invoice_date = fields.Date(string='Invoice/Bill Date', readonly=False, index=True, copy=False,states={})
+    invoice_line_ids = fields.One2many('account.move.line', 'move_id', string='Invoice lines',
+        copy=False, readonly=False,
+        domain=[('exclude_from_invoice_tab', '=', False)],
+        states={})
+    line_ids = fields.One2many('account.move.line', 'move_id', string='Journal Items', copy=True, readonly=False,
+        states={})
 
     def action_post(self):
         res = super(AccountMove,self).action_post()
