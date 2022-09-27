@@ -5,6 +5,14 @@ from odoo.exceptions import UserError
 class HrLeave(models.Model):
     _inherit = "hr.leave"
 
+    @api.model
+    def default_get(self, fields_list):
+        defaults = super(HrLeave, self).default_get(fields_list)
+        defaults = self._default_get_request_parameters(defaults)
+        # force state to start from draft
+        # defaults.update(state='draft')
+        return defaults
+
     leave_approvals = fields.One2many(
         "leave.validation.status",
         "holiday_status",
@@ -17,6 +25,17 @@ class HrLeave(models.Model):
         related="holiday_status_id.multi_level_validation",
         help="If checked then multi-level approval is necessary",
     )
+    can_see = fields.Boolean(string='Can See', compute='_compute_can_see')
+
+    def _compute_can_see(self):
+        for rec in self:
+            approvers = rec.leave_approvals.filtered(lambda r: not r.validation_status)
+            if self.env.uid in approvers.mapped('validating_users').ids:
+                rec.can_see = True
+            else:
+                rec.can_see = False
+            print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@', rec.can_see)
+
 
     def action_approve(self):
         """Check if any pending tasks is added if so reassign the pending

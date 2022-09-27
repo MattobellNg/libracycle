@@ -7,6 +7,7 @@
     "depends": ["base_setup", "hr_holidays"],
     "data": [
         "views/hr_leave.xml",
+        "data/mail_template.xml",
         "security/ir.model.access.csv",
         "security/security.xml",
     ],
