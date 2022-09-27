@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-	<data>
-		    <record id="mail_template_approved" model="mail.template">
-            <field name="name">Request Approved</field>
+    <data>
+        <record id="mail_template_leave" model="mail.template">
+            <field name="name">Leave Request Approval</field>
             <field name="email_from">{{ ctx.get('email_from') }}</field>
             <field name="subject">Approval Request {{ ctx.get('title') }}</field>
             <field name="email_to">{{ ctx.get('recipient') }}</field>
@@ -11,13 +11,12 @@
                 <div style="margin: 0px; padding: 0px;">
                     <p style="margin: 0px; padding: 0px; font-size: 13px;">
                         Hi!
-                        <div><t t-out="object.name" /> has been approved by  <t t-out="ctx.get('title')" />  </div>
-                        <div><a t-att-href="ctx.get('url')">Please follow the link</a></div>
+                        <div>This <a t-att-href="ctx.get('url')">leave request </a> has been submitted for your approval or review </div>
                         <br />
                         <div>Regards,</div>
                     </p>
                 </div>
             </field>
         </record>
-	</data>
-	</odoo>
+    </data>
+</odoo>
