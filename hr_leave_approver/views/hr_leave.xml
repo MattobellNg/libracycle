@@ -66,6 +66,7 @@
         <field name="arch" type="xml">
             <xpath expr="//group[last()]" position="after">
                 <field name="multi_level_validation" invisible="1" />
+                <field name="can_see" invisible="1" />
                 <notebook attrs="{'invisible': [('multi_level_validation', '=', False)]}">
                     <page string="Validation Status">
                         <field name="leave_approvals" mode="tree">
@@ -85,10 +86,10 @@
                 </notebook>
             </xpath>
             <xpath expr="//button[@name='action_approve']" position="replace">
-                <button string="Approve" name="action_approve" states="confirm" type="object" class="oe_highlight" />
+                <button string="Approve" name="action_approve" states="confirm" type="object" class="oe_highlight" attrs="{'invisible': [('can_see', '!=', True)]}" groups="hr_leave_approver.group_approvers"/>
             </xpath>
             <xpath expr="//button[@name='action_refuse']" position="replace">
-                <button string="Refuse" name="action_refuse" states="confirm,validate,validate1" type="object" />
+                <button string="Refuse" name="action_refuse" states="confirm,validate,validate1" type="object" attrs="{'invisible': [('can_see', '!=', True)]}" groups="hr_leave_approver.group_approvers"/>
             </xpath>
         </field>
     </record>
