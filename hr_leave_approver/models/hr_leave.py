@@ -1,3 +1,5 @@
+from urllib.parse import urlencode, urljoin
+
 from odoo import models, api, fields, _
 from odoo.exceptions import UserError
 
@@ -27,6 +29,20 @@ class HrLeave(models.Model):
     )
     can_see = fields.Boolean(string='Can See', compute='_compute_can_see')
 
+    @api.model_create_multi
+    def create(self, vals_list):
+        holidays = super(HrLeave, self).create(vals_list)
+        [h._broadcast_notification() for h in holidays]
+
+
+        return holidays
+
+    def request_link(self):
+        fragment = {}
+        base_url = self.env["ir.config_parameter"].sudo().get_param("web.base.url")
+        fragment.update(model=self._name, view_type="form", db=self.env.cr.dbname)
+        return urljoin(base_url, "/web?#id=%s&%s" % (self.id, urlencode(fragment)))
+
     def _compute_can_see(self):
         for rec in self:
             approvers = rec.leave_approvals.filtered(lambda r: not r.validation_status)
@@ -34,7 +50,24 @@ class HrLeave(models.Model):
                 rec.can_see = True
             else:
                 rec.can_see = False
-            print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@', rec.can_see)
+
+    def _broadcast_notification(self):
+        approvers = self.leave_approvals.filtered(lambda r: not r.validation_status)
+        if len(approvers):
+            approver = approvers[0]
+            mail_template = self.env.ref(
+                "hr_leave_approver.mail_template_leave"
+            )
+            mail_template.with_context(
+                {
+                    "recipient": approver.validating_users.email,
+                    "url": self.request_link(),
+                    "email_from": self.env.user.company_id.email,
+                    "title": self.name,
+                }
+            ).send_mail(self.id, force_send=False)
+        print('@@@@@@@@@@@@@@@@', approvers)
+
 
 
     def action_approve(self):
@@ -52,6 +85,7 @@ class HrLeave(models.Model):
                 )
             )
         else:
+            self._broadcast_notification()
             return self.approval_check()
 
     def approval_check(self):

@@ -59,7 +59,7 @@
             </xpath>
         </field>
     </record>
-    <record id="hr_holidays_status_validators_leave_create" model="ir.ui.view">
+    <record id="hr_leave_view_form" model="ir.ui.view">
         <field name="name">hr.holidays.double.validation.create.leave</field>
         <field name="model">hr.leave</field>
         <field name="inherit_id" ref="hr_holidays.hr_leave_view_form" />
@@ -86,14 +86,14 @@
                 </notebook>
             </xpath>
             <xpath expr="//button[@name='action_approve']" position="replace">
-                <button string="Approve" name="action_approve" states="confirm" type="object" class="oe_highlight" attrs="{'invisible': [('can_see', '!=', True)]}" groups="hr_leave_approver.group_approvers"/>
+                <button string="Approve" name="action_approve" type="object" class="oe_highlight" attrs="{'invisible': [('can_see', '!=', True)]}" groups="hr_leave_approver.group_approvers"/>
             </xpath>
             <xpath expr="//button[@name='action_refuse']" position="replace">
-                <button string="Refuse" name="action_refuse" states="confirm,validate,validate1" type="object" attrs="{'invisible': [('can_see', '!=', True)]}" groups="hr_leave_approver.group_approvers"/>
+                <button string="Refuse" name="action_refuse" type="object" attrs="{'invisible': [('can_see', '!=', True)]}" groups="hr_leave_approver.group_approvers"/>
             </xpath>
         </field>
     </record>
-    <record id="hr_holidays_status_validators" model="ir.ui.view">
+    <record id="hr_leave_view_form_manager" model="ir.ui.view">
         <field name="name">hr.holidays.double.validation</field>
         <field name="model">hr.leave</field>
         <field name="inherit_id" ref="hr_holidays.hr_leave_view_form_manager" />
@@ -119,10 +119,10 @@
                 </notebook>
             </xpath>
             <xpath expr="//button[@name='action_approve']" position="replace">
-                <button string="Approve" name="action_approve" states="confirm" type="object" class="oe_highlight" />
+                <button string="Approve" name="action_approve" type="object" class="oe_highlight" attrs="{'invisible': [('can_see', '!=', True)]}" groups="hr_leave_approver.group_approvers"/>
             </xpath>
             <xpath expr="//button[@name='action_refuse']" position="replace">
-                <button string="Refuse" name="action_refuse" states="confirm,validate,validate1" type="object" />
+                <button string="Refuse" name="action_refuse" type="object" attrs="{'invisible': [('can_see', '!=', True)]}" groups="hr_leave_approver.group_approvers"/>
             </xpath>
         </field>
     </record>
