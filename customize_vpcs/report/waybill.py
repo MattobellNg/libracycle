@@ -97,7 +97,7 @@ class OperationXlsx(models.AbstractModel):
             new_row+=1
             sheet.write(new_row,0,sr_no,cell_format)
             no_tag = re.compile('<.*?>')
-            new_description = re.sub(no_tag,'',j.description)
+            new_description = re.sub(no_tag,'',j.description if j.description else '')
             sheet.write(new_row,1,new_description,cell_format)
             sheet.write(new_row,2,j.sn_state,cell_format)
             sheet.write(new_row,3,j.client_name.name,cell_format)
