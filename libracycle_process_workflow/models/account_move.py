@@ -29,11 +29,39 @@ class AccountMove(models.Model):
     line_ids = fields.One2many('account.move.line', 'move_id', string='Journal Items', copy=True, readonly=False,
         states={})
 
+    @api.model_create_multi
+    def create(self, vals_list):
+        res_ids = super(AccountMove, self).create(vals_list)
+        for res_id in res_ids:
+            if res_id.move_type in ['in_receipt', 'in_invoice']:
+                res_id._send_creation_email_to_qac()
+        return res_ids
+
     def action_post(self):
         res = super(AccountMove,self).action_post()
         if self.move_type == 'in_receipt':
             self.broadcast_notification_qac_done()
         return res
+
+    def _send_creation_email_to_qac(self):
+        url = self.request_link()
+        email_from = self.env.user.partner_id.email
+        recipients = users = "".join(
+        self.env.ref("libracycle_process_workflow.group_qac").users.mapped(
+                    "email"
+                )
+            )
+        mail_template = self.env.ref(
+                "libracycle_process_workflow.mail_template_vendor_create"
+            )
+        mail_template.with_context(
+                {
+                    "recipient": recipients,
+                    "url": url,
+                    "email_from": email_from,
+                    "title": self.env.user.name,
+                }
+            ).send_mail(self.id, force_send=False)
 
 
     def action_submit(self):

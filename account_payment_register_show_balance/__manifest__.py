@@ -8,7 +8,7 @@
     "author": "Matt O'Bell",
     "website": "http://www.mattobell.net",
     "depends": ["account", "hr_expense"],
-    "data": ["views/hr_expense_sheet.xml"],
+    "data": ["views/account_payment_register.xml"],
     "installable": True,
     "application": False,
 }
