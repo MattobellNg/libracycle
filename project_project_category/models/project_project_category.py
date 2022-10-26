@@ -43,7 +43,7 @@ class ProjectProjectCategory(models.Model):
         FIELD_SELECTION,
         "BOL/AWB Ref",
         required=True,
-        default="no",
+        default="optional",
         help="Display BOL/AWB Ref on project",
     )
 
@@ -249,14 +249,14 @@ class ProjectProjectCategory(models.Model):
         FIELD_SELECTION,
         "ETD",
         required=True,
-        default="no",
+        default="optional",
         help="Display ETD section on project",
     )
     has_eta = fields.Selection(
         FIELD_SELECTION,
         "ETA",
         required=True,
-        default="no",
+        default="optional",
         help="Display ETA section on project",
     )
     has_ata = fields.Selection(
@@ -319,7 +319,7 @@ class ProjectProjectCategory(models.Model):
         FIELD_SELECTION,
         "No of Free days",
         required=True,
-        default="no",
+        default="optional",
         help="Display POD section on project",
     )
     has_custom_exam_date = fields.Selection(
@@ -709,7 +709,7 @@ class ProjectProject(models.Model):
                             "date_deadline": end_date,
                             "date_assign": datetime.now().strftime("%Y-%m-%d"),
                             "task_escalation_trigger": esl_date,
-                            "creation_date": datetime.now().strftime("%Y-%m-%d"),
+                            # "creation_date": datetime.now().strftime("%Y-%m-%d"),
                             "create_date": datetime.now().strftime("%Y-%m-%d"),
                             "create_uid": self.user_id.id,
                             "name": task_name,

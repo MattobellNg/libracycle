@@ -7,7 +7,53 @@ from odoo.tools.misc import xlsxwriter
 from odoo.http import content_disposition, request
 import json
 
+class ProjectRegulate(models.Model):
 
+    _name = "project.regulate"
+
+    name = fields.Char(string='Regulatory Name')
+
+class ShippingLine(models.Model):
+
+    _name = "shipping.line"
+
+    name = fields.Char(string='Shipping Name')
+
+class VesselLine(models.Model):
+
+    _name = "vessel.line"
+
+    name = fields.Char(string='Vessel Name')
+
+class DestinationPort(models.Model):
+
+    _name = "destination.port"
+
+    name = fields.Char(string='Destination Port Name')
+
+class CustomTerminal(models.Model):
+
+    _name = "custom.terminal"
+
+    name = fields.Char(string='Terminal')
+
+class PortLoading(models.Model):
+
+    _name = "port.loading"
+
+    name = fields.Char(string='Port of Loading')
+
+class BargeOperator(models.Model):
+
+    _name = "barge.operator"
+
+    name = fields.Char(string='Barge Name/Operator')
+
+class ModeShipment(models.Model):
+
+    _name = "mode.shipment"
+
+    name = fields.Char(string='Mode Shipment(Air/Sea)')
 
 class ProjectProject(models.Model):
 
@@ -39,11 +85,18 @@ class ProjectProject(models.Model):
         tracking=True,
     )
 
+    client_ref = fields.Char(string="Client Reference")
+
 ################### PRE-ALERT ###################################
     job_refs = fields.Char(string="Job Reference")
     client_name = fields.Many2one('res.partner',string="client name")
     pre_alert_date = fields.Date(string="pre-alert date")
+    #####needs to be remove##########
     project_team = fields.Many2one('res.users',string="Project Team")
+    project_employee = fields.Many2one('hr.employee',string='Project Team')
+    ####################################
+    client_project_team = fields.Many2one('crm.team',string='Team')
+
     account_officer = fields.Many2one('res.users', string="Account Officer")
     item_description = fields.Char(string="Item Description")
 
@@ -53,16 +106,25 @@ class ProjectProject(models.Model):
     doc_boolean = fields.Boolean()
 
     mode_shipment = fields.Char(string="Mode Shipment")
+    mode_shipment_air_sea =fields.Many2one('mode.shipment',string='Mode Shipment(Air/Sea)')
 ################## AWAITING ARRIVAL ############################
+    barge_operator = fields.Many2one('barge.operator',string='Barge Name/Operator')
     shipping_line = fields.Char(string="Shipping/Air line")
+    ship_line = fields.Many2one('shipping.line',string='Shipping/Air line')
     vessel_line = fields.Char(string="Vessel/Flight name")
+    ves_line = fields.Many2one('vessel.line',string='Vessel/Flight name')
     dest_port = fields.Char(string='Destination port')
+    destination_port = fields.Many2one('destination.port',string='Destination Port')
     terminal = fields.Char(string="Terminal")
+    custom_terminal = fields.Many2one('custom.terminal',string='Terminal')
     country_of_loading = fields.Many2one('res.country',string="Country of loading")
-    port_of_loading = fields.Char(string='PORT OF LOADING')
-    rotation_not_received = fields.Date(string="Rotation not received")
+    country_of_destination = fields.Many2one('res.country',string="Country of loading")
+    port_of_loading = fields.Char(string='Port Of Loading')
+    port_many_loading = fields.Many2one('port.loading',string='PORT OF LOADING')
+    rotation_not_received = fields.Date(string="Rotation No Received Date")
 
     ######base field#####
+    custom_free_days = fields.Integer(string='Free Period')
     document_bol_awb_ref = fields.Binary(string='Document(BOL/AWB)')
     doc_bol_awb_ref = fields.Boolean() 
 
@@ -116,7 +178,7 @@ class ProjectProject(models.Model):
     ################needs to be comment#############
     truck_in = fields.Date(string="Truck In")
     gate_out = fields.Date(string="Gate Out")
-    empty_container_returned = fields.Date(string="Empty Container Returned")
+    empty_container_returned = fields.Char(string="Empty Container Returned")
 
 ###############################DELIVERY START(TRUCK/BARGE)####################
     date_delivery_start = fields.Date(string='Date Delivery Start')
@@ -141,6 +203,33 @@ class ProjectProject(models.Model):
     nafdac_final_release = fields.Date(string='NAFDAC Final Release')
     document_has_nafdac_final_release = fields.Binary(string='Document(NAFDAC Final Release)')
     doc_nafdac_final_release = fields.Boolean() 
+
+#################client needs field###############
+    regulatory_field = fields.Many2many('project.regulate',string='Regulatory Required')
+    agent_name = fields.Char(string='Agent Name')
+
+    has_barge_operator = fields.Selection(
+        [],
+        "Barge Name/Operator",
+        related="project_categ_id.has_barge_operator",
+        readonly=True,
+        default="no",
+    )
+
+    has_agent_name = fields.Selection(
+        [],
+        "Agent Name",
+        related="project_categ_id.has_agent_name",
+        readonly=True,
+        default="no",
+    )
+    has_regulatory_field = fields.Selection(
+        [],
+        "Regulatory Required",
+        related="project_categ_id.has_regulatory_field",
+        readonly=True,
+        default="no",
+    )
 
     has_job_refs = fields.Selection(
         [],
@@ -243,7 +332,7 @@ class ProjectProject(models.Model):
     )
     has_rotation_received = fields.Selection(
         [],
-        "Rotation not received",
+        "Rotation No Received Date",
         related="project_categ_id.has_rotation_received",
         readonly=True
     )
@@ -474,6 +563,7 @@ class ProjectProject(models.Model):
     job_select_ids = fields.Many2many('job.selection',string='Job selection')
     document = fields.Binary(required=True, attachment=False, help="upload here your document")
     container = fields.Integer(string="Number of Container")
+    size_of_container = fields.Char(string="Size of Container")
     status_delivered = fields.Boolean(string="Delivered")
     status_completed = fields.Boolean(string="Completed")
     start_date = fields.Date(string="Start date")
@@ -488,11 +578,11 @@ class ProjectProject(models.Model):
     approval_to_readonly_fields_bool = fields.Boolean()
 
     stage_id_done = fields.Boolean(string='Task/Activity Done?')
-    date_out = fields.Date(string="Date out",tracking=True,required=True)
-    barging_date = fields.Date(string="Barging date",tracking=True,required=True)
-    Load_out_date = fields.Date(string="Load out date",tracking=True,required=True)
-    offloading_date = fields.Date(string="Offloading date",tracking=True,required=True)
-    return_date = fields.Date(string=" Return date",tracking=True,required=True)
+    date_out = fields.Date(string="Date out",tracking=True,required=False)
+    barging_date = fields.Date(string="Barging date",tracking=True,required=False)
+    Load_out_date = fields.Date(string="Load out date",tracking=True,required=False)
+    offloading_date = fields.Date(string="Offloading date",tracking=True,required=False)
+    return_date = fields.Date(string=" Return date",tracking=True,required=False)
     # this boolean field is for if document field is visible or not
     document_show = fields.Boolean(string="document show")
     name = fields.Char('Sequence Number',required=True,index=True,copy=False,default='New')
@@ -504,6 +594,7 @@ class ProjectProject(models.Model):
     major_cause_of_delay = fields.Char(string='Major Cause Of Delay')
     container_transfer = fields.Date(string='CONT-Transfer')
     report_wizard_bool = fields.Boolean(string='C&B Report',default=False)
+    mail_boolean = fields.Boolean(string='Mail Send?')
     # report_many2one = fields.Many2one('report.customize_vpcs.report_cb_report')
     # duty = fields.Float(string='Duty')
     # Shipping_charge = fields.Float(string='Shipping Charge')
@@ -514,8 +605,54 @@ class ProjectProject(models.Model):
     # transportation = fields.Float(string='Transportation')
     # others_cost = fields.Float(string='Others Cost')
     # total_cost = fields.Float(string='Total Cost(N)')
-    def action_tracking_report(self):
-        print ('___ hello : ',);
+
+    @api.onchange('job_tdo')
+    def onchange_job_tdo(self):
+        self.mail_boolean = False
+
+    @api.model
+    def tracking_team_update_mail(self):
+        group_ref = self.env.ref('customize_vpcs.group_tracking_report_visibility')
+        user_ids = group_ref.users
+        all_seq = ''
+        today = fields.Date.context_today(self)
+        project_id = self.env['project.project'].search([('job_tdo','=',today)])
+        for i in project_id:
+            all_seq += i.name
+            if i.mail_boolean == False:
+                self.mail_tracking_send(user_ids,all_seq,group_ref,project_id)
+                i.mail_boolean = True
+
+
+    def mail_tracking_send(self,user_ids,all_seq,group_ref,project_id):
+        template = self.env.ref(
+            "customize_vpcs.template_tracking_team_update"
+        )
+        values = {"recipient_ids": [(4, user.partner_id.id) for user in user_ids]}
+        res = template.send_mail(
+            self.id,
+            force_send=True,
+            email_values=values,
+            notif_layout="mail.mail_notification_light",
+        )                    
+        # for user in user_ids:
+        # body_html = group_ref._render()
+        # msg = self.env["mail.message"].sudo().new(dict(body=body_html))
+        # full_mail = self.env["mail.render.mixin"]._render_encapsulate(
+        #     "mail.mail_notification_light",
+        #     body_html,
+        #     add_context=dict(message=msg, model_description=_("Wishlist")),
+        # )
+        # vals = {
+        #     "subject": "TDO Date is reached",
+        #     "body_html": "check this record " + all_seq ,
+        #     # "email_to": (user.partner_id.email_formatted for user in user_ids),
+        #     # "email_from": self.env.user.email_formatted,
+        # }
+        # mail_id = self.env["mail.mail"].create(vals)
+        # mail_id.send()
+
+        # group_id = self.env['res.groups'].search([])
 
     def action_cb_report(self):
         print ('___ self : ', self);
@@ -534,10 +671,10 @@ class ProjectProject(models.Model):
 
         }
 
-    @api.model
-    def create(self,vals):
-        vals['name'] = self.env['ir.sequence'].next_by_code('project.project') or _('New')
-        return super(ProjectProject,self).create(vals)
+    # @api.model
+    # def create(self,vals):
+    #     vals['name'] = self.env['ir.sequence'].next_by_code('project.project') or _('New')
+    #     return super(ProjectProject,self).create(vals)
 
     def action_truck_loaded(self):       
         composer_form_view_id = self.env.ref('mail.email_compose_message_wizard_form').id
@@ -634,28 +771,52 @@ class ProjectProject(models.Model):
         for rec in self:
             if rec.job_form_m_mf:
                 rec.doc_job_bool = True
+            else:
+                rec.doc_job_bool = False
             if rec.paar_received:
                 rec.doc_paar_bool = True
+            else:
+                rec.doc_paar_bool = False
             if rec.duty_assesment:
                 rec.doc_duty_asses = True
+            else:
+                rec.doc_duty_asses = False
             if rec.duty_received:
                 rec.doc_duty_received = True
+            else:
+                rec.doc_duty_received = False
             if rec.shipping_released:
                 rec.doc_ship_released =True
+            else:
+                rec.doc_ship_released = False
             if rec.fecd_custom_ack:
                 rec.doc_custom = True
+            else:
+                rec.doc_custom = False
             if rec.fecd_client_ack:
                 rec.doc_client = True
+            else:
+                rec.doc_client = False
             if rec.bol_awb_ref:
                 rec.doc_bol_awb_ref = True
+            else:
+                rec.doc_bol_awb_ref = False
             if rec.nafdac_1_stamp_date:
                 rec.doc_has_nafdac_1_stamp_date = True
+            else:
+                rec.doc_has_nafdac_1_stamp_date = False
             if rec.nafdac_2_stamp_date:
                 rec.doc_has_nafdac_2_stamp_date = True
+            else:
+                rec.doc_has_nafdac_2_stamp_date = False
             if rec.delivery_waybill_from_client:
                 rec.doc_waybill_from_client = True
+            else:
+                rec.doc_waybill_from_client = False
             if rec.nafdac_final_release:
                 rec.doc_nafdac_final_release = True
+            else:
+                rec.doc_nafdac_final_release = False
 
     @api.model
     def visible_button(self):
@@ -808,7 +969,7 @@ class ProjectScheduleItemsInherit(models.Model):
         if not self.barged_id:
             number = self.env['ir.sequence'].next_by_code('barged.out') or _('New')
             barged = self.env['barged.out'].create({
-                    'name':number,
+                    'name':number,  
                 })
             for rec in self:
                 rec.state = 'barged_out'
@@ -867,35 +1028,89 @@ class AccountMoveLine(models.Model):
 
     readonly_price_field = fields.Boolean()
 
-class CustomTrackingReport(models.Model):
+class CustomManifestReport(models.Model):
+    _name = "custom.manifest.report"
 
-    _name = "custom.tracking.report"
-
-    sn_no = fields.Char(string='S/N No')
-    client_name = fields.Char(string='Client name')
-    liner = fields.Char(string='Liner')
+    custom_tracking_id = fields.Many2one('custom.tracking.report',string='Custom tracking id')
+    sn_no = fields.Many2one('project.project',string='S/N No')
     Container_number = fields.Char(string='Container Number')
     bl_number = fields.Char(string='BL Number')
     container_size = fields.Char(string='Container Size')
-    date_tdo_received = fields.Date(string='Date TDO Received')
-    delivery_begin_date = fields.Date(string='Delivery Begin Date')
-    truck_loading_date = fields.Date(string='Truck Loading Date')
-    days_of_initial_terminal = fields.Char(string='No. of Days Before Initial Loading Out Of Terminal')
-    days_out_terminal = fields.Char(string='No. of Days Out of Terminal')
-    barge_or_road = fields.Char(string='Barge or Road')
-    days_before_barge = fields.Char(string='Days Before Barge Out')
-    import_barge_date = fields.Date(string='Import Barge Out Date')
-    barged_from = fields.Char(string='Barged From')
-    barged_to = fields.Char(string='Barged To')
+    client_name = fields.Many2one('res.partner',string='Client name')
+    liner = fields.Many2one('shipping.line',string='Liner')
+    driver_name = fields.Char(string='Drivers Name')
+    phone_number = fields.Char(string='Phone Number')
     barge_arrival_date = fields.Date(string='Barge Arrival Date')
-    tug = fields.Char(string='Tug')
-    barge_name_operator = fields.Char(string='Barge Name/Operator')
-    barge_offloading_date = fields.Date(string='Barge Offloading Date')
-    container_age = fields.Char(string='Container Age In Ikorodu')
-    container_age_terminal = fields.Char(string='Container Age In the Terminal')
+    time_to_destination = fields.Char(string='Time to Destination')
+    truck_number = fields.Char(string='Truck Number')
+    transportar_name = fields.Char(string="Transporter's Name")
+    weight = fields.Char(string='Weight')
+    sealed = fields.Char(string='Sealed(Yes/No)')
+    tracker_found = fields.Char(string='Tracker Found(Yes/No)')
+    client_ref = fields.Char(string='Client Ref./ File No')
+    container_seal_no = fields.Char(string='Container Seal No')
+    cargo_name = fields.Char(string='Cargo Name')
+    qty_received_origin = fields.Char(string='QTY. Received (ORIGIN)')
+    qty_received_dest = fields.Char(string='QTY. Received (DEST)')
+    # needs to remove
+    # bool_track_to_manifest = fields.Boolean()
+    bool_manifest = fields.Boolean()
+    # this field dont need to show on view
+    waybill_no = fields.Char(string='Waybill No')
+    delivery_begin_date = fields.Date(string='Delivery Begin Date')
+    unique_barge_name = fields.Char(string='Unique Barge Ref.Number')
+    barge_date_manifest = fields.Date(string='Barge Date') 
+
+
+class CustomTrackingReport(models.Model):
+
+    _name = "custom.tracking.report"
+    # _rec_name = 'sn_no'
+
+    # project_id = fields.Many2one('project.project',string='Project')
+    sn_no = fields.Many2one('project.project',string='S/N No')
+    client_name = fields.Many2one('res.partner',string='Client name',related='sn_no.partner_id',store=True)
+    liner = fields.Many2one('shipping.line',string='Liner',related='sn_no.ship_line')
+    Container_number = fields.Char(string='Container Number')
+    bl_number = fields.Char(string='BL Number',related='sn_no.job_refs')
+    # bl_number = fields.Char(string='BL Number')
+    container_size = fields.Integer(string='Container Size')
+    date_tdo_received = fields.Date(string='Date TDO Received',related='sn_no.job_tdo')
+    # date_tdo_received = fields.Date(string='Date TDO Received')
+    delivery_begin_date = fields.Date(string='Delivery Begin Date')
+    truck_loading_date = fields.Date(string='Truck Loading Date',related='sn_no.date_delivery_start')
+    truck_loading_date = fields.Date(string='Truck Loading Date')
+    days_of_initial_terminal = fields.Char(compute='comp_init_terminal',string='No. of Days Before Initial Loading Out Of Terminal',store=True)
+    # days_of_initial_terminal = fields.Char(string='No. of Days Before Initial Loading Out Of Terminal',store=True)
+    days_out_terminal = fields.Char(compute='comp_init_terminal',string='No. of Days Out of Terminal',store=True)
+    # days_out_terminal = fields.Char(string='No. of Days Out of Terminal',store=True)
+    barge_or_road = fields.Char(string='Barge or Road')
+    days_before_barge = fields.Char(compute='comp_init_terminal',string='Days Before Barge Out',store=True)
+    days_before_barge = fields.Char(string='Days Before Barge Out',store=True)
+    import_barge_date = fields.Date(string='Import Barge Out Date',related='sn_no.Barge_date')
+    # import_barge_date = fields.Date(string='Import Barge Out Date')
+    barged_from = fields.Many2one('custom.terminal',string='Barged From',related='sn_no.custom_terminal')
+    # barged_from = fields.Many2one('custom.terminal',string='Barged From')
+    barged_to = fields.Many2one('destination.port',string='Barged To',related='sn_no.destination_port')
+    # barged_to = fields.Many2one('destination.port',string='Barged To')
+    barge_arrival_date = fields.Date(string='Barge Arrival Date',related='sn_no.eta')
+    # barge_arrival_date = fields.Date(string='Barge Arsrival Date')
+    tug = fields.Many2one('vessel.line',string='Tug',related='sn_no.ves_line')
+    # tug = fields.Many2one('vessel.line',string='Tug')
+    barge_name_operator = fields.Many2one('barge.operator',string='Barge Name/Operator',related='sn_no.barge_operator')
+    barge_name_operator = fields.Many2one('barge.operator',string='Barge Name/Operator')
+    unique_barge_name = fields.Char(string='Unique Barge Ref.Number')
+    barge_offloading_date = fields.Date(string='Barge Offloading Date',related='sn_no.etd')
+    # barge_offloading_date = fields.Date(string='Barge Offloading Date')
+    container_age = fields.Char(compute='comp_init_terminal',string='Container Age In Ikorodu',store=True)
+    container_age = fields.Char(string='Container Age In Ikorodu',store=True)
+    container_age_terminal = fields.Char(compute='comp_init_terminal',string='Container Age In the Terminal',store=True)
+    # container_age_terminal = fields.Char(string='Container Age In the Terminal',store=True)
     truck_out_loading_date = fields.Date(string='Truck Out Loading Date')
-    last_known_location = fields.Char(string='Last Known Location')
-    arrival_client_side = fields.Date(string="Arrival  Date at Client's Site")
+    last_known_location = fields.Selection(string='Last Known Location',related='sn_no.state')
+    # last_known_location = fields.Char(string='Last Known Location')
+    arrival_client_side = fields.Date(string="Arrival  Date at Client's Site",related='sn_no.eta')
+    # arrival_client_side = fields.Date(string="Arrival  Date at Client's Site")
     time_to_destination = fields.Char(string='Time to Destination')
     offloading_location = fields.Char(string='Offloading Location')
     truck_offloading_date = fields.Date(string='Truck Offloading Date')
@@ -906,8 +1121,167 @@ class CustomTrackingReport(models.Model):
     transportar_name = fields.Char(string="Transporter's Name")
     driver_name = fields.Char(string='Drivers Name')
     phone_number = fields.Char(string='Phone Number')
-    return_empties = fields.Char(string='Returning Empties? (Y/N)')
+    return_empties = fields.Char(string='Returning Empties? (Y/N)',related='sn_no.empty_container_returned')
+    # return_empties = fields.Char(string='Returning Empties? (Y/N)')
     date_return_to_terminal = fields.Date(string='Date returned to ternimal')
     current_empty_location = fields.Char(string='Current empty location')
     do_expiry_date = fields.Date(string='DO Expiry Date')
     comments = fields.Char(string='Comments')
+    weight = fields.Integer(string='Weight')
+    # project_schedule_items_ids
+    # project_schedule_id = fields.Many2one('project.schedule.items',string='Project schedule Items')
+    schedule_status = fields.Selection(related='project_schedule_id.state',string='Schedule items status')
+    schedule_status = fields.Selection(string='Schedule items status', 
+        selection=[('in_port', 'In Port'), ('in_transit', 'In Transit'),('barged_out','Barged Out'),('del_ship','Delivered/Shipped'),('return','Return Item')],default='in_port')
+    # needs to be delete
+    bool_track_to_manifest = fields.Boolean()
+
+    def action_in_tracking_transit(self):
+        for rec in self:
+            rec.schedule_status = 'in_transit'
+
+    def action_barged_out_tracking(self):
+        number = self.env['ir.sequence'].next_by_code('barged.out') or _('New')
+        for rec in self:
+            barged = self.env['barged.out'].create({
+                    'name':number,  
+                })
+            rec.schedule_status = 'barged_out'
+            get_date = datetime.today()
+            if rec.schedule_status == 'barged_out':
+                rec.bool_track_to_manifest = True
+                manifest_id = self.env['custom.manifest.report'].create(
+                    {
+                        'sn_no':rec.sn_no.id,
+                        'custom_tracking_id' : rec.id,
+                        'Container_number' : rec.Container_number,
+                        'bl_number' : rec.bl_number,
+                        'container_size': rec.container_size,
+                        'client_name': rec.client_name.id,
+                        'liner' : rec.liner.id,
+                        'driver_name' : rec.driver_name,
+                        'phone_number' : rec.phone_number,
+                        'barge_arrival_date': rec.barge_arrival_date,
+                        "bool_manifest" : rec.bool_track_to_manifest,
+                        'weight' : rec.weight,
+                        'client_ref' : rec.sn_no.client_ref,
+                        'waybill_no': rec.waybill_no,
+                        'delivery_begin_date': rec.delivery_begin_date,
+                        'truck_number':rec.truck_number,
+                        'transportar_name':rec.transportar_name,
+                        'unique_barge_name':barged.name,
+                        'barge_date_manifest':get_date, 
+                    }
+                )
+
+    def action_in_tracking_delivery(self):
+        for rec in self:
+            rec.schedule_status = 'del_ship'
+
+    def action_return_item_tracking(self):
+        for rec in self:
+            rec.schedule_status = 'return'
+
+    def action_move_into_manifest(self):
+        for rec in self:
+            rec.bool_track_to_manifest = True
+            manifest_id = self.env['custom.manifest.report'].create(
+                {
+                    'sn_no':rec.sn_no.id,
+                    'custom_tracking_id' : rec.id,
+                    'Container_number' : rec.Container_number,
+                    'bl_number' : rec.bl_number,
+                    'container_size': rec.container_size,
+                    'client_name': rec.client_name.id,
+                    'liner' : rec.liner.id,
+                    'driver_name' : rec.driver_name,
+                    'phone_number' : rec.phone_number,
+                    'barge_arrival_date': rec.barge_arrival_date,
+                    "bool_manifest" : rec.bool_track_to_manifest,
+                    'weight' : rec.weight,
+                    'client_ref' : rec.sn_no.client_ref,
+                    'waybill_no': rec.waybill_no,
+                    'delivery_begin_date': rec.delivery_begin_date,
+                    'truck_number':rec.truck_number,
+                    'transportar_name':rec.transportar_name, 
+                }
+            )            
+
+    @api.depends('truck_loading_date','date_tdo_received','sn_no','date_return_to_terminal','import_barge_date','truck_out_loading_date','barge_offloading_date','barge_arrival_date')
+    def comp_init_terminal(self):
+        for record in self:
+            if record.sn_no:
+                if record.truck_loading_date and record.date_tdo_received:
+                    d1 = datetime.strptime(str(record.truck_loading_date), '%Y-%m-%d')
+                    d2 = datetime.strptime(str(record.date_tdo_received), '%Y-%m-%d')
+                    date_difference = d2-d1
+                    if date_difference.days > 0:
+                        record.days_of_initial_terminal = date_difference.days
+                    else:
+                        record.days_of_initial_terminal = 0                        
+                if record.date_return_to_terminal and record.truck_loading_date:
+                    d2 = datetime.strptime(str(record.date_return_to_terminal), '%Y-%m-%d')
+                    d1 = datetime.strptime(str(record.truck_loading_date), '%Y-%m-%d')
+                    date_difference = d2-d1
+                    if date_difference.days > 0:
+                        record.days_out_terminal = date_difference.days
+                    else:
+                        record.days_out_terminal = 0                        
+                if record.import_barge_date and record.date_tdo_received:
+                    d2 = datetime.strptime(str(record.import_barge_date), '%Y-%m-%d')
+                    d1 = datetime.strptime(str(record.date_tdo_received), '%Y-%m-%d')
+                    date_difference = d2-d1
+                    if date_difference.days > 0:                    
+                        record.days_before_barge = date_difference.days
+                    else:
+                        record.days_before_barge = 0
+                if record.truck_out_loading_date and record.barge_offloading_date:
+                    d2 = datetime.strptime(str(record.truck_out_loading_date), '%Y-%m-%d')
+                    d1 = datetime.strptime(str(record.barge_offloading_date), '%Y-%m-%d')
+                    date_difference = d2-d1
+                    if date_difference.days > 0:                                        
+                        record.container_age_terminal = date_difference.days
+                    else:
+                        record.container_age_terminal = 0
+                if record.truck_out_loading_date and record.barge_arrival_date:
+                    d2 = datetime.strptime(str(record.truck_out_loading_date), '%Y-%m-%d')
+                    d1 = datetime.strptime(str(record.barge_arrival_date), '%Y-%m-%d')
+                    date_difference = d2-d1
+                    if date_difference.days > 0:                    
+                        record.container_age = date_difference.days
+                    else:
+                        record.container_age = 0
+
+    # def get_project_field_dynamic(self,field):
+    #     selection_field = []
+    #     data_res = self.env['project.project'].search([]).mapped(field)
+    #     if field == 'client_name':
+    #         for field in data_res:
+    #             selection_field.append((field.name, field.name))
+    #     else:
+    #         for field in data_res:
+    #             selection_field.append((field, field))
+    #     return selection_field
+
+    # def _compute_sn_no(self):
+    #     data = self.get_project_field_dynamic('name')
+    #     return data
+
+    # @api.onchange('sn_no')
+    # def _onchange_sn(self):
+    #     if self.sn_no:
+    #         if self.truck_loading_date and self.date_tdo_received:
+    #             d1 = datetime.strptime(str(self.truck_loading_date), '%Y-%m-%d')
+    #             d2 = datetime.strptime(str(self.date_tdo_received), '%Y-%m-%d')
+    #             date_difference = d2-d1
+    #             self.days_of_initial_terminal = date_difference.days
+    #         elif self.date_return_to_terminal and self.truck_loading_date:
+    #             d1 = datetime.strptime(str(self.date_return_to_terminal), '%Y-%m-%d')
+    #             d2 = datetime.strptime(str(self.truck_loading_date), '%Y-%m-%d')
+    #             date_difference = d2-d1
+    #             self.days_of_initial_terminal = date_difference.days
+    #         else:
+    #             self.days_of_initial_terminal = ''
+
+    # def _compute_client(self):
+    #     return self.get_project_field_dynamic('client_name')

@@ -18,10 +18,6 @@
             <field name='name'>Show status button</field>
             <field name='category_id' ref='module_project_project'/>
         </record>
-        <record id ='group_cb_report_visibility' model='res.groups'>
-            <field name='name'>C &amp; B report</field>
-            <field name='category_id' ref='base.module_category_hidden'/>
-        </record>
         <record id ='group_tracking_report_visibility' model='res.groups'>
             <field name='name'>Tracking report</field>
             <field name='category_id' ref='base.module_category_hidden'/>

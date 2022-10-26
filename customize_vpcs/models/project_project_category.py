@@ -9,27 +9,28 @@ class ProjectProjectCategory(models.Model):
     _inherit = "project.project.category"
 
 ##########################Pre-alert######################
-    has_job_refs = fields.Selection(FIELD_SELECTION,"Job Refs",default="no",help="Display job ref on project",)
-    has_client_name = fields.Selection(FIELD_SELECTION,"Client Name",default="no",help="Display Client Name on project",)
-    has_pre_alert_date = fields.Selection(FIELD_SELECTION,"Pre-alert Date",default="no",help="Display Pre-alert date on project",)
-    has_project_team = fields.Selection(FIELD_SELECTION,"Project Team",default="no",help="Display Project Team on project",)
-    has_account_officer = fields.Selection(FIELD_SELECTION,"Account Officer",default="no",help="Display Account Officer on project",)
-    has_item_description = fields.Selection(FIELD_SELECTION,"Item description",default="no",help="Display Item description on project",)
-    has_form_m_mf = fields.Selection(FIELD_SELECTION,"Form M(MF)",default="no",help="Display Form M(MF) on project")
-    has_mode_shipment = fields.Selection(FIELD_SELECTION,"Mode Shipment",default="no",help="Display Mode Shipment on project")
+    has_job_refs = fields.Selection(FIELD_SELECTION,"Job Refs",default="optional",help="Display job ref on project",)
+    has_client_name = fields.Selection(FIELD_SELECTION,"Client Name",default="optional",help="Display Client Name on project",)
+    has_pre_alert_date = fields.Selection(FIELD_SELECTION,"Pre-alert Date",default="optional",help="Display Pre-alert date on project",)
+    has_project_team = fields.Selection(FIELD_SELECTION,"Project Team",default="optional",help="Display Project Team on project",)
+    has_account_officer = fields.Selection(FIELD_SELECTION,"Account Officer",default="optional",help="Display Account Officer on project",)
+    has_item_description = fields.Selection(FIELD_SELECTION,"Item description",default="optional",help="Display Item description on project",)
+    has_form_m_mf = fields.Selection(FIELD_SELECTION,"Form M(MF)",default="optional",help="Display Form M(MF) on project")
+    has_mode_shipment = fields.Selection(FIELD_SELECTION,"Mode Shipment",default="optional",help="Display Mode Shipment on project")
 ##########################AWAITING ARRIVAL###########################
-    has_shipping_line = fields.Selection(FIELD_SELECTION,'SHIPPING LINE/AIR LINE',default='no')
-    has_vessel_name = fields.Selection(FIELD_SELECTION,'VESSEL /FLIGHT NAME',default='no')
-    has_destination_port = fields.Selection(FIELD_SELECTION,'DESTINATION PORT (SEA/AIR)',default='no')
-    has_terminal = fields.Selection(FIELD_SELECTION,'TERMINAL',default='no')
-    has_country_of_loading = fields.Selection(FIELD_SELECTION,'COUNTRY OF LOADING',default='no')
-    has_port_of_loading = fields.Selection(FIELD_SELECTION,'PORT OF LOADING',default='no')
-    has_rotation_received = fields.Selection(FIELD_SELECTION,'Rotation not received',default='no')
+    has_barge_operator = fields.Selection(FIELD_SELECTION,"Barge Operator",default='optional')
+    has_duty_assesment = fields.Selection(FIELD_SELECTION,"Duty Assessment",default='optional')
+    has_shipping_line = fields.Selection(FIELD_SELECTION,'SHIPPING LINE/AIR LINE',default='optional')
+    has_vessel_name = fields.Selection(FIELD_SELECTION,'VESSEL /FLIGHT NAME',default='optional')
+    has_destination_port = fields.Selection(FIELD_SELECTION,'DESTINATION PORT (SEA/AIR)',default='optional')
+    has_terminal = fields.Selection(FIELD_SELECTION,'TERMINAL',default='optional')
+    has_country_of_loading = fields.Selection(FIELD_SELECTION,'COUNTRY OF LOADING',default='optional')
+    has_port_of_loading = fields.Selection(FIELD_SELECTION,'PORT OF LOADING',default='optional')
+    has_rotation_received = fields.Selection(FIELD_SELECTION,'Rotation not received',default='optional')
 #############################IN CLEARING#################################
+    has_paar_request = fields.Selection(FIELD_SELECTION,"PAAR REQUEST",default="optional")
+    has_paar_received = fields.Selection(FIELD_SELECTION,"PAAR RECEIVED",default='optional')
     has_agent_name = fields.Selection(FIELD_SELECTION,'Agent Name',default='no')
-    has_paar_request = fields.Selection(FIELD_SELECTION,"PAAR REQUEST",default="no")
-    has_paar_received = fields.Selection(FIELD_SELECTION,"PAAR RECEIVED",default='no')
-    has_duty_assesment = fields.Selection(FIELD_SELECTION,"Duty Assessment",default='no')
     has_duty_received = fields.Selection(FIELD_SELECTION,"Duty Received",default='no')
     has_nafdac_paid = fields.Selection(FIELD_SELECTION,'NAFDAC paid',default='no')
     has_son_invoice = fields.Selection(FIELD_SELECTION,"SON invoice",default='no')
@@ -57,7 +58,7 @@ class ProjectProjectCategory(models.Model):
 
     has_truck_in = fields.Selection(FIELD_SELECTION,'TRUCK IN ',default='no')
     has_gate_out = fields.Selection(FIELD_SELECTION,'GATE OUT',default='no')
-    has_empty_container_returned = fields.Selection(FIELD_SELECTION,'EMPTY CONAINER RETURN',default='no')
+    has_empty_container_returned = fields.Selection(FIELD_SELECTION,'EMPTY CONTAINER RETURN',default='no')
 
 ###############################DELIVERY START(TRUCK/BARGE)####################
 
@@ -72,6 +73,9 @@ class ProjectProjectCategory(models.Model):
     has_fecd_custom_ack = fields.Selection(FIELD_SELECTION,'FECD: customs ACK ',default='no')
     has_fecd_client_ack =fields.Selection(FIELD_SELECTION,'FECD: To Client ACK',default='no')
     has_nafdac_final_release = fields.Selection(FIELD_SELECTION,'NAFDAC Final Release',default='no')
+
+###############Client Need########################
+    has_regulatory_field = fields.Selection(FIELD_SELECTION,'Regulatory Field',default='optional')
     # has_job_ba_number = fields.Selection(
     #     FIELD_SELECTION,
     #     "BA Number",
