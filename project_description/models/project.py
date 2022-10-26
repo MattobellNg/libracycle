@@ -185,7 +185,7 @@ class ProjectProject(models.Model):
     discharge_terminal_id = fields.Many2one(
         "stock.location",
         "Discharge Terminal",
-        required=True,
+        required=False,
         tracking=True,
         domain=[("usage", "in", ["transit", "internal"])],
     )
@@ -194,7 +194,7 @@ class ProjectProject(models.Model):
     origin_country_id = fields.Many2one(
         "res.country",
         "Country of origin",
-        required=True,
+        required=False,
         tracking=True,
     )
     has_job_form_m = fields.Boolean()
@@ -253,7 +253,7 @@ class ProjectProject(models.Model):
     destination_country_id = fields.Many2one(
         "res.country",
         "Country of destination",
-        required=True,
+        required=False,
         tracking=True,
     )
     items_count = fields.Integer(compute="_compute_items_count", string="Tasks")
@@ -424,7 +424,7 @@ class ProjectProject(models.Model):
         store=True,
     )
 
-    last_project_comment = fields.Char("Project Comment", compute="_project_message_comment")
+    last_project_comment = fields.Char("Project Comment")
 
     state = fields.Selection(
         [
@@ -465,21 +465,22 @@ class ProjectProject(models.Model):
                 else:
                     rec.job_invoiced = "no"
 
-    @api.depends("message_ids")
+    # @api.depends("message_ids")
     def _project_message_comment(self):
-        for rec in self:
-            if rec.message_ids:
-                check_for_comment = rec.env["mail.message"].search(
-                    [
-                        ("model", "=", "project.project"),
-                        ("res_id", "=", rec.id),
-                        ("message_type", "=", "comment"),
-                    ],
-                    order="date desc",
-                    limit=1,
-                )
-                if check_for_comment:
-                    rec.last_project_comment = check_for_comment.body
+        pass
+        # for rec in self:
+        #     if rec.message_ids:
+        #         check_for_comment = rec.env["mail.message"].search(
+        #             [
+        #                 ("model", "=", "project.project"),
+        #                 ("res_id", "=", rec.id),
+        #                 ("message_type", "=", "comment"),
+        #             ],
+        #             order="date desc",
+        #             limit=1,
+        #         )
+        #         if check_for_comment:
+        #             rec.last_project_comment = check_for_comment.body
 
     @api.depends("cleared_date", "job_duty")
     def _cal_total_cycle(self):

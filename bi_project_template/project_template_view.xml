@@ -19,9 +19,9 @@
             <field name="inherit_id" ref="project.edit_project"/>
             <field name="arch" type="xml">
 
-            	<xpath expr="//field[@name='stage_id']" position="replace">
+            	<!-- <xpath expr="//field[@name='stage_id']" position="replace">
             		<field name="stage_id" widget="statusbar" domain="[('project_check','=',True)]" groups="project.group_project_stages"/>
-            	</xpath>
+            	</xpath> -->
 
             	<xpath expr="//header" position="inside">
 	            		<button string="Set as Template" type="object" name="set_template" 

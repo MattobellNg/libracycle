@@ -2,7 +2,7 @@
 # Part of BrowseInfo. See LICENSE file for full copyright and licensing details.
 {
     'name': 'Project Template',
-    'version': '15.0.0.0',
+    'version': '15.0.0.3',
     'category': "Project",
     'license':'OPL-1',
     'summary': 'This apps helps to make project as template and make new project from the Template',
