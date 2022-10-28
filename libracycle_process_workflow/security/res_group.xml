@@ -18,14 +18,7 @@
             <field name="name">QAC</field>
             <field name="category_id" ref="libra_payment_process_flow" />
         </record>
-   <!--      <record id="group_director_1" model="res.groups">
-            <field name="name">Director I</field>
-            <field name="category_id" ref="libra_payment_process_flow" />
-        </record>
-        <record id="group_director_2" model="res.groups">
-            <field name="name">Director II</field>
-            <field name="category_id" ref="libra_payment_process_flow" />
-        </record> -->
+
         <record id="group_hr_expense_hod_approver" model="res.groups">
             <field name="name">HOD Approver</field>
             <field name="category_id" ref="base.module_category_human_resources_expenses" />

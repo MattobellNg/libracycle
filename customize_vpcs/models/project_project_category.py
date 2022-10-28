@@ -76,13 +76,6 @@ class ProjectProjectCategory(models.Model):
 
 ###############Client Need########################
     has_regulatory_field = fields.Selection(FIELD_SELECTION,'Regulatory Field',default='optional')
-    # has_job_ba_number = fields.Selection(
-    #     FIELD_SELECTION,
-    #     "BA Number",
-    #     # required=True,
-    #     default="no",
-    #     help="Display BA Number field on project",
-    # )
 
     field_visibility = fields.Selection([
         ('1','Delivery only'),
@@ -103,15 +96,6 @@ class ProjectProjectCategory(models.Model):
         ('7','Free Trade Zone-Sea')
     ],'Field Visibility')
     document_bool = fields.Boolean(string="Document Upload?")
-
-    # def write(self,vals):
-    #     data = super(ProjectProjectCategory, self).write(vals)
-    #     print ('___ data : ', data);
-    #     if vals:
-    #         print ('___ vals : ', vals);
-    #         if vals.get('has_field_visibility'):
-
-    #     return data
 
     @api.onchange('has_field_visibility')
     def change_field_combination(self):
