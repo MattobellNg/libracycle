@@ -116,6 +116,12 @@
                         <button name='action_truck_loaded' type='object' string='Truck loaded' class='oe_highlight' attrs="{'invisible': [('sn_state','in',('pre_alert','awaiting_arrival','in_clearing','post_delivery'))]}" />
                     </header>
                 </xpath>
+                <field name="name" position="replace">
+                    <field name="name" attrs="{'readonly': [('sn_state', 'not in', ['pre_alert', 'awaiting_arrival'])]}" />
+                </field>
+                <xpath expr='//field[@name="state"]' position='attributes'>
+                    <attribute name='invisible'>1</attribute>
+                </xpath>
                 <xpath expr='//button[@name="action_create_invoice" and @states="pending,progress"]' position='attributes'>
                     <attribute name='invisible'>1</attribute>
                 </xpath>
