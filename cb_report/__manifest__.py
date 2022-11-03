@@ -12,6 +12,8 @@
         'security/CBreport.xml',
         "security/ir.model.access.csv",
         "views/cb_report.xml",
+        "views/product_template.xml",
+        "views/project_views.xml",
         "wizard/view_wiz_report.xml",        
     ],
     'qweb': [

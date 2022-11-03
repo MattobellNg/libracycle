@@ -31,3 +31,13 @@
        </record>
    </data>
 </odoo>
+           <!-- <field name="body_html"><![CDATA[
+                <br/>
+                <p>This records needs to check</p>
+                <a t-att-href="object.event_id.website_url"
+                            style="padding: 8px 12px; font-size: 12px; color: #FFFFFF; text-decoration: none !important; font-weight: 400; background-color: #875A7B; border: 0px solid #875A7B; border-radius:3px">
+                            View Event
+                        </a>
+                <br/>
+                 ]]>
+           </field> -->

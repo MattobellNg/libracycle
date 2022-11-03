@@ -12,6 +12,8 @@
                     </group>
                     <field name='project_ids'>
                         <tree editable="1">
+                            <field name="project_product_duty"/>
+                            <field name="project_shipping_charge"/>
                             <field name="report_wizard_bool"/>
                             <field name="project_categ_id"/>
                             <field name='type_id'/>

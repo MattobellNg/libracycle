@@ -1251,3 +1251,37 @@ class CustomTrackingReport(models.Model):
                         record.container_age = date_difference.days
                     else:
                         record.container_age = 0
+
+    # def get_project_field_dynamic(self,field):
+    #     selection_field = []
+    #     data_res = self.env['project.project'].search([]).mapped(field)
+    #     if field == 'client_name':
+    #         for field in data_res:
+    #             selection_field.append((field.name, field.name))
+    #     else:
+    #         for field in data_res:
+    #             selection_field.append((field, field))
+    #     return selection_field
+
+    # def _compute_sn_no(self):
+    #     data = self.get_project_field_dynamic('name')
+    #     return data
+
+    # @api.onchange('sn_no')
+    # def _onchange_sn(self):
+    #     if self.sn_no:
+    #         if self.truck_loading_date and self.date_tdo_received:
+    #             d1 = datetime.strptime(str(self.truck_loading_date), '%Y-%m-%d')
+    #             d2 = datetime.strptime(str(self.date_tdo_received), '%Y-%m-%d')
+    #             date_difference = d2-d1
+    #             self.days_of_initial_terminal = date_difference.days
+    #         elif self.date_return_to_terminal and self.truck_loading_date:
+    #             d1 = datetime.strptime(str(self.date_return_to_terminal), '%Y-%m-%d')
+    #             d2 = datetime.strptime(str(self.truck_loading_date), '%Y-%m-%d')
+    #             date_difference = d2-d1
+    #             self.days_of_initial_terminal = date_difference.days
+    #         else:
+    #             self.days_of_initial_terminal = ''
+
+    # def _compute_client(self):
+    #     return self.get_project_field_dynamic('client_name')

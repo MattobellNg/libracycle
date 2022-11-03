@@ -1,0 +1,31 @@
+<odoo>
+    <data>
+        <record id="project_extra" model="ir.ui.view">
+            <field name="name">project.project.form</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project" />
+            <field name="arch" type="xml">
+                <xpath expr='//field[@name="team_id"]' position="after">
+                    <field name="lib_project_com"/>
+                    <field name="wht"/>
+                    <field name="total_profit"/>
+                    <field name="customer_untaxed_value"/>
+                    <field name="customer_vat"/>
+                    <field name="customer_total_invoice_value"/>
+                    <field name="customer_invoice_paid"/>
+                    <field name="customer_invoice_unpaid"/>
+                </xpath>
+                <xpath expr='//field[@name="lib_project_com"]' position="after">
+                    <field name="project_product_duty"/>
+                    <field name="project_shipping_charge"/>
+                    <field name="project_terminal_charge"/>
+                    <field name="project_nafdac"/>
+                    <field name="project_son"/>
+                    <field name="project_agency"/>
+                    <field name="project_transportation"/>
+                    <field name="project_others"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
