@@ -11,6 +11,7 @@
     'data': [        
         'security/CBreport.xml',
         "security/ir.model.access.csv",
+        "data/cb_report_action.xml",
         "views/cb_report.xml",
         "views/product_template.xml",
         "views/project_views.xml",

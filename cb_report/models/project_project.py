@@ -2,12 +2,14 @@ from odoo import models, fields, api, _
 from datetime import datetime
 from odoo.exceptions import ValidationError
 import json
+import logging
+_logger = logging.getLogger(__name__)
 
 
 class Project(models.Model):
     _inherit = "project.project"
 
-    lib_project_com = fields.Char(compute='_compute_process',string="Total Cost",store=False)
+    lib_project_com = fields.Char(compute="_compute_process",string="Total Cost",store=False)
     wht = fields.Integer(string="WHT")
 
     # Total Invoice Value(N) minus Total Cost.
@@ -42,8 +44,28 @@ class Project(models.Model):
     customer_invoice_paid = fields.Integer(string="Paid")
     customer_invoice_unpaid = fields.Integer(string="Not Paid")
 
-    # @api.depends('lib_project_com')
-    def _compute_process(self):
+    def action_cb_report(self):
+        for rec in self:
+            move_records = self.env['account.move'].search([('move_type','=','in_invoice')])
+            if move_records:
+                for r in move_records:
+                    for fi in r.invoice_line_ids:
+                        _logger.info('___ in vendor bill : ');
+                        if fi.analytic_account_id.project_ids.id == rec.id:
+                            print ('___ fi.analytic_account_id : ', fi.analytic_account_id.project_ids.id);
+                            rec.write({'job_vendor_bill_ids': [(4,r.id)]})
+            invoice_records = self.env['account.move'].search([('move_type','=','out_invoice')])
+            if invoice_records:
+                for i in invoice_records:
+                    for i1 in i.invoice_line_ids:
+                        _logger.info('___ in customer invoice : ');
+                        if i1.analytic_account_id.project_ids.id == rec.id:
+                            rec.write({'job_invoice_ids' : [(4,i.id)]})
+
+
+
+    @api.depends('lib_project_com')
+    def _compute_process(self):        
         print ('___ self : ', self);
         for rec in self:
             total_duty=total_shipping_charge=total_terminal_charge=total_nafdac=total_son=total_agency=total_transportation=total_others = 0 
