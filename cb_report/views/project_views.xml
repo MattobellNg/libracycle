@@ -6,24 +6,24 @@
             <field name="inherit_id" ref="project.edit_project" />
             <field name="arch" type="xml">
                 <xpath expr='//field[@name="team_id"]' position="after">
-                    <field name="lib_project_com"/>
-                    <field name="wht"/>
-                    <field name="total_profit"/>
-                    <field name="customer_untaxed_value"/>
-                    <field name="customer_vat"/>
-                    <field name="customer_total_invoice_value"/>
-                    <field name="customer_invoice_paid"/>
-                    <field name="customer_invoice_unpaid"/>
+                    <field name="lib_project_com" readonly='1'/>
+                    <field name="wht" readonly='1'/>
+                    <field name="total_profit" readonly='1'/>
+                    <field name="customer_untaxed_value" readonly='1'/>
+                    <field name="customer_vat" readonly='1'/>
+                    <field name="customer_total_invoice_value" readonly='1'/>
+                    <field name="customer_invoice_paid" readonly='1'/>
+                    <field name="customer_invoice_unpaid" readonly='1'/>
                 </xpath>
                 <xpath expr='//field[@name="lib_project_com"]' position="after">
-                    <field name="project_product_duty"/>
-                    <field name="project_shipping_charge"/>
-                    <field name="project_terminal_charge"/>
-                    <field name="project_nafdac"/>
-                    <field name="project_son"/>
-                    <field name="project_agency"/>
-                    <field name="project_transportation"/>
-                    <field name="project_others"/>
+                    <field name="project_product_duty" readonly='1'/>
+                    <field name="project_shipping_charge" readonly='1'/>
+                    <field name="project_terminal_charge" readonly='1'/>
+                    <field name="project_nafdac" readonly='1'/>
+                    <field name="project_son" readonly='1'/>
+                    <field name="project_agency" readonly='1'/>
+                    <field name="project_transportation" readonly='1'/>
+                    <field name="project_others" readonly='1'/>
                 </xpath>
             </field>
         </record>
