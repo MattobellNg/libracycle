@@ -7,7 +7,7 @@
             <field name="arch" type="xml">
                 <xpath expr='//field[@name="team_id"]' position="after">
                     <field name="lib_project_com" readonly='1'/>
-                    <field name="wht" readonly='1'/>
+                    <field name="wht"/>
                     <field name="total_profit" readonly='1'/>
                     <field name="customer_untaxed_value" readonly='1'/>
                     <field name="customer_vat" readonly='1'/>

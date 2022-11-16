@@ -133,7 +133,7 @@ class Project(models.Model):
                         customer_total_others += subtotal_customer_others                    
                     invoice_untaxed_value += i.amount_untaxed
                     for tx in i.invoice_line_ids.filtered(lambda l: l.tax_ids and l.analytic_account_id.id == rec.analytic_account_id.id):
-                        tax_move_line_value += tx.price_subtotal or 0.0
+                        tax_move_line_value += (tx.price_subtotal*tx.tax_ids.amount)/100
                     if invoice_untaxed_value or tax_move_line_value:
                         total_invoice_value = invoice_untaxed_value + tax_move_line_value
                     if i.tax_totals_json or i.amount_residual:
