@@ -44,6 +44,37 @@ class Project(models.Model):
     customer_invoice_paid = fields.Integer(string="Paid")
     customer_invoice_unpaid = fields.Integer(string="Not Paid") 
 
+
+    # For Smart Buttons
+
+    duty_count = fields.Integer(string="Duty Invoice Line")
+    shipping_count = fields.Integer(string="Shipping Invoice Line")
+    terminal_count = fields.Integer(string="Terminal Invoice Line")
+    nafdac_count = fields.Integer(string="Nafdac Invoice Line")
+    son_count = fields.Integer(string="Son Invoice Line")
+    agency_count = fields.Integer(string="Agency Invoice Line")
+    transportation_count = fields.Integer(string="Transportation Invoice Line")
+    others_count = fields.Integer(string="Others Invoice Line")
+
+    move_line = fields.Char(string="Transportation Move Line")
+
+    def _compute_duty_invoice_line(self):
+        for pro in self:
+            pro.duty_count=pro.shipping_count=pro.terminal_count=pro.nafdac_count=pro.son_count=pro.agency_count=pro.transportation_count=pro.others_count = 0
+
+    def duty_invoice_line(self):
+        dy_value = self._context.get('button')
+        self.ensure_one()
+        action = self.env.ref("account.action_account_moves_all_tree")
+        json_move_line = json.loads(self.move_line.replace("'",'"'))
+        return {
+            "name": action.name,
+            "type": action.type,
+            "domain": [['id', 'in', json_move_line.get(dy_value)]],
+            "view_mode": "tree,form",
+            "res_model": action.res_model,
+        }
+
     def action_cb_report(self):
         for rec in self:
             move_records = self.env['account.move'].search([('move_type','=','in_invoice')])
@@ -52,7 +83,6 @@ class Project(models.Model):
                     for fi in r.invoice_line_ids:
                         _logger.info('___ in vendor bill : ');
                         if fi.analytic_account_id.project_ids.id == rec.id:
-                            print ('___ fi.analytic_account_id : ', fi.analytic_account_id.project_ids.id);
                             rec.write({'job_vendor_bill_ids': [(4,r.id)]})
             invoice_records = self.env['account.move'].search([('move_type','=','out_invoice')])
             if invoice_records:
@@ -65,10 +95,18 @@ class Project(models.Model):
 
 
     @api.depends('lib_project_com')
-    def _compute_process(self):        
+    def _compute_process(self):      
         for rec in self:
             total_duty=total_shipping_charge=total_terminal_charge=total_nafdac=total_son=total_agency=total_transportation=total_others = 0 
             customer_total_duty=customer_total_shipping_charge=customer_total_terminal_charge=customer_total_nafdac=customer_total_son=customer_total_agency=customer_total_transportation=customer_total_others=invoice_untaxed_value=tax_move_line_value=paid_amount=unpaid_amount=total_invoice_value= 0 
+            demo_duty = []
+            demo_transportation= []
+            demo_terminal=[]
+            demo_nafdac= []
+            demo_son= []
+            demo_agency= []
+            demo_others=[]
+            demo_shipping = []
             purchase_types = self.env['account.move'].get_purchase_types()
             domain = [
                 ('move_id.state', '=', 'posted'),
@@ -82,27 +120,43 @@ class Project(models.Model):
             if move_ids:
                 for v in list(set(move_ids)):
                     for d in v.invoice_line_ids.filtered(lambda l: l.product_id.product_duty == True and l.analytic_account_id.id == rec.analytic_account_id.id):
+                        for co in d:
+                            demo_duty.append(co.id)
                         subtotal_duty_value = d.price_subtotal or 0.0
                         total_duty += subtotal_duty_value
                     for sh in v.invoice_line_ids.filtered(lambda l: l.product_id.shipping_charge == True and l.analytic_account_id.id == rec.analytic_account_id.id):
+                        for s in sh:
+                            demo_shipping.append(s.id)
                         subtotal_shipping_value = sh.price_subtotal or 0.0
                         total_shipping_charge += subtotal_shipping_value
-                    for t in v.invoice_line_ids.filtered(lambda l: l.product_id.terminal_charge == True and l.analytic_account_id.id == rec.analytic_account_id.id):                        
+                    for t in v.invoice_line_ids.filtered(lambda l: l.product_id.terminal_charge == True and l.analytic_account_id.id == rec.analytic_account_id.id):                                             
+                        for to in t:
+                            demo_terminal.append(to.id)
                         subtotal_terminal_value = t.price_subtotal or 0.0
                         total_terminal_charge += subtotal_terminal_value
                     for n in v.invoice_line_ids.filtered(lambda l: l.product_id.nafdac == True and l.analytic_account_id.id == rec.analytic_account_id.id):
+                        for no in n:
+                            demo_nafdac.append(no.id)
                         subtotal_nafdac_value = n.price_subtotal or 0.0
                         total_nafdac += subtotal_nafdac_value
                     for s in v.invoice_line_ids.filtered(lambda l: l.product_id.son == True and l.analytic_account_id.id == rec.analytic_account_id.ids):
+                        for so in s:
+                            demo_son.append(so.id)
                         subtotal_son_value = s.price_subtotal or 0.0
                         total_son += subtotal_son_value
                     for a in v.invoice_line_ids.filtered(lambda l: l.product_id.agency == True and l.analytic_account_id.id == rec.analytic_account_id.id):
+                        for ao in a:
+                            demo_agency.append(ao.id)
                         subtotal_agency_value = a.price_subtotal or 0.0
                         total_agency += subtotal_agency_value
                     for tr in v.invoice_line_ids.filtered(lambda l: l.product_id.transportation == True and l.analytic_account_id.id == rec.analytic_account_id.id):
+                        for to in tr:
+                            demo_transportation.append(to.id)
                         subtotal_transportation_value = tr.price_subtotal or 0.0
                         total_transportation += subtotal_transportation_value
                     for o in v.invoice_line_ids.filtered(lambda l: l.product_id.others == True and l.analytic_account_id.id == rec.analytic_account_id.id):
+                        for ot in o:
+                            demo_others.append(ot.id)
                         subtotal_others_value = o.price_subtotal or 0.0
                         total_others += subtotal_others_value
             if rec.job_invoice_ids:
@@ -142,7 +196,6 @@ class Project(models.Model):
                         paid_amount += (str_to_dict.get("amount_total") - cal_unpaid_amount)
                         unpaid_amount += cal_unpaid_amount
 
-
             # value assigned to vendor bills
             rec.project_product_duty = total_duty
             rec.project_shipping_charge = total_shipping_charge
@@ -170,3 +223,22 @@ class Project(models.Model):
             rec.total_profit = total_invoice_value - int(rec.lib_project_com)
             rec.customer_invoice_paid = paid_amount
             rec.customer_invoice_unpaid = unpaid_amount
+            new_dict = {
+                "duty" : list(set(demo_duty)),
+                "shipping" : list(set(demo_shipping)),
+                "terminal" : list(set(demo_terminal)),
+                "nafdac" : list(set(demo_nafdac)),
+                "son" : list(set(demo_son)),
+                "agency" : list(set(demo_agency)),
+                "transportation" : list(set(demo_transportation)),
+                "others" : list(set(demo_others))
+            }
+            rec.duty_count = len(list(set(demo_duty)))
+            rec.shipping_count = len(list(set(demo_shipping)))
+            rec.terminal_count = len(list(set(demo_terminal)))
+            rec.nafdac_count = len(list(set(demo_nafdac)))
+            rec.son_count = len(list(set(demo_son)))
+            rec.agency_count = len(list(set(demo_agency)))
+            rec.transportation_count = len(list(set(demo_transportation)))
+            rec.others_count = len(list(set(demo_others)))
+            rec.move_line = new_dict

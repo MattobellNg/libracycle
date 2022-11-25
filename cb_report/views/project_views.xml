@@ -5,6 +5,38 @@
             <field name="model">project.project</field>
             <field name="inherit_id" ref="project.edit_project" />
             <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('oe_title')]" position="before">
+                    <div class="oe_right oe_button_box" name="button_box">
+                        <group cols='12' style="text-align:left;">
+                            <button class="oe_stat_button" type="object" name="duty_invoice_line" icon="fa-tasks"  context="{'button':'duty'}">
+                                <field string="Duty" name="duty_count" style="margin-left:10px;" widget="statinfo"/>
+                            </button>
+                            <button class="oe_stat_button" type="object" name="duty_invoice_line" icon="fa-tasks" context="{'button':'shipping'}"> 
+                                <field string="Shipping" name="shipping_count" style="margin-left:10px;" widget="statinfo"/>
+                            </button>
+                            <button class="oe_stat_button" type="object" name="duty_invoice_line" style="margin-left:-0.25rem;" icon="fa-tasks" context="{'button':'terminal'}">
+                                <field string="Terminal" name="terminal_count" style="margin-left:10px;" widget="statinfo"/>
+                            </button>
+                            <button class="oe_stat_button" type="object" name="duty_invoice_line" icon="fa-tasks" context="{'button':'nafdac'}">
+                                <field string="nafdac" name="nafdac_count" style="margin-left:10px;" widget="statinfo"/>
+                            </button>
+                        </group>
+                        <group cols='12' style="text-align:left;"> 
+                            <button class="oe_stat_button" type="object" name="duty_invoice_line" icon="fa-tasks" context="{'button':'son'}">
+                                <field string="Son" name="son_count" style="margin-left:10px;" widget="statinfo"/>
+                            </button>
+                            <button class="oe_stat_button" type="object" name="duty_invoice_line" icon="fa-tasks" context="{'button':'agency'}">
+                                <field string="Agency" name="agency_count" style="margin-left:10px;" widget="statinfo"/>
+                            </button>
+                            <button class="oe_stat_button" type="object" style="margin-left:-0.75rem;" name="duty_invoice_line" icon="fa-tasks" context="{'button':'transportation'}">
+                                <field string="Transportation" name="transportation_count" style="margin-left:10px;padding-left:-0.75rem;" widget="statinfo"/>
+                            </button>
+                            <button class="oe_stat_button" type="object" name="duty_invoice_line" icon="fa-tasks" context="{'button':'others'}">
+                                <field string="Others" name="others_count" style="margin-left:10px;" widget="statinfo"/>
+                            </button>
+                        </group>
+                    </div>
+                </xpath>
                 <xpath expr='//field[@name="team_id"]' position="after">
                     <field name="lib_project_com" readonly='1'/>
                     <field name="wht"/>
