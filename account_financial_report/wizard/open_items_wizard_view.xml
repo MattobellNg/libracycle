@@ -9,7 +9,7 @@
                 <group name="main_info">
                     <field
                         name="company_id"
-                       
+                        options="{'no_create': True}"
                         groups="base.group_multi_company"
                     />
                 </group>
@@ -31,7 +31,7 @@
                         name="partner_ids"
                         nolabel="1"
                         widget="many2many_tags"
-                       
+                        options="{'no_create': True}"
                     />
                 </group>
                 <group name="account_filter" col="4">
@@ -43,13 +43,13 @@
                             <field
                                 name="account_code_from"
                                 class="oe_inline"
-                               
+                                options="{'no_create': True}"
                             />
                             <span class="oe_inline">To</span>
                             <field
                                 name="account_code_to"
                                 class="oe_inline"
-                               
+                                options="{'no_create': True}"
                             />
                         </div>
                     </div>
@@ -57,7 +57,7 @@
                         name="account_ids"
                         nolabel="1"
                         widget="many2many_tags"
-                       
+                        options="{'no_create': True}"
                         colspan="4"
                     />
                 </group>
