@@ -92,7 +92,7 @@ class ProjectProjectCategory(models.Model):
         ('5','Fastrack-Sea'),
         ('6','TRANSHIRE CLEARING'),
         ('7','Free Trade Zone-Sea')
-    ],'Field Visibility')
+    ],'Field Visibility', default='1')
     has_field_visibility = fields.Selection([
         ('1','Delivery only'),
         ('2','LPO Financing'),
@@ -101,17 +101,9 @@ class ProjectProjectCategory(models.Model):
         ('5','Fastrack-Sea'),
         ('6','TRANSHIRE CLEARING'),
         ('7','Free Trade Zone-Sea')
-    ],'Field Visibility')
+    ],'Field Visibility', default='1')
     document_bool = fields.Boolean(string="Document Upload?")
 
-    # def write(self,vals):
-    #     data = super(ProjectProjectCategory, self).write(vals)
-    #     print ('___ data : ', data);
-    #     if vals:
-    #         print ('___ vals : ', vals);
-    #         if vals.get('has_field_visibility'):
-
-    #     return data
 
     @api.onchange('has_field_visibility')
     def change_field_combination(self):
