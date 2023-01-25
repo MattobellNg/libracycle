@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="report_project_details" model="ir.actions.report">
+        <field name="name">Project Account Report</field>
+        <field name="model">project.report.wizard</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_name">vpcs_project_report_xlsx.project_account_report_template</field>
+        <field name="report_file">vpcs_project_report_xlsx.project_account_report_template</field>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

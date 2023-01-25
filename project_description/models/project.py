@@ -179,7 +179,6 @@ class ProjectProject(models.Model):
     loading_terminal_id = fields.Many2one(
         "stock.location",
         "Loading Terminal",
-        required=True,
         tracking=True,
     )
     discharge_terminal_id = fields.Many2one(

@@ -561,7 +561,7 @@ class ProjectProject(models.Model):
         "Job selection",
     )
     job_select_ids = fields.Many2many('job.selection',string='Job selection')
-    document = fields.Binary(required=True, attachment=False, help="upload here your document")
+    document = fields.Binary(attachment=False, help="upload here your document")
     container = fields.Integer(string="Number of Container")
     size_of_container = fields.Char(string="Size of Container")
     status_delivered = fields.Boolean(string="Delivered")

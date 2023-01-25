@@ -39,7 +39,7 @@
                 <field name="free_days" string="No of free days" />
                 <field name="shipping_rating_till" string="Shipping rated till" />
                 <field name="job_do" string="DO" />
-                <field name="loading_terminal_id" string="Terminal" />
+                <field name="loading_terminal_id" string="Terminal" required="1"/>
                 <field name="terminal_rating_till" string="Terminal rated till" />
                 <field name="custom_exam_date" string="Customs Exams Booking Date" />
                 <field name="custom_date" string="Customs Date" />
@@ -82,7 +82,7 @@
                 <field name="items_total_weight" string="Weight" />
                 <field name="vessel_det" string="Vessel" />
                 <field name="job_liner" string="Shipping Line" />
-                <field name="loading_terminal_id" string="Loading Terminal" />
+                <field name="loading_terminal_id" string="Loading Terminal"/>
                 <field name="job_allocation_date" string="Job Allocation Date" />
                 <field name="etd" string="ETD" />
                 <field name="eta" string="ETA" />
