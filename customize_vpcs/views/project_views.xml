@@ -405,7 +405,9 @@
             <field name="report_file">customize_vpcs.report_cbreport_xlsx</field>
             <field name="binding_type">report</field>
         </record>
-
+<<<<<<< HEAD
+=======
+        
         <record id="view_custom_tracking_report_list" model="ir.ui.view">
             <field name="name">Tracking Report</field>
             <field name="model">custom.tracking.report</field>
@@ -467,5 +469,7 @@
             groups="customize_vpcs.group_tracking_report_visibility"
             action="action_tracking_report"
             parent="project.menu_main_pm" sequence="22"/>
+>>>>>>> 76b4b6fec3a0ace6bc4e7c2286b204ff0be69f90
+
     </data>
 </odoo>
