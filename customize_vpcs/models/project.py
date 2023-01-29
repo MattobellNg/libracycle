@@ -221,7 +221,7 @@ class ProjectProject(models.Model):
         [],
         "DESTINATION PORT (SEA/AIR)",
         related="project_categ_id.has_destination_port",
-        readonly=True
+        readonly=False
     )
     has_terminal = fields.Selection(
         [],
