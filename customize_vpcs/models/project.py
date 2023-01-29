@@ -500,7 +500,6 @@ class ProjectProject(models.Model):
     feet_twenty = fields.Integer(string='20FT')
     cbm = fields.Integer(string='CBM')
     kg = fields.Integer(string='KG')
-    size_of_container = fields.Char(string ='Size of Container')
     days_in_port = fields.Integer(string='Days in Port')
     major_cause_of_delay = fields.Char(string='Major Cause Of Delay')
     container_transfer = fields.Date(string='CONT-Transfer')
