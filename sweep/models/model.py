@@ -207,7 +207,6 @@ class AccountMoveExt(models.Model):
                                 'debit': 0.0,
                                 'credit': ji_amount,
                                 'move_id': move.id,
-                                'analytic_account_id': analytic_account.id,
                                 'swept': True,
                                 }),
                         (0, 0, {'account_id': ji_product.sweep_account_id.id,
@@ -215,7 +214,6 @@ class AccountMoveExt(models.Model):
                                 'debit': ji_amount,
                                 'credit': 0.0,
                                 'move_id': move.id,
-                                'analytic_account_id': analytic_account.id,
                                 'swept': True,
                                 }),
                     ], })
@@ -226,7 +224,6 @@ class AccountMoveExt(models.Model):
                                 'debit': ji_amount,
                                 'credit': 0.0,
                                 'move_id': move.id,
-                                'analytic_account_id': analytic_account.id,
                                 'swept': True,
                                 }),
                         (0, 0, {'account_id': ji_product.sweep_account_id.id,
@@ -234,7 +231,6 @@ class AccountMoveExt(models.Model):
                                 'debit': 0.0,
                                 'credit': ji_amount,
                                 'move_id': move.id,
-                                'analytic_account_id': analytic_account.id,
                                 'swept': True,
                                 }),
                     ], })
@@ -245,7 +241,6 @@ class AccountMoveExt(models.Model):
                             'debit': ji_amount,
                             'credit': 0.0,
                             'move_id': move.id,
-                            'analytic_account_id': analytic_account.id,
                             'swept': True,
                             }),
                     (0, 0, {'account_id': ji_product.sweep_account_id.id,
@@ -253,7 +248,6 @@ class AccountMoveExt(models.Model):
                             'debit': 0.0,
                             'credit': ji_amount,
                             'move_id': move.id,
-                            'analytic_account_id': analytic_account.id,
                             'swept': True,
                             }),
                 ], })
