@@ -20,7 +20,7 @@ class Project(models.Model):
 
     project_product_duty = fields.Integer(string="Duty")
     project_shipping_charge = fields.Integer(string="Shipping Charge")
-    project_terminal_charge = fields.Float(string="Terminal Charge")
+    project_terminal_charge = fields.Integer(string="Terminal Charge")
     project_nafdac = fields.Integer(string="Nafdac")
     project_son = fields.Integer(string="SON")
     project_agency = fields.Integer(string="Agency")
@@ -199,6 +199,11 @@ class Project(models.Model):
             # value assigned to vendor bills
             rec.project_product_duty = total_duty
             rec.project_shipping_charge = total_shipping_charge
+
+            if total_terminal_charge > 2147483647:
+                total_terminal_charge = str(int(total_terminal_charge))[3:]
+
+            rec.project_terminal_charge = int(total_terminal_charge)
             rec.project_terminal_charge = total_terminal_charge
             rec.project_nafdac = total_nafdac
             rec.project_son = total_son
