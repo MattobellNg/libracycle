@@ -38,8 +38,8 @@
                 <field name="job_liner" string="Terminal" />
                 <field name="free_days" string="No of free days" />
                 <field name="shipping_rating_till" string="Shipping rated till" />
-                <field name="job_do" string="DO" invisible="1"/>
-                <field name="loading_terminal_id" string="Terminal" required="1"/>
+                <field name="job_do" string="DO" />
+                <field name="loading_terminal_id" string="Terminal" />
                 <field name="terminal_rating_till" string="Terminal rated till" />
                 <field name="custom_exam_date" string="Customs Exams Booking Date" />
                 <field name="custom_date" string="Customs Date" />
@@ -82,7 +82,7 @@
                 <field name="items_total_weight" string="Weight" />
                 <field name="vessel_det" string="Vessel" />
                 <field name="job_liner" string="Shipping Line" />
-                <field name="loading_terminal_id" string="Loading Terminal"/>
+                <field name="loading_terminal_id" string="Loading Terminal" />
                 <field name="job_allocation_date" string="Job Allocation Date" />
                 <field name="etd" string="ETD" />
                 <field name="eta" string="ETA" />
@@ -215,7 +215,7 @@
                 <field name="loading_port_id" />
                 <field name="discharge_terminal_id" />
                 <field name="origin_country_id" />
-                <field name="country_of_destination" />
+                <field name="destination_country_id" />
                 <field name="refund_demurrage_option" invisible="1" />
                 <field name="refund_demurrage_benef_id" invisible="1" />
                 <field name="refund_demurrage_amount" invisible="1" />
@@ -298,7 +298,7 @@
             </field>
             <xpath expr="//sheet" position="before">
                 <header>
-                    <field name="state" widget="statusbar" statusbar_visible="new,pending,progress,deliver,done" invisible="1"/>
+                    <field name="state" widget="statusbar" statusbar_visible="new,pending,progress,deliver,done" />
                     <button name="create_job_quotation" type="object" string="Quotation" states="pending,progress" class="oe_highlight" />
                     <button name="create_purchases_receipt" type="object" string="Create purchase Receipt" states="pending,progress" />
                     <button name="action_create_vendor_bill" type="object" string="Create Vendor Bill" states="pending,progress" />
@@ -335,17 +335,17 @@
             </xpath>
             <xpath expr="//notebook//page" position="before">
                 <page name="job_details" string="Job Details">
-<!--                    <group colspan="4" col="4">-->
-<!--&lt;!&ndash;                        <field name="client_ref" />&ndash;&gt;-->
-<!--                        <field name="vessel_det" />-->
-<!--&lt;!&ndash;                        <field name="origin_country_id" />&ndash;&gt;-->
-<!--                        <field name="country_of_destination" />-->
-<!--                    </group>-->
                     <group colspan="4" col="4">
-<!--                        <field name="discharge_port_id" />-->
-<!--                        <field name="loading_port_id" />-->
-<!--                        <field name="discharge_terminal_id" context="{'default_usage': 'transit'}" />-->
-<!--                        <field name="job_carrier_id" domain="[('is_carrier_partner', '=', True)]" context="{'default_is_carrier_partner': True, 'default_project_type_id': type_id, 'default_type': 'product'}" />-->
+                        <field name="client_ref" />
+                        <field name="vessel_det" />
+                        <field name="origin_country_id" />
+                        <field name="destination_country_id" />
+                    </group>
+                    <group colspan="4" col="4">
+                        <field name="discharge_port_id" />
+                        <field name="loading_port_id" />
+                        <field name="discharge_terminal_id" context="{'default_usage': 'transit'}" />
+                        <field name="job_carrier_id" domain="[('is_carrier_partner', '=', True)]" context="{'default_is_carrier_partner': True, 'default_project_type_id': type_id, 'default_type': 'product'}" />
                     </group>
                     <group>
                         <group>
@@ -364,7 +364,7 @@
                             <field name="job_shipping_co" attrs="{'invisible':['|',('has_job_shipping_co','==','no'),('project_categ_id','=', False)], 'required': [('has_job_shipping_co','==','required')]}" />
                             <field name="job_terminal_payment" attrs="{'invisible':['|',('has_job_terminal_payment','==','no'),('project_categ_id','=', False)], 'required': [('has_job_terminal_payment','==','required')]}" />
                             <!-- <field name="custom_release_date" attrs="{'invisible':['|',('has_custom_release_date','==','no'),('project_categ_id','=', False)], 'required': [('has_custom_release_date','==','required')]}" /> -->
-<!--                            <field name="job_tdo" attrs="{'invisible':['|',('has_job_tdo','==','no'),('project_categ_id','=', False)], 'required': [('has_job_tdo','==','required')]}" />-->
+                            <field name="job_tdo" attrs="{'invisible':['|',('has_job_tdo','==','no'),('project_categ_id','=', False)], 'required': [('has_job_tdo','==','required')]}" />
                             <field name="job_plant_delivery_date" attrs="{'invisible':['|',('has_job_plant_delivery_date','==','no'),('project_categ_id','=', False)], 'required': [('has_job_plant_delivery_date','==','required')]}" />
                             <field name="exchange_control_returned" attrs="{'invisible':['|',('has_exchange_control_returned','==','no'),('project_categ_id','=', False)], 'required': [('has_exchange_control_returned','==','required')]}" />
                             <field name="shipping_rating_till" attrs="{'invisible':['|',('has_shipping_rating_till','==','no'),('project_categ_id','=', False)], 'required': [('has_shipping_rating_till','==','required')]}" />
@@ -376,7 +376,7 @@
                             <field name="delivery_date" attrs="{'invisible':['|',('has_delivery_date','==','no'),('project_categ_id','=', False)], 'required': [('has_delivery_date','==','required')]}" />
                             <field name="container_return_date" attrs="{'invisible':['|',('has_container_return_date','==','no'),('project_categ_id','=', False)], 'required': [('has_container_return_date','==','required')]}" />
                             <field name="total_cycle" attrs="{'invisible':['|',('has_total_cycle','==','no'),('project_categ_id','=', False)], 'required': [('has_total_cycle','==','required')]}" />
-<!--                            <field name="job_do" attrs="{'invisible':['|',('has_job_do','==','no'),('project_categ_id','=', False)], 'required': [('has_job_do','==','required')]}" />-->
+                            <field name="job_do" attrs="{'invisible':['|',('has_job_do','==','no'),('project_categ_id','=', False)], 'required': [('has_job_do','==','required')]}" />
                             <field name="ecd_date" attrs="{'invisible':['|',('has_ecd_date','==','no'),('project_categ_id','=', False)], 'required': [('has_ecd_date','==','required')]}" />
                             <field name="job_form_m" attrs="{'invisible':['|',('has_job_form_m','==','no'),('project_categ_id','=', False)], 'required': [('has_job_form_m','==','required')]}" />
                             <field name="job_form_m_date" attrs="{'invisible':['|',('has_job_form_m_date','==','no'),('project_categ_id','=', False)], 'required': [('has_job_form_m_date','==','required')]}" />
@@ -388,7 +388,7 @@
                             <!-- <field name="ata" attrs="{'invisible':['|',('has_ata','==','no'),('project_categ_id','=', False)], 'required': [('has_ata','==','required')]}" /> -->
                             <field name="discharge_date" attrs="{'invisible':['|',('has_discharge_date','==','no'),('project_categ_id','=', False)], 'required': [('has_discharge_date','==','required')]}" />
                             <field name="doc_to_agent" attrs="{'invisible':['|',('has_doc_to_agent','==','no'),('project_categ_id','=', False)], 'required': [('has_doc_to_agent','==','required')]}" />
-<!--                            <field name="rotation_number" attrs="{'invisible':['|',('has_rotation_number','==','no'),('project_categ_id','=', False)], 'required': [('has_rotation_number','==','required')]}" />-->
+                            <field name="rotation_number" attrs="{'invisible':['|',('has_rotation_number','==','no'),('project_categ_id','=', False)], 'required': [('has_rotation_number','==','required')]}" />
                             <!-- <field name="nafdac_1_stamp_date" attrs="{'invisible':['|',('has_nafdac_1_stamp_date','==','no'),('project_categ_id','=', False)], 'required': [('has_nafdac_1_stamp_date','==','required')]}" />
                             <field name="nafdac_2_stamp_date" attrs="{'invisible':['|',('has_nafdac_2_stamp_date','==','no'),('project_categ_id','=', False)], 'required': [('has_nafdac_2_stamp_date','==','required')]}" /> -->
                             <field name="son_date" attrs="{'invisible':['|',('has_son_date','==','no'),('project_categ_id','=', False)], 'required': [('has_son_date','==','required')]}" />

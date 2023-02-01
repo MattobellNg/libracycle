@@ -5,11 +5,6 @@ from odoo import models, fields, api, _
 FIELD_SELECTION = [("required", "Required"), ("optional", "Optional"), ("no", "None")]
 
 
-
-
-
-
-
 class ProjectProjectCategory(models.Model):
     _inherit = "project.project.category"
 
@@ -23,8 +18,6 @@ class ProjectProjectCategory(models.Model):
     has_form_m_mf = fields.Selection(FIELD_SELECTION,"Form M(MF)",default="optional",help="Display Form M(MF) on project")
     has_mode_shipment = fields.Selection(FIELD_SELECTION,"Mode Shipment",default="optional",help="Display Mode Shipment on project")
 ##########################AWAITING ARRIVAL###########################
-
-    # barge_operator = fields.Many2one('barge.operator',"Barge Operator")
     has_barge_operator = fields.Selection(FIELD_SELECTION,"Barge Operator",default='optional')
     has_duty_assesment = fields.Selection(FIELD_SELECTION,"Duty Assessment",default='optional')
     has_shipping_line = fields.Selection(FIELD_SELECTION,'SHIPPING LINE/AIR LINE',default='optional')
@@ -99,7 +92,7 @@ class ProjectProjectCategory(models.Model):
         ('5','Fastrack-Sea'),
         ('6','TRANSHIRE CLEARING'),
         ('7','Free Trade Zone-Sea')
-    ],'Field Visibility', default='1')
+    ],'Field Visibility')
     has_field_visibility = fields.Selection([
         ('1','Delivery only'),
         ('2','LPO Financing'),
@@ -108,9 +101,17 @@ class ProjectProjectCategory(models.Model):
         ('5','Fastrack-Sea'),
         ('6','TRANSHIRE CLEARING'),
         ('7','Free Trade Zone-Sea')
-    ],'Field Visibility', default='1')
+    ],'Field Visibility')
     document_bool = fields.Boolean(string="Document Upload?")
 
+    # def write(self,vals):
+    #     data = super(ProjectProjectCategory, self).write(vals)
+    #     print ('___ data : ', data);
+    #     if vals:
+    #         print ('___ vals : ', vals);
+    #         if vals.get('has_field_visibility'):
+
+    #     return data
 
     @api.onchange('has_field_visibility')
     def change_field_combination(self):

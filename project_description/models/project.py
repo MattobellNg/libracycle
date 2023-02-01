@@ -179,6 +179,7 @@ class ProjectProject(models.Model):
     loading_terminal_id = fields.Many2one(
         "stock.location",
         "Loading Terminal",
+        required=True,
         tracking=True,
     )
     discharge_terminal_id = fields.Many2one(
@@ -249,9 +250,9 @@ class ProjectProject(models.Model):
 
 
     project_categ_id = fields.Many2one("project.project.category", "Project Category")
-    country_of_destination = fields.Many2one(
+    destination_country_id = fields.Many2one(
         "res.country",
-        "Destination",
+        "Country of destination",
         required=False,
         tracking=True,
     )
