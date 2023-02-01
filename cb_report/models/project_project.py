@@ -20,7 +20,7 @@ class Project(models.Model):
 
     project_product_duty = fields.Integer(string="Duty")
     project_shipping_charge = fields.Integer(string="Shipping Charge")
-    project_terminal_charge = fields.Integer(string="Terminal Charge")
+    project_terminal_charge = fields.Float(string="Terminal Charge")
     project_nafdac = fields.Integer(string="Nafdac")
     project_son = fields.Integer(string="SON")
     project_agency = fields.Integer(string="Agency")

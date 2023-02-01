@@ -8,7 +8,7 @@
     (1) Project
     (2) QAC
     """,
-    'depends': ['project','web','project_project_category','report_xlsx'],
+    'depends': ['project','web','project_project_category','report_xlsx','project_description'],
     'data': [
         'security/project_access.xml',
         "security/ir.model.access.csv",

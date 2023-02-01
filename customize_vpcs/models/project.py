@@ -7,7 +7,39 @@ from odoo.tools.misc import xlsxwriter
 from odoo.http import content_disposition, request
 import json
 
+<<<<<<< Updated upstream
 class ProjectRegulate(models.Model):
+=======
+class Modeofshipment(models.Model):
+    _name = 'mode.shipment'
+    _description = 'Modeofshipment'
+    name = fields.Char(required=True)
+
+class BargeOperator(models.Model):
+    _name = 'barge.operator'
+    _description = 'BargeOperator'
+    name = fields.Char(required=True)
+
+
+class VesselLine(models.Model):
+    _name = 'vessel.line'
+    _description = 'VesselLine'
+    name = fields.Char(required=True)
+
+class CustomTerminal(models.Model):
+    _name = 'custom.terminal'
+    _description = 'CustomTerminal'
+    name = fields.Char(required=True)
+
+class Destinationport(models.Model):
+    _name = 'destination.port'
+    _description = 'Destinationport'
+    name = fields.Char(required=True)
+
+
+
+
+>>>>>>> Stashed changes
 
     _name = "project.regulate"
 
@@ -72,6 +104,8 @@ class ProjectProject(models.Model):
         default="pre_alert",
         tracking=True,
     )
+    size_of_container = fields.Float('Size of Container')
+
     sn_status = fields.Selection(
         [
             ("pre_alert", "Pre-alert"),
@@ -106,17 +140,32 @@ class ProjectProject(models.Model):
     doc_boolean = fields.Boolean()
 
     mode_shipment = fields.Char(string="Mode Shipment")
+<<<<<<< Updated upstream
     mode_shipment_air_sea =fields.Many2one('mode.shipment',string='Mode Shipment(Air/Sea)')
+=======
+    barge_operator = fields.Many2one('barge.operator',"Barge Operator")
+    mode_shipment_air_sea = fields.Many2one('mode.shipment',string="Mode Shipment(Air/Sea)")
+>>>>>>> Stashed changes
 ################## AWAITING ARRIVAL ############################
     barge_operator = fields.Many2one('barge.operator',string='Barge Name/Operator')
     shipping_line = fields.Char(string="Shipping/Air line")
     ship_line = fields.Many2one('shipping.line',string='Shipping/Air line')
     vessel_line = fields.Char(string="Vessel/Flight name")
+<<<<<<< Updated upstream
     ves_line = fields.Many2one('vessel.line',string='Vessel/Flight name')
+=======
+    ves_line = fields.Many2one('vessel.line',string="Vessel/Flight name")
+    rotation_number=fields.Char("Rotation Number")
+    destination_port=fields.Many2one('destination.port',string="Port of Discharge")
+>>>>>>> Stashed changes
     dest_port = fields.Char(string='Destination port')
     destination_port = fields.Many2one('destination.port',string='Destination Port')
     terminal = fields.Char(string="Terminal")
+<<<<<<< Updated upstream
     custom_terminal = fields.Many2one('custom.terminal',string='Terminal')
+=======
+    custom_terminal = fields.Many2one('custom.terminal',string="Terminal")
+>>>>>>> Stashed changes
     country_of_loading = fields.Many2one('res.country',string="Country of loading")
     country_of_destination = fields.Many2one('res.country',string="Country of loading")
     port_of_loading = fields.Char(string='Port Of Loading')
@@ -148,7 +197,7 @@ class ProjectProject(models.Model):
     duty_received = fields.Date(string='Duty Received')
     document_duty_received = fields.Binary(string="Document(Document duty received)")
     doc_duty_received = fields.Boolean()
-
+    agent_name=fields.Char("Agent Name")
     nafdac_paid = fields.Date(string='Nafdac Paid')
     son_invoice = fields.Date(string='Son Invoice')
     son_paid = fields.Date(string="Son Paid")
@@ -188,6 +237,7 @@ class ProjectProject(models.Model):
     delivery_waybill_from_client = fields.Date(string='Delivery Waybill from Client')
     document_delivery_waybill_from_client = fields.Binary(string='Document(Waybill from Client)')
     doc_waybill_from_client = fields.Boolean()
+    custom_free_days=fields.Integer("Free Period")
 ##################POST DELIVERY###################################
 
     fecd_rec_date = fields.Date(string='FECD Rec Date')
@@ -202,7 +252,9 @@ class ProjectProject(models.Model):
 
     nafdac_final_release = fields.Date(string='NAFDAC Final Release')
     document_has_nafdac_final_release = fields.Binary(string='Document(NAFDAC Final Release)')
-    doc_nafdac_final_release = fields.Boolean() 
+    doc_nafdac_final_release = fields.Boolean()
+    job_tdo=fields.Date("TDO")
+
 
 #################client needs field###############
     regulatory_field = fields.Many2many('project.regulate',string='Regulatory Required')

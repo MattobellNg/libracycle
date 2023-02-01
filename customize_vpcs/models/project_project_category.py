@@ -5,6 +5,11 @@ from odoo import models, fields, api, _
 FIELD_SELECTION = [("required", "Required"), ("optional", "Optional"), ("no", "None")]
 
 
+
+
+
+
+
 class ProjectProjectCategory(models.Model):
     _inherit = "project.project.category"
 
@@ -18,6 +23,8 @@ class ProjectProjectCategory(models.Model):
     has_form_m_mf = fields.Selection(FIELD_SELECTION,"Form M(MF)",default="optional",help="Display Form M(MF) on project")
     has_mode_shipment = fields.Selection(FIELD_SELECTION,"Mode Shipment",default="optional",help="Display Mode Shipment on project")
 ##########################AWAITING ARRIVAL###########################
+
+    # barge_operator = fields.Many2one('barge.operator',"Barge Operator")
     has_barge_operator = fields.Selection(FIELD_SELECTION,"Barge Operator",default='optional')
     has_duty_assesment = fields.Selection(FIELD_SELECTION,"Duty Assessment",default='optional')
     has_shipping_line = fields.Selection(FIELD_SELECTION,'SHIPPING LINE/AIR LINE',default='optional')
