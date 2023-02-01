@@ -20,7 +20,7 @@ class Project(models.Model):
 
     project_product_duty = fields.Integer(string="Duty")
     project_shipping_charge = fields.Integer(string="Shipping Charge")
-    project_terminal_charge = fields.Integer(string="Terminal Charge")
+    project_terminal_charge = fields.Float(string="Terminal Charge")
     project_nafdac = fields.Integer(string="Nafdac")
     project_son = fields.Integer(string="SON")
     project_agency = fields.Integer(string="Agency")
@@ -220,7 +220,7 @@ class Project(models.Model):
             rec.customer_untaxed_value = invoice_untaxed_value
             rec.customer_vat = tax_move_line_value
             rec.customer_total_invoice_value = total_invoice_value
-            rec.total_profit = total_invoice_value - int(rec.lib_project_com)
+            rec.total_profit = total_invoice_value - float(rec.lib_project_com)
             rec.customer_invoice_paid = paid_amount
             rec.customer_invoice_unpaid = unpaid_amount
             new_dict = {
