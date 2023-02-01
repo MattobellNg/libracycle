@@ -1,6 +1,6 @@
 {
     "name": "LBC Employee Advance Salary Requests",
-    "version": "1.0.1",
+    "version": "1.0.2",
 
     "license": "Other proprietary",
     "category": "Human Resources",
