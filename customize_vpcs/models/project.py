@@ -7,6 +7,35 @@ from odoo.tools.misc import xlsxwriter
 from odoo.http import content_disposition, request
 import json
 
+class Modeofshipment(models.Model):
+    _name = 'mode.shipment'
+    _description = 'Modeofshipment'
+    name = fields.Char(required=True)
+
+class BargeOperator(models.Model):
+    _name = 'barge.operator'
+    _description = 'BargeOperator'
+    name = fields.Char(required=True)
+
+
+class VesselLine(models.Model):
+    _name = 'vessel.line'
+    _description = 'VesselLine'
+    name = fields.Char(required=True)
+
+class CustomTerminal(models.Model):
+    _name = 'custom.terminal'
+    _description = 'CustomTerminal'
+    name = fields.Char(required=True)
+
+class Destinationport(models.Model):
+    _name = 'destination.port'
+    _description = 'Destinationport'
+    name = fields.Char(required=True)
+
+
+
+
 
 
 class ProjectProject(models.Model):
@@ -26,6 +55,8 @@ class ProjectProject(models.Model):
         default="pre_alert",
         tracking=True,
     )
+    size_of_container = fields.Float('Size of Container')
+
     sn_status = fields.Selection(
         [
             ("pre_alert", "Pre-alert"),
@@ -53,11 +84,17 @@ class ProjectProject(models.Model):
     doc_boolean = fields.Boolean()
 
     mode_shipment = fields.Char(string="Mode Shipment")
+    barge_operator = fields.Many2one('barge.operator',"Barge Operator")
+    mode_shipment_air_sea = fields.Many2one('mode.shipment',string="Mode Shipment(Air/Sea)")
 ################## AWAITING ARRIVAL ############################
     shipping_line = fields.Char(string="Shipping/Air line")
     vessel_line = fields.Char(string="Vessel/Flight name")
+    ves_line = fields.Many2one('vessel.line',string="Vessel/Flight name")
+    rotation_number=fields.Char("Rotation Number")
+    destination_port=fields.Many2one('destination.port',string="Port of Discharge")
     dest_port = fields.Char(string='Destination port')
     terminal = fields.Char(string="Terminal")
+    custom_terminal = fields.Many2one('custom.terminal',string="Terminal")
     country_of_loading = fields.Many2one('res.country',string="Country of loading")
     port_of_loading = fields.Char(string='PORT OF LOADING')
     rotation_not_received = fields.Date(string="Rotation not received")
@@ -86,7 +123,7 @@ class ProjectProject(models.Model):
     duty_received = fields.Date(string='Duty Received')
     document_duty_received = fields.Binary(string="Document(Document duty received)")
     doc_duty_received = fields.Boolean()
-
+    agent_name=fields.Char("Agent Name")
     nafdac_paid = fields.Date(string='Nafdac Paid')
     son_invoice = fields.Date(string='Son Invoice')
     son_paid = fields.Date(string="Son Paid")
@@ -126,6 +163,7 @@ class ProjectProject(models.Model):
     delivery_waybill_from_client = fields.Date(string='Delivery Waybill from Client')
     document_delivery_waybill_from_client = fields.Binary(string='Document(Waybill from Client)')
     doc_waybill_from_client = fields.Boolean()
+    custom_free_days=fields.Integer("Free Period")
 ##################POST DELIVERY###################################
 
     fecd_rec_date = fields.Date(string='FECD Rec Date')
@@ -140,7 +178,9 @@ class ProjectProject(models.Model):
 
     nafdac_final_release = fields.Date(string='NAFDAC Final Release')
     document_has_nafdac_final_release = fields.Binary(string='Document(NAFDAC Final Release)')
-    doc_nafdac_final_release = fields.Boolean() 
+    doc_nafdac_final_release = fields.Boolean()
+    job_tdo=fields.Date("TDO")
+
 
     has_job_refs = fields.Selection(
         [],
@@ -221,7 +261,7 @@ class ProjectProject(models.Model):
         [],
         "DESTINATION PORT (SEA/AIR)",
         related="project_categ_id.has_destination_port",
-        readonly=False
+        readonly=True
     )
     has_terminal = fields.Selection(
         [],
@@ -472,7 +512,7 @@ class ProjectProject(models.Model):
         "Job selection",
     )
     job_select_ids = fields.Many2many('job.selection',string='Job selection')
-    document = fields.Binary(required=True, attachment=False, help="upload here your document")
+    document = fields.Binary(attachment=False, help="upload here your document")
     container = fields.Integer(string="Number of Container")
     status_delivered = fields.Boolean(string="Delivered")
     status_completed = fields.Boolean(string="Completed")
