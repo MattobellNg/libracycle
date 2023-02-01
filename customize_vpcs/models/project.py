@@ -7,6 +7,11 @@ from odoo.tools.misc import xlsxwriter
 from odoo.http import content_disposition, request
 import json
 
+class PortLoading(models.Model):
+    _name = "port.loading"
+
+    name = fields.Char(string="Name")
+
 class Modeofshipment(models.Model):
     _name = 'mode.shipment'
     _description = 'Modeofshipment'
