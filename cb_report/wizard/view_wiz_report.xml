@@ -34,7 +34,7 @@
                             <field name='discharge_port_id'/>
                             <field name='discharge_terminal_id'/>
                             <field name='origin_country_id'/>
-                            <field name='destination_country_id'/>
+                            <field name='country_of_destination'/>
                             <field name='company_id'/>
                             <field name='date_start'/>
                             <field name='date'/>
