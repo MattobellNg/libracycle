@@ -60,7 +60,7 @@ class ProjectProject(models.Model):
         default="pre_alert",
         tracking=True,
     )
-    size_of_container = fields.Char('Size of Container')
+    size_of_container = fields.Float('Size of Container')
 
     sn_status = fields.Selection(
         [
