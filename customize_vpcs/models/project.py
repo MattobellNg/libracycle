@@ -550,6 +550,7 @@ class ProjectProject(models.Model):
     container_transfer = fields.Date(string='CONT-Transfer')
     report_wizard_bool = fields.Boolean(string='C&B Report',default=False)
     port_many_loading = fields.Many2many('port.loading', string="PORT OF LOADING")
+    ship_line = fields.Many2one(comodel_name='shipping.line')
     # report_many2one = fields.Many2one('report.customize_vpcs.report_cb_report')
     # duty = fields.Float(string='Duty')
     # Shipping_charge = fields.Float(string='Shipping Charge')
