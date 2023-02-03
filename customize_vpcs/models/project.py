@@ -187,6 +187,9 @@ class ProjectProject(models.Model):
     document_has_nafdac_final_release = fields.Binary(string='Document(NAFDAC Final Release)')
     doc_nafdac_final_release = fields.Boolean()
     job_tdo=fields.Date("TDO")
+    project_employee = fields.Many2one(comodel_name="hr.employee")
+    regulatory_field = fields.Many2many('project.regulate')
+    has_regulatory_field = fields.Boolean()
 
 
     has_job_refs = fields.Selection(
