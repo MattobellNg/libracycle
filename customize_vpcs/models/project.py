@@ -7,6 +7,8 @@ from odoo.tools.misc import xlsxwriter
 from odoo.http import content_disposition, request
 import json
 
+FIELD_SELECTION = [("required", "Required"), ("optional", "Optional"), ("no", "None")]
+
 class PortLoading(models.Model):
     _name = "port.loading"
 
@@ -551,6 +553,7 @@ class ProjectProject(models.Model):
     report_wizard_bool = fields.Boolean(string='C&B Report',default=False)
     port_many_loading = fields.Many2many('port.loading', string="PORT OF LOADING")
     ship_line = fields.Many2one(comodel_name='shipping.line')
+    has_agent_name = fields.Selection(FIELD_SELECTION,'Agent Name',default='no')
     # report_many2one = fields.Many2one('report.customize_vpcs.report_cb_report')
     # duty = fields.Float(string='Duty')
     # Shipping_charge = fields.Float(string='Shipping Charge')
