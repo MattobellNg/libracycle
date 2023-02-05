@@ -92,7 +92,7 @@ class ProjectProject(models.Model):
     barge_operator = fields.Many2one('barge.operator',"Barge Operator")
     mode_shipment_air_sea = fields.Many2one('mode.shipment',string="Mode Shipment(Air/Sea)")
 ################## AWAITING ARRIVAL ############################
-    shipping_line = fields.Char(string="Shipping/Air line")
+    shipping_line = fields.Many2one(string="Shipping/Air line")
     vessel_line = fields.Char(string="Vessel/Flight name")
     ves_line = fields.Many2one('vessel.line',string="Vessel/Flight name")
     rotation_number=fields.Char("Rotation Number")
