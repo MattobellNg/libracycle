@@ -221,7 +221,7 @@
                         <group colspan='4' col='4'>
                             <field name="barge_operator"/>
 
-                            <field name="shipping_line" attrs="{'invisible':['|','|',('has_shipping_line','==','no'),('project_categ_id','=', False),('sn_state','=','pre_alert')], 'required': ['&amp;',('has_shipping_line','==','required'),('sn_state','=','awaiting_arrival')],'readonly':[('sn_state','in',('in_clearing','ready_to_load','post_delivery'))]}" />
+                            <field name="ship_line" attrs="{'invisible':['|','|',('has_shipping_line','==','no'),('project_categ_id','=', False),('sn_state','=','pre_alert')], 'required': ['&amp;',('has_shipping_line','==','required'),('sn_state','=','awaiting_arrival')],'readonly':[('sn_state','in',('in_clearing','ready_to_load','post_delivery'))]}" />
                              <field name="ves_line" />
                             <field name="rotation_number"/>
                             <field name="vessel_line" invisible="1"/>
