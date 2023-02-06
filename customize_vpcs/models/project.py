@@ -41,6 +41,11 @@ class Destinationport(models.Model):
     name = fields.Char(required=True)
 
 
+class ProjectRegulate(models.Model):
+    _name = "project.regulate"
+
+    name = fields.Char(string="Regulatory Name")
+        
 
 
 
@@ -62,7 +67,7 @@ class ProjectProject(models.Model):
         default="pre_alert",
         tracking=True,
     )
-    size_of_container = fields.Float('Size of Container')
+    size_of_container = fields.Char(string='Size of Container')
 
     sn_status = fields.Selection(
         [
@@ -92,7 +97,7 @@ class ProjectProject(models.Model):
 
     mode_shipment = fields.Char(string="Mode Shipment")
     barge_operator = fields.Many2one('barge.operator',"Barge Operator")
-    mode_shipment_air_sea = fields.Many2one('mode.shipment',string="Mode Shipment(Air/Sea)")
+    mode_shipment_air_sea = fields.Many2many('mode.shipment',string="Mode Shipment(Air/Sea)")
 ################## AWAITING ARRIVAL ############################
     shipping_line = fields.Char(string="Shipping/Air line")
     vessel_line = fields.Char(string="Vessel/Flight name")

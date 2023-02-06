@@ -1,6 +1,6 @@
 {
     'name' : 'libra circle Customization',
-    'version': '15.0.1.2.7',
+    'version': '15.0.1.2.8',
     'author': 'VperfectCS',
     'website': 'http://www.vperfectcs.com',
     'description': """
