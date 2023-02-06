@@ -30,6 +30,14 @@ class VesselLine(models.Model):
     _description = 'VesselLine'
     name = fields.Char(required=True)
 
+
+class ShippingLine(models.Model):
+    _name = 'shipping.line'
+    _description = 'Shipping Line'
+
+    name = fields.Char(required=True)
+
+
 class CustomTerminal(models.Model):
     _name = 'custom.terminal'
     _description = 'CustomTerminal'
