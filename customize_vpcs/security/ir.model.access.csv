@@ -7,3 +7,5 @@ access_barge_operator,barge.operator,model_barge_operator,base.group_user,1,1,1,
 access_vessel_line,vessel.line,model_vessel_line,base.group_user,1,1,1,1
 access_custom_terminal,custom.terminal,model_custom_terminal,base.group_user,1,1,1,1
 access_destination_port,destination.port,model_destination_port,base.group_user,1,1,1,1
+customize_vpcs.access_project_regulate,access_project_regulate,customize_vpcs.model_project_regulate,base.group_user,1,1,1,1
+customize_vpcs.access_shipping_line,access_shipping_line,customize_vpcs.model_shipping_line,base.group_user,1,1,1,1
