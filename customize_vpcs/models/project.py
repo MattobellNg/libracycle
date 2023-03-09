@@ -201,7 +201,14 @@ class ProjectProject(models.Model):
     job_tdo = fields.Date("TDO")
     project_employee = fields.Many2one(comodel_name="hr.employee")
     regulatory_field = fields.Many2many('project.regulate')
-    has_regulatory_field = fields.Boolean()
+    # has_regulatory_field = fields.Boolean()
+    has_regulatory_field = fields.Selection(
+        [],
+        "Regulatory Field",
+        related="project_categ_id.has_regulatory_field",
+        readonly=True,
+        default="no",
+    )
 
     has_job_refs = fields.Selection(
         FIELD_SELECTION,

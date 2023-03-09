@@ -129,6 +129,7 @@
                 </xpath> -->
                 <xpath expr='//field[@name="analytic_account_id"]' position="after">
                     <field name="has_job_refs" invisible='1'/>
+                    <field name="has_regulatory_field" invisible='1'/>
                     <field name="has_client_name" invisible='1'/>
                     <field name="has_pre_alert_date" invisible='1'/>
                     <field name="has_project_team" invisible='1'/>
@@ -200,7 +201,7 @@
 <!--                            <field name="client_name" attrs="{'invisible':['|',('has_client_name','=','no'),('project_categ_id','=', False)], 'required': [('has_client_name','=','required')], 'readonly':[('sn_state','in',('awaiting_arrival','in_clearing','ready_to_load','post_delivery'))]}" />-->
                             <field name="has_field_visibility" invisible="1"/>
                             <field name="pre_alert_date" attrs="{'invisible':['|',('has_pre_alert_date','=','no'),('project_categ_id','=', False)], 'required': [('has_pre_alert_date','=','required')], 'readonly':[('sn_state','in',('awaiting_arrival','in_clearing','ready_to_load','post_delivery'))]}" />
-                            <field name="regulatory_field" attrs="{'invisible':['|',('has_project_team','=','no'),('project_categ_id','=', False)], 'required': [('has_project_team','=','required')], 'readonly':[('sn_state','in',('awaiting_arrival','in_clearing','ready_to_load','post_delivery'))]}" widget="many2many_tags"/>
+                            <field name="regulatory_field" attrs="{'invisible':['|',('has_regulatory_field','=','no'),('project_categ_id','=', False)], 'required': [('has_regulatory_field','=','required')], 'readonly':[('sn_state','in',('awaiting_arrival','in_clearing','ready_to_load','post_delivery'))]}" widget="many2many_tags"/>
                             <field name="account_officer" attrs="{'invisible':['|',('has_account_officer','=','no'),('project_categ_id','=', False)], 'required': [('has_account_officer','=','required')], 'readonly':[('sn_state','in',('awaiting_arrival','in_clearing','ready_to_load','post_delivery'))]}" />
                             <field name="item_description" attrs="{'invisible':['|',('has_item_description','=','no'),('project_categ_id','=', False)], 'required': [('has_item_description','=','required')], 'readonly':[('sn_state','in',('awaiting_arrival','in_clearing','ready_to_load','post_delivery'))]}" />
                             <field name="country_of_destination"/>
@@ -211,8 +212,8 @@
                             <field name="document_job_form_m_mf" attrs="{'invisible': [('doc_job_bool', '=', False)], 'required': [('doc_job_bool','=',True)],'readonly':[('sn_state','in',('awaiting_arrival','in_clearing','ready_to_load','post_delivery'))]}" />
                         </group>
                         <group colspan="4" col="4">
-<!--                            <field name="mode_shipment" attrs="{'invisible':['|',('has_mode_shipment','=','no'),('project_categ_id','=', False)], 'required': [('has_mode_shipment','=','required')], 'readonly':[('sn_state','in',('awaiting_arrival','in_clearing','ready_to_load','post_delivery'))]}" />-->
-                            <field name="mode_shipment_air_sea" widget="many2many_tags"/>
+                            <field name="mode_shipment" attrs="{'invisible':['|',('has_mode_shipment','=','no'),('project_categ_id','=', False)], 'required': [('has_mode_shipment','=','required')], 'readonly':[('sn_state','in',('awaiting_arrival','in_clearing','ready_to_load','post_delivery'))]}" />
+<!--                            <field name="mode_shipment_air_sea" widget="many2many_tags"/>-->
 
                             <field name="job_ba_number" attrs="{'invisible':['|',('has_job_ba_number','=','no'),('project_categ_id','=', False)], 'required': [('has_job_ba_number','=','required')], 'readonly':[('sn_state','in',('awaiting_arrival','in_clearing','ready_to_load','post_delivery'))]}" />
                         </group>

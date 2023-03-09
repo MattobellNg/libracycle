@@ -25,7 +25,7 @@
                             <field name="has_client_name" string="Client Name" widget="radio" options="{'horizontal': true}" />
                             <field name="has_regulatory_field" string="Regulatory Field" widget="radio" options="{'horizontal': true}" />
                             <field name="has_pre_alert_date" string="Pre-alert Date" widget="radio" options="{'horizontal': true}" attrs="{'invisible': [('has_field_visibility', 'in', ('1','2'))]}"/>
-                            <field name="has_project_team" string="Account Officer" widget="radio" options="{'horizontal': true}" />
+<!--                            <field name="has_project_team" string="Project Team" widget="radio" options="{'horizontal': true}" />-->
                             <field name="has_account_officer" string="Account Officer" widget="radio" options="{'horizontal': true}" />
                             <field name="has_item_description" string="Item Description" widget="radio" options="{'horizontal': true}" />
                             <field name="has_form_m_mf" string="Form M(MF)" widget="radio" options="{'horizontal': true}" attrs="{'invisible': [('has_field_visibility', '=', '1')]}"/>
