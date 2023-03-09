@@ -9,15 +9,18 @@ import json
 
 FIELD_SELECTION = [("required", "Required"), ("optional", "Optional"), ("no", "None")]
 
+
 class PortLoading(models.Model):
     _name = "port.loading"
 
     name = fields.Char(string="Name")
 
+
 class Modeofshipment(models.Model):
     _name = 'mode.shipment'
     _description = 'Modeofshipment'
     name = fields.Char(required=True)
+
 
 class BargeOperator(models.Model):
     _name = 'barge.operator'
@@ -43,6 +46,7 @@ class CustomTerminal(models.Model):
     _description = 'CustomTerminal'
     name = fields.Char(required=True)
 
+
 class Destinationport(models.Model):
     _name = 'destination.port'
     _description = 'Destinationport'
@@ -53,15 +57,10 @@ class ProjectRegulate(models.Model):
     _name = "project.regulate"
 
     name = fields.Char(string="Regulatory Name")
-        
-
-
 
 
 class ProjectProject(models.Model):
-
     _inherit = "project.project"
-
 
     sn_state = fields.Selection(
         [
@@ -90,11 +89,11 @@ class ProjectProject(models.Model):
         tracking=True,
     )
 
-################### PRE-ALERT ###################################
+    ################### PRE-ALERT ###################################
     job_refs = fields.Char(string="Job Reference")
-    client_name = fields.Many2one('res.partner',string="client name")
+    client_name = fields.Many2one('res.partner', string="client name")
     pre_alert_date = fields.Date(string="pre-alert date")
-    project_team = fields.Many2one('res.users',string="Project Team")
+    project_team = fields.Many2one('res.users', string="Project Team")
     account_officer = fields.Many2one('res.users', string="Account Officer")
     item_description = fields.Char(string="Item Description")
 
@@ -104,24 +103,24 @@ class ProjectProject(models.Model):
     doc_boolean = fields.Boolean()
 
     mode_shipment = fields.Char(string="Mode Shipment")
-    barge_operator = fields.Many2one('barge.operator',"Barge Operator")
-    mode_shipment_air_sea = fields.Many2many('mode.shipment',string="Mode Shipment(Air/Sea)")
-################## AWAITING ARRIVAL ############################
+    barge_operator = fields.Many2one('barge.operator', "Barge Operator")
+    mode_shipment_air_sea = fields.Many2many('mode.shipment', string="Mode Shipment(Air/Sea)")
+    ################## AWAITING ARRIVAL ############################
     shipping_line = fields.Char(string="Shipping/Air line")
     vessel_line = fields.Char(string="Vessel/Flight name")
-    ves_line = fields.Many2one('vessel.line',string="Vessel/Flight name")
-    rotation_number=fields.Char("Rotation Number")
-    destination_port=fields.Many2one('destination.port',string="Port of Discharge")
+    ves_line = fields.Many2one('vessel.line', string="Vessel/Flight name")
+    rotation_number = fields.Char("Rotation Number")
+    destination_port = fields.Many2one('destination.port', string="Port of Discharge")
     dest_port = fields.Char(string='Destination port')
     terminal = fields.Char(string="Terminal")
-    custom_terminal = fields.Many2one('custom.terminal',string="Terminal")
-    country_of_loading = fields.Many2one('res.country',string="Country of loading")
+    custom_terminal = fields.Many2one('custom.terminal', string="Terminal")
+    country_of_loading = fields.Many2one('res.country', string="Country of loading")
     port_of_loading = fields.Char(string='PORT OF LOADING')
     rotation_not_received = fields.Date(string="Rotation not received")
 
     ######base field#####
     document_bol_awb_ref = fields.Binary(string='Document(BOL/AWB)')
-    doc_bol_awb_ref = fields.Boolean() 
+    doc_bol_awb_ref = fields.Boolean()
 
     document_has_nafdac_1_stamp_date = fields.Binary(string='Document(NAFDAC 1st Stamp)')
     doc_has_nafdac_1_stamp_date = fields.Boolean()
@@ -129,7 +128,7 @@ class ProjectProject(models.Model):
     document_has_nafdac_2_stamp_date = fields.Binary(string='Document(NAFDAC 2nd Stamp)')
     doc_has_nafdac_2_stamp_date = fields.Boolean()
 
-#############################IN CLEARING#################################
+    #############################IN CLEARING#################################
     paar_request = fields.Date(string="PAAR REQUEST")
 
     paar_received = fields.Date(string='PAAR RECEIVED')
@@ -143,13 +142,13 @@ class ProjectProject(models.Model):
     duty_received = fields.Date(string='Duty Received')
     document_duty_received = fields.Binary(string="Document(Document duty received)")
     doc_duty_received = fields.Boolean()
-    agent_name=fields.Char("Agent Name")
+    agent_name = fields.Char("Agent Name")
     nafdac_paid = fields.Date(string='Nafdac Paid')
     son_invoice = fields.Date(string='Son Invoice')
     son_paid = fields.Date(string="Son Paid")
     quarantine_payment = fields.Date(string='Quarantine Payment')
     docs_copy_received = fields.Date(string="Complete Copy Docs Received")
-    original_copy_received  = fields.Date(string="Complete original Docs Received")
+    original_copy_received = fields.Date(string="Complete original Docs Received")
     complete_docs_uploaded = fields.Date(string='Complete Docs uploaded')
     first_shipping_invoice = fields.Date(string="1st Shipping invoice")
     first_shipping_paid = fields.Date(string="1st Shipping paid")
@@ -168,14 +167,14 @@ class ProjectProject(models.Model):
     doc_ship_released = fields.Boolean()
 
     fou_approved = fields.Date(string='FOU Approved')
-    nepza_released  = fields.Date(string="NEPZA Released")
-###########################READY TO LOAD ##############################
+    nepza_released = fields.Date(string="NEPZA Released")
+    ###########################READY TO LOAD ##############################
     ################needs to be comment#############
     truck_in = fields.Date(string="Truck In")
     gate_out = fields.Date(string="Gate Out")
     empty_container_returned = fields.Date(string="Empty Container Returned")
 
-###############################DELIVERY START(TRUCK/BARGE)####################
+    ###############################DELIVERY START(TRUCK/BARGE)####################
     date_delivery_start = fields.Date(string='Date Delivery Start')
     Barge_date = fields.Date(string='Barge Date')
     date_delivery_complete = fields.Date(string='Date Delivery Complete')
@@ -183,8 +182,8 @@ class ProjectProject(models.Model):
     delivery_waybill_from_client = fields.Date(string='Delivery Waybill from Client')
     document_delivery_waybill_from_client = fields.Binary(string='Document(Waybill from Client)')
     doc_waybill_from_client = fields.Boolean()
-    custom_free_days=fields.Integer("Free Period")
-##################POST DELIVERY###################################
+    custom_free_days = fields.Integer("Free Period")
+    ##################POST DELIVERY###################################
 
     fecd_rec_date = fields.Date(string='FECD Rec Date')
 
@@ -199,18 +198,23 @@ class ProjectProject(models.Model):
     nafdac_final_release = fields.Date(string='NAFDAC Final Release')
     document_has_nafdac_final_release = fields.Binary(string='Document(NAFDAC Final Release)')
     doc_nafdac_final_release = fields.Boolean()
-    job_tdo=fields.Date("TDO")
+    job_tdo = fields.Date("TDO")
     project_employee = fields.Many2one(comodel_name="hr.employee")
     regulatory_field = fields.Many2many('project.regulate')
-    has_regulatory_field = fields.Boolean()
-
+    # has_regulatory_field = fields.Boolean()
+    has_regulatory_field = fields.Selection(
+        [],
+        "Regulatory Field",
+        related="project_categ_id.has_regulatory_field",
+        readonly=True,
+        default="no",
+    )
 
     has_job_refs = fields.Selection(
-        [],
+        FIELD_SELECTION,
         "Job Reference",
         related="project_categ_id.has_job_refs",
         readonly=True,
-        default="no",
     )
 
     has_client_name = fields.Selection(
@@ -460,7 +464,7 @@ class ProjectProject(models.Model):
         related="project_categ_id.has_nepza_released",
         readonly=True
     )
-        ###############################needs to be comment#####################
+    ###############################needs to be comment#####################
 
     has_truck_in = fields.Selection(
         [],
@@ -531,10 +535,10 @@ class ProjectProject(models.Model):
         readonly=True
     )
 
-    job_select = fields.Selection([("NAFDAC", "NAFDAC"), ("SON", "SON"),("NESREA","NESREA")],
-        "Job selection",
-    )
-    job_select_ids = fields.Many2many('job.selection',string='Job selection')
+    job_select = fields.Selection([("NAFDAC", "NAFDAC"), ("SON", "SON"), ("NESREA", "NESREA")],
+                                  "Job selection",
+                                  )
+    job_select_ids = fields.Many2many('job.selection', string='Job selection')
     document = fields.Binary(attachment=False, help="upload here your document")
     container = fields.Integer(string="Number of Container")
     status_delivered = fields.Boolean(string="Delivered")
@@ -547,18 +551,18 @@ class ProjectProject(models.Model):
     lock_document_check_bool = fields.Boolean(string="lock document")
     # this boolean is for when status is in completed stage
     state_completed_check_bool = fields.Boolean(string="edit mode close completed")
-    #this field is for when QAC clicked the button approval then all the fields of that form is readonly.
+    # this field is for when QAC clicked the button approval then all the fields of that form is readonly.
     approval_to_readonly_fields_bool = fields.Boolean()
 
     stage_id_done = fields.Boolean(string='Task/Activity Done?')
-    date_out = fields.Date(string="Date out",tracking=True)
-    barging_date = fields.Date(string="Barging date",tracking=True)
-    Load_out_date = fields.Date(string="Load out date",tracking=True)
-    offloading_date = fields.Date(string="Offloading date",tracking=True)
-    return_date = fields.Date(string=" Return date",tracking=True)
+    date_out = fields.Date(string="Date out", tracking=True)
+    barging_date = fields.Date(string="Barging date", tracking=True)
+    Load_out_date = fields.Date(string="Load out date", tracking=True)
+    offloading_date = fields.Date(string="Offloading date", tracking=True)
+    return_date = fields.Date(string=" Return date", tracking=True)
     # this boolean field is for if document field is visible or not
     document_show = fields.Boolean(string="document show")
-    name = fields.Char('Sequence Number',required=True,index=True,copy=False,default='New')
+    name = fields.Char('Sequence Number', required=True, index=True, copy=False, default='New')
     feet_forty = fields.Integer(string='40FT')
     feet_twenty = fields.Integer(string='20FT')
     cbm = fields.Integer(string='CBM')
@@ -566,10 +570,11 @@ class ProjectProject(models.Model):
     days_in_port = fields.Integer(string='Days in Port')
     major_cause_of_delay = fields.Char(string='Major Cause Of Delay')
     container_transfer = fields.Date(string='CONT-Transfer')
-    report_wizard_bool = fields.Boolean(string='C&B Report',default=False)
+    report_wizard_bool = fields.Boolean(string='C&B Report', default=False)
     port_many_loading = fields.Many2many('port.loading', string="PORT OF LOADING")
     ship_line = fields.Many2one(comodel_name='shipping.line')
-    has_agent_name = fields.Selection(FIELD_SELECTION,'Agent Name',default='no')
+    has_agent_name = fields.Selection(FIELD_SELECTION, 'Agent Name', default='no')
+
     # report_many2one = fields.Many2one('report.customize_vpcs.report_cb_report')
     # duty = fields.Float(string='Duty')
     # Shipping_charge = fields.Float(string='Shipping Charge')
@@ -581,31 +586,30 @@ class ProjectProject(models.Model):
     # others_cost = fields.Float(string='Others Cost')
     # total_cost = fields.Float(string='Total Cost(N)')
     def action_tracking_report(self):
-        print ('___ hello : ',);
+        print('___ hello : ', );
 
     def action_cb_report(self):
-        print ('___ self : ', self);
+        print('___ self : ', self);
         return {
 
+            'type': 'ir.actions.act_window',
 
-            'type': 'ir.actions.act_window', 
-
-            'view_type': 'form', 
+            'view_type': 'form',
 
             'view_mode': 'form',
 
-            'res_model': 'report.customize_vpcs.report_tracking_xlsx', 
+            'res_model': 'report.customize_vpcs.report_tracking_xlsx',
 
-            'target': 'new', 
+            'target': 'new',
 
         }
 
     @api.model
-    def create(self,vals):
-        vals['name'] = self.env['ir.sequence'].next_by_code('project.project') or _('New')
-        return super(ProjectProject,self).create(vals)
+    def create(self, vals):
+        # vals['name'] = self.env['ir.sequence'].next_by_code('project.project') or _('New')
+        return super(ProjectProject, self).create(vals)
 
-    def action_truck_loaded(self):       
+    def action_truck_loaded(self):
         composer_form_view_id = self.env.ref('mail.email_compose_message_wizard_form').id
 
         template_id = self.env.ref('customize_vpcs.email_template').id
@@ -615,7 +619,7 @@ class ProjectProject(models.Model):
             'view_mode': 'form',
             'res_model': 'mail.compose.message',
             'view_id': composer_form_view_id,
-            'target': 'new',       
+            'target': 'new',
             'context': {
                 # 'default_composition_mode': 'mass_mail' if len(self.ids) > 1 else 'comment',
                 'default_res_id': self.ids[0],
@@ -624,9 +628,8 @@ class ProjectProject(models.Model):
                 'default_template_id': template_id,
                 # 'website_sale_send_recovery_email': True,
                 'active_ids': self.ids,
-            },     
+            },
         }
-
 
     def creation_of_purchases_receipt(self):
         self.ensure_one()
@@ -669,7 +672,6 @@ class ProjectProject(models.Model):
             "domain": [("job_id", "=", self.id)],
         }
 
-
     def pre_alert_button(self):
         pass
 
@@ -695,7 +697,9 @@ class ProjectProject(models.Model):
         if self.sn_state == 'post_delivery':
             self.sn_state = 'ready_to_load'
 
-    @api.onchange('job_form_m_mf','paar_received','duty_assesment','duty_received','shipping_released','fecd_custom_ack','fecd_client_ack','bol_awb_ref','nafdac_1_stamp_date','nafdac_2_stamp_date','delivery_waybill_from_client','nafdac_final_release')
+    @api.onchange('job_form_m_mf', 'paar_received', 'duty_assesment', 'duty_received', 'shipping_released',
+                  'fecd_custom_ack', 'fecd_client_ack', 'bol_awb_ref', 'nafdac_1_stamp_date', 'nafdac_2_stamp_date',
+                  'delivery_waybill_from_client', 'nafdac_final_release')
     def onchange_form_doc(self):
         for rec in self:
             if rec.job_form_m_mf:
@@ -707,7 +711,7 @@ class ProjectProject(models.Model):
             if rec.duty_received:
                 rec.doc_duty_received = True
             if rec.shipping_released:
-                rec.doc_ship_released =True
+                rec.doc_ship_released = True
             if rec.fecd_custom_ack:
                 rec.doc_custom = True
             if rec.fecd_client_ack:
@@ -725,11 +729,11 @@ class ProjectProject(models.Model):
 
     @api.model
     def visible_button(self):
-        get_group = self.env['res.groups'].search([('name','=','lock button')])
-        get_department_id = self.env['hr.department'].search([('name','=','QAC')])
-        get_employee_id = self.env['hr.employee'].search([('department_id','=',get_department_id.id)]).user_id                      
+        get_group = self.env['res.groups'].search([('name', '=', 'lock button')])
+        get_department_id = self.env['hr.department'].search([('name', '=', 'QAC')])
+        get_employee_id = self.env['hr.employee'].search([('department_id', '=', get_department_id.id)]).user_id
         get_group.update({
-            'users':get_employee_id  
+            'users': get_employee_id
         })
 
     def lock_document(self):
@@ -747,8 +751,6 @@ class ProjectProject(models.Model):
             elif rec.sn_state == 'ready_to_load':
                 rec.sn_state = 'post_delivery'
 
-
-
     # def approval_to_readonly_fields(self):
     #     # for rec in self:
     #     #     rec.approval_to_readonly_fields_bool = True
@@ -765,7 +767,7 @@ class ProjectProject(models.Model):
     #         # print ('___ context["params"] : ', context['params']);
     #     print ('___ self.approval_to_readonly_fields_bool : ', self.approval_to_readonly_fields_bool);
     #     if self.browse(context.get('active_id')).approval_to_readonly_fields_bool == True:  # Check for context value
-    #         print ('___ hello inside method : ', );            
+    #         print ('___ hello inside method : ', );
     #         doc = etree.XML(res['arch'])
     #         if view_type == 'form':            # Applies only for form view
     #             for node in doc.xpath("//field"):   # All the view fields to readonly
@@ -789,13 +791,11 @@ class ProjectProject(models.Model):
                 else:
                     rec.document_show = False
 
-
-
     @api.onchange('stage_id_done')
     def change_stage_id(self):
         for rec in self:
             if rec.stage_id_done:
-                get_stage_id = self.env['project.project.stage'].search([('name','=','Done')])
+                get_stage_id = self.env['project.project.stage'].search([('name', '=', 'Done')])
                 if get_stage_id:
                     if not rec.document:
                         raise ValidationError(_("Please upload documents."))
@@ -805,7 +805,7 @@ class ProjectProject(models.Model):
     @api.onchange('stage_id')
     def change_bool_stage(self):
         for rec in self:
-            get_stage_id = self.env['project.project.stage'].search([('name','=','Done')])
+            get_stage_id = self.env['project.project.stage'].search([('name', '=', 'Done')])
             if rec.stage_id.id != get_stage_id.id:
                 rec.stage_id_done = False
 
@@ -813,25 +813,24 @@ class ProjectProject(models.Model):
     def action_delivered(self):
         for rec in self:
             if rec.status_delivered == True:
-                rec.write({'state':'deliver'})
+                rec.write({'state': 'deliver'})
             else:
-                rec.write({'state':'pending'})
+                rec.write({'state': 'pending'})
 
     @api.onchange('status_completed')
     def action_completed(self):
         for rec in self:
             if rec.status_completed == True:
-                rec.write({'state':'done'})
-                # when status is changed to completed system should make all fields realonly. 
+                rec.write({'state': 'done'})
+                # when status is changed to completed system should make all fields realonly.
                 rec.state_completed_check_bool = True
                 # at the same time if edit mode is clicked then it need to be false because of conflict.
-                rec.edit_button_check_bool = False                
+                rec.edit_button_check_bool = False
             else:
                 if rec.status_delivered == True:
-                    rec.write({'state':'deliver'})
+                    rec.write({'state': 'deliver'})
                 else:
-                    rec.write({'state':'pending'})
-
+                    rec.write({'state': 'pending'})
 
     @api.depends("analytic_account_id.credit", "analytic_account_id.debit")
     def _compute_project_balance(self):
@@ -844,26 +843,28 @@ class ProjectProject(models.Model):
                     if rec.status_completed == True:
                         rec.state = 'done'
                     else:
-                        rec.state = 'deliver'               
+                        rec.state = 'deliver'
                 else:
                     rec.state = "pending"
 
     def toggle_none(self):
         return {
             'Name': 'Schedual items',
-            'domain': [('project_id','=',self.id)],
+            'domain': [('project_id', '=', self.id)],
             'res_model': 'project.schedule.items',
-            'view_id':False,
-            'view_mode':'tree',
-            'type':'ir.actions.act_window',
+            'view_id': False,
+            'view_mode': 'tree',
+            'type': 'ir.actions.act_window',
         }
 
 
 class ProjectScheduleItemsInherit(models.Model):
-
     _inherit = 'project.schedule.items'
 
-    state = fields.Selection(string='Status', selection=[('in_port', 'In Port'), ('in_transit', 'In Transit'),('barged_out','Barged Out'),('del_ship','Delivered/Shipped'),('return','Return Item')],default='in_port',readonly=True)
+    state = fields.Selection(string='Status', selection=[('in_port', 'In Port'), ('in_transit', 'In Transit'),
+                                                         ('barged_out', 'Barged Out'),
+                                                         ('del_ship', 'Delivered/Shipped'), ('return', 'Return Item')],
+                             default='in_port', readonly=True)
     barged_id = fields.Many2one(comodel_name='barged.out', string='Sequence')
 
     def action_in_transit(self):
@@ -874,17 +875,17 @@ class ProjectScheduleItemsInherit(models.Model):
         if not self.barged_id:
             number = self.env['ir.sequence'].next_by_code('barged.out') or _('New')
             barged = self.env['barged.out'].create({
-                    'name':number,
-                })
+                'name': number,
+            })
             for rec in self:
                 rec.state = 'barged_out'
                 barged.update({
-                    'items_ids':[(4,rec.id)]
+                    'items_ids': [(4, rec.id)]
                 })
         else:
             for rec in self:
                 rec.state = "barged_out"
-        
+
         return self.env.ref('customize_vpcs.report_barged_xlsx').report_action(self)
 
     def action_dil_ship(self):
@@ -897,44 +898,45 @@ class ProjectScheduleItemsInherit(models.Model):
 
     def action_set_to_draft(self):
         for rec in self:
-            rec.state = "in_port" 
+            rec.state = "in_port"
+
 
 class BargedOut(models.Model):
     _name = 'barged.out'
 
     name = fields.Char('Name')
     items_ids = fields.One2many(comodel_name='project.schedule.items', inverse_name='barged_id', string='Items')
-    
-class Jobselection(models.Model):
 
-    _name = "job.selection" 
+
+class Jobselection(models.Model):
+    _name = "job.selection"
 
     name = fields.Char(string="Job Selection Name")
 
-class AccountMove(models.Model):
 
+class AccountMove(models.Model):
     _inherit = "account.move"
 
     def action_approve(self):
         for rec in self.invoice_line_ids:
             if rec.price_unit:
-                rec.readonly_price_field = True 
+                rec.readonly_price_field = True
         user_id = self.env.user
-        print ('___ self.move_type : ', self.move_type);
+        print('___ self.move_type : ', self.move_type);
         if self.move_type == 'in_receipt':
-            data = "User : %s approve this receipt on %s"%(user_id.name,datetime.now())
+            data = "User : %s approve this receipt on %s" % (user_id.name, datetime.now())
         if self.move_type == 'in_invoice':
-            data = "User : %s approve this Vendor bill on %s"%(user_id.name,datetime.now())
+            data = "User : %s approve this Vendor bill on %s" % (user_id.name, datetime.now())
         send_message = self.message_post(body=data)
 
-class AccountMoveLine(models.Model):
 
+class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
 
     readonly_price_field = fields.Boolean()
 
-class CustomTrackingReport(models.Model):
 
+class CustomTrackingReport(models.Model):
     _name = "custom.tracking.report"
 
     sn_no = fields.Char(string='S/N No')

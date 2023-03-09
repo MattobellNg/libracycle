@@ -1,5 +1,5 @@
 {
-    'name' : 'libra circle Customization',
+    'name': 'libra circle Customization',
     'version': '15.0.1.3.2',
     'author': 'VperfectCS',
     'website': 'http://www.vperfectcs.com',
@@ -8,7 +8,7 @@
     (1) Project
     (2) QAC
     """,
-    'depends': ['project','web','project_project_category','report_xlsx','project_description'],
+    'depends': ['project', 'web', 'project_project_category', 'report_xlsx', 'project_description'],
     'data': [
         'security/project_access.xml',
         "security/ir.model.access.csv",
@@ -22,14 +22,14 @@
         "report/report_pdf.xml",
         "report/waybill_report.xml",
     ],
-    'qweb': [
-    ],
+    # 'qweb': [
+    # ],
     'auto_install': True,
     'installable': True,
-    'assets': {       
-        'web.assets_backend': [            
-            # 'customize_vpcs/static/src/js/project_project.js',
-        ],
-    },
+    # 'assets': {
+    #     'web.assets_backend': [
+    #         # 'customize_vpcs/static/src/js/project_project.js',
+    #     ],
+    # },
     'license': 'OEEL-1',
 }

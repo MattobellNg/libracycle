@@ -1,6 +1,6 @@
 {
     'name': 'Sweep',
-    'version': '1.1',
+    'version': '1.0',
     'summary': 'Sweep Module',
     'description':
         """
@@ -17,7 +17,6 @@
         'views/view.xml',
         # 'views/credit_application_sequence.xml',
     ],
-    "license": "LGPL-3",
     'installable': True,
     'auto_install': False,
 }

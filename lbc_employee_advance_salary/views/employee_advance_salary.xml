@@ -15,7 +15,7 @@
                 <button string="Approve" name="admin_approval" states="admin" type="object" class="oe_highlight" groups="libracycle_process_workflow.group_admin" />
                 <button string="Approve" name="officer_approval" states="officer" type="object" class="oe_highlight" groups="libracycle_process_workflow.group_officer" />
                 <button string="Review" name="qac_approval" states="qac" type="object" class="oe_highlight" groups="libracycle_process_workflow.group_qac" />
-                <button string="Approve" name="director_1_approval" states="director_1" type="object" class="oe_highlight" groups="libracycle_process_workflow.group_director_1" />
+                <button string="Approve" name="director_1_approval" states="director_1" type="object" class="oe_highlight" />
                 <button string="Approve" name="director_2_approval" states="director_2" type="object" class="oe_highlight" groups="libracycle_process_workflow.group_director_2" />
                 <button string="Pay" name="get_apprv_account" states="account" type="object" class="oe_highlight" groups="account.group_account_user,account.group_account_manager" />
             </xpath>
