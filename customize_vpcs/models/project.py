@@ -110,7 +110,7 @@ class ProjectProject(models.Model):
     vessel_line = fields.Char(string="Vessel/Flight name")
     ves_line = fields.Many2one('vessel.line', string="Vessel/Flight name")
     rotation_number = fields.Char("Rotation Number")
-    destination_port = fields.Many2one('destination.port', string="Port of Discharge")
+    destination_port = fields.Many2one('destination.port', string="Destination Port")
     dest_port = fields.Char(string='Destination port')
     terminal = fields.Char(string="Terminal")
     custom_terminal = fields.Many2one('custom.terminal', string="Terminal")
@@ -306,6 +306,12 @@ class ProjectProject(models.Model):
         [],
         "COUNTRY OF LOADING",
         related="project_categ_id.has_port_of_loading",
+        readonly=True
+    )
+    has_rotation_number = fields.Selection(
+        [],
+        "Rotation Number",
+        related="project_categ_id.has_rotation_number",
         readonly=True
     )
     has_rotation_received = fields.Selection(
@@ -534,6 +540,21 @@ class ProjectProject(models.Model):
         related="project_categ_id.has_nafdac_final_release",
         readonly=True
     )
+    # has_agent_name = fields.Selection(FIELD_SELECTION, 'Agent Name', default='no')
+
+    has_agent_name = fields.Selection(
+        [],
+        "",
+        related="project_categ_id.has_agent_name",
+        readonly=True
+    )
+
+    has_job_tdo = fields.Selection(
+        [],
+        "",
+        related="project_categ_id.has_job_tdo",
+        readonly=True
+    )
 
     job_select = fields.Selection([("NAFDAC", "NAFDAC"), ("SON", "SON"), ("NESREA", "NESREA")],
                                   "Job selection",
@@ -573,7 +594,6 @@ class ProjectProject(models.Model):
     report_wizard_bool = fields.Boolean(string='C&B Report', default=False)
     port_many_loading = fields.Many2many('port.loading', string="PORT OF LOADING")
     ship_line = fields.Many2one(comodel_name='shipping.line')
-    has_agent_name = fields.Selection(FIELD_SELECTION, 'Agent Name', default='no')
 
     # report_many2one = fields.Many2one('report.customize_vpcs.report_cb_report')
     # duty = fields.Float(string='Duty')
