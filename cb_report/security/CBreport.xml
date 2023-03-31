@@ -5,5 +5,9 @@
             <field name='name'>C &amp; B report</field>
             <field name='category_id' ref='base.module_category_hidden'/>
         </record>
+        <record id ='group_cb_finance' model='res.groups'>
+            <field name='name'>C&amp;B Finance</field>
+            <field name='category_id' ref='base.module_category_hidden'/>
+        </record>
     </data>
 </odoo>
