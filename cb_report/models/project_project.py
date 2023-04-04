@@ -10,7 +10,7 @@ _logger = logging.getLogger(__name__)
 class Project(models.Model):
     _inherit = "project.project"
 
-    wht = fields.Float("With Holding Tax")
+    wht = fields.Float("With Holding Tax", compute='compute_wht_amount')
 
     # Total Invoice Value(N) minus Total Cost.
 
@@ -97,6 +97,15 @@ class Project(models.Model):
             rec.total_cost = rec.project_product_duty + rec.project_shipping_charge + rec.project_terminal_charge + \
                              rec.project_nafdac + rec.project_son + rec.project_agency + rec.project_transportation + \
                              rec.project_others
+
+    def compute_wht_amount(self):
+        print("compute_wht_amount xxxxxxxxxxxxxxx")
+        for rec in self:
+            payments = rec.env['account.payment'].search([('analytic_account_id', '=', self.analytic_account_id.id)])
+            wht = 0
+            for pmt in payments:
+                wht += pmt.payment_difference
+            rec.wht = wht
 
     def compute_customer_duty(self):
         print("compute_customer_duty called XXXXXXXXXXXX")

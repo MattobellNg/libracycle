@@ -7,7 +7,7 @@
     'website': 'http://www.vperfectcs.com',
     'description': """
     """,
-    'depends': ['customize_vpcs','report_xlsx', 'sale_management', 'project_description'],
+    'depends': ['customize_vpcs','report_xlsx', 'sale_management', 'project_description', 'account'],
     'data': [        
         'security/CBreport.xml',
         "security/ir.model.access.csv",
@@ -15,7 +15,8 @@
         "views/cb_report.xml",
         "views/product_template.xml",
         "views/project_views.xml",
-        "wizard/view_wiz_report.xml",        
+        "views/register_payment_ext.xml",
+        "wizard/view_wiz_report.xml",
     ],
     'qweb': [
     ],
