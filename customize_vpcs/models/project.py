@@ -979,3 +979,11 @@ class CustomTrackingReport(models.Model):
     current_empty_location = fields.Char(string='Current empty location')
     do_expiry_date = fields.Date(string='DO Expiry Date')
     comments = fields.Char(string='Comments')
+
+    partner_id = fields.Many2one('res.partner')
+    container_seal_no = fields.Char(string='Container Seal No')
+    qty_received_origin = fields.Char(string='Qty Received Origin')
+    qty_received_dest = fields.Char(string='Qty Received Dest')
+    cargo_name = fields.Char()
+    sealed = fields.Boolean()
+    tracker_found = fields.Boolean()

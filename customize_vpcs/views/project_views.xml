@@ -71,11 +71,11 @@
         </record>
         <function model='project.project' name="visible_button"/>
 
-        <record id="payment_edit_field_form" model="ir.ui.view">
-            <field name="name">project.project.form</field>
+        <record id="view_account_payment_form_ext" model="ir.ui.view">
+            <field name="name">account.payment.form.ext</field>
             <field name="model">account.payment</field>
             <field name="inherit_id" ref="account.view_account_payment_form"/>
-            <field name="arch" type="xml">               
+            <field name="arch" type="xml">
                 <xpath expr='//field[@name="date"]' position="after">
                     <field name="validate_payment_date"/>
                 </xpath>
@@ -438,6 +438,13 @@
             <field name="model">custom.tracking.report</field>
             <field name="arch" type="xml">
                 <tree editable="top" multi_edit="1" string="Tracking Report">
+                    <field name="partner_id" width='100px'/>
+                    <field name="container_seal_no" width='100px'/>
+                    <field name="qty_received_origin" width='100px'/>
+                    <field name="qty_received_dest" width='100px'/>
+                    <field name="cargo_name" width='100px'/>
+                    <field name="sealed" width='100px'/>
+                    <field name="tracker_found" width='100px'/>
                     <field name="sn_no" width='100px'/>
                     <field name="client_name" string='Client Name' width='100px'/>
                     <field name="liner" string='Liner' width='100px'/>
@@ -482,17 +489,24 @@
             </field>
         </record>
 
-        <record id="action_tracking_report" model="ir.actions.act_window">
+<!--        <record id="action_tracking_report" model="ir.actions.act_window">-->
+<!--            <field name="name">Custom Tracking report</field>-->
+<!--            <field name="res_model">custom.tracking.report</field>-->
+<!--            <field name="view_mode">tree</field>-->
+<!--&lt;!&ndash;            <field name="view_id" ref="view_custom_tracking_report_list"/>&ndash;&gt;-->
+<!--        </record>-->
+        <record id="action_tracking_report_hi" model="ir.actions.act_window">
             <field name="name">Custom Tracking report</field>
+            <field name="type">ir.actions.act_window</field>
             <field name="res_model">custom.tracking.report</field>
             <field name="view_mode">tree</field>
-            <field name="view_id" ref="view_custom_tracking_report_list"/>
+            <field name="view_id" ref="customize_vpcs.view_custom_tracking_report_list"/>
         </record>
 
 
         <menuitem id="custom_tracking_report" name="Tracking Report"
             groups="customize_vpcs.group_tracking_report_visibility"
-            action="action_tracking_report"
+            action="action_tracking_report_hi"
             parent="project.menu_main_pm" sequence="22"/>
     </data>
 </odoo>
