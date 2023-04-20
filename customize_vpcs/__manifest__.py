@@ -8,7 +8,7 @@
     (1) Project
     (2) QAC
     """,
-    'depends': ['project', 'web', 'project_project_category', 'report_xlsx', 'project_description'],
+    'depends': ['base', 'project', 'web', 'project_project_category', 'report_xlsx', 'project_description', 'account'],
     'data': [
         'security/project_access.xml',
         "security/ir.model.access.csv",
@@ -21,6 +21,7 @@
         "report/report.xml",
         "report/report_pdf.xml",
         "report/waybill_report.xml",
+        # "report/waybill_pdf_report.xml",
     ],
     # 'qweb': [
     # ],

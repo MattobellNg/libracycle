@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo>        
+<odoo>
     <record id="action_report_project_project" model="ir.actions.report">
         <field name="name">Project report</field>
         <field name="model">project.project</field>
@@ -9,7 +9,7 @@
         <field name="binding_model_id" ref="model_project_project"/>
     </record>
 
-     <template id="external_layout_footer">
+    <template id="external_layout_footer">
         <div class="footer">
             <div class="text-center" style="border-top: 1px solid black;">
                 <ul class="list-inline">
@@ -24,22 +24,25 @@
 
                 <ul class="list-inline">
                     <li>Page:</li>
-                    <li><span class="page"/></li>
+                    <li>
+                        <span class="page"/>
+                    </li>
                     <li>/</li>
-                    <li><span class="topage"/></li>
+                    <li>
+                        <span class="topage"/>
+                    </li>
                 </ul>
             </div>
-        </div>    
+        </div>
     </template>
-
 
     <template id="report_project_project">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
-                <t t-call="web.external_layout">                                     
+                <t t-call="web.external_layout">
                     <div class="page">
                         <div class="oe_structure"/>
-                        <div class='row' >
+                        <div class='row'>
                             <div class="col-12 text-right">
                                 <t t-if="o.sn_state == 'pre_alert'">
                                     <strong class="badge bg-primary text-wrap" style="width: 6rem;">Pre-Alert</strong>
@@ -47,40 +50,48 @@
                                 <t t-else="">
                                     <span>Pre-Alert</span>
                                 </t>
-                                <span> | </span>                                
+                                <span>|</span>
                                 <t t-if="o.sn_state == 'awaiting_arrival'">
-                                    <strong class="badge bg-primary text-wrap" style="width: 6rem;">Awaiting Arrival</strong>
+                                    <strong class="badge bg-primary text-wrap" style="width: 6rem;">Awaiting Arrival
+                                    </strong>
                                 </t>
                                 <t t-else="">
                                     <span>Awaiting Arrival</span>
                                 </t>
-                                <span> | </span>                                
-                                <t t-if="o.sn_state == 'in_clearing'">                                
+                                <span>|</span>
+                                <t t-if="o.sn_state == 'in_clearing'">
                                     <strong class="badge bg-primary text-wrap" style="width: 6rem;">Inclearing</strong>
                                 </t>
                                 <t t-else="">
                                     <span>Inclearing</span>
                                 </t>
-                                <span> | </span>                                
-                                <t t-if="o.sn_state == 'ready_to_load'">                                                                
+                                <span>|</span>
+                                <t t-if="o.sn_state == 'ready_to_load'">
                                     <!-- <strong id="ready_to_load" style='text-color:black;'>ReadytoLoad | </strong> -->
                                     <strong class="badge bg-primary text-wrap" style="width: 6rem;">ReadytoLoad</strong>
                                 </t>
                                 <t t-else="">
                                     <span>ReadytoLoad</span>
                                 </t>
-                                <span> | </span>
-                                <t t-if="o.sn_state == 'post_delivery'">                                           
+                                <span>|</span>
+                                <t t-if="o.sn_state == 'post_delivery'">
                                     <!-- <b id="post_delivery" style='background-color:#A9A9A9;'>Postdelivery</b> -->
-                                    <strong class="badge bg-primary text-wrap" style="width: 6rem;">Postdelivery</strong>
+                                    <strong class="badge bg-primary text-wrap" style="width: 6rem;">Postdelivery
+                                    </strong>
                                 </t>
                                 <t t-else="">
                                     <span>Postdelivery</span>
-                                </t>                                                               
-                            </div>                          
+                                </t>
+                            </div>
                         </div>
 
-                        <h3><center><strong><span t-field="o.name"/></strong></center></h3>
+                        <h3>
+                            <center>
+                                <strong>
+                                    <span t-field="o.name"/>
+                                </strong>
+                            </center>
+                        </h3>
                         <!-- <div style="border:1px solid black;padding:5px"> -->
                         <div class="mb-4 mt-3">
                             <div class='container'>
@@ -99,7 +110,7 @@
                                         </h3>
                                     </div>
                                     <div class='col-3' t-if="o.type_id">
-                                        <span t-field="o.type_id"/>                                        
+                                        <span t-field="o.type_id"/>
                                     </div>
                                     <div class="col-3" t-if="o.project_categ_id">
                                         <h3>
@@ -107,7 +118,7 @@
                                         </h3>
                                     </div>
                                     <div class='col-3' t-if="o.project_categ_id">
-                                        <span t-field="o.project_categ_id"/>                                        
+                                        <span t-field="o.project_categ_id"/>
                                     </div>
                                 </div>
                             </div>
@@ -133,9 +144,9 @@
                                     </h2>
                                 </div>
                                 <div class='container'>
-                                    <div class='row'>                                  
+                                    <div class='row'>
                                         <div class='col-3' t-if='o.job_refs'>
-                                            <h3>                                            
+                                            <h3>
                                                 <strong>Job Reference</strong>
                                             </h3>
                                         </div>
@@ -145,7 +156,7 @@
                                         <div class='col-3' t-if='o.client_name'>
                                             <h3>
                                                 <strong>Client Name</strong>
-                                            </h3>                                        
+                                            </h3>
                                         </div>
                                         <div class='col-3' t-if='o.client_name'>
                                             <span t-field="o.client_name"/>
@@ -153,23 +164,23 @@
                                         <div class='col-3' t-if='o.project_team'>
                                             <h3>
                                                 <strong>Project Team</strong>
-                                            </h3>                                        
+                                            </h3>
                                         </div>
                                         <div class='col-3' t-if='o.project_team'>
-                                            <span t-field="o.project_team"/>                                        
+                                            <span t-field="o.project_team"/>
                                         </div>
                                         <div class='col-3' t-if='o.account_officer'>
                                             <h3>
                                                 <strong>Account Officer</strong>
-                                            </h3>                                        
+                                            </h3>
                                         </div>
                                         <div class='col-3' t-if='o.account_officer'>
-                                            <span t-field="o.account_officer"/>                                        
+                                            <span t-field="o.account_officer"/>
                                         </div>
                                         <div class='col-3' t-if='o.item_description'>
                                             <h3>
                                                 <strong>Item Description</strong>
-                                            </h3>                                        
+                                            </h3>
                                         </div>
                                         <div class='col-3' t-if='o.item_description'>
                                             <span t-field="o.item_description"/>
@@ -188,7 +199,7 @@
                                     <div class='row'>
                                         <div class='col-3' t-if='o.dest_port'>
                                             <h3>
-                                                <strong  style='text-align:left;'>Destination port: </strong>
+                                                <strong style='text-align:left;'>Destination port:</strong>
                                             </h3>
                                         </div>
                                         <div class='col-3' t-if='o.dest_port'>
@@ -197,15 +208,15 @@
                                         <div class='col-3' t-if='o.terminal'>
                                             <h3>
                                                 <strong>Terminal</strong>
-                                            </h3>                                        
+                                            </h3>
                                         </div>
                                         <div class='col-3' t-if='o.terminal'>
-                                            <span t-field="o.terminal"/>                                            
+                                            <span t-field="o.terminal"/>
                                         </div>
                                         <div class='col-3' t-if='o.port_of_loading'>
                                             <h3>
                                                 <strong>Port of Loading</strong>
-                                            </h3>                                        
+                                            </h3>
                                         </div>
                                         <div class='col-3' t-if='o.port_of_loading'>
                                             <span t-field="o.port_of_loading"/>
@@ -213,7 +224,7 @@
                                         <div class='col-3' t-if='o.rotation_not_received'>
                                             <h3>
                                                 <strong>Rotation Not received</strong>
-                                            </h3>                                        
+                                            </h3>
                                         </div>
                                         <div class='col-3' t-if='o.rotation_not_received'>
                                             <span t-field="o.rotation_not_received"/>
@@ -221,7 +232,7 @@
                                         <div class='col-3' t-if='o.etd'>
                                             <h3>
                                                 <strong>ETD</strong>
-                                            </h3>                                        
+                                            </h3>
                                         </div>
                                         <div class='col-3' t-if='o.etd'>
                                             <span t-field="o.etd"/>
@@ -229,7 +240,7 @@
                                         <div class='col-3' t-if='o.eta'>
                                             <h3>
                                                 <strong>ETA</strong>
-                                            </h3>                                        
+                                            </h3>
                                         </div>
                                         <div class='col-3' t-if='o.eta'>
                                             <span t-field="o.eta"/>
@@ -237,15 +248,15 @@
                                         <div class='col-3' t-if='o.bol_awb_ref'>
                                             <h3>
                                                 <strong>BOL/AWB Number</strong>
-                                            </h3>                                        
+                                            </h3>
                                         </div>
                                         <div class='col-3' t-if='o.bol_awb_ref'>
                                             <span t-field="o.bol_awb_ref"/>
-                                        </div>                                   
+                                        </div>
                                     </div>
                                 </div>
                             </t>
-                            <t t-if='o.sn_state in ("in_clearing", "ready_to_load", "post_delivery")'>                                
+                            <t t-if='o.sn_state in ("in_clearing", "ready_to_load", "post_delivery")'>
                                 <div class='col-lg-12'>
                                     <h2>
                                         <span>In Clearing
@@ -265,7 +276,7 @@
                                         <div class='col-3' t-if='o.paar_request'>
                                             <h3>
                                                 <strong>Paar Request</strong>
-                                            </h3>                                        
+                                            </h3>
                                         </div>
                                         <div class='col-3' t-if='o.paar_request'>
                                             <span t-field="o.paar_request"/>
@@ -273,7 +284,7 @@
                                         <div class='col-3' t-if='o.paar_received'>
                                             <h3>
                                                 <strong>Paar Received</strong>
-                                            </h3>                                        
+                                            </h3>
                                         </div>
                                         <div class='col-3' t-if='o.paar_received'>
                                             <span t-field="o.paar_received"/>
@@ -281,7 +292,7 @@
                                         <div class='col-3' t-if='o.duty_assesment'>
                                             <h3>
                                                 <strong>Duty Assesment</strong>
-                                            </h3>                                        
+                                            </h3>
                                         </div>
                                         <div class='col-3' t-if='o.duty_assesment'>
                                             <span t-field="o.duty_assesment"/>
@@ -289,7 +300,7 @@
                                         <div class='col-3' t-if='o.duty_received'>
                                             <h3>
                                                 <strong>Duty Received</strong>
-                                            </h3>                                        
+                                            </h3>
                                         </div>
                                         <div class='col-3' t-if='o.duty_received'>
                                             <span t-field="o.duty_received"/>
@@ -297,7 +308,7 @@
                                         <div class='col-3' t-if='o.son_paid'>
                                             <h3>
                                                 <strong>Son Paid</strong>
-                                            </h3>                                        
+                                            </h3>
                                         </div>
                                         <div class='col-3' t-if='o.son_paid'>
                                             <span t-field="o.son_paid"/>
@@ -305,15 +316,15 @@
                                         <div class='col-3' t-if='o.son_invoice'>
                                             <h3>
                                                 <strong>Son Invoice</strong>
-                                            </h3>                                        
+                                            </h3>
                                         </div>
                                         <div class='col-3' t-if='o.son_invoice'>
                                             <span t-field="o.son_invoice"/>
-                                        </div> 
+                                        </div>
                                         <div class='col-3' t-if='o.quarantine_payment'>
                                             <h3>
                                                 <strong>Quarantine Payment</strong>
-                                            </h3>                                        
+                                            </h3>
                                         </div>
                                         <div class='col-3' t-if='o.quarantine_payment'>
                                             <span t-field="o.quarantine_payment"/>
@@ -321,7 +332,7 @@
                                         <div class='col-3' t-if='o.docs_copy_received'>
                                             <h3>
                                                 <strong>Docs Copy Received</strong>
-                                            </h3>                                        
+                                            </h3>
                                         </div>
                                         <div class='col-3' t-if='o.docs_copy_received'>
                                             <span t-field="o.docs_copy_received"/>
@@ -329,7 +340,7 @@
                                         <div class='col-3' t-if='o.original_copy_received'>
                                             <h3>
                                                 <strong>Original Copy Received</strong>
-                                            </h3>                                        
+                                            </h3>
                                         </div>
                                         <div class='col-3' t-if='o.original_copy_received'>
                                             <span t-field="o.original_copy_received"/>
@@ -337,7 +348,7 @@
                                         <div class='col-3' t-if='o.complete_docs_uploaded'>
                                             <h3>
                                                 <strong>Complete Docs Uploded</strong>
-                                            </h3>                                        
+                                            </h3>
                                         </div>
                                         <div class='col-3' t-if='o.complete_docs_uploaded'>
                                             <span t-field="o.complete_docs_uploaded"/>
@@ -345,7 +356,7 @@
                                         <div class='col-3' t-if='o.first_shipping_paid'>
                                             <h3>
                                                 <strong>First Shipping Paid</strong>
-                                            </h3>                                        
+                                            </h3>
                                         </div>
                                         <div class='col-3' t-if='o.first_shipping_paid'>
                                             <span t-field="o.first_shipping_paid"/>
@@ -353,7 +364,7 @@
                                         <div class='col-3' t-if='o.first_shipping_invoice'>
                                             <h3>
                                                 <strong>First Shipping Invoice</strong>
-                                            </h3>                                        
+                                            </h3>
                                         </div>
                                         <div class='col-3' t-if='o.first_shipping_invoice'>
                                             <span t-field="o.first_shipping_invoice"/>
@@ -361,7 +372,7 @@
                                         <div class='col-3' t-if='o.second_shipping_dn_paid'>
                                             <h3>
                                                 <strong>Second Shipping dn paid</strong>
-                                            </h3>                                        
+                                            </h3>
                                         </div>
                                         <div class='col-3' t-if='o.second_shipping_dn_paid'>
                                             <span t-field="o.second_shipping_dn_paid"/>
@@ -369,7 +380,7 @@
                                         <div class='col-3' t-if='o.third_shipping_dn_paid'>
                                             <h3>
                                                 <strong>Third Shipping dn paid</strong>
-                                            </h3>                                        
+                                            </h3>
                                         </div>
                                         <div class='col-3' t-if='o.third_shipping_dn_paid'>
                                             <span t-field="o.third_shipping_dn_paid"/>
@@ -377,7 +388,7 @@
                                         <div class='col-3' t-if='o.first_terminal_invoice'>
                                             <h3>
                                                 <strong>First Terminal Invoice</strong>
-                                            </h3>                                        
+                                            </h3>
                                         </div>
                                         <div class='col-3' t-if='o.first_terminal_invoice'>
                                             <span t-field="o.first_terminal_invoice"/>
@@ -385,7 +396,7 @@
                                         <div class='col-3' t-if='o.first_terminal_paid'>
                                             <h3>
                                                 <strong>First Terminal Paid</strong>
-                                            </h3>                                        
+                                            </h3>
                                         </div>
                                         <div class='col-3' t-if='o.first_terminal_paid'>
                                             <span t-field="o.first_terminal_paid"/>
@@ -393,7 +404,7 @@
                                         <div class='col-3' t-if='o.first_additional_storage_paid'>
                                             <h3>
                                                 <strong>First Additional Storage paid</strong>
-                                            </h3>                                        
+                                            </h3>
                                         </div>
                                         <div class='col-3' t-if='o.first_additional_storage_paid'>
                                             <span t-field="o.first_additional_storage_paid"/>
@@ -401,7 +412,7 @@
                                         <div class='col-3' t-if='o.second_additional_storage_paid'>
                                             <h3>
                                                 <strong>Second Additional Storage paid</strong>
-                                            </h3>                                        
+                                            </h3>
                                         </div>
                                         <div class='col-3' t-if='o.second_additional_storage_paid'>
                                             <span t-field="o.second_additional_storage_paid"/>
@@ -409,7 +420,7 @@
                                         <div class='col-3' t-if='o.examination_booked'>
                                             <h3>
                                                 <strong>Examination Booked</strong>
-                                            </h3>                                        
+                                            </h3>
                                         </div>
                                         <div class='col-3' t-if='o.examination_booked'>
                                             <span t-field="o.examination_booked"/>
@@ -417,7 +428,7 @@
                                         <div class='col-3' t-if='o.examination_start'>
                                             <h3>
                                                 <strong>Examination Start</strong>
-                                            </h3>                                        
+                                            </h3>
                                         </div>
                                         <div class='col-3' t-if='o.examination_start'>
                                             <span t-field="o.examination_start"/>
@@ -425,7 +436,7 @@
                                         <div class='col-3' t-if='o.examination_done'>
                                             <h3>
                                                 <strong>Examination Done</strong>
-                                            </h3>                                        
+                                            </h3>
                                         </div>
                                         <div class='col-3' t-if='o.examination_done'>
                                             <span t-field="o.examination_done"/>
@@ -433,7 +444,7 @@
                                         <div class='col-3' t-if='o.shipping_released'>
                                             <h3>
                                                 <strong>Shipping Released</strong>
-                                            </h3>                                        
+                                            </h3>
                                         </div>
                                         <div class='col-3' t-if='o.shipping_released'>
                                             <span t-field="o.shipping_released"/>
@@ -441,7 +452,7 @@
                                         <div class='col-3' t-if='o.fou_approved'>
                                             <h3>
                                                 <strong>FOU approved</strong>
-                                            </h3>                                        
+                                            </h3>
                                         </div>
                                         <div class='col-3' t-if='o.fou_approved'>
                                             <span t-field="o.fou_approved"/>
@@ -449,7 +460,7 @@
                                         <div class='col-3' t-if='o.nepza_released'>
                                             <h3>
                                                 <strong>NEPZA Released</strong>
-                                            </h3>                                        
+                                            </h3>
                                         </div>
                                         <div class='col-3' t-if='o.nepza_released'>
                                             <span t-field="o.nepza_released"/>
@@ -457,7 +468,7 @@
                                     </div>
                                 </div>
                             </t>
-                            <t t-if='o.sn_state in ("ready_to_load", "post_delivery")'>                                
+                            <t t-if='o.sn_state in ("ready_to_load", "post_delivery")'>
                                 <div class='col-lg-12'>
                                     <h2>
                                         <span>DELIVERY START(TRUCK/BARGE)
@@ -501,7 +512,7 @@
                                     </div>
                                 </div>
                             </t>
-                            <t t-if='o.sn_state in ("post_delivery")'>                                
+                            <t t-if='o.sn_state in ("post_delivery")'>
                                 <div class='col-lg-12'>
                                     <h2>
                                         <span>POST DELIVERY
@@ -542,7 +553,7 @@
                                         <div class='col-3' t-if='o.nafdac_final_release'>
                                             <span t-field="o.nafdac_final_release"/>
                                         </div>
-                                        <!-- <span t-field='o.project_schedule_items_ids'/> -->                                        
+                                        <!-- <span t-field='o.project_schedule_items_ids'/> -->
                                     </div>
                                 </div>
                             </t>
@@ -560,26 +571,44 @@
                                 <table class="table table-sm">
                                     <thead>
                                         <tr>
-                                            <th class="align-middle"><span>Sequence</span></th>
-                                            <th class="align-middle"><span>Item Code</span></th>
-                                            <th class="align-middle"><span>Item Type</span></th>
-                                            <th class="align-middle"><span>Related Project</span></th>
-                                            <th class="align-middle"><span>Size/Weight</span></th>
-                                            <th class="align-middle"><span>Unit of Measures</span></th>
-                                            <th class="align-middle"><span>Measured As</span></th>
-                                            <th class="align-middle"><span>Item Description</span></th>                                        
-                                            <th class="align-middle"><span>State</span></th>                                        
+                                            <th class="align-middle">
+                                                <span>Sequence</span>
+                                            </th>
+                                            <th class="align-middle">
+                                                <span>Item Code</span>
+                                            </th>
+                                            <th class="align-middle">
+                                                <span>Item Type</span>
+                                            </th>
+                                            <th class="align-middle">
+                                                <span>Related Project</span>
+                                            </th>
+                                            <th class="align-middle">
+                                                <span>Size/Weight</span>
+                                            </th>
+                                            <th class="align-middle">
+                                                <span>Unit of Measures</span>
+                                            </th>
+                                            <th class="align-middle">
+                                                <span>Measured As</span>
+                                            </th>
+                                            <th class="align-middle">
+                                                <span>Item Description</span>
+                                            </th>
+                                            <th class="align-middle">
+                                                <span>State</span>
+                                            </th>
                                         </tr>
-                                   </thead>
-                                   <tbody>
+                                    </thead>
+                                    <tbody>
                                         <tr t-foreach="o.project_schedule_items_ids" t-as="line">
                                             <td>
-                                               <span t-field="line.barged_id"/>
+                                                <span t-field="line.barged_id"/>
                                             </td>
                                             <td>
-                                               <span t-field="line.name"/>
+                                                <span t-field="line.name"/>
                                             </td>
-                                            <td >
+                                            <td>
                                                 <span t-field="line.product_id"/>
                                             </td>
                                             <td>
@@ -598,31 +627,39 @@
                                                 <span t-field="line.description"/>
                                             </td>
                                             <td>
-                                                <span class="badge bg-primary text-wrap" style="width: 6rem;" t-field="line.state"/>
-                                            </td>                                       
+                                                <span class="badge bg-primary text-wrap" style="width: 6rem;"
+                                                      t-field="line.state"/>
+                                            </td>
                                         </tr>
                                     </tbody>
-                               </table>
-                           </div>
-                       </div>
-                   </div>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </t>
             </t>
-        </t>        
+        </t>
     </template>
 
     <template id='custom_footer'>
-         <div class="footer">
+        <div class="footer">
             <div class="text-center" style="border-top: 1px solid black;">
                 <!-- <ul>
                     <li>ssfsfjbgjsdk</li>
                 </ul> -->
                 <ul class="list-inline mb4 text-nowrap">
-                    <li class="list-inline-item d-inline">Phone: <span class="o_force_ltr"/>(234) 909 8710 778, (234) 818 4792 309</li>
-                    <li class="list-inline-item d-inline">Email: <span>info@libracircle.com</span></li>
-                    <li class="list-inline-item d-inline">Website: <span>https://libracircle.com/</span></li>
+                    <li class="list-inline-item d-inline">Phone:<span class="o_force_ltr"/>(234) 909 8710 778, (234) 818
+                        4792 309
+                    </li>
+                    <li class="list-inline-item d-inline">Email:
+                        <span>info@libracircle.com</span>
+                    </li>
+                    <li class="list-inline-item d-inline">Website:
+                        <span>https://libracircle.com/</span>
+                    </li>
                 </ul>
             </div>
         </div>
     </template>
+
 </odoo>
