@@ -16,7 +16,7 @@ class HrPayslip(models.Model):
         if line.salary_rule_id.display_split:
             return {
                 'name': line.name,
-                'partner_id': line.partner_id.id,
+                'partner_id': line.slip_id.employee_id.address_home_id.id,
                 'account_id': account_id,
                 'employee_id': line.slip_id.employee_id.id,
                 'journal_id': line.slip_id.struct_id.journal_id.id,
