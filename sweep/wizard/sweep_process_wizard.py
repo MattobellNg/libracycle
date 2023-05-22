@@ -29,7 +29,7 @@ class SweepWizard(models.TransientModel):
 
 
 class ResCompanyExt(models.Model):
-    _inherit = 'res.company'
+    _inherit = "res.company"
 
     sweep_start_date = fields.Date('Start Date')
     sweep_end_date = fields.Date('End Date')
