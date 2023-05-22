@@ -454,9 +454,9 @@
                     <field name="date_tdo_received" width='100px'/>
                     <field name="delivery_begin_date" width='100px'/>
                     <field name="truck_loading_date" width='100px'/>
-                    <field name="days_of_initial_terminal" width='100px' optional='show'/>
+                    <field name="days_of_initial_terminal" width='100px' optional='show' options="{'no_create': True}"/>
                     <field name="days_out_terminal" width='100px' optional='show'/>
-                    <field name="barge_or_road" width='100px' optional='show'/>
+                    <field name="barge_road_id" width='100px' optional='show'/>
                     <field name="days_before_barge" width='100px' optional='show'/>
                     <field name="import_barge_date" width='100px' optional='show'/>
                     <field name="barged_from" width='100px' optional='show'/>
@@ -481,10 +481,15 @@
                     <field name="driver_name" width='100px' optional='show'/>
                     <field name="phone_number" width='100px' optional='show'/>
                     <field name="return_empties" width='100px' optional='show'/>
+                    <field name="empty_return_date" width='100px' optional='show'/>
                     <field name="date_return_to_terminal" width='100px' optional='show'/>
+                    <field name="barge_empty_return_operator" width='100px' optional='show'/>
                     <field name="current_empty_location" width='100px' optional='show'/>
-                    <field name="do_expiry_date" width='100px' optional='show'/>
+                    <field name="final_empty_location" width='100px' optional='show'/>
+                    <field name="return_date" width='100px' optional='show'/>
                     <field name="comments" width='100px' optional='show'/>            
+                    <field name="address" width='100px' optional='show'/>
+                    <field name="description_of_goods" width='100px' optional='show'/>
                 </tree>
             </field>
         </record>

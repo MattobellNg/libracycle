@@ -17,6 +17,7 @@
         "data/batch_action_tracking.xml",
         'views/project_views.xml',
         'views/project_project_category.xml',
+        'views/drop_down_fields.xml',
         "data/email_template.xml",
         "report/report.xml",
         "report/report_pdf.xml",
