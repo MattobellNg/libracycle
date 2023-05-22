@@ -27,9 +27,3 @@ class SweepWizard(models.TransientModel):
         # scheduler = self.env['ir.cron'].search([('name', '=', 'Sweep Process')])
         # scheduler.method_direct_trigger()
 
-
-class ResCompanyExt(models.Model):
-    _inherit = "res.company"
-
-    sweep_start_date = fields.Date('Start Date')
-    sweep_end_date = fields.Date('End Date')

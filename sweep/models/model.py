@@ -12,6 +12,13 @@ class ProductTempExt(models.Model):
     sweep_account_id = fields.Many2one('account.account')
 
 
+class ResCompanyExt(models.Model):
+    _inherit = 'res.company'
+
+    sweep_start_date = fields.Date('Start Date')
+    sweep_end_date = fields.Date('End Date')
+
+
 class AccountMoveExt(models.Model):
     _inherit = 'account.move'
 
