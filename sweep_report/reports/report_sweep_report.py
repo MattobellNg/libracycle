@@ -45,7 +45,7 @@ class SweepReportXls(models.AbstractModel):
         sheet.set_column(1, 0, 15)
         sheet.write(1, 0, 'Date Range', format)
         sheet.set_column(1, 1, 25)
-        sheet.write(1, 1, 'Analytic Account', format)
+        sheet.write(1, 1, 'Project', format)
         sheet.set_column(1, 2, 30)
         sheet.write(1, 2, 'Sweep Journal Entry', format)
         sheet.set_column(1, 3, 30)

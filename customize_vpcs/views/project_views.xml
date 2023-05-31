@@ -452,7 +452,7 @@
                     <field name="bl_number" width='100px'/>
                     <field name="container_size" width='100px'/>
                     <field name="date_tdo_received" width='100px'/>
-                    <field name="delivery_begin_date" width='100px'/>
+<!--                    <field name="delivery_begin_date" width='100px'/>-->
                     <field name="truck_loading_date" width='100px'/>
                     <field name="days_of_initial_terminal" width='100px' optional='show' options="{'no_create': True}"/>
                     <field name="days_out_terminal" width='100px' optional='show'/>
@@ -469,6 +469,7 @@
                     <field name="container_age_terminal" width='100px' optional='show'/>
                     <field name="truck_out_loading_date" width='100px' optional='show'/>
                     <field name="last_known_location" width='100px' optional='show'/>
+                    <field name="arrival_date" width='100px' optional='show'/>
                     <field name="arrival_client_side" width='100px' optional='show'/>
                     <field name="time_to_destination" width='100px' optional='show'/>
                     <field name="offloading_location" width='100px' optional='show'/>

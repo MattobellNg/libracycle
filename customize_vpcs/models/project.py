@@ -965,11 +965,12 @@ class CustomTrackingReport(models.Model):
                                          compute='compute_container_age_terminal')
     truck_out_loading_date = fields.Date(string='Truck Out Loading Date', store=True)
     last_known_location = fields.Many2one("last.known.location", string='Last Known Location')
-    arrival_client_side = fields.Date(string="Arrival  Date at Client's Site")
-    time_to_destination = fields.Char(string='Time to Destination')
+    arrival_client_side = fields.Date(string="Arrival Date at Client's Site", store=True)
+    arrival_date = fields.Date(string="Arrival Date", store=True)
+    time_to_destination = fields.Char(string='Time to Destination', compute='compute_time_to_destination')
     offloading_location = fields.Char(string='Offloading Location')
-    truck_offloading_date = fields.Date(string='Truck Offloading Date')
-    offload_delay = fields.Char(string='Offload Delay')
+    truck_offloading_date = fields.Date(string='Truck Offloading Date', store=True)
+    offload_delay = fields.Char(string='Offload Delay', compute='compute_offload_delay')
     reasons_for_delay = fields.Char(string='Reason for delay')
     waybill_no = fields.Char(string='Waybill No')
     truck_number = fields.Char(string='Truck Number')
@@ -1004,6 +1005,24 @@ class CustomTrackingReport(models.Model):
             if rec.barge_offloading_date and rec.truck_out_loading_date:
                 delta = rec.truck_out_loading_date - rec.barge_offloading_date
                 rec.container_age_terminal = delta.days
+
+    @api.depends('truck_out_loading_date', 'arrival_date')
+    def compute_time_to_destination(self):
+        print("compute_time_to_destination called XXXXXXXXXXXXXXX")
+        for rec in self:
+            rec.time_to_destination = False
+            if rec.truck_out_loading_date and rec.arrival_date:
+                delta = rec.arrival_date - rec.truck_out_loading_date
+                rec.time_to_destination = delta.days
+
+    @api.depends('truck_offloading_date', 'arrival_client_side')
+    def compute_offload_delay(self):
+        print("compute_offload_delay called XXXXXXXXXXXXXXX")
+        for rec in self:
+            rec.offload_delay = False
+            if rec.truck_offloading_date and rec.arrival_client_side:
+                delta = rec.truck_offloading_date - rec.arrival_client_side
+                rec.offload_delay = delta.days
 
     @api.depends('barge_arrival_date', 'truck_out_loading_date')
     def compute_container_age(self):
@@ -1064,7 +1083,7 @@ class CustomTrackingReport(models.Model):
                     'Container_number': job.container,
                     'container_size': job.size_of_container,
                     # 'date_tdo_received': job.job_tdo, //input field
-                    'delivery_begin_date': job.date_delivery_start,
+                    # 'delivery_begin_date': job.date_delivery_start,
                     'truck_loading_date': job.truck_in,  # input field
                     # 'days_of_initial_terminal': job., //formula field
                     'days_out_terminal': job.days_in_port,  # formula field
@@ -1074,6 +1093,7 @@ class CustomTrackingReport(models.Model):
                     # 'barged_from': job., //drop down field
                     # 'barged_to': job., //drop down field
                     'barge_arrival_date': job.barging_date,  # input field
+                    'arrival_date': job.arrival_date,  # input field
                     # 'tug': job., //drop down field
                     'barge_name_operator': job.barge_operator.name,  # drop down field
                     # 'barge_offloading_date': job., //input field
