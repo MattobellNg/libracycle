@@ -980,7 +980,8 @@ class CustomTrackingReport(models.Model):
     phone_number = fields.Char(string='Phone Number')
     return_empties = fields.Selection([("yes", "Y"), ("no", "N")], string='Returning Empties? (Y/N)')
     date_return_to_terminal = fields.Date(string='Date returned to terminal', store=True, compute='compute_bl_number')
-    current_empty_location = fields.Many2one("current.empty.location", string='Current empty location')
+    current_empty_location = fields.Char(string='Current empty location')
+    current_empty_location_1 = fields.Many2one("current.empty.location", string='Current empty location')
     do_expiry_date = fields.Date(string='DO Expiry Date')
     comments = fields.Char(string='Comments', compute='compute_bl_number')
 

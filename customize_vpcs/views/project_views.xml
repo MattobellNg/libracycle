@@ -486,7 +486,7 @@
                     <field name="empty_return_date" width='100px' optional='show'/>
                     <field name="date_return_to_terminal" width='100px' optional='show'/>
                     <field name="barge_empty_return_operator" width='100px' optional='show'/>
-                    <field name="current_empty_location" width='100px' optional='show'/>
+                    <field name="current_empty_location_1" width='100px' optional='show'/>
                     <field name="final_empty_location" width='100px' optional='show'/>
                     <field name="return_date" width='100px' optional='show'/>
                     <field name="comments" width='100px' optional='show'/>            
