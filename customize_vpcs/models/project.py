@@ -1065,27 +1065,6 @@ class CustomTrackingReport(models.Model):
     def compute_bl_number(self):
         print("Compute bl_number called XXXXXXXXX")
         for rec in self:
-            rec.write({
-                'partner_id': False,
-                'sn_no': False,
-                'client_name': False,
-                'liner': False,
-                'Container_number': False,
-                'container_size': False,
-                'truck_loading_date': False,
-                'days_out_terminal': False,
-                'import_barge_date': False,
-                'barge_arrival_date': False,  # input field
-                'arrival_date': False,
-                'barge_name_operator': False,
-                'truck_out_loading_date': False,
-                'truck_offloading_date': False,
-                'reasons_for_delay': False,
-                'empty_return_date': False,
-                'date_return_to_terminal': False,
-                'return_date': False,
-                'comments': False,
-            })
             if rec.bl_number:
                 job = rec.env['project.project'].search([('name', '=', rec.bl_number)])
                 print("<<<<<<<<<<job>>>>>>>>>>")
@@ -1113,6 +1092,50 @@ class CustomTrackingReport(models.Model):
                         'return_date': job.return_date,
                         'comments': job.last_project_comment,
                     })
+                else:
+                    rec.write({
+                        'partner_id': False,
+                        'sn_no': False,
+                        'client_name': False,
+                        'liner': False,
+                        'Container_number': False,
+                        'container_size': False,
+                        'truck_loading_date': False,
+                        'days_out_terminal': False,
+                        'import_barge_date': False,
+                        'barge_arrival_date': False,  # input field
+                        'arrival_date': False,
+                        'barge_name_operator': False,
+                        'truck_out_loading_date': False,
+                        'truck_offloading_date': False,
+                        'reasons_for_delay': False,
+                        'empty_return_date': False,
+                        'date_return_to_terminal': False,
+                        'return_date': False,
+                        'comments': False,
+                    })
+            else:
+                rec.write({
+                    'partner_id': False,
+                    'sn_no': False,
+                    'client_name': False,
+                    'liner': False,
+                    'Container_number': False,
+                    'container_size': False,
+                    'truck_loading_date': False,
+                    'days_out_terminal': False,
+                    'import_barge_date': False,
+                    'barge_arrival_date': False,  # input field
+                    'arrival_date': False,
+                    'barge_name_operator': False,
+                    'truck_out_loading_date': False,
+                    'truck_offloading_date': False,
+                    'reasons_for_delay': False,
+                    'empty_return_date': False,
+                    'date_return_to_terminal': False,
+                    'return_date': False,
+                    'comments': False,
+                })
 
     @api.onchange('bl_number')
     def onchange_bl_number(self):
