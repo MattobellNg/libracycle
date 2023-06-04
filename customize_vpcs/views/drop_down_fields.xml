@@ -80,5 +80,31 @@
             parent="project.menu_project_config"
             action="action_last_known_location"/>
 
+        <record id="action_transporter_name" model="ir.actions.act_window">
+            <field name="name">Transporter Name</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">transporter.name</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_transporter_name"
+            name="Transporter Name"
+            sequence="24"
+            parent="project.menu_project_config"
+            action="action_transporter_name"/>
+
+        <record id="action_current_empty_location" model="ir.actions.act_window">
+            <field name="name">Current Empty Location</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">current.empty.location</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_current_empty_location"
+            name="Current Empty Location"
+            sequence="24"
+            parent="project.menu_project_config"
+            action="action_current_empty_location"/>
+
     </data>
 </odoo>

@@ -14,3 +14,5 @@ access_barge_from,access_barge_from,model_barge_from,base.group_user,1,1,1,1
 access_barge_to,access_barge_to,model_barge_to,base.group_user,1,1,1,1
 access_tug_model,access_tug_model,model_tug_model,base.group_user,1,1,1,1
 access_last_known_location,access_last_known_location,model_last_known_location,base.group_user,1,1,1,1
+access_transporter_name,access_transporter_name,model_transporter_name,base.group_user,1,1,1,1
+access_current_empty_location,access_current_empty_location,model_current_empty_location,base.group_user,1,1,1,1

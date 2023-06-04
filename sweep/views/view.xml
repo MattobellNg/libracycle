@@ -35,10 +35,9 @@
 <!--                <field name="voucher_line_id" invisible="1"/>-->
             </xpath>
 
-<!--            <xpath expr="//notebook/page[@id='invoice_tab']/field/tree/field[@name='price_unit']" position="after">-->
-<!--                <field name="swept"/>-->
-<!--                <field name="invoice_line_id"/>-->
-<!--            </xpath>-->
+            <xpath expr="//page[@id='aml_tab']//field[@name='partner_id']" position="after">
+                <field name="project_id" string="Project"/>
+            </xpath>
 
         </field>
     </record>
@@ -52,6 +51,10 @@
             <xpath expr="//field[@name='company_id']" position="after">
                 <field name="swept"/>
                 <field name="invoice_line_id"/>
+            </xpath>
+
+            <xpath expr="//field[@name='analytic_account_id']" position="after">
+                <field name="project_id" string="Project"/>
             </xpath>
 
         </field>

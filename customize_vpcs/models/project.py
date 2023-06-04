@@ -974,12 +974,12 @@ class CustomTrackingReport(models.Model):
     reasons_for_delay = fields.Char(string='Reason for delay')
     waybill_no = fields.Char(string='Waybill No')
     truck_number = fields.Char(string='Truck Number')
-    transportar_name = fields.Char(string="Transporter's Name")
+    transporter_name = fields.Many2one("transporter.name", string="Transporter's Name")
     driver_name = fields.Char(string='Drivers Name')
     phone_number = fields.Char(string='Phone Number')
-    return_empties = fields.Char(string='Returning Empties? (Y/N)')
+    return_empties = fields.Selection([("yes", "Y"), ("no", "N")], string='Returning Empties? (Y/N)')
     date_return_to_terminal = fields.Date(string='Date returned to ternimal', store=True)
-    current_empty_location = fields.Char(string='Current empty location')
+    current_empty_location = fields.Many2one("current.empty.location", string='Current empty location')
     do_expiry_date = fields.Date(string='DO Expiry Date')
     comments = fields.Char(string='Comments')
 
@@ -1061,65 +1061,67 @@ class CustomTrackingReport(models.Model):
                 rec.days_out_terminal = delta.days
 
     # Onchange methods
+    @api.depends('bl_number')
     @api.onchange('bl_number')
     def onchange_bl_number(self):
-        print("onchange_bl_number called XXXXXXXXX")
-        if self.bl_number:
-            job = self.env['project.project'].search([('name', '=', self.bl_number)])[0]
-            print("<<<<<<<<<<job>>>>>>>>>>")
-            print(job)
-            if job:
-                self.write({
-                    'partner_id': job.partner_id,
-                    # 'container_seal_no': job.
-                    # 'qty_received_origin': job.
-                    # 'qty_received_dest': job.
-                    # 'cargo_name': job.
-                    # 'sealed': job.
-                    # 'tracker_found': job.
-                    'sn_no': job.bol_awb_ref,
-                    'client_name': job.client_name.name if job.client_name else False,
-                    'liner': job.job_liner,
-                    'Container_number': job.container,
-                    'container_size': job.size_of_container,
-                    # 'date_tdo_received': job.job_tdo, //input field
-                    # 'delivery_begin_date': job.date_delivery_start,
-                    'truck_loading_date': job.truck_in,  # input field
-                    # 'days_of_initial_terminal': job., //formula field
-                    'days_out_terminal': job.days_in_port,  # formula field
-                    # 'barge_road_id': job., //drop down field
-                    # 'days_before_barge': job., //formula field
-                    'import_barge_date': job.Barge_date,  # input field
-                    # 'barged_from': job., //drop down field
-                    # 'barged_to': job., //drop down field
-                    'barge_arrival_date': job.barging_date,  # input field
-                    'arrival_date': job.arrival_date,  # input field
-                    # 'tug': job., //drop down field
-                    'barge_name_operator': job.barge_operator.name,  # drop down field
-                    # 'barge_offloading_date': job., //input field
-                    # 'container_age': job., //formula field
-                    # 'container_age_terminal': job., //formula field
-                    'truck_out_loading_date': job.Load_out_date,  # input field
-                    # 'last_known_location': job., //drop down field
-                    # 'arrival_client_side': job., //input or import field
-                    # 'time_to_destination': job., //input or import field
-                    # 'offloading_location': job., //input or import field
-                    'truck_offloading_date': job.offloading_date,
-                    # 'offload_delay': job.major_cause_of_delay, //input or import field
-                    'reasons_for_delay': job.major_cause_of_delay,
-                    # 'waybill_no': job.,
-                    # 'truck_number': job.,
-                    # 'transportar_name': job.,
-                    # 'driver_name': job.,
-                    # 'phone_number': job.,
-                    # 'return_empties': job.,
-                    'empty_return_date': job.empty_container_return_date,
-                    'date_return_to_terminal': job.container_return_date,
-                    # 'barge_empty_return_operator': job.,
-                    # 'current_empty_location': job.,
-                    # 'final_empty_location': job.,
-                    'return_date': job.return_date,
-                    'comments': job.last_project_comment,
-                    # 'address': job.,
-                    # 'description_of_goods': job.,
-                })
+        print("Compute and onchange_bl_number called XXXXXXXXX")
+        for rec in self:
+            if rec.bl_number:
+                job = rec.env['project.project'].search([('name', '=', rec.bl_number)])[0]
+                print("<<<<<<<<<<job>>>>>>>>>>")
+                print(job)
+                if job:
+                    rec.write({
+                        'partner_id': job.partner_id,
+                        # 'container_seal_no': job.
+                        # 'qty_received_origin': job.
+                        # 'qty_received_dest': job.
+                        # 'cargo_name': job.
+                        # 'sealed': job.
+                        # 'tracker_found': job.
+                        'sn_no': job.bol_awb_ref,
+                        'client_name': job.client_name.name if job.client_name else False,
+                        'liner': job.job_liner,
+                        'Container_number': job.container,
+                        'container_size': job.size_of_container,
+                        # 'date_tdo_received': job.job_tdo, //input field
+                        # 'delivery_begin_date': job.date_delivery_start,
+                        'truck_loading_date': job.truck_in,  # input field
+                        # 'days_of_initial_terminal': job., //formula field
+                        'days_out_terminal': job.days_in_port,  # formula field
+                        # 'barge_road_id': job., //drop down field
+                        # 'days_before_barge': job., //formula field
+                        'import_barge_date': job.Barge_date,  # input field
+                        # 'barged_from': job., //drop down field
+                        # 'barged_to': job., //drop down field
+                        'barge_arrival_date': job.barging_date,  # input field
+                        'arrival_date': job.arrival_date,  # input field
+                        # 'tug': job., //drop down field
+                        'barge_name_operator': job.barge_operator.name,  # drop down field
+                        # 'barge_offloading_date': job., //input field
+                        # 'container_age': job., //formula field
+                        # 'container_age_terminal': job., //formula field
+                        'truck_out_loading_date': job.Load_out_date,  # input field
+                        # 'last_known_location': job., //drop down field
+                        # 'arrival_client_side': job., //input or import field
+                        # 'time_to_destination': job., //input or import field
+                        # 'offloading_location': job., //input or import field
+                        'truck_offloading_date': job.offloading_date,
+                        # 'offload_delay': job.major_cause_of_delay, //input or import field
+                        'reasons_for_delay': job.major_cause_of_delay,
+                        # 'waybill_no': job.,
+                        # 'truck_number': job.,
+                        # 'transportar_name': job.,
+                        # 'driver_name': job.,
+                        # 'phone_number': job.,
+                        # 'return_empties': job.,
+                        'empty_return_date': job.empty_container_return_date,
+                        'date_return_to_terminal': job.container_return_date,
+                        # 'barge_empty_return_operator': job.,
+                        # 'current_empty_location': job.,
+                        # 'final_empty_location': job.,
+                        'return_date': job.return_date,
+                        'comments': job.last_project_comment,
+                        # 'address': job.,
+                        # 'description_of_goods': job.,
+                    })

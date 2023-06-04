@@ -19,12 +19,6 @@ class ResCompanyExt(models.Model):
     sweep_end_date = fields.Date('End Date')
 
 
-class AccountMoveLineExt(models.Model):
-    _inherit = 'account.move.line'
-
-    analytic_account_id = fields.Many2one(string='Project')
-
-
 class AccountMoveExt(models.Model):
     _inherit = 'account.move'
 
@@ -227,7 +221,7 @@ class AccountMoveExt(models.Model):
                                 'debit': 0.0,
                                 'credit': ji_amount,
                                 'move_id': move.id,
-                                'analytic_account_id': analytic_account_id.id,
+                                'project_id': analytic_account_id.id,
                                 'swept': True,
                                 }),
                         (0, 0, {'account_id': ji_product.sweep_account_id.id,
@@ -236,7 +230,7 @@ class AccountMoveExt(models.Model):
                                 'debit': ji_amount,
                                 'credit': 0.0,
                                 'move_id': move.id,
-                                'analytic_account_id': analytic_account_id.id,
+                                'project_id': analytic_account_id.id,
                                 'swept': True,
                                 }),
                     ], })
@@ -248,7 +242,7 @@ class AccountMoveExt(models.Model):
                                 'debit': ji_amount,
                                 'credit': 0.0,
                                 'move_id': move.id,
-                                'analytic_account_id': analytic_account_id.id,
+                                'project_id': analytic_account_id.id,
                                 'swept': True,
                                 }),
                         (0, 0, {'account_id': ji_product.sweep_account_id.id,
@@ -257,7 +251,7 @@ class AccountMoveExt(models.Model):
                                 'debit': 0.0,
                                 'credit': ji_amount,
                                 'move_id': move.id,
-                                'analytic_account_id': analytic_account_id.id,
+                                'project_id': analytic_account_id.id,
                                 'swept': True,
                                 }),
                     ], })
@@ -269,7 +263,7 @@ class AccountMoveExt(models.Model):
                             'debit': ji_amount,
                             'credit': 0.0,
                             'move_id': move.id,
-                            'analytic_account_id': analytic_account_id.id,
+                            'project_id': analytic_account_id.id,
                             'swept': True,
                             }),
                     (0, 0, {'account_id': ji_product.sweep_account_id.id,
@@ -278,7 +272,7 @@ class AccountMoveExt(models.Model):
                             'debit': 0.0,
                             'credit': ji_amount,
                             'move_id': move.id,
-                            'analytic_account_id': analytic_account_id.id,
+                            'project_id': analytic_account_id.id,
                             'swept': True,
                             }),
                 ], })
@@ -291,8 +285,9 @@ class AccountMoveExt(models.Model):
         expenses = self.env['hr.expense'].search([('state', 'in', ('done', 'approved')), '&',
                                                   ('date', '>=', start_date), ('date', '<=', end_date)])
         for expense in expenses:
-            if expense.product_id == invoice_line.product_id and \
-                    expense.analytic_account_id == invoice_line.analytic_account_id and not expense.swept:
+            # if expense.product_id == invoice_line.product_id and \
+            #         expense.analytic_account_id == invoice_line.analytic_account_id and not expense.swept:
+            if expense.product_id == invoice_line.product_id and not expense.swept:
                 expense.swept = True
                 expense.invoice_line_id = invoice_line
                 return expense
@@ -306,8 +301,9 @@ class AccountMoveExt(models.Model):
              ('invoice_date', '>=', start_date), ('invoice_date', '<=', end_date)])
         for receipt in purchase_receipts:
             for receipt_line in receipt.invoice_line_ids:
-                if receipt_line.product_id == invoice_line.product_id and \
-                        receipt_line.analytic_account_id == invoice_line.analytic_account_id and not receipt_line.swept:
+                # if receipt_line.product_id == invoice_line.product_id and \
+                #         receipt_line.analytic_account_id == invoice_line.analytic_account_id and not receipt_line.swept:
+                if receipt_line.product_id == invoice_line.product_id and not receipt_line.swept:
                     receipt_line.swept = True
                     receipt_line.invoice_line_id = invoice_line.id
                     return receipt_line
@@ -321,8 +317,9 @@ class AccountMoveExt(models.Model):
                                                          ('invoice_date', '<=', end_date)])
         for receipt in sale_receipts:
             for receipt_line in receipt.invoice_line_ids:
-                if receipt_line.product_id == invoice_line.product_id and \
-                        receipt_line.analytic_account_id == invoice_line.analytic_account_id and not receipt_line.swept:
+                # if receipt_line.product_id == invoice_line.product_id and \
+                #         receipt_line.analytic_account_id == invoice_line.analytic_account_id and not receipt_line.swept:
+                if receipt_line.product_id == invoice_line.product_id and not receipt_line.swept:
                     receipt_line.swept = True
                     receipt_line.invoice_line_id = invoice_line.id
                     return receipt_line
@@ -336,8 +333,9 @@ class AccountMoveExt(models.Model):
                                                         ('invoice_date', '<=', end_date)])
         for bill in vendor_bills:
             for bill_line in bill.invoice_line_ids:
-                if bill_line.product_id == invoice_line.product_id and \
-                        bill_line.analytic_account_id == invoice_line.analytic_account_id and not bill_line.swept:
+                # if bill_line.product_id == invoice_line.product_id and \
+                #         bill_line.analytic_account_id == invoice_line.analytic_account_id and not bill_line.swept:
+                if bill_line.product_id == invoice_line.product_id and not bill_line.swept:
                     bill_line.swept = True
                     bill_line.invoice_line_id = invoice_line.id
                     return bill_line
@@ -351,6 +349,8 @@ class AccountMoveLineExt(models.Model):
     swept = fields.Boolean(string="Swept", readonly=True)
 
     invoice_line_id = fields.Many2one("account.move.line", "Invoice Line")
+
+    project_id = fields.Many2one('account.analytic.account', string='Project')
 
     # line_type = fields.Selection([
     #                             ('out_invoice', 'Customer Invoice'),

@@ -36,3 +36,15 @@ class LastLocation(models.Model):
 
     name = fields.Char("Name")
 
+
+class TransporterName(models.Model):
+    _name = "transporter.name"
+
+    name = fields.Char("Name")
+
+
+class CurrentEmptyLocation(models.Model):
+    _name = "current.empty.location"
+
+    name = fields.Char("Name")
+
