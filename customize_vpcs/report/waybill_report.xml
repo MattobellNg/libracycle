@@ -37,7 +37,7 @@
                                     </div>
                                     <div style='text-align:left;'>
                                         Transporter's Name
-                                        <span style='float:right;' t-field='o.transportar_name'/>
+                                        <span style='float:right;' t-field='o.transporter_name'/>
                                     </div>
                                     <div style='text-align:left;'>
                                         Vehicle No
