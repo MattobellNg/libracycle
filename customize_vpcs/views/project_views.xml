@@ -478,7 +478,8 @@
                     <field name="reasons_for_delay" width='100px' optional='show'/>
                     <field name="waybill_no" width='100px' optional='show'/>
                     <field name="truck_number" width='100px' optional='show'/>
-                    <field name="transportar_name" width='100px' optional='show'/>
+<!--                    <field name="transportar_name" width='100px' optional='show'/>-->
+                    <field name="transporter_name" width='100px' optional='show'/>
                     <field name="driver_name" width='100px' optional='show'/>
                     <field name="phone_number" width='100px' optional='show'/>
                     <field name="return_empties" width='100px' optional='show'/>
