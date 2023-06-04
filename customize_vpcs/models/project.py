@@ -974,7 +974,7 @@ class CustomTrackingReport(models.Model):
     reasons_for_delay = fields.Char(string='Reason for delay', compute='compute_bl_number')
     waybill_no = fields.Char(string='Waybill No')
     truck_number = fields.Char(string='Truck Number')
-    transporter_name = fields.Many2one("transporter.name", string="Transporter's Name")
+    transportar_name = fields.Many2one("transporter.name", string="Transporter's Name")
     driver_name = fields.Char(string='Drivers Name')
     phone_number = fields.Char(string='Phone Number')
     return_empties = fields.Selection([("yes", "Y"), ("no", "N")], string='Returning Empties? (Y/N)')
