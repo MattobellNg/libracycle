@@ -16,7 +16,6 @@
                     <div class="page">
                         <div class="mb-4 mt-3">
                             <div class="row">
-                                <!--                                <div class="col-6" t-if="o.partner_id">-->
                                 <div class="col-6">
                                     <div style='text-align:left;'>
                                         Partner :
@@ -33,7 +32,7 @@
                                     </div>
                                     <div style='text-align:left;margin-bottom:20px;margin-top:50px;'>
                                         <span style='border:2px solid black;padding:5px;'>WAYBILL/DELIVERY NOTE</span>
-                                        <br></br>
+                                        <br/>
                                     </div>
                                     <div style='text-align:left;'>
                                         Transporter's Name
@@ -118,7 +117,8 @@
                                                                     <tr style="line-height: 0px;">
                                                                         <td>
                                                                             <t t-if="o.bl_number">
-                                                                                :<span style="margin-left: 50%;"
+                                                                                :
+                                                                                <span style="margin-left: 50%;"
                                                                                       t-field='o.bl_number'/>
                                                                             </t>
                                                                             <span t-if="not o.bl_number">:</span>
@@ -141,7 +141,8 @@
                                                                     <tr style="line-height: 0px;">
                                                                         <td>
                                                                             <t t-if="o.Container_number">
-                                                                                :<span style="margin-left: 50%;"
+                                                                                :
+                                                                                <span style="margin-left: 50%;"
                                                                                       t-field='o.Container_number'/>
                                                                             </t>
                                                                             <span t-if="not o.Container_number">:</span>
@@ -164,10 +165,12 @@
                                                                     <tr style="line-height: 0px;">
                                                                         <td>
                                                                             <t t-if="o.container_seal_no">
-                                                                                :<span style="margin-left: 50%;"
+                                                                                :
+                                                                                <span style="margin-left: 50%;"
                                                                                       t-field='o.container_seal_no'/>
                                                                             </t>
-                                                                            <span t-if="not o.container_seal_no">:</span>
+                                                                            <span t-if="not o.container_seal_no">:
+                                                                            </span>
                                                                         </td>
                                                                     </tr>
                                                                     <tr style="line-height: 0px;">
@@ -187,10 +190,12 @@
                                                                     <tr style="line-height: 0px;">
                                                                         <td>
                                                                             <t t-if="o.qty_received_origin">
-                                                                                :<span style="margin-left: 50%;"
+                                                                                :
+                                                                                <span style="margin-left: 50%;"
                                                                                       t-field='o.qty_received_origin'/>
                                                                             </t>
-                                                                            <span t-if="not o.qty_received_origin">:</span>
+                                                                            <span t-if="not o.qty_received_origin">:
+                                                                            </span>
                                                                         </td>
                                                                     </tr>
                                                                     <tr style="line-height: 0px;">
@@ -210,10 +215,12 @@
                                                                     <tr style="line-height: 0px;">
                                                                         <td>
                                                                             <t t-if="o.qty_received_dest">
-                                                                                :<span style="margin-left: 50%;"
+                                                                                :
+                                                                                <span style="margin-left: 50%;"
                                                                                       t-field='o.qty_received_dest'/>
                                                                             </t>
-                                                                            <span t-if="not o.qty_received_dest">:</span>
+                                                                            <span t-if="not o.qty_received_dest">:
+                                                                            </span>
                                                                         </td>
                                                                     </tr>
                                                                     <tr style="line-height: 0px;">
@@ -233,7 +240,8 @@
                                                                     <tr style="line-height: 0px;">
                                                                         <td>
                                                                             <t t-if="o.cargo_name">
-                                                                                :<span style="margin-left: 50%;"
+                                                                                :
+                                                                                <span style="margin-left: 50%;"
                                                                                       t-field='o.cargo_name'/>
                                                                             </t>
                                                                             <span t-if="not o.cargo_name">:</span>
@@ -256,10 +264,12 @@
                                                                     <tr style="line-height: 0px;">
                                                                         <td>
                                                                             <t t-if="o.time_to_destination">
-                                                                                :<span style="margin-left: 50%;"
+                                                                                :
+                                                                                <span style="margin-left: 50%;"
                                                                                       t-field='o.time_to_destination'/>
                                                                             </t>
-                                                                            <span t-if="not o.time_to_destination">:</span>
+                                                                            <span t-if="not o.time_to_destination">:
+                                                                            </span>
                                                                         </td>
                                                                     </tr>
                                                                     <tr style="line-height: 0px;">
@@ -279,7 +289,8 @@
                                                                     <tr style="line-height: 0px;">
                                                                         <td>
                                                                             <t t-if="o.sealed">
-                                                                                :<span style="margin-left: 50%;"
+                                                                                :
+                                                                                <span style="margin-left: 50%;"
                                                                                       t-field='o.sealed'/>
                                                                             </t>
                                                                             <span t-if="not o.sealed">:</span>
@@ -302,7 +313,8 @@
                                                                     <tr style="line-height: 0px;">
                                                                         <td>
                                                                             <t t-if="o.tracker_found">
-                                                                                :<span style="margin-left: 50%;"
+                                                                                :
+                                                                                <span style="margin-left: 50%;"
                                                                                       t-field='o.tracker_found'/>
                                                                             </t>
                                                                             <span t-if="not o.tracker_found">:</span>
@@ -325,10 +337,12 @@
                                                                     <tr style="line-height: 0px;">
                                                                         <td>
                                                                             <t t-if="o.barge_arrival_date">
-                                                                                :<span style="margin-left: 50%;"
+                                                                                :
+                                                                                <span style="margin-left: 50%;"
                                                                                       t-field='o.barge_arrival_date'/>
                                                                             </t>
-                                                                            <span t-if="not o.barge_arrival_date">:</span>
+                                                                            <span t-if="not o.barge_arrival_date">:
+                                                                            </span>
                                                                         </td>
                                                                     </tr>
                                                                     <tr style="line-height: 0px;">
@@ -340,7 +354,9 @@
                                                             </td>
                                                         </tr>
                                                     </table>
-                                                    <span>_______________________________________________________________________________</span>
+                                                    <span>
+                                                        _______________________________________________________________________________
+                                                    </span>
                                                 </td>
                                             </tr>
                                             <tr>
