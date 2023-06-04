@@ -939,39 +939,39 @@ class AccountMoveLine(models.Model):
 class CustomTrackingReport(models.Model):
     _name = "custom.tracking.report"
 
-    sn_no = fields.Char(string='S/N No', compute='compute_bl_number')
-    client_name = fields.Char(string='Client name', compute='compute_bl_number')
-    liner = fields.Char(string='Liner', compute='compute_bl_number')
-    Container_number = fields.Char(string='Container Number', compute='compute_bl_number')
+    sn_no = fields.Char(string='S/N No')
+    client_name = fields.Char(string='Client name')
+    liner = fields.Char(string='Liner')
+    Container_number = fields.Char(string='Container Number')
     bl_number = fields.Char(string='BL Number', store=True)
-    container_size = fields.Char(string='Container Size', compute='compute_bl_number')
+    container_size = fields.Char(string='Container Size')
     date_tdo_received = fields.Date(string='Date TDO Received', store=True)
     delivery_begin_date = fields.Date(string='Delivery Begin Date')
-    truck_loading_date = fields.Date(string='Truck Loading Date', store=True, compute='compute_bl_number')
+    truck_loading_date = fields.Date(string='Truck Loading Date', store=True)
     days_of_initial_terminal = fields.Integer(string='No. of Days Before Initial Loading Out Of Terminal',
                                               compute='compute_days_of_initial_terminal')
     days_out_terminal = fields.Char(string='No. of Days Out of Terminal', compute='compute_days_out_terminal')
     barge_road_id = fields.Many2one("barge.road", "Barge or Road")
     days_before_barge = fields.Char(string='Days Before Barge Out', compute='compute_days_before_barge')
-    import_barge_date = fields.Date(string='Import Barge Out Date', store=True, compute='compute_bl_number')
+    import_barge_date = fields.Date(string='Import Barge Out Date', store=True)
     barged_from = fields.Many2one("barge.from", string='Barged From')
     barged_to = fields.Many2one("barge.to", string='Barged To')
-    barge_arrival_date = fields.Date(string='Barge Arrival Date', store=True, compute='compute_bl_number')
+    barge_arrival_date = fields.Date(string='Barge Arrival Date', store=True)
     tug = fields.Many2one("tug.model", string='Tug')
-    barge_name_operator = fields.Many2one("barge.operator", string='Barge Name/Operator', compute='compute_bl_number')
+    barge_name_operator = fields.Many2one("barge.operator", string='Barge Name/Operator')
     barge_offloading_date = fields.Date(string='Barge Offloading Date', store=True)
     container_age = fields.Char(string='Container Age In Ikorodu', compute='compute_container_age')
     container_age_terminal = fields.Char(string='Container Age In the Terminal',
                                          compute='compute_container_age_terminal')
-    truck_out_loading_date = fields.Date(string='Truck Out Loading Date', store=True, compute='compute_bl_number')
+    truck_out_loading_date = fields.Date(string='Truck Out Loading Date', store=True)
     last_known_location = fields.Many2one("last.known.location", string='Last Known Location')
     arrival_client_side = fields.Date(string="Arrival Date at Client's Site", store=True)
-    arrival_date = fields.Date(string="Arrival Date", store=True, compute='compute_bl_number')
+    arrival_date = fields.Date(string="Arrival Date", store=True)
     time_to_destination = fields.Char(string='Time to Destination', compute='compute_time_to_destination')
     offloading_location = fields.Char(string='Offloading Location')
-    truck_offloading_date = fields.Date(string='Truck Offloading Date', store=True, compute='compute_bl_number')
+    truck_offloading_date = fields.Date(string='Truck Offloading Date', store=True)
     offload_delay = fields.Char(string='Offload Delay', compute='compute_offload_delay')
-    reasons_for_delay = fields.Char(string='Reason for delay', compute='compute_bl_number')
+    reasons_for_delay = fields.Char(string='Reason for delay')
     waybill_no = fields.Char(string='Waybill No')
     truck_number = fields.Char(string='Truck Number')
     transportar_name = fields.Char(string="Transporter's Name")
@@ -979,11 +979,11 @@ class CustomTrackingReport(models.Model):
     driver_name = fields.Char(string='Drivers Name')
     phone_number = fields.Char(string='Phone Number')
     return_empties = fields.Selection([("yes", "Y"), ("no", "N")], string='Returning Empties? (Y/N)')
-    date_return_to_terminal = fields.Date(string='Date returned to terminal', store=True, compute='compute_bl_number')
+    date_return_to_terminal = fields.Date(string='Date returned to terminal', store=True)
     current_empty_location = fields.Char(string='Current empty location')
     current_empty_location_1 = fields.Many2one("current.empty.location", string='Current empty location')
     do_expiry_date = fields.Date(string='DO Expiry Date')
-    comments = fields.Char(string='Comments', compute='compute_bl_number')
+    comments = fields.Char(string='Comments')
 
     partner_id = fields.Many2one('res.partner', compute='compute_bl_number')
     container_seal_no = fields.Char(string='Container Seal No')
@@ -992,10 +992,10 @@ class CustomTrackingReport(models.Model):
     cargo_name = fields.Char()
     sealed = fields.Boolean()
     tracker_found = fields.Boolean()
-    empty_return_date = fields.Date(string='Empty Return Date', compute='compute_bl_number')
+    empty_return_date = fields.Date(string='Empty Return Date')
     barge_empty_return_operator = fields.Char("Empty Return Barge/Operator")
     final_empty_location = fields.Char(string='Final Empty Location (R/B)')
-    return_date = fields.Date(string='Date Returned', compute='compute_bl_number')
+    return_date = fields.Date(string='Date Returned')
     address = fields.Char(string='Address')
     description_of_goods = fields.Char(string='Description of Goods')
 
@@ -1067,6 +1067,27 @@ class CustomTrackingReport(models.Model):
     def compute_bl_number(self):
         print("Compute bl_number called XXXXXXXXX")
         for rec in self:
+            rec.write({
+                'partner_id': False,
+                'sn_no': False,
+                'client_name': False,
+                'liner': False,
+                'Container_number': False,
+                'container_size': False,
+                'truck_loading_date': False,
+                # 'days_out_terminal': False,
+                'import_barge_date': False,
+                'barge_arrival_date': False,  # input field
+                'arrival_date': False,
+                'barge_name_operator': False,
+                'truck_out_loading_date': False,
+                'truck_offloading_date': False,
+                'reasons_for_delay': False,
+                'empty_return_date': False,
+                'date_return_to_terminal': False,
+                'return_date': False,
+                'comments': False,
+            })
             if rec.bl_number:
                 job = rec.env['project.project'].search([('name', '=', rec.bl_number)])
                 print("<<<<<<<<<<job>>>>>>>>>>")
@@ -1094,50 +1115,6 @@ class CustomTrackingReport(models.Model):
                         'return_date': job.return_date,
                         'comments': job.last_project_comment,
                     })
-                else:
-                    rec.write({
-                        'partner_id': False,
-                        'sn_no': False,
-                        'client_name': False,
-                        'liner': False,
-                        'Container_number': False,
-                        'container_size': False,
-                        'truck_loading_date': False,
-                        # 'days_out_terminal': False,
-                        'import_barge_date': False,
-                        'barge_arrival_date': False,  # input field
-                        'arrival_date': False,
-                        'barge_name_operator': False,
-                        'truck_out_loading_date': False,
-                        'truck_offloading_date': False,
-                        'reasons_for_delay': False,
-                        'empty_return_date': False,
-                        'date_return_to_terminal': False,
-                        'return_date': False,
-                        'comments': False,
-                    })
-            else:
-                rec.write({
-                    'partner_id': False,
-                    'sn_no': False,
-                    'client_name': False,
-                    'liner': False,
-                    'Container_number': False,
-                    'container_size': False,
-                    'truck_loading_date': False,
-                    # 'days_out_terminal': False,
-                    'import_barge_date': False,
-                    'barge_arrival_date': False,  # input field
-                    'arrival_date': False,
-                    'barge_name_operator': False,
-                    'truck_out_loading_date': False,
-                    'truck_offloading_date': False,
-                    'reasons_for_delay': False,
-                    'empty_return_date': False,
-                    'date_return_to_terminal': False,
-                    'return_date': False,
-                    'comments': False,
-                })
 
     @api.onchange('bl_number')
     def onchange_bl_number(self):
