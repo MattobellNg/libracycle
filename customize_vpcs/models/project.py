@@ -978,7 +978,7 @@ class CustomTrackingReport(models.Model):
     driver_name = fields.Char(string='Drivers Name')
     phone_number = fields.Char(string='Phone Number')
     return_empties = fields.Selection([("yes", "Y"), ("no", "N")], string='Returning Empties? (Y/N)')
-    date_return_to_terminal = fields.Date(string='Date returned to ternimal', store=True, compute='compute_bl_number')
+    date_return_to_terminal = fields.Date(string='Date returned to terminal', store=True, compute='compute_bl_number')
     current_empty_location = fields.Many2one("current.empty.location", string='Current empty location')
     do_expiry_date = fields.Date(string='DO Expiry Date')
     comments = fields.Char(string='Comments', compute='compute_bl_number')
@@ -1101,7 +1101,7 @@ class CustomTrackingReport(models.Model):
                         'Container_number': False,
                         'container_size': False,
                         'truck_loading_date': False,
-                        'days_out_terminal': False,
+                        # 'days_out_terminal': False,
                         'import_barge_date': False,
                         'barge_arrival_date': False,  # input field
                         'arrival_date': False,
@@ -1123,7 +1123,7 @@ class CustomTrackingReport(models.Model):
                     'Container_number': False,
                     'container_size': False,
                     'truck_loading_date': False,
-                    'days_out_terminal': False,
+                    # 'days_out_terminal': False,
                     'import_barge_date': False,
                     'barge_arrival_date': False,  # input field
                     'arrival_date': False,
@@ -1163,7 +1163,7 @@ class CustomTrackingReport(models.Model):
                     # 'delivery_begin_date': job.date_delivery_start,
                     'truck_loading_date': job.truck_in,  # input field
                     # 'days_of_initial_terminal': job., //formula field
-                    'days_out_terminal': job.days_in_port,  # formula field
+                    # 'days_out_terminal': job.days_in_port,  # formula field
                     # 'barge_road_id': job., //drop down field
                     # 'days_before_barge': job., //formula field
                     'import_barge_date': job.Barge_date,  # input field
@@ -1186,7 +1186,6 @@ class CustomTrackingReport(models.Model):
                     'reasons_for_delay': job.major_cause_of_delay,
                     # 'waybill_no': job.,
                     # 'truck_number': job.,
-                    # 'transportar_name': job.,
                     # 'driver_name': job.,
                     # 'phone_number': job.,
                     # 'return_empties': job.,
