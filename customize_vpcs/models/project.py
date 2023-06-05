@@ -1142,7 +1142,6 @@ class CustomTrackingReport(models.Model):
                     # 'delivery_begin_date': job.date_delivery_start,
                     'truck_loading_date': job.truck_in,  # input field
                     # 'days_of_initial_terminal': job., //formula field
-                    # 'days_out_terminal': job.days_in_port,  # formula field
                     # 'barge_road_id': job., //drop down field
                     # 'days_before_barge': job., //formula field
                     'import_barge_date': job.Barge_date,  # input field
