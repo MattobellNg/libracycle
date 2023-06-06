@@ -452,7 +452,7 @@
             </xpath>
         </field>
     </record>
-    <record id="view_project_project_filter" model="ir.ui.view">
+<!--    <record id="view_project_project_filter" model="ir.ui.view">-->
     <record id="view_project_project_filter" model="ir.ui.view">
         <field name="name">Project description</field>
         <field name="model">project.project</field>
