@@ -154,7 +154,6 @@
                     <field name="has_field_visibility" invisible='1'/>
                     <field name="has_shipping_line" invisible='1'/>
                     <field name="has_vessel_name" invisible='1'/>
-                    <field name="has_agent_name" invisible='1'/>
                     <field name="has_destination_port" invisible='1'/>
                     <field name="has_terminal" invisible='1'/>
                     <field name="has_country_of_loading" invisible='1'/>
@@ -233,14 +232,14 @@
                                    attrs="{'invisible': [('doc_job_bool', '=', False)], 'required': [('doc_job_bool','=',True)],'readonly':[('sn_state','in',('awaiting_arrival','in_clearing','ready_to_load','post_delivery'))]}"/>
                         </group>
                         <group colspan="4" col="4">
-                            <field name="mode_shipment_air_sea" attrs="{'invisible':['|',('has_mode_shipment','=','no'),('project_categ_id','=', False)], 'required': [('has_mode_shipment','=','required')], 'readonly':[('sn_state','in',('awaiting_arrival','in_clearing','ready_to_load','post_delivery'))]}" widget="many2many_tags"/>
-<!--                            <field name="mode_shipment_air_sea" widget="many2many_tags"/>-->
+                            <field name="mode_shipment_air_sea"
+                                   attrs="{'invisible':['|',('has_mode_shipment','=','no'),('project_categ_id','=', False)], 'required': [('has_mode_shipment','=','required')], 'readonly':[('sn_state','in',('awaiting_arrival','in_clearing','ready_to_load','post_delivery'))]}"/>
+                            <!--                            <field name="mode_shipment_air_sea" widget="many2many_tags"/>-->
 
                             <field name="job_ba_number"
                                    attrs="{'invisible':['|',('has_job_ba_number','=','no'),('project_categ_id','=', False)], 'required': [('has_job_ba_number','=','required')], 'readonly':[('sn_state','in',('awaiting_arrival','in_clearing','ready_to_load','post_delivery'))]}"/>
                         </group>
                     </group>
-
                     <group string="AWAITING ARRIVAL" colspan='4' col='4'
                            attrs="{'invisible': [('sn_state', '=', 'pre_alert')]}">
                         <group colspan='4' col='4'>
@@ -251,7 +250,7 @@
                             <field name="ves_line"/>
                             <field name="rotation_number"/>
                             <field name="vessel_line" invisible="1"/>
-                            <field name="destination_port" attrs="{'invisible':['|','|',('has_destination_port','=','no'),('project_categ_id','=', False),('sn_state','=','pre_alert')], 'required': ['&amp;',('has_destination_port','=','required'),('sn_state','=','awaiting_arrival')],'readonly':[('sn_state','in',('in_clearing','ready_to_load','post_delivery'))]}"/>
+                            <field name="destination_port"/>
                             <field name="terminal" invisible="1"/>
                             <field name="custom_terminal"/>
                             <field name="country_of_loading"
