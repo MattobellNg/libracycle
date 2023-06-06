@@ -101,7 +101,7 @@ class Project(models.Model):
     def compute_wht_amount(self):
         print("compute_wht_amount xxxxxxxxxxxxxxx")
         for rec in self:
-            payments = rec.env['account.payment'].search([('analytic_account_id', '=', self.analytic_account_id.id)])
+            payments = rec.env['account.payment'].search([('analytic_account_id', '=', rec.analytic_account_id.id)])
             wht = 0
             for pmt in payments:
                 wht += pmt.payment_difference

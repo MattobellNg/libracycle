@@ -2,7 +2,7 @@
 
 {
     "name": "Loan Management By Employee",
-    "version": "15.0.0.0.3",
+    "version": "15.0.0.0.2",
     "description": """
         Split journal into parts if split is ticked while processing payslip
     """,

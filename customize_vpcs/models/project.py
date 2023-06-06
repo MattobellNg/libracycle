@@ -963,39 +963,197 @@ class CustomTrackingReport(models.Model):
     client_name = fields.Char(string='Client name')
     liner = fields.Char(string='Liner')
     Container_number = fields.Char(string='Container Number')
-    bl_number = fields.Char(string='BL Number')
+    bl_number = fields.Char(string='BL Number', store=True)
     container_size = fields.Char(string='Container Size')
-    date_tdo_received = fields.Date(string='Date TDO Received')
+    date_tdo_received = fields.Date(string='Date TDO Received', store=True)
     delivery_begin_date = fields.Date(string='Delivery Begin Date')
-    truck_loading_date = fields.Date(string='Truck Loading Date')
-    days_of_initial_terminal = fields.Char(string='No. of Days Before Initial Loading Out Of Terminal')
-    days_out_terminal = fields.Char(string='No. of Days Out of Terminal')
-    barge_or_road = fields.Char(string='Barge or Road')
-    days_before_barge = fields.Char(string='Days Before Barge Out')
-    import_barge_date = fields.Date(string='Import Barge Out Date')
-    barged_from = fields.Char(string='Barged From')
-    barged_to = fields.Char(string='Barged To')
-    barge_arrival_date = fields.Date(string='Barge Arrival Date')
-    tug = fields.Char(string='Tug')
-    barge_name_operator = fields.Char(string='Barge Name/Operator')
-    barge_offloading_date = fields.Date(string='Barge Offloading Date')
-    container_age = fields.Char(string='Container Age In Ikorodu')
-    container_age_terminal = fields.Char(string='Container Age In the Terminal')
-    truck_out_loading_date = fields.Date(string='Truck Out Loading Date')
-    last_known_location = fields.Char(string='Last Known Location')
-    arrival_client_side = fields.Date(string="Arrival  Date at Client's Site")
-    time_to_destination = fields.Char(string='Time to Destination')
+    truck_loading_date = fields.Date(string='Truck Loading Date', store=True)
+    days_of_initial_terminal = fields.Integer(string='No. of Days Before Initial Loading Out Of Terminal',
+                                              compute='compute_days_of_initial_terminal')
+    days_out_terminal = fields.Char(string='No. of Days Out of Terminal', compute='compute_days_out_terminal')
+    barge_road_id = fields.Many2one("barge.road", "Barge or Road")
+    days_before_barge = fields.Char(string='Days Before Barge Out', compute='compute_days_before_barge')
+    import_barge_date = fields.Date(string='Import Barge Out Date', store=True)
+    barged_from = fields.Many2one("barge.from", string='Barged From')
+    barged_to = fields.Many2one("barge.to", string='Barged To')
+    barge_arrival_date = fields.Date(string='Barge Arrival Date', store=True)
+    tug = fields.Many2one("tug.model", string='Tug')
+    barge_name_operator = fields.Many2one("barge.operator", string='Barge Name/Operator')
+    barge_offloading_date = fields.Date(string='Barge Offloading Date', store=True)
+    container_age = fields.Char(string='Container Age In Ikorodu', compute='compute_container_age')
+    container_age_terminal = fields.Char(string='Container Age In the Terminal',
+                                         compute='compute_container_age_terminal')
+    truck_out_loading_date = fields.Date(string='Truck Out Loading Date', store=True)
+    last_known_location = fields.Many2one("last.known.location", string='Last Known Location')
+    arrival_client_side = fields.Date(string="Arrival Date at Client's Site", store=True)
+    arrival_date = fields.Date(string="Arrival Date", store=True)
+    time_to_destination = fields.Char(string='Time to Destination', compute='compute_time_to_destination')
     offloading_location = fields.Char(string='Offloading Location')
-    truck_offloading_date = fields.Date(string='Truck Offloading Date')
-    offload_delay = fields.Char(string='Offload Delay')
+    truck_offloading_date = fields.Date(string='Truck Offloading Date', store=True)
+    offload_delay = fields.Char(string='Offload Delay', compute='compute_offload_delay')
     reasons_for_delay = fields.Char(string='Reason for delay')
     waybill_no = fields.Char(string='Waybill No')
     truck_number = fields.Char(string='Truck Number')
     transportar_name = fields.Char(string="Transporter's Name")
+    transporter_name = fields.Many2one("transporter.name", string="Transporter's Name")
     driver_name = fields.Char(string='Drivers Name')
     phone_number = fields.Char(string='Phone Number')
-    return_empties = fields.Char(string='Returning Empties? (Y/N)')
-    date_return_to_terminal = fields.Date(string='Date returned to ternimal')
+    return_empties = fields.Selection([("yes", "Y"), ("no", "N")], string='Returning Empties? (Y/N)')
+    date_return_to_terminal = fields.Date(string='Date returned to terminal', store=True)
     current_empty_location = fields.Char(string='Current empty location')
+    current_empty_location_1 = fields.Many2one("current.empty.location", string='Current empty location')
     do_expiry_date = fields.Date(string='DO Expiry Date')
     comments = fields.Char(string='Comments')
+
+    partner_id = fields.Many2one('res.partner', compute='compute_bl_number')
+    container_seal_no = fields.Char(string='Container Seal No')
+    qty_received_origin = fields.Char(string='Qty Received Origin')
+    qty_received_dest = fields.Char(string='Qty Received Dest')
+    cargo_name = fields.Char()
+    sealed = fields.Boolean()
+    tracker_found = fields.Boolean()
+    empty_return_date = fields.Date(string='Empty Return Date')
+    barge_empty_return_operator = fields.Char("Empty Return Barge/Operator")
+    final_empty_location = fields.Char(string='Final Empty Location (R/B)')
+    return_date = fields.Date(string='Date Returned')
+    address = fields.Char(string='Address')
+    description_of_goods = fields.Char(string='Description of Goods')
+
+    @api.depends('barge_offloading_date', 'truck_out_loading_date')
+    def compute_container_age_terminal(self):
+        print("compute_container_age_terminal called XXXXXXXXXXXXXXX")
+        for rec in self:
+            rec.container_age_terminal = False
+            if rec.barge_offloading_date and rec.truck_out_loading_date:
+                delta = rec.truck_out_loading_date - rec.barge_offloading_date
+                rec.container_age_terminal = delta.days
+
+    @api.depends('truck_out_loading_date', 'arrival_date')
+    def compute_time_to_destination(self):
+        print("compute_time_to_destination called XXXXXXXXXXXXXXX")
+        for rec in self:
+            rec.time_to_destination = False
+            if rec.truck_out_loading_date and rec.arrival_date:
+                delta = rec.arrival_date - rec.truck_out_loading_date
+                rec.time_to_destination = delta.days
+
+    @api.depends('truck_offloading_date', 'arrival_client_side')
+    def compute_offload_delay(self):
+        print("compute_offload_delay called XXXXXXXXXXXXXXX")
+        for rec in self:
+            rec.offload_delay = False
+            if rec.truck_offloading_date and rec.arrival_client_side:
+                delta = rec.truck_offloading_date - rec.arrival_client_side
+                rec.offload_delay = delta.days
+
+    @api.depends('barge_arrival_date', 'truck_out_loading_date')
+    def compute_container_age(self):
+        print("compute_container_age called XXXXXXXXXXXXXXX")
+        for rec in self:
+            rec.container_age = False
+            if rec.barge_arrival_date and rec.truck_out_loading_date:
+                delta = rec.truck_out_loading_date - rec.barge_arrival_date
+                rec.container_age = delta.days
+
+    @api.depends('import_barge_date', 'date_tdo_received')
+    def compute_days_before_barge(self):
+        print("compute_days_before_barge called XXXXXXXXXXXXXXX")
+        for rec in self:
+            rec.days_before_barge = False
+            if rec.date_tdo_received and rec.import_barge_date:
+                delta = rec.import_barge_date - rec.date_tdo_received
+                rec.days_before_barge = delta.days
+
+    @api.depends('truck_loading_date', 'date_tdo_received')
+    def compute_days_of_initial_terminal(self):
+        print("compute_days_of_initial_terminal called XXXXXXXXXXXXXXX")
+        for rec in self:
+            rec.days_of_initial_terminal = False
+            if rec.date_tdo_received and rec.truck_loading_date:
+                delta = rec.truck_loading_date - rec.date_tdo_received
+                rec.days_of_initial_terminal = delta.days
+
+    @api.depends('truck_loading_date', 'return_date')
+    def compute_days_out_terminal(self):
+        print("compute_days_out_terminal called XXXXXXXXXXXXXXX")
+        for rec in self:
+            rec.days_out_terminal = False
+            if rec.return_date and rec.truck_loading_date:
+                delta = rec.return_date - rec.truck_loading_date
+                rec.days_out_terminal = delta.days
+
+    # Onchange methods
+    @api.depends('bl_number')
+    def compute_bl_number(self):
+        for rec in self:
+            rec.write({
+                'partner_id': False,
+                'sn_no': False,
+                'client_name': False,
+                'liner': False,
+                'Container_number': False,
+                'container_size': False,
+                'truck_loading_date': False,
+                'import_barge_date': False,
+                'barge_arrival_date': False,  # input field
+                'arrival_date': False,
+                'barge_name_operator': False,
+                'truck_out_loading_date': False,
+                'truck_offloading_date': False,
+                'reasons_for_delay': False,
+                'empty_return_date': False,
+                'date_return_to_terminal': False,
+                'return_date': False,
+                'comments': False,
+            })
+            if rec.bl_number:
+                job = rec.env['project.project'].search([('name', '=', rec.bl_number)])
+                if job:
+                    job = job[0]
+                    rec.write({
+                        'partner_id': job.partner_id,
+                        'sn_no': job.bol_awb_ref,
+                        'client_name': job.client_name.name if job.client_name else False,
+                        'liner': job.job_liner,
+                        'Container_number': job.container,
+                        'container_size': job.size_of_container,
+                        'truck_loading_date': job.truck_in,
+                        'import_barge_date': job.Barge_date,
+                        'barge_arrival_date': job.barging_date,  # input field
+                        'arrival_date': job.arrival_date,
+                        'barge_name_operator': job.barge_operator.name,
+                        'truck_out_loading_date': job.Load_out_date,
+                        'truck_offloading_date': job.offloading_date,
+                        'reasons_for_delay': job.major_cause_of_delay,
+                        'empty_return_date': job.empty_container_return_date,
+                        'date_return_to_terminal': job.container_return_date,
+                        'return_date': job.return_date,
+                        'comments': job.last_project_comment,
+                    })
+
+    @api.onchange('bl_number')
+    def onchange_bl_number(self):
+        if self.bl_number:
+            job = self.env['project.project'].search([('name', '=', self.bl_number)])
+            if job:
+                job = job[0]
+                self.write({
+                    'partner_id': job.partner_id,
+                    'sn_no': job.bol_awb_ref,
+                    'client_name': job.client_name.name if job.client_name else False,
+                    'liner': job.job_liner,
+                    'Container_number': job.container,
+                    'container_size': job.size_of_container,
+                    'truck_loading_date': job.truck_in,
+                    'import_barge_date': job.Barge_date,
+                    'barge_arrival_date': job.barging_date,  # input field
+                    'arrival_date': job.arrival_date,
+                    'barge_name_operator': job.barge_operator.name,
+                    'truck_out_loading_date': job.Load_out_date,
+                    'truck_offloading_date': job.offloading_date,
+                    'reasons_for_delay': job.major_cause_of_delay,
+                    'empty_return_date': job.empty_container_return_date,
+                    'date_return_to_terminal': job.container_return_date,
+                    'return_date': job.return_date,
+                    'comments': job.last_project_comment,
+                })

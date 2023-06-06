@@ -117,6 +117,7 @@
                         <field name='user_id'/>
                         <field name='last_update_status'/>
                         <field name='stage_id'/>
+                        <field name="wht"/>
                         <field name='total_cost'/>
                         <field name='total_income'/>
                         <field name='total_profit'/>

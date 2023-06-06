@@ -9,6 +9,10 @@
            <form>
                <group>
                    <p>Run the sweep process to swept the journal enteries.</p>
+                   <group>
+                       <field name="start_date"/>
+                       <field name="end_date"/>
+                   </group>
                </group>
                <footer>
                    <button name="process_sweep_scheduler" string="Run" type="object" class="oe_highlight"/>
