@@ -1,6 +1,6 @@
 {
     'name': 'libra circle Customization',
-    'version': '15.0.1.3.7',
+    'version': '15.0.1.3.8',
     'author': 'VperfectCS',
     'website': 'http://www.vperfectcs.com',
     'description': """
@@ -24,8 +24,6 @@
         "report/waybill_report.xml",
         # "report/waybill_pdf_report.xml",
     ],
-    # 'qweb': [
-    # ],
     'auto_install': True,
     'installable': True,
     # 'assets': {

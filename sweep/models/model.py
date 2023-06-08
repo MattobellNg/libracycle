@@ -201,6 +201,14 @@ class AccountMoveExt(models.Model):
         logging.info("Hamza Ilyas ----> create_swept_journal_entry Called")
         logging.info("Hamza Ilyas ----> <<<<<<<<<ji_amount>>>>>>>>>")
         logging.info(ji_amount)
+        a_a_project = self.env['account.analytic.account'].search([('id', '=', analytic_account_id.id)])
+        if a_a_project:
+            logging.info("<<<<<<<<<<<<<<a_a_project>>>>>>>>>>>>>>")
+            logging.info(a_a_project)
+            analytic_account_id = a_a_project.id
+        else:
+            analytic_account_id = False
+        self.env.cr.commit()
         if ji_product.property_account_expense_id:
             # create move
             # if vendor_bill_line:
@@ -221,7 +229,7 @@ class AccountMoveExt(models.Model):
                                 'debit': 0.0,
                                 'credit': ji_amount,
                                 'move_id': move.id,
-                                'project_id': analytic_account_id.id,
+                                'project_id_hi': analytic_account_id,
                                 'swept': True,
                                 }),
                         (0, 0, {'account_id': ji_product.sweep_account_id.id,
@@ -230,7 +238,7 @@ class AccountMoveExt(models.Model):
                                 'debit': ji_amount,
                                 'credit': 0.0,
                                 'move_id': move.id,
-                                'project_id': analytic_account_id.id,
+                                'project_id_hi': analytic_account_id,
                                 'swept': True,
                                 }),
                     ], })
@@ -242,7 +250,7 @@ class AccountMoveExt(models.Model):
                                 'debit': ji_amount,
                                 'credit': 0.0,
                                 'move_id': move.id,
-                                'project_id': analytic_account_id.id,
+                                'project_id_hi': analytic_account_id,
                                 'swept': True,
                                 }),
                         (0, 0, {'account_id': ji_product.sweep_account_id.id,
@@ -251,7 +259,7 @@ class AccountMoveExt(models.Model):
                                 'debit': 0.0,
                                 'credit': ji_amount,
                                 'move_id': move.id,
-                                'project_id': analytic_account_id.id,
+                                'project_id_hi': analytic_account_id,
                                 'swept': True,
                                 }),
                     ], })
@@ -263,7 +271,7 @@ class AccountMoveExt(models.Model):
                             'debit': ji_amount,
                             'credit': 0.0,
                             'move_id': move.id,
-                            'project_id': analytic_account_id.id,
+                            'project_id_hi': analytic_account_id,
                             'swept': True,
                             }),
                     (0, 0, {'account_id': ji_product.sweep_account_id.id,
@@ -272,7 +280,7 @@ class AccountMoveExt(models.Model):
                             'debit': 0.0,
                             'credit': ji_amount,
                             'move_id': move.id,
-                            'project_id': analytic_account_id.id,
+                            'project_id_hi': analytic_account_id,
                             'swept': True,
                             }),
                 ], })
@@ -350,7 +358,7 @@ class AccountMoveLineExt(models.Model):
 
     invoice_line_id = fields.Many2one("account.move.line", "Invoice Line")
 
-    project_id = fields.Many2one('account.analytic.account', string='Project')
+    project_id_hi = fields.Many2one('account.analytic.account', string='Project')
 
     # line_type = fields.Selection([
     #                             ('out_invoice', 'Customer Invoice'),

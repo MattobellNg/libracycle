@@ -36,7 +36,7 @@
             </xpath>
 
             <xpath expr="//page[@id='aml_tab']//field[@name='partner_id']" position="after">
-                <field name="project_id" string="Project"/>
+                <field name="project_id_hi" string="Project"/>
             </xpath>
 
         </field>
@@ -54,7 +54,7 @@
             </xpath>
 
             <xpath expr="//field[@name='analytic_account_id']" position="after">
-                <field name="project_id" string="Project"/>
+                <field name="project_id_hi" string="Project"/>
             </xpath>
 
         </field>

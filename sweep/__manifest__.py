@@ -1,6 +1,6 @@
 {
     'name': 'Sweep',
-    'version': '2.2',
+    'version': '2.3',
     'summary': 'Sweep Module',
     'description':
         """
