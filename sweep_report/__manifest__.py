@@ -1,6 +1,6 @@
 {
     'name': 'Sweep Report',
-    'version': '2.2',
+    'version': '2.3',
     'summary': 'Print the xlsx report of sweep entries with date interval of your choice',
     'description':
         """

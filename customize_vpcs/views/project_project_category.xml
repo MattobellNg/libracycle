@@ -1,27 +1,27 @@
-<odoo>        
-    <data>        
+<odoo>
+    <data>
         <record id="project_project_category_edit_form" model="ir.ui.view">
             <field name="name">project.project.category.form.inherit</field>
             <field name="model">project.project.category</field>
             <field name="inherit_id" ref="project_project_category.view_base_project_category_form"/>
             <field name="arch" type="xml">
                 <xpath expr='//field[@name="description"]' position='after'>
-                    <field name="document_bool"/>                    
+                    <field name="document_bool"/>
                 </xpath>
                 <xpath expr="//field[@name='project_type_id']" position="after">
                     <field name="has_field_visibility"/>
                     <field name="field_visibility" invisible="1"/>
                 </xpath>
                 <xpath expr='//field[@name="has_rotation_number"]' position='attributes'>
-                    <attribute name='invisible'>1</attribute>                    
+                    <attribute name='invisible'>1</attribute>
                 </xpath>
                 <xpath expr='//field[@name="has_job_tdo"]' position='attributes'>
-                    <attribute name='invisible'>1</attribute>                    
+                    <attribute name='invisible'>1</attribute>
                 </xpath>
                 <xpath expr='//notebook/page[2]/group' position="after">
                     <group colspan="4" col="4">
                         <group string="PRE-ALERT" colspan="4" col="4">
-                            <field name="has_job_refs" string="Job Refs" widget="radio" options="{'horizontal': true}" />                                              
+                            <field name="has_job_refs" string="Job Refs" widget="radio" options="{'horizontal': true}" />
                             <field name="has_client_name" string="Client Name" widget="radio" options="{'horizontal': true}" />
                             <field name="has_regulatory_field" string="Regulatory Field" widget="radio" options="{'horizontal': true}" />
                             <field name="has_pre_alert_date" string="Pre-alert Date" widget="radio" options="{'horizontal': true}" attrs="{'invisible': [('has_field_visibility', 'in', ('1','2'))]}"/>
@@ -29,11 +29,11 @@
                             <field name="has_account_officer" string="Account Officer" widget="radio" options="{'horizontal': true}" />
                             <field name="has_item_description" string="Item Description" widget="radio" options="{'horizontal': true}" />
                             <field name="has_form_m_mf" string="Form M(MF)" widget="radio" options="{'horizontal': true}" attrs="{'invisible': [('has_field_visibility', '=', '1')]}"/>
-                            <field name="has_mode_shipment" string="Mode Shipment" widget="radio" options="{'horizontal': true}" attrs="{'invisible': [('has_field_visibility', '=', '1')]}" />                            
+                            <field name="has_mode_shipment" string="Mode Shipment" widget="radio" options="{'horizontal': true}" attrs="{'invisible': [('has_field_visibility', '=', '1')]}" />
                         </group>
                         <group string='AWAITING ARRIVAL' colspan="4" col="4">
                             <field name='has_barge_operator' string='Barge Name/Operator' widget='radio' options="{'horizontal':true}"/>
-                            <field name="has_bol_awb_ref" string="BOL/AWB" widget="radio" options="{'horizontal': true}"/>                          
+                            <field name="has_bol_awb_ref" string="BOL/AWB" widget="radio" options="{'horizontal': true}"/>
                             <field name="has_shipping_line" string="SHIPPING LINE/AIR LINE" widget="radio" options="{'horizontal': true}" attrs="{'invisible': [('has_field_visibility', 'in', ('1','2'))]}"/>
                             <field name="has_vessel_name" string="VESSEL /FLIGHT NAME" widget="radio" options="{'horizontal': true}" attrs="{'invisible': [('has_field_visibility', 'in', ('1','2'))]}"/>
                             <field name="has_destination_port" string="DESTINATION PORT (SEA/AIR)" widget="radio" options="{'horizontal': true}" />
@@ -85,7 +85,7 @@
                             <field name="has_delivery_waybill_from_client" string="Delivery Waybill from Client" widget="radio" options="{'horizontal': true}" />
                             <field name="has_empty_container_returned" string="EMPTY CONAINER RETURN" widget="radio" options="{'horizontal': true}" />
                             <field name="has_job_tdo" string="TDO" widget="radio" options="{'horizontal': true}"/>
-                            
+
                         </group>
                         <group string='POST DELIVERY' colspan='4' col='4'>
                             <field name="has_fecd_rec_date" string="FECD REC DATE" widget="radio" options="{'horizontal': true}" />
