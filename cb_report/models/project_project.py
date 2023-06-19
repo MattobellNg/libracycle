@@ -22,7 +22,8 @@ class Project(models.Model):
     # This all fields below is for vendor bill/expense
 
     project_product_duty = fields.Integer(string="Project Duty", compute="compute_project_product_duty")
-    project_shipping_charge = fields.Integer(string="Project Shipping Charge", compute="compute_project_shipping_charge")
+    project_shipping_charge = fields.Integer(string="Project Shipping Charge",
+                                             compute="compute_project_shipping_charge")
     project_terminal_charge = fields.Float(string="Project Terminal Charge", compute="compute_project_terminal_charge")
     project_nafdac = fields.Integer(string="Project Nafdac", compute="compute_project_nafdac")
     project_son = fields.Integer(string="Project SON", compute="compute_project_son")
@@ -222,12 +223,25 @@ class Project(models.Model):
             print("<<<<<<<<<customer_invoice_ids>>>>>>>>>")
             print(customer_invoice_ids)
             customer_untaxed_value = customer_vat = customer_total_invoice_value = customer_invoice_paid = customer_invoice_unpaid = 0
-            for invoice in customer_invoice_ids:
-                customer_untaxed_value += invoice.amount_untaxed
-                customer_vat += invoice.amount_tax
-                customer_total_invoice_value += invoice.amount_total
-                customer_invoice_paid += (invoice.amount_total - invoice.amount_residual)
-                customer_invoice_unpaid += (invoice.amount_total - (invoice.amount_total - invoice.amount_residual))
+            for invoice in rec.env['account.move'].search([('id', 'in', [54421, 55614])]):
+            # for invoice in customer_invoice_ids:
+                if invoice.currency_id != rec.env.company.currency_id:
+                    customer_untaxed_value += invoice.currency_id.compute(invoice.amount_untaxed,
+                                                                          rec.env.company.currency_id)
+                    customer_vat += invoice.currency_id.compute(invoice.amount_tax, rec.env.company.currency_id)
+                    customer_total_invoice_value += invoice.currency_id.compute(invoice.amount_total,
+                                                                                rec.env.company.currency_id)
+                    customer_invoice_paid += invoice.currency_id.compute(
+                        (invoice.amount_total - invoice.amount_residual), rec.env.company.currency_id)
+                    customer_invoice_unpaid += invoice.currency_id.compute(
+                        (invoice.amount_total - (invoice.amount_total - invoice.amount_residual)),
+                        rec.env.company.currency_id)
+                else:
+                    customer_untaxed_value += invoice.amount_untaxed
+                    customer_vat += invoice.amount_tax
+                    customer_total_invoice_value += invoice.amount_total
+                    customer_invoice_paid += (invoice.amount_total - invoice.amount_residual)
+                    customer_invoice_unpaid += (invoice.amount_total - (invoice.amount_total - invoice.amount_residual))
             rec.customer_untaxed_value = customer_untaxed_value
             rec.customer_vat = customer_vat
             rec.customer_total_invoice_value = customer_total_invoice_value
