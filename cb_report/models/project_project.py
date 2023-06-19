@@ -85,13 +85,15 @@ class Project(models.Model):
 
     def compute_total_profit(self):
         for rec in self:
-            rec.total_profit = rec.total_income - rec.total_cost
+            # rec.total_profit = rec.total_income - rec.total_cost
+            rec.total_profit = rec.customer_invoice_paid - rec.total_cost
 
     def compute_total_income(self):
         for rec in self:
-            rec.total_income = rec.customer_duty + rec.customer_shipping_charge + rec.customer_terminal_charge + \
-                               rec.customer_nafdac + rec.customer_son + rec.customer_agency + rec.customer_transportation + \
-                               rec.customer_others
+            # rec.total_income = rec.customer_duty + rec.customer_shipping_charge + rec.customer_terminal_charge + \
+            #                    rec.customer_nafdac + rec.customer_son + rec.customer_agency + rec.customer_transportation + \
+            #                    rec.customer_others
+            rec.total_income = rec.customer_total_invoice_value - rec.customer_vat
 
     def compute_total_cost(self):
         for rec in self:
