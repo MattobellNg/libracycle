@@ -7,7 +7,7 @@
         This module helps an organization to manage its sweep products with separate analytic account. 
         """,
     'category': 'Accounting',
-    'author': 'Hamza Ilyas',
+    'author': 'MOB - Hamza Ilyas',
     'website': 'hamza.ilyaaaas@gmail.com',
     'depends': ['base', 'sale', 'account', 'hr_expense'],
     'data': [
