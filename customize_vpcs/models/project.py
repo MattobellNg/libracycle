@@ -1055,13 +1055,13 @@ class CustomTrackingReport(models.Model):
                 delta = rec.truck_out_loading_date - rec.barge_arrival_date
                 rec.container_age = delta.days
 
-    @api.depends('import_barge_date', 'date_tdo_received')
+    @api.depends('import_barge_date', 'truck_loading_date')
     def compute_days_before_barge(self):
         print("compute_days_before_barge called XXXXXXXXXXXXXXX")
         for rec in self:
             rec.days_before_barge = False
-            if rec.date_tdo_received and rec.import_barge_date:
-                delta = rec.import_barge_date - rec.date_tdo_received
+            if rec.truck_loading_date and rec.import_barge_date:
+                delta = rec.import_barge_date - rec.truck_loading_date
                 rec.days_before_barge = delta.days
 
     @api.depends('truck_loading_date', 'date_tdo_received')

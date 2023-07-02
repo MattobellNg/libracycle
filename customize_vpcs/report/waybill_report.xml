@@ -23,12 +23,12 @@
                                     </div>
                                     <div style='text-align:left;'>
                                         Address :
-                                        <span style='margin-left:5px;' t-field='o.partner_id.street'/>
-                                        <span t-field='o.partner_id.street2'/>
-                                        <span t-field='o.partner_id.city'/>
-                                        <span t-field='o.partner_id.state_id.name'/>
-                                        <span t-field='o.partner_id.zip'/>
-                                        <span t-field='o.partner_id.country_id.name'/>
+                                        <span style='margin-left:5px;' t-field='o.address'/>
+<!--                                        <span t-field='o.partner_id.street2'/>-->
+<!--                                        <span t-field='o.partner_id.city'/>-->
+<!--                                        <span t-field='o.partner_id.state_id.name'/>-->
+<!--                                        <span t-field='o.partner_id.zip'/>-->
+<!--                                        <span t-field='o.partner_id.country_id.name'/>-->
                                     </div>
                                     <div style='text-align:left;margin-bottom:20px;margin-top:50px;'>
                                         <span style='border:2px solid black;padding:5px;'>WAYBILL/DELIVERY NOTE</span>
