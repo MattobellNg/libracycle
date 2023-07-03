@@ -22,7 +22,8 @@ class Project(models.Model):
     # This all fields below is for vendor bill/expense
 
     project_product_duty = fields.Integer(string="Project Duty", compute="compute_project_product_duty")
-    project_shipping_charge = fields.Integer(string="Project Shipping Charge", compute="compute_project_shipping_charge")
+    project_shipping_charge = fields.Integer(string="Project Shipping Charge",
+                                             compute="compute_project_shipping_charge")
     project_terminal_charge = fields.Float(string="Project Terminal Charge", compute="compute_project_terminal_charge")
     project_nafdac = fields.Integer(string="Project Nafdac", compute="compute_project_nafdac")
     project_son = fields.Integer(string="Project SON", compute="compute_project_son")
@@ -30,7 +31,7 @@ class Project(models.Model):
     project_transportation = fields.Integer(string="Project Transportation", compute="compute_project_transportation")
     project_others = fields.Integer(string="Project Others", compute="compute_project_others")
 
-    # This all fieds below is for customer invoice/income
+    # This all fieds below are for customer invoice/income
 
     customer_duty = fields.Integer(string="Duty Income", compute="compute_customer_duty")
     customer_shipping_charge = fields.Integer(string="Customer Shipping Charge",
@@ -84,13 +85,15 @@ class Project(models.Model):
 
     def compute_total_profit(self):
         for rec in self:
-            rec.total_profit = rec.total_income - rec.total_cost
+            # rec.total_profit = rec.total_income - rec.total_cost
+            rec.total_profit = rec.customer_invoice_paid - rec.total_cost
 
     def compute_total_income(self):
         for rec in self:
-            rec.total_income = rec.customer_duty + rec.customer_shipping_charge + rec.customer_terminal_charge + \
-                               rec.customer_nafdac + rec.customer_son + rec.customer_agency + rec.customer_transportation + \
-                               rec.customer_others
+            # rec.total_income = rec.customer_duty + rec.customer_shipping_charge + rec.customer_terminal_charge + \
+            #                    rec.customer_nafdac + rec.customer_son + rec.customer_agency + rec.customer_transportation + \
+            #                    rec.customer_others
+            rec.total_income = rec.customer_total_invoice_value - rec.customer_vat
 
     def compute_total_cost(self):
         for rec in self:
@@ -116,7 +119,11 @@ class Project(models.Model):
                 ('product_id.product_duty', '=', True)])
             customer_duty = 0
             for line in move_lines:
-                customer_duty += line.price_subtotal
+                if line.move_id.currency_id != rec.env.company.currency_id:
+                    customer_duty += line.move_id.currency_id.compute(line.price_subtotal,
+                                                                          rec.env.company.currency_id)
+                else:
+                    customer_duty += line.price_subtotal
             rec.customer_duty = customer_duty
 
     def compute_customer_shipping_charge(self):
@@ -128,7 +135,11 @@ class Project(models.Model):
                 ('product_id.shipping_charge', '=', True)])
             customer_shipping = 0
             for line in move_lines:
-                customer_shipping += line.price_subtotal
+                if line.move_id.currency_id != rec.env.company.currency_id:
+                    customer_shipping += line.move_id.currency_id.compute(line.price_subtotal,
+                                                                          rec.env.company.currency_id)
+                else:
+                    customer_shipping += line.price_subtotal
             rec.customer_shipping_charge = customer_shipping
 
     def compute_customer_terminal_charge(self):
@@ -140,7 +151,11 @@ class Project(models.Model):
                 ('product_id.terminal_charge', '=', True)])
             terminal_charge = 0
             for line in move_lines:
-                terminal_charge += line.price_subtotal
+                if line.move_id.currency_id != rec.env.company.currency_id:
+                    terminal_charge += line.move_id.currency_id.compute(line.price_subtotal,
+                                                                          rec.env.company.currency_id)
+                else:
+                    terminal_charge += line.price_subtotal
             rec.customer_terminal_charge = terminal_charge
 
     def compute_customer_nafdac(self):
@@ -152,7 +167,11 @@ class Project(models.Model):
                 ('product_id.nafdac', '=', True)])
             customer_nafdac = 0
             for line in move_lines:
-                customer_nafdac += line.price_subtotal
+                if line.move_id.currency_id != rec.env.company.currency_id:
+                    customer_nafdac += line.move_id.currency_id.compute(line.price_subtotal,
+                                                                          rec.env.company.currency_id)
+                else:
+                    customer_nafdac += line.price_subtotal
             rec.customer_nafdac = customer_nafdac
 
     def compute_customer_son(self):
@@ -164,7 +183,11 @@ class Project(models.Model):
                 ('product_id.son', '=', True)])
             customer_son = 0
             for line in move_lines:
-                customer_son += line.price_subtotal
+                if line.move_id.currency_id != rec.env.company.currency_id:
+                    customer_son += line.move_id.currency_id.compute(line.price_subtotal,
+                                                                          rec.env.company.currency_id)
+                else:
+                    customer_son += line.price_subtotal
             rec.customer_son = customer_son
 
     def compute_customer_agency(self):
@@ -176,7 +199,11 @@ class Project(models.Model):
                 ('product_id.agency', '=', True)])
             customer_agency = 0
             for line in move_lines:
-                customer_agency += line.price_subtotal
+                if line.move_id.currency_id != rec.env.company.currency_id:
+                    customer_agency += line.move_id.currency_id.compute(line.price_subtotal,
+                                                                          rec.env.company.currency_id)
+                else:
+                    customer_agency += line.price_subtotal
             rec.customer_agency = customer_agency
 
     def compute_customer_transportation(self):
@@ -188,7 +215,11 @@ class Project(models.Model):
                 ('product_id.transportation', '=', True)])
             customer_transportation = 0
             for line in move_lines:
-                customer_transportation += line.price_subtotal
+                if line.move_id.currency_id != rec.env.company.currency_id:
+                    customer_transportation += line.move_id.currency_id.compute(line.price_subtotal,
+                                                                          rec.env.company.currency_id)
+                else:
+                    customer_transportation += line.price_subtotal
             rec.customer_transportation = customer_transportation
 
     def compute_customer_others(self):
@@ -200,7 +231,11 @@ class Project(models.Model):
                 ('product_id.others', '=', True)])
             customer_others = 0
             for line in move_lines:
-                customer_others += line.price_subtotal
+                if line.move_id.currency_id != rec.env.company.currency_id:
+                    customer_others += line.move_id.currency_id.compute(line.price_subtotal,
+                                                                          rec.env.company.currency_id)
+                else:
+                    customer_others += line.price_subtotal
             rec.customer_others = customer_others
 
     # @api.depends('customer_invoice_ids')
@@ -223,11 +258,24 @@ class Project(models.Model):
             print(customer_invoice_ids)
             customer_untaxed_value = customer_vat = customer_total_invoice_value = customer_invoice_paid = customer_invoice_unpaid = 0
             for invoice in customer_invoice_ids:
-                customer_untaxed_value += invoice.amount_untaxed
-                customer_vat += invoice.amount_tax
-                customer_total_invoice_value += invoice.amount_total
-                customer_invoice_paid += (invoice.amount_total - invoice.amount_residual)
-                customer_invoice_unpaid += (invoice.amount_total - (invoice.amount_total - invoice.amount_residual))
+            # for invoice in customer_invoice_ids:
+                if invoice.currency_id != rec.env.company.currency_id:
+                    customer_untaxed_value += invoice.currency_id.compute(invoice.amount_untaxed,
+                                                                          rec.env.company.currency_id)
+                    customer_vat += invoice.currency_id.compute(invoice.amount_tax, rec.env.company.currency_id)
+                    customer_total_invoice_value += invoice.currency_id.compute(invoice.amount_total,
+                                                                                rec.env.company.currency_id)
+                    customer_invoice_paid += invoice.currency_id.compute(
+                        (invoice.amount_total - invoice.amount_residual), rec.env.company.currency_id)
+                    customer_invoice_unpaid += invoice.currency_id.compute(
+                        (invoice.amount_total - (invoice.amount_total - invoice.amount_residual)),
+                        rec.env.company.currency_id)
+                else:
+                    customer_untaxed_value += invoice.amount_untaxed
+                    customer_vat += invoice.amount_tax
+                    customer_total_invoice_value += invoice.amount_total
+                    customer_invoice_paid += (invoice.amount_total - invoice.amount_residual)
+                    customer_invoice_unpaid += (invoice.amount_total - (invoice.amount_total - invoice.amount_residual))
             rec.customer_untaxed_value = customer_untaxed_value
             rec.customer_vat = customer_vat
             rec.customer_total_invoice_value = customer_total_invoice_value

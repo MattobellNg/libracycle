@@ -964,7 +964,7 @@ class CustomTrackingReport(models.Model):
     liner = fields.Char(string='Liner')
     Container_number = fields.Char(string='Container Number')
     bl_number = fields.Char(string='BL Number', store=True)
-    container_size = fields.Char(string='Container Size')
+    container_size = fields.Char(string='Container Size', compute='compute_bl_number')
     date_tdo_received = fields.Date(string='Date TDO Received', store=True)
     delivery_begin_date = fields.Date(string='Delivery Begin Date')
     truck_loading_date = fields.Date(string='Truck Loading Date', store=True)
@@ -1055,13 +1055,13 @@ class CustomTrackingReport(models.Model):
                 delta = rec.truck_out_loading_date - rec.barge_arrival_date
                 rec.container_age = delta.days
 
-    @api.depends('import_barge_date', 'date_tdo_received')
+    @api.depends('import_barge_date', 'truck_loading_date')
     def compute_days_before_barge(self):
         print("compute_days_before_barge called XXXXXXXXXXXXXXX")
         for rec in self:
             rec.days_before_barge = False
-            if rec.date_tdo_received and rec.import_barge_date:
-                delta = rec.import_barge_date - rec.date_tdo_received
+            if rec.truck_loading_date and rec.import_barge_date:
+                delta = rec.import_barge_date - rec.truck_loading_date
                 rec.days_before_barge = delta.days
 
     @api.depends('truck_loading_date', 'date_tdo_received')
@@ -1088,23 +1088,23 @@ class CustomTrackingReport(models.Model):
         for rec in self:
             rec.write({
                 'partner_id': False,
-                'sn_no': False,
-                'client_name': False,
-                'liner': False,
-                'Container_number': False,
+                # 'sn_no': False,
+                # 'client_name': False,
+                # 'liner': False,
+                # 'Container_number': False,
                 'container_size': False,
-                'truck_loading_date': False,
-                'import_barge_date': False,
-                'barge_arrival_date': False,  # input field
-                'arrival_date': False,
-                'barge_name_operator': False,
-                'truck_out_loading_date': False,
-                'truck_offloading_date': False,
-                'reasons_for_delay': False,
-                'empty_return_date': False,
-                'date_return_to_terminal': False,
-                'return_date': False,
-                'comments': False,
+                # 'truck_loading_date': False,
+                # 'import_barge_date': False,
+                # 'barge_arrival_date': False,  # input field
+                # 'arrival_date': False,
+                # 'barge_name_operator': False,
+                # 'truck_out_loading_date': False,
+                # 'truck_offloading_date': False,
+                # 'reasons_for_delay': False,
+                # 'empty_return_date': False,
+                # 'date_return_to_terminal': False,
+                # 'return_date': False,
+                # 'comments': False,
             })
             if rec.bl_number:
                 job = rec.env['project.project'].search([('name', '=', rec.bl_number)])
@@ -1112,23 +1112,23 @@ class CustomTrackingReport(models.Model):
                     job = job[0]
                     rec.write({
                         'partner_id': job.partner_id,
-                        'sn_no': job.bol_awb_ref,
-                        'client_name': job.client_name.name if job.client_name else False,
-                        'liner': job.job_liner,
-                        'Container_number': job.container,
+                        # 'sn_no': job.bol_awb_ref,
+                        # 'client_name': job.client_name.name if job.client_name else False,
+                        # 'liner': job.job_liner,
+                        # 'Container_number': job.container,
                         'container_size': job.size_of_container,
-                        'truck_loading_date': job.truck_in,
-                        'import_barge_date': job.Barge_date,
-                        'barge_arrival_date': job.barging_date,  # input field
-                        'arrival_date': job.arrival_date,
-                        'barge_name_operator': job.barge_operator.name,
-                        'truck_out_loading_date': job.Load_out_date,
-                        'truck_offloading_date': job.offloading_date,
-                        'reasons_for_delay': job.major_cause_of_delay,
-                        'empty_return_date': job.empty_container_return_date,
-                        'date_return_to_terminal': job.container_return_date,
-                        'return_date': job.return_date,
-                        'comments': job.last_project_comment,
+                        # 'truck_loading_date': job.truck_in,
+                        # 'import_barge_date': job.Barge_date,
+                        # 'barge_arrival_date': job.barging_date,  # input field
+                        # 'arrival_date': job.arrival_date,
+                        # 'barge_name_operator': job.barge_operator.name,
+                        # 'truck_out_loading_date': job.Load_out_date,
+                        # 'truck_offloading_date': job.offloading_date,
+                        # 'reasons_for_delay': job.major_cause_of_delay,
+                        # 'empty_return_date': job.empty_container_return_date,
+                        # 'date_return_to_terminal': job.container_return_date,
+                        # 'return_date': job.return_date,
+                        # 'comments': job.last_project_comment,
                     })
 
     @api.onchange('bl_number')
@@ -1139,21 +1139,21 @@ class CustomTrackingReport(models.Model):
                 job = job[0]
                 self.write({
                     'partner_id': job.partner_id,
-                    'sn_no': job.bol_awb_ref,
-                    'client_name': job.client_name.name if job.client_name else False,
-                    'liner': job.job_liner,
-                    'Container_number': job.container,
+                    # 'sn_no': job.bol_awb_ref,
+                    # 'client_name': job.client_name.name if job.client_name else False,
+                    # 'liner': job.job_liner,
+                    # 'Container_number': job.container,
                     'container_size': job.size_of_container,
-                    'truck_loading_date': job.truck_in,
-                    'import_barge_date': job.Barge_date,
-                    'barge_arrival_date': job.barging_date,  # input field
-                    'arrival_date': job.arrival_date,
-                    'barge_name_operator': job.barge_operator.name,
-                    'truck_out_loading_date': job.Load_out_date,
-                    'truck_offloading_date': job.offloading_date,
-                    'reasons_for_delay': job.major_cause_of_delay,
-                    'empty_return_date': job.empty_container_return_date,
-                    'date_return_to_terminal': job.container_return_date,
-                    'return_date': job.return_date,
-                    'comments': job.last_project_comment,
+                    # 'truck_loading_date': job.truck_in,
+                    # 'import_barge_date': job.Barge_date,
+                    # 'barge_arrival_date': job.barging_date,  # input field
+                    # 'arrival_date': job.arrival_date,
+                    # 'barge_name_operator': job.barge_operator.name,
+                    # 'truck_out_loading_date': job.Load_out_date,
+                    # 'truck_offloading_date': job.offloading_date,
+                    # 'reasons_for_delay': job.major_cause_of_delay,
+                    # 'empty_return_date': job.empty_container_return_date,
+                    # 'date_return_to_terminal': job.container_return_date,
+                    # 'return_date': job.return_date,
+                    # 'comments': job.last_project_comment,
                 })

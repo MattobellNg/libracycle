@@ -1,6 +1,7 @@
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
 import logging
+from datetime import datetime
 
 _logger = logging.getLogger(__name__)
 
@@ -147,29 +148,29 @@ class AccountMoveExt(models.Model):
                 logging.info("Hamza Ilyas ----> <<<<<<<<<< Invoice line is not swept >>>>>>>>>>")
                 expense = self.check_ili_in_expenses(invoice_line, start_date, end_date)
                 if expense:
-                    self.swept_journal_entry(expense)
+                    self.swept_journal_entry(expense, end_date)
                     invoice_line.swept = True
                     continue
 
                 purchase_receipt_line = self.check_ili_in_purchase_receipts(invoice_line, start_date, end_date)
                 if purchase_receipt_line:
-                    self.swept_journal_entry(purchase_receipt_line)
+                    self.swept_journal_entry(purchase_receipt_line, end_date)
                     invoice_line.swept = True
                     continue
 
                 sale_receipt_line = self.check_ili_in_sale_receipts(invoice_line, start_date, end_date)
                 if sale_receipt_line:
-                    self.swept_journal_entry(sale_receipt_line)
+                    self.swept_journal_entry(sale_receipt_line, end_date)
                     invoice_line.swept = True
                     continue
 
                 bill_line = self.check_ili_in_vendor_bills(invoice_line, start_date, end_date)
                 if bill_line:
-                    self.swept_journal_entry(bill_line)
+                    self.swept_journal_entry(bill_line, end_date)
                     invoice_line.swept = True
                     continue
 
-    def swept_journal_entry(self, record):
+    def swept_journal_entry(self, record, end_date):
         logging.info("Hamza Ilyas ----> swept_journal_entry Called")
         journal = self.env['sweep.journal'].search([])
         sweep_journal = False
@@ -180,13 +181,13 @@ class AccountMoveExt(models.Model):
         if record._name == 'hr.expense':
             logging.info("Hamza Ilyas ----> Expense Model")
             self.create_swept_journal_entry(record.name, False, sweep_journal, record.total_amount, record.product_id,
-                                            record.analytic_account_id, record.partner_id)
+                                            record.analytic_account_id, record.partner_id, end_date)
         elif record._name == 'account.move.line':
             logging.info("Hamza Ilyas ----> -->")
             logging.info(record.move_id.move_type)
             # if record.move_id.move_type == 'in_invoice':
             self.create_swept_journal_entry(record.move_id.name, record, sweep_journal, record.price_unit,
-                                            record.product_id, record.analytic_account_id, record.partner_id)
+                                            record.product_id, record.analytic_account_id, record.partner_id, end_date)
             # if record.move_id.move_type in ['in_receipt', 'out_receipt']:
             #     logging.info("Hamza Ilyas ----> Receipt Line Model")
             #     self.create_swept_journal_entry(record.move_id.name, False, record, sweep_journal, record.price_unit,
@@ -197,21 +198,33 @@ class AccountMoveExt(models.Model):
         #     self.create_swept_journal_entry(record.voucher_id.number, False, record, sweep_journal, record.price_unit,
         #                                     record.product_id, record.account_analytic_id)
 
-    def create_swept_journal_entry(self, je_ref, ref_line_id, je_journal, ji_amount, ji_product, analytic_account_id, partner):
+    def create_swept_journal_entry(self, je_ref, ref_line_id, je_journal, ji_amount, ji_product, analytic_account_id, partner, end_date):
         logging.info("Hamza Ilyas ----> create_swept_journal_entry Called")
         logging.info("Hamza Ilyas ----> <<<<<<<<<ji_amount>>>>>>>>>")
         logging.info(ji_amount)
+        a_a_project = self.env['account.analytic.account'].search([('id', '=', analytic_account_id.id)])
+        if a_a_project:
+            logging.info("<<<<<<<<<<<<<<a_a_project>>>>>>>>>>>>>>")
+            logging.info(a_a_project)
+            analytic_account_id = a_a_project.id
+        else:
+            analytic_account_id = False
+        self.env.cr.commit()
         if ji_product.property_account_expense_id:
             # create move
             # if vendor_bill_line:
             #     vendor_bill_line = vendor_bill_line.id
             # if voucher_line:
             #     voucher_line = voucher_line.id
+            print("<<<<<<end_date>>>>>>")
+            print(end_date)
             move = self.env['account.move'].create({'ref': je_ref, 'journal_id': je_journal.id, 'state': 'draft',
-                                                    'is_a_sweep_je': True, 'ref_line_id': ref_line_id
-                                                    # 'vendor_bill_line_id': vendor_bill_line,
-                                                    # 'voucher_line_id': voucher_line
+                                                    'is_a_sweep_je': True, 'ref_line_id': ref_line_id, 'date': end_date,
                                                     })
+
+            # hi_date = datetime.combine(end_date, datetime.min.time())
+            self.env.cr.execute("UPDATE ACCOUNT_MOVE SET DATE = '%s' WHERE id=%s" % (end_date, move.id))
+
             if move.ref_line_id:
                 if move.ref_line_id.move_id.move_type == 'out_receipt':
                     move.write({'line_ids': [
@@ -221,7 +234,7 @@ class AccountMoveExt(models.Model):
                                 'debit': 0.0,
                                 'credit': ji_amount,
                                 'move_id': move.id,
-                                'project_id': analytic_account_id.id,
+                                'project_id_hi': analytic_account_id,
                                 'swept': True,
                                 }),
                         (0, 0, {'account_id': ji_product.sweep_account_id.id,
@@ -230,7 +243,7 @@ class AccountMoveExt(models.Model):
                                 'debit': ji_amount,
                                 'credit': 0.0,
                                 'move_id': move.id,
-                                'project_id': analytic_account_id.id,
+                                'project_id_hi': analytic_account_id,
                                 'swept': True,
                                 }),
                     ], })
@@ -242,7 +255,7 @@ class AccountMoveExt(models.Model):
                                 'debit': ji_amount,
                                 'credit': 0.0,
                                 'move_id': move.id,
-                                'project_id': analytic_account_id.id,
+                                'project_id_hi': analytic_account_id,
                                 'swept': True,
                                 }),
                         (0, 0, {'account_id': ji_product.sweep_account_id.id,
@@ -251,7 +264,7 @@ class AccountMoveExt(models.Model):
                                 'debit': 0.0,
                                 'credit': ji_amount,
                                 'move_id': move.id,
-                                'project_id': analytic_account_id.id,
+                                'project_id_hi': analytic_account_id,
                                 'swept': True,
                                 }),
                     ], })
@@ -263,7 +276,7 @@ class AccountMoveExt(models.Model):
                             'debit': ji_amount,
                             'credit': 0.0,
                             'move_id': move.id,
-                            'project_id': analytic_account_id.id,
+                            'project_id_hi': analytic_account_id,
                             'swept': True,
                             }),
                     (0, 0, {'account_id': ji_product.sweep_account_id.id,
@@ -272,7 +285,7 @@ class AccountMoveExt(models.Model):
                             'debit': 0.0,
                             'credit': ji_amount,
                             'move_id': move.id,
-                            'project_id': analytic_account_id.id,
+                            'project_id_hi': analytic_account_id,
                             'swept': True,
                             }),
                 ], })
@@ -350,7 +363,7 @@ class AccountMoveLineExt(models.Model):
 
     invoice_line_id = fields.Many2one("account.move.line", "Invoice Line")
 
-    project_id = fields.Many2one('account.analytic.account', string='Project')
+    project_id_hi = fields.Many2one('account.analytic.account', string='Project')
 
     # line_type = fields.Selection([
     #                             ('out_invoice', 'Customer Invoice'),

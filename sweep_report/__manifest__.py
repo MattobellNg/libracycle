@@ -1,13 +1,13 @@
 {
     'name': 'Sweep Report',
-    'version': '2.2',
+    'version': '2.4',
     'summary': 'Print the xlsx report of sweep entries with date interval of your choice',
     'description':
         """
         This module helps to print the xlsx report of sweep entries with date interval of your choice.
         """,
     'category': 'Reporting',
-    'author': 'Hamza Ilyas',
+    'author': 'MOB - Hamza Ilyas',
     'website': 'hamza.ilyaaaas@gmail.com',
     'depends': ['base', 'report_xlsx', 'sweep'],
     'data': [
