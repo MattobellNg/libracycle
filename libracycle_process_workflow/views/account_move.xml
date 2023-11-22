@@ -19,10 +19,10 @@
                     <button name="action_post" string="Post" class="oe_highlight" type="object" groups="account.group_account_invoice,account.group_account_manager" data-hotkey="v" attrs="{'invisible': [('move_type', 'in', ['in_invoice', 'in_receipt'])]}" />
                 </xpath>
                 <xpath expr="//field[@name='payment_reference']" position="after">
-                    <field name="bank_account_id" />
+                    <field name="bank_account_id" attrs="{'readonly':[('state', '!=', 'draft')]}"/>
                 </xpath>
                 <xpath expr="//field[@name='invoice_date']" position="replace">
-                    <field name="invoice_date" nolabel="1" options="{'datepicker': {'warn_future': true}}" attrs="{'invisible': [('move_type', 'not in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt'))]}" readonly="0"/>
+                    <field name="invoice_date" nolabel="1" options="{'datepicker': {'warn_future': true}}" attrs="{'invisible': [('move_type', 'not in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt'))],'readonly':[('state', '!=', 'draft')]}" />
                 </xpath>
             </field>
         </record>
