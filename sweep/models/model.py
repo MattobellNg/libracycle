@@ -300,7 +300,9 @@ class AccountMoveExt(models.Model):
         for expense in expenses:
             # if expense.product_id == invoice_line.product_id and \
             #         expense.analytic_account_id == invoice_line.analytic_account_id and not expense.swept:
-            if expense.product_id == invoice_line.product_id and not expense.swept:
+            # if expense.product_id == invoice_line.product_id and not expense.swept:
+            if (expense.product_id == invoice_line.product_id and
+                    expense.analytic_account_id == invoice_line.analytic_account_id and not expense.swept):
                 expense.swept = True
                 expense.invoice_line_id = invoice_line
                 return expense
@@ -316,7 +318,10 @@ class AccountMoveExt(models.Model):
             for receipt_line in receipt.invoice_line_ids:
                 # if receipt_line.product_id == invoice_line.product_id and \
                 #         receipt_line.analytic_account_id == invoice_line.analytic_account_id and not receipt_line.swept:
-                if receipt_line.product_id == invoice_line.product_id and not receipt_line.swept:
+                # if receipt_line.product_id == invoice_line.product_id and not receipt_line.swept:
+                if (receipt_line.product_id == invoice_line.product_id and
+                        receipt_line.analytic_account_id == invoice_line.analytic_account_id and not
+                        receipt_line.swept):
                     receipt_line.swept = True
                     receipt_line.invoice_line_id = invoice_line.id
                     return receipt_line
@@ -332,7 +337,10 @@ class AccountMoveExt(models.Model):
             for receipt_line in receipt.invoice_line_ids:
                 # if receipt_line.product_id == invoice_line.product_id and \
                 #         receipt_line.analytic_account_id == invoice_line.analytic_account_id and not receipt_line.swept:
-                if receipt_line.product_id == invoice_line.product_id and not receipt_line.swept:
+                # if receipt_line.product_id == invoice_line.product_id and not receipt_line.swept:
+                if (receipt_line.product_id == invoice_line.product_id and
+                        receipt_line.analytic_account_id == invoice_line.analytic_account_id and not
+                        receipt_line.swept):
                     receipt_line.swept = True
                     receipt_line.invoice_line_id = invoice_line.id
                     return receipt_line
@@ -348,7 +356,9 @@ class AccountMoveExt(models.Model):
             for bill_line in bill.invoice_line_ids:
                 # if bill_line.product_id == invoice_line.product_id and \
                 #         bill_line.analytic_account_id == invoice_line.analytic_account_id and not bill_line.swept:
-                if bill_line.product_id == invoice_line.product_id and not bill_line.swept:
+                # if bill_line.product_id == invoice_line.product_id and not bill_line.swept:
+                if (bill_line.product_id == invoice_line.product_id and
+                        bill_line.analytic_account_id == invoice_line.analytic_account_id and not bill_line.swept):
                     bill_line.swept = True
                     bill_line.invoice_line_id = invoice_line.id
                     return bill_line
