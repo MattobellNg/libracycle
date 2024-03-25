@@ -218,35 +218,57 @@ class AccountMoveExt(models.Model):
             #     voucher_line = voucher_line.id
             print("<<<<<<end_date>>>>>>")
             print(end_date)
-            move = self.env['account.move'].create({'ref': je_ref, 'journal_id': je_journal.id, 'state': 'draft',
-                                                    'is_a_sweep_je': True, 'ref_line_id': ref_line_id, 'date': end_date,
-                                                    })
+            # .........new.......
+            entry_exist = self.env['account.move'].sudo().search([('ref','=',je_ref)])
+            if not entry_exist:
+                move = self.env['account.move'].create({'ref': je_ref, 'journal_id': je_journal.id, 'state': 'draft','is_a_sweep_je': True, 'ref_line_id': ref_line_id, 'date': end_date,
+                                                        })
+                # hi_date = datetime.combine(end_date, datetime.min.time())
+                self.env.cr.execute("UPDATE ACCOUNT_MOVE SET DATE = '%s' WHERE id=%s" % (end_date, move.id))
 
-            # hi_date = datetime.combine(end_date, datetime.min.time())
-            self.env.cr.execute("UPDATE ACCOUNT_MOVE SET DATE = '%s' WHERE id=%s" % (end_date, move.id))
-
-            if move.ref_line_id:
-                if move.ref_line_id.move_id.move_type == 'out_receipt':
-                    move.write({'line_ids': [
-                        (0, 0, {'account_id': ji_product.property_account_expense_id.id,
-                                'name': ji_product.name,
-                                'partner_id': partner.id,
-                                'debit': 0.0,
-                                'credit': ji_amount,
-                                'move_id': move.id,
-                                'project_id_hi': analytic_account_id,
-                                'swept': True,
-                                }),
-                        (0, 0, {'account_id': ji_product.sweep_account_id.id,
-                                'name': ji_product.name,
-                                'partner_id': partner.id,
-                                'debit': ji_amount,
-                                'credit': 0.0,
-                                'move_id': move.id,
-                                'project_id_hi': analytic_account_id,
-                                'swept': True,
-                                }),
-                    ], })
+                if move.ref_line_id:
+                    if move.ref_line_id.move_id.move_type == 'out_receipt':
+                        move.write({'line_ids': [
+                            (0, 0, {'account_id': ji_product.property_account_expense_id.id,
+                                    'name': ji_product.name,
+                                    'partner_id': partner.id,
+                                    'debit': 0.0,
+                                    'credit': ji_amount,
+                                    'move_id': move.id,
+                                    'project_id_hi': analytic_account_id,
+                                    'swept': True,
+                                    }),
+                            (0, 0, {'account_id': ji_product.sweep_account_id.id,
+                                    'name': ji_product.name,
+                                    'partner_id': partner.id,
+                                    'debit': ji_amount,
+                                    'credit': 0.0,
+                                    'move_id': move.id,
+                                    'project_id_hi': analytic_account_id,
+                                    'swept': True,
+                                    }),
+                        ], })
+                    else:
+                        move.write({'line_ids': [
+                            (0, 0, {'account_id': ji_product.property_account_expense_id.id,
+                                    'name': ji_product.name,
+                                    'partner_id': partner.id,
+                                    'debit': ji_amount,
+                                    'credit': 0.0,
+                                    'move_id': move.id,
+                                    'project_id_hi': analytic_account_id,
+                                    'swept': True,
+                                    }),
+                            (0, 0, {'account_id': ji_product.sweep_account_id.id,
+                                    'name': ji_product.name,
+                                    'partner_id': partner.id,
+                                    'debit': 0.0,
+                                    'credit': ji_amount,
+                                    'move_id': move.id,
+                                    'project_id_hi': analytic_account_id,
+                                    'swept': True,
+                                    }),
+                        ], })
                 else:
                     move.write({'line_ids': [
                         (0, 0, {'account_id': ji_product.property_account_expense_id.id,
@@ -268,30 +290,9 @@ class AccountMoveExt(models.Model):
                                 'swept': True,
                                 }),
                     ], })
-            else:
-                move.write({'line_ids': [
-                    (0, 0, {'account_id': ji_product.property_account_expense_id.id,
-                            'name': ji_product.name,
-                            'partner_id': partner.id,
-                            'debit': ji_amount,
-                            'credit': 0.0,
-                            'move_id': move.id,
-                            'project_id_hi': analytic_account_id,
-                            'swept': True,
-                            }),
-                    (0, 0, {'account_id': ji_product.sweep_account_id.id,
-                            'name': ji_product.name,
-                            'partner_id': partner.id,
-                            'debit': 0.0,
-                            'credit': ji_amount,
-                            'move_id': move.id,
-                            'project_id_hi': analytic_account_id,
-                            'swept': True,
-                            }),
-                ], })
-            if move:
-                move.action_post()
-                logging.info("Hamza Ilyas ----> Swept Journal Entry Created & posted Successfully")
+                if move:
+                    move.action_post()
+                    logging.info("Hamza Ilyas ----> Swept Journal Entry Created & posted Successfully")
 
     def check_ili_in_expenses(self, invoice_line, start_date, end_date):
         logging.info("Hamza Ilyas ----> check_ili_in_expenses Called")
