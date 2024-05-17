@@ -1,0 +1,96 @@
+<odoo>
+  <data>
+
+    <record id="microdaily_report_view_tree" model="ir.ui.view">
+      <field name="name">microdaily.report.view.tree</field>
+      <field name="model">microdaily.report</field>
+      <field name="arch" type="xml">
+        <tree string="Microdaily report">
+          <field name="name" />
+          <field name="country" />
+          <field name="type_of_kpi" />
+          <field name="type_of_process" />
+          <field name="stakeholders" />
+          <field name="code_of_reason" />
+          <field name="month_p" />
+          <field name="fiscal_week" />
+          <field name="clearing_agent" />
+          <field name="clearances_impacted" />
+          <field name="po_reference" />
+          <field name="supplier_name" />
+          <field name="type_of_material" />
+          <field name="start_date_demurrage" />
+          <field name="end_date_demurrage" />
+          <field name="estimated_value_demurrage" />
+          <field name="start_date_port_charges" />
+          <field name="end_date_port_charges" />
+          <field name="estimate_port_charges" />
+          <field name="penalty_value" />
+          <field name="total_costs_paid" />
+          <field name="root_cause_analyzes" />
+          <field name="mitigation_plan" />
+          <field name="status_of_action" />
+          <field name="custom_release_date" />
+          <field name="tdo" />
+          <field name="delivery_complete_date" />
+        </tree>
+      </field>
+    </record>
+
+    <record id="microdaily_report_view_form" model="ir.ui.view">
+      <field name="name">microdaily.report.view.form</field>
+      <field name="model">microdaily.report</field>
+      <field name="arch" type="xml">
+        <form string="Microdaily report">
+          <group>
+            <group>
+              <field name="name" />
+              <field name="country" />
+              <field name="type_of_kpi" />
+              <field name="type_of_process" />
+              <field name="stakeholders" />
+              <field name="code_of_reason" />
+              <field name="month_p" />
+              <field name="fiscal_week" />
+              <field name="clearing_agent" />
+              <field name="clearances_impacted" />
+              <field name="po_reference" />
+              <field name="supplier_name" />
+              <field name="type_of_material" />
+              <field name="start_date_demurrage" />
+            </group>
+            <group>
+              <field name="end_date_demurrage" />
+              <field name="estimated_value_demurrage" />
+              <field name="start_date_port_charges" />
+              <field name="end_date_port_charges" />
+              <field name="estimate_port_charges" />
+              <field name="penalty_value" />
+              <field name="total_costs_paid" />
+              <field name="root_cause_analyzes" />
+              <field name="mitigation_plan" />
+              <field name="status_of_action" />
+              <field name="custom_release_date" />
+              <field name="tdo" />
+              <field name="delivery_complete_date" />
+            </group>
+          </group>
+        </form>
+      </field>
+    </record>
+
+    <record id="microdaily_report_action" model="ir.actions.act_window">
+      <field name="name">Microdaily Report</field>
+      <field name="res_model">microdaily.report</field>
+      <field name="view_mode">tree,form</field>
+      <field name="domain">[]</field>
+      <field name="context">{}</field>
+    </record>
+
+    <menuitem id="microdaily_report_menu" name="Microdaily Report" parent="libra_custom_reports_menu" sequence="2"/>
+
+    <menuitem id="microdaily_report_action_menu" name="Microdaily Report" parent="microdaily_report_menu" action="microdaily_report_action" sequence="1"/>
+
+
+  </data>
+</odoo>

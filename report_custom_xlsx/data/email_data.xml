@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Tripartite report -->
+        <record id="tripartite_report_template" model="mail.template">
+            <field name="name">Tripartite Report</field>
+            <field name="email_from">{{(user.email or '') }}</field>
+            <field name="subject">Tripartite Report</field>
+            <field name="email_to">padinality@yahoo.com</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html" type="html">
+                <div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); ">
+                    <p>Dear <t t-out="object.name or ''"></t>
+                    </p>
+                    <p>
+					We have attached your payment statement.
+					Please kindly check. Thanks baba
+                    </p>
+                    <br/>
+				Best Regards,
+                    <br/>
+                    <t t-out="user.name  or ''"></t>
+                    <br/>
+                </div>
+            </field>
+        </record>
+
+        <!-- Microdaily report -->
+        <record id="microdaily_report_template" model="mail.template">
+            <field name="name">Microdaily Report</field>
+            <field name="email_from">{{(user.email or '') }}</field>
+            <field name="subject">Microdaily Report</field>
+            <field name="email_to">padinality@yahoo.com</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html" type="html">
+                <div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); ">
+                    <p>Dear <t t-out="object.name or ''"></t>
+                    </p>
+                    <p>
+					We have attached your payment statement.
+					Please kindly check. Thanks baba
+                    </p>
+                    <br/>
+				Best Regards,
+                    <br/>
+                    <t t-out="user.name  or ''"></t>
+                    <br/>
+                </div>
+            </field>
+        </record>
+        
+        <!-- Activity report -->
+        <record id="activity_report_template" model="mail.template">
+            <field name="name">Activity Report</field>
+            <field name="email_from">{{(user.email or '') }}</field>
+            <field name="subject">Activity Report</field>
+            <field name="email_to">padinality@yahoo.com</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html" type="html">
+                <div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); ">
+                    <p>Dear <t t-out="object.name or ''"></t>
+                    </p>
+                    <p>
+					We have attached your payment statement.
+					Please kindly check. Thanks baba
+                    </p>
+                    <br/>
+				Best Regards,
+                    <br/>
+                    <t t-out="user.name  or ''"></t>
+                    <br/>
+                </div>
+            </field>
+        </record>
+        
+        <!-- Monthly Invoicing report -->
+        <record id="monthly_invoicing_report_template" model="mail.template">
+            <field name="name">Monthly Invoicing Report</field>
+            <field name="email_from">{{(user.email or '') }}</field>
+            <field name="subject">Monthly Invoicing Report</field>
+            <field name="email_to">padinality@yahoo.com</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html" type="html">
+                <div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); ">
+                    <p>Dear <t t-out="object.name or ''"></t>
+                    </p>
+                    <p>
+					We have attached your payment statement.
+					Please kindly check. Thanks baba
+                    </p>
+                    <br/>
+				Best Regards,
+                    <br/>
+                    <t t-out="user.name  or ''"></t>
+                    <br/>
+                </div>
+            </field>
+        </record>
+
+    </data>
+</odoo>
+        
+        
