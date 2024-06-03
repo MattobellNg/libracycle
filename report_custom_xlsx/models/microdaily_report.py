@@ -35,6 +35,7 @@ class MicrodailyReport(models.Model):
     custom_release_date = fields.Char('Custom Release Date')
     tdo = fields.Char('TDO')
     delivery_complete_date = fields.Char('DELIVERY COMPLETE DATE (offloaded)')
+    report_file = fields.Binary('Report File', attachment=True)
     	  				
 
     @classmethod

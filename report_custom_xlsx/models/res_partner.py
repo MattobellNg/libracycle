@@ -76,7 +76,7 @@ class ResPartner(models.Model):
     def _cron_run_microdaily_report(self):
         "CRON to send report with an attachment"
         partners_with_microdaily_report = self.env['microdaily.report'].sudo().search([
-        ]).mapped('name')
+        ]).filtered(lambda md: md.report_file).mapped('name')
         for partner in partners_with_microdaily_report:
             partner._send_microdaily_report_email()
         return True
@@ -84,25 +84,15 @@ class ResPartner(models.Model):
     def _send_microdaily_report_email(self):
         """Microdaily report to be sent to individual customers"""
         MicrodailyReport = self.env['microdaily.report'].sudo()
-        report = self.env.ref('report_custom_xlsx.microdaily_report_xlsx')
-        microdaily_report_ids = MicrodailyReport.search(
-            [('name', '=', self.id)])
-        microdaily_report_ids = [MicrodailyReport.get_report_data(
-            rep) for rep in microdaily_report_ids]
-        data = {
-            'context': self.env.context.copy(),
-            'headers': MICRO_DAILY_REPORT_HEADER,
-            'microdaily_report_ids': microdaily_report_ids,
-        }
-        report = self.env.ref('report_custom_xlsx.microdaily_report_xlsx')
-        generated_report = report._render_xlsx(self.id, data=data)
-        data_record = base64.b64encode(generated_report[0])
+        microdaily_report = MicrodailyReport.search(
+            [('name', '=', self.id)]).filtered(lambda r: r.report_file)
+        data_record = base64.b64decode(base64.b64encode(microdaily_report.report_file))
         ir_values = {
-            'name': 'Microdaily Report.xlsx',
+            'name': 'Microdaily Report.pdf',
             'type': 'binary',
             'datas': data_record,
             'store_fname': data_record,
-            'mimetype': 'application/vnd.ms-excel',
+            'mimetype': 'application/pdf',
             'res_model': 'res.partner',
         }
         attachment = self.env['ir.attachment'].sudo().create(ir_values)
@@ -112,6 +102,38 @@ class ResPartner(models.Model):
         email_template.send_mail(self.id)
         email_template.attachment_ids = [(5, 0, 0)]
         return True
+    
+    # def _send_microdaily_report_email(self):
+    #     """Microdaily report to be sent to individual customers"""
+    #     MicrodailyReport = self.env['microdaily.report'].sudo()
+    #     report = self.env.ref('report_custom_xlsx.microdaily_report_xlsx')
+    #     microdaily_report_ids = MicrodailyReport.search(
+    #         [('name', '=', self.id)])
+    #     microdaily_report_ids = [MicrodailyReport.get_report_data(
+    #         rep) for rep in microdaily_report_ids]
+    #     data = {
+    #         'context': self.env.context.copy(),
+    #         'headers': MICRO_DAILY_REPORT_HEADER,
+    #         'microdaily_report_ids': microdaily_report_ids,
+    #     }
+    #     report = self.env.ref('report_custom_xlsx.microdaily_report_xlsx')
+    #     generated_report = report._render_xlsx(self.id, data=data)
+    #     data_record = base64.b64encode(generated_report[0])
+    #     ir_values = {
+    #         'name': 'Microdaily Report.xlsx',
+    #         'type': 'binary',
+    #         'datas': data_record,
+    #         'store_fname': data_record,
+    #         'mimetype': 'application/vnd.ms-excel',
+    #         'res_model': 'res.partner',
+    #     }
+    #     attachment = self.env['ir.attachment'].sudo().create(ir_values)
+    #     email_template = self.env.ref(
+    #         'report_custom_xlsx.microdaily_report_template')
+    #     email_template.attachment_ids = [(6, _, [attachment.id])]
+    #     email_template.send_mail(self.id)
+    #     email_template.attachment_ids = [(5, 0, 0)]
+    #     return True
 
     def _cron_run_monthly_invoicing_report(self):
         "CRON to send report with an attachment"

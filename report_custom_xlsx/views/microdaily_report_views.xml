@@ -58,6 +58,7 @@
               <field name="supplier_name" />
               <field name="type_of_material" />
               <field name="start_date_demurrage" />
+              <field name="report_file" />
             </group>
             <group>
               <field name="end_date_demurrage" />
