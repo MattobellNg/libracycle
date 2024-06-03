@@ -38,7 +38,7 @@
             <field name="auto_delete" eval="True"/>
             <field name="body_html" type="html">
                 <div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); ">
-                    <p>Dear <t t-out="object.name or ''"></t>
+                    <p>Dear <t t-out="object.name.name or ''"></t>
                     </p>
                      <p>
 					Please find attached your Microdaily report.</p>

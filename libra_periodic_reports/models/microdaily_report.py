@@ -27,7 +27,7 @@ class MicrodailyReport(models.Model):
         activity_reports = self.search([])
         for activity_report in activity_reports:
             email_template = self.env.ref(
-                'libra_periodic_reports.activity_report_template')
+                'libra_periodic_reports.microdaily_report_template')
             email_template.attachment_ids = [(6, _, [activity_report.attachment_ids[-1].id])]
             email_template.send_mail(activity_report.id)
             email_template.attachment_ids = [(5, 0, 0)]
