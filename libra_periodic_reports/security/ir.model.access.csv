@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_invoicing_user,access.invoicing.user,model_activity_report,base.group_user,1,1,1,1
+access_user_tripartite_report,report_custom_xlsx.access_user.tripartite_report,model_tripartite_report,base.group_user,1,1,1,1
+access_user_microdaily_report,report_custom_xlsx.access_user.microdaily_report,model_microdaily_report,base.group_user,1,1,1,1
+access_user_monthly_invoicing_report,report_custom_xlsx.access_user.monthly_invoicing_report,model_monthly_invoicing_report,base.group_user,1,1,1,1
