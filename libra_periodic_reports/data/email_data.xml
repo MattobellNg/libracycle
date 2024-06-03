@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data noupdate="1">
+    <data noupdate="0">
 
         <!-- Activity report -->
         <record id="activity_report_template" model="mail.template">
             <field name="name">Activity Report</field>
             <field name="email_from">{{ (object.user_id.email or user.email or '') }}</field>
             <field name="subject">Activity Report</field>
-            <field name="email_to">{{ object.name.email }}</field>
+            <field name="email_to">{{ object.email or object.name.email }}</field>
             <field name="model_id" ref="libra_periodic_reports.model_activity_report"/>
             <field name="auto_delete" eval="True"/>
             <field name="body_html" type="html">
@@ -33,7 +33,7 @@
             <field name="name">Microdaily Report</field>
             <field name="email_from">{{ (object.user_id.email or user.email or '') }}</field>
             <field name="subject">Microdaily Report</field>
-            <field name="email_to">{{ (object.name.email or '') }}</field>
+            <field name="email_to">{{ (object.email or object.name.email or '') }}</field>
             <field name="model_id" ref="libra_periodic_reports.model_microdaily_report"/>
             <field name="auto_delete" eval="True"/>
             <field name="body_html" type="html">
@@ -59,7 +59,7 @@
             <field name="name">Monthly Invoicing Report</field>
             <field name="email_from">{{ (object.user_id.email or user.email or '') }}</field>
             <field name="subject">Monthly Invoicing Report</field>
-            <field name="email_to">{{ object.name.email }}</field>
+            <field name="email_to">{{ object.email or object.name.email }}</field>
             <field name="model_id" ref="libra_periodic_reports.model_monthly_invoicing_report"/>
             <field name="auto_delete" eval="True"/>
             <field name="body_html" type="html">
@@ -85,7 +85,7 @@
             <field name="name">Tripartite Report</field>
             <field name="email_from">{{ (object.user_id.email or user.email or '') }}</field>
             <field name="subject">Tripartite Report</field>
-            <field name="email_to">{{ object.name.email }}</field>
+            <field name="email_to">{{ object.email or object.name.email }}</field>
             <field name="model_id" ref="libra_periodic_reports.model_tripartite_report"/>
             <field name="auto_delete" eval="True"/>
             <field name="body_html" type="html">
