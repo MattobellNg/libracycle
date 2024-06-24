@@ -92,6 +92,7 @@ class SweepReportXls(models.AbstractModel):
                         AML.SWEPT,
                         RP.NAME PARTNER,
                         AAA.NAME PROJECT,
+                        AAA.ID PROJECT_ID,
                         AM.NAME JOURNAL_ENTRY_NUMBER,
                         DATE(AM.CREATE_DATE) SWEPT_DATE,
                         AM.REF SWEEP_ITEM_JOURNAL_ENTRY_NUMBER,
@@ -150,7 +151,37 @@ class SweepReportXls(models.AbstractModel):
                 name, amount = self.find_ref_usi(str(i.get('journal_entry_number')))
             sheet.write(row, col, str(i.get('date')))
             sheet.write(row, col + 1, str(i.get('partner')))
-            sheet.write(row, col + 2, str(i.get('project')))
+            partner_rec = self
+            
+            print ("<<<<<<<<<<< PROJECT ID >>>>>>>>>>>>>>")
+            print (i.get('project_id'))
+
+            aaa_partner = False
+
+            if i.get('project_id'):
+                aaa_rec = self.env['account.analytic.account'].sudo().search([('id','=',int(i.get('project_id')))])
+                if aaa_rec:
+                    aaa_partner = aaa_rec.partner_id.name
+            if aaa_partner:
+                sheet.write(row, col + 2, str(i.get('project'))+" - "+aaa_partner)
+            else:
+                sheet.write(row, col + 2, str(i.get('project')))
+
+
+            # sheet.write(row, col + 2, str(i.get('project')) + ' - '+ str(i.get('')))
+            # print ("<<<<<<<< Project Partner >>>>>>>>>>>>>>")
+            # print (i.get('PROJECT_PARTNER'))
+            # if i.get('PROJECT_PARTNER'):
+            #     partner_rec = self.env['res.partner'].sudo().search([('id','=',int(i.get('PROJECT_PARTNER')))])
+            #     print (abc)
+            # print (partner_rec)
+            # AAA_PARTNER = False
+            # if partner_rec:
+            #     print (AAA_PARTNER)
+            #     AAA_PARTNER = partner_rec.name
+            #     sheet.write(row, col + 2, str(i.get('project'))+' - '+AAA_PARTNER)
+            # else:
+            #     sheet.write(row, col + 2, str(i.get('project')))
             sheet.write(row, col + 3, str(i.get('journal_entry_number')))
             sheet.write(row, col + 4, str(i.get('sweep_item_journal_entry_number')))
             sheet.write(row, col + 5, str(i.get('swept_item_name')))

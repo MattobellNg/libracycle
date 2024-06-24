@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+
+        <!-- Activity Report -->
+        <record id="view_activity_report_tree" model="ir.ui.view">
+            <field name="name">activity.report.tree</field>
+            <field name="model">activity.report</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="email" />
+                    <field name="user_id" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_activity_report_form" model="ir.ui.view">
+            <field name="name">activity.report.form</field>
+            <field name="model">activity.report</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="email"/>
+                        </group>
+                        <group>
+                            <field name="user_id" />
+                            <label for="attachment_ids" string="Report" />
+                            <field name="attachment_ids" widget="many2many_binary" string="Attach a file" nolabel="1" colspan="2"/>
+                        </group>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_activity_report" model="ir.actions.act_window">
+            <field name="name">Activity Report</field>
+            <field name="res_model">activity.report</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_root_activity_report" name="Activity Reports" parent="libra_custom_reports_menu"/>
+
+        <menuitem id="menu_activity_report" name="Activity Report" parent="menu_root_activity_report" action="action_activity_report"/>
+
+
+    </data>
+
+</odoo>

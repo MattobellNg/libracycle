@@ -1,0 +1,50 @@
+<odoo>
+  <data>
+
+    <record id="microdaily_report_view_tree" model="ir.ui.view">
+      <field name="name">microdaily.report.view.tree</field>
+      <field name="model">microdaily.report</field>
+      <field name="arch" type="xml">
+        <tree string="Microdaily report">
+          <field name="name" />
+          <field name="email" />
+          <field name="user_id" />
+        </tree>
+      </field>
+    </record>
+
+    <record id="microdaily_report_view_form" model="ir.ui.view">
+      <field name="name">microdaily.report.view.form</field>
+      <field name="model">microdaily.report</field>
+      <field name="arch" type="xml">
+        <form string="Microdaily report">
+          <group>
+            <group>
+              <field name="name" />
+              <field name="email" />
+            </group>
+            <group>
+              <field name="user_id" />
+              <label for="attachment_ids" string="Report" />
+              <field name="attachment_ids" widget="many2many_binary" string="Attach a file" nolabel="1" colspan="2"/>
+            </group>
+          </group>
+        </form>
+      </field>
+    </record>
+
+    <record id="microdaily_report_action" model="ir.actions.act_window">
+      <field name="name">Microdaily Report</field>
+      <field name="res_model">microdaily.report</field>
+      <field name="view_mode">tree,form</field>
+      <field name="domain">[]</field>
+      <field name="context">{}</field>
+    </record>
+
+    <menuitem id="microdaily_report_menu" name="Microdaily Report" parent="libra_custom_reports_menu"/>
+
+    <menuitem id="microdaily_report_action_menu" name="Microdaily Report" parent="microdaily_report_menu" action="microdaily_report_action" sequence="1"/>
+
+
+  </data>
+</odoo>
