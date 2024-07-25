@@ -151,25 +151,25 @@ class AccountMoveExt(models.Model):
                 if expense:
                     self.swept_journal_entry(expense, end_date)
                     invoice_line.swept = True
-                    continue
+                    # continue
 
                 purchase_receipt_line = self.check_ili_in_purchase_receipts(invoice_line, start_date, end_date)
                 if purchase_receipt_line:
                     self.swept_journal_entry(purchase_receipt_line, end_date)
                     invoice_line.swept = True
-                    continue
+#                     continue
 
                 sale_receipt_line = self.check_ili_in_sale_receipts(invoice_line, start_date, end_date)
                 if sale_receipt_line:
                     self.swept_journal_entry(sale_receipt_line, end_date)
                     invoice_line.swept = True
-                    continue
+#                     continue
 
                 bill_line = self.check_ili_in_vendor_bills(invoice_line, start_date, end_date)
                 if bill_line:
                     self.swept_journal_entry(bill_line, end_date)
                     invoice_line.swept = True
-                    continue
+#                     continue
 
     def swept_journal_entry(self, record, end_date):
         logging.info("Hamza Ilyas ----> swept_journal_entry Called")
@@ -307,14 +307,16 @@ class AccountMoveExt(models.Model):
                 expense.swept = True
                 expense.invoice_line_id = invoice_line
                 return expense
-            else:
-                continue
+            # else:
+            #     continue
 
     def check_ili_in_purchase_receipts(self, invoice_line, start_date, end_date):
         logging.info("Hamza Ilyas ----> check_ili_in_purchase_receipts Called")
         purchase_receipts = self.env['account.move'].search(
             [('state', '=', 'posted'), ('move_type', '=', 'in_receipt'), '&',
              ('invoice_date', '>=', start_date), ('invoice_date', '<=', end_date)])
+        logging.info("<<<<<<purchase_receipts>>>>>>")
+        logging.info(purchase_receipts)
         for receipt in purchase_receipts:
             for receipt_line in receipt.invoice_line_ids:
                 # if receipt_line.product_id == invoice_line.product_id and \
@@ -326,8 +328,8 @@ class AccountMoveExt(models.Model):
                     receipt_line.swept = True
                     receipt_line.invoice_line_id = invoice_line.id
                     return receipt_line
-                else:
-                    continue
+                # else:
+                #     continue
 
     def check_ili_in_sale_receipts(self, invoice_line, start_date, end_date):
         logging.info("Hamza Ilyas ----> check_ili_in_sale_receipts Called")
@@ -345,8 +347,8 @@ class AccountMoveExt(models.Model):
                     receipt_line.swept = True
                     receipt_line.invoice_line_id = invoice_line.id
                     return receipt_line
-                else:
-                    continue
+                # else:
+                #     continue
 
     def check_ili_in_vendor_bills(self, invoice_line, start_date, end_date):
         logging.info("Hamza Ilyas ----> check_ili_in_vendor_bills Called")
@@ -365,8 +367,8 @@ class AccountMoveExt(models.Model):
                     bill_line.swept = True
                     bill_line.invoice_line_id = invoice_line.id
                     return bill_line
-                else:
-                    continue
+                # else:
+                #     continue
 
 
 class AccountMoveLineExt(models.Model):
