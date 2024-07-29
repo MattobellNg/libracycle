@@ -147,29 +147,42 @@ class AccountMoveExt(models.Model):
                 # if not invoice_line.swept:
                 logging.info("Hamza Ilyas ----> <<<<<<<<<< Invoice line is not swept >>>>>>>>>>")
                 logging.info(invoice_line)
-                expense = self.check_ili_in_expenses(invoice_line, start_date, end_date)
-                if expense:
-                    self.swept_journal_entry(expense, end_date)
-                    invoice_line.swept = True
+                expenses = self.check_ili_in_expenses(invoice_line, start_date, end_date)
+                # if expense:
+                #     self.swept_journal_entry(expense, end_date)
+                #     invoice_line.swept = True
                     # continue
-
-                purchase_receipt_line = self.check_ili_in_purchase_receipts(invoice_line, start_date, end_date)
-                if purchase_receipt_line:
-                    self.swept_journal_entry(purchase_receipt_line, end_date)
+                for exp in expenses:
+                    self.swept_journal_entry(exp, end_date)
                     invoice_line.swept = True
-#                     continue
 
-                sale_receipt_line = self.check_ili_in_sale_receipts(invoice_line, start_date, end_date)
-                if sale_receipt_line:
-                    self.swept_journal_entry(sale_receipt_line, end_date)
-                    invoice_line.swept = True
+                purchase_receipt_lines = self.check_ili_in_purchase_receipts(invoice_line, start_date, end_date)
+                # if purchase_receipt_line:
+                #     self.swept_journal_entry(purchase_receipt_line, end_date)
+                #     invoice_line.swept = True
 #                     continue
+                for prl in purchase_receipt_lines:
+                    self.swept_journal_entry(prl, end_date)
+                    invoice_line.swept = True
 
-                bill_line = self.check_ili_in_vendor_bills(invoice_line, start_date, end_date)
-                if bill_line:
-                    self.swept_journal_entry(bill_line, end_date)
-                    invoice_line.swept = True
+
+                sale_receipt_lines = self.check_ili_in_sale_receipts(invoice_line, start_date, end_date)
+                # if sale_receipt_line:
+                #     self.swept_journal_entry(sale_receipt_line, end_date)
+                #     invoice_line.swept = True
 #                     continue
+                for srl in sale_receipt_lines:
+                    self.swept_journal_entry(srl, end_date)
+                    invoice_line.swept = True
+
+                bill_lines = self.check_ili_in_vendor_bills(invoice_line, start_date, end_date)
+                # if bill_line:
+                #     self.swept_journal_entry(bill_line, end_date)
+                #     invoice_line.swept = True
+#                     continue
+                for bl in bill_lines:
+                    self.swept_journal_entry(bl, end_date)
+                    invoice_line.swept = True
 
     def swept_journal_entry(self, record, end_date):
         logging.info("Hamza Ilyas ----> swept_journal_entry Called")
@@ -298,6 +311,7 @@ class AccountMoveExt(models.Model):
         logging.info("Hamza Ilyas ----> check_ili_in_expenses Called")
         expenses = self.env['hr.expense'].search([('state', 'in', ('done', 'approved')), '&',
                                                   ('date', '>=', start_date), ('date', '<=', end_date)])
+        exp_rt = []
         for expense in expenses:
             # if expense.product_id == invoice_line.product_id and \
             #         expense.analytic_account_id == invoice_line.analytic_account_id and not expense.swept:
@@ -306,9 +320,11 @@ class AccountMoveExt(models.Model):
                     expense.analytic_account_id == invoice_line.analytic_account_id and not expense.swept):
                 expense.swept = True
                 expense.invoice_line_id = invoice_line
-                return expense
+                exp_rt.append(expense)
             # else:
             #     continue
+
+        return exp_rt
 
     def check_ili_in_purchase_receipts(self, invoice_line, start_date, end_date):
         logging.info("Hamza Ilyas ----> check_ili_in_purchase_receipts Called")
@@ -317,6 +333,7 @@ class AccountMoveExt(models.Model):
              ('invoice_date', '>=', start_date), ('invoice_date', '<=', end_date)])
         logging.info("<<<<<<purchase_receipts>>>>>>")
         logging.info(purchase_receipts)
+        rec_rt = []
         for receipt in purchase_receipts:
             for receipt_line in receipt.invoice_line_ids:
                 # if receipt_line.product_id == invoice_line.product_id and \
@@ -327,15 +344,18 @@ class AccountMoveExt(models.Model):
                         receipt_line.swept):
                     receipt_line.swept = True
                     receipt_line.invoice_line_id = invoice_line.id
-                    return receipt_line
+                    rec_rt.append(receipt_line)
                 # else:
                 #     continue
+
+        return rec_rt
 
     def check_ili_in_sale_receipts(self, invoice_line, start_date, end_date):
         logging.info("Hamza Ilyas ----> check_ili_in_sale_receipts Called")
         sale_receipts = self.env['account.move'].search([('state', '=', 'posted'), ('move_type', '=', 'out_receipt'),
                                                          '&', ('invoice_date', '>=', start_date),
                                                          ('invoice_date', '<=', end_date)])
+        recs_rt = []
         for receipt in sale_receipts:
             for receipt_line in receipt.invoice_line_ids:
                 # if receipt_line.product_id == invoice_line.product_id and \
@@ -346,15 +366,18 @@ class AccountMoveExt(models.Model):
                         receipt_line.swept):
                     receipt_line.swept = True
                     receipt_line.invoice_line_id = invoice_line.id
-                    return receipt_line
+                    recs_rt.append(receipt_line)
                 # else:
                 #     continue
+
+        return recs_rt
 
     def check_ili_in_vendor_bills(self, invoice_line, start_date, end_date):
         logging.info("Hamza Ilyas ----> check_ili_in_vendor_bills Called")
         vendor_bills = self.env['account.move'].search([('state', '=', 'posted'), ('move_type', '=', 'in_invoice'),
                                                         '&', ('invoice_date', '>=', start_date),
                                                         ('invoice_date', '<=', end_date)])
+        ven_rt = []
         for bill in vendor_bills:
             for bill_line in bill.invoice_line_ids:
                 logging.info("<<<<<<bill_line>>>>>>")
@@ -366,9 +389,11 @@ class AccountMoveExt(models.Model):
                         bill_line.analytic_account_id == invoice_line.analytic_account_id and not bill_line.swept):
                     bill_line.swept = True
                     bill_line.invoice_line_id = invoice_line.id
-                    return bill_line
+                    ven_rt.append(bill_line)
                 # else:
                 #     continue
+
+        return ven_rt
 
 
 class AccountMoveLineExt(models.Model):
