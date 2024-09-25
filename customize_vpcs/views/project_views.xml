@@ -584,6 +584,67 @@
             </field>
         </record>
 
+        <record id="view_custom_tracking_report_search" model="ir.ui.view">
+            <field name="name">Tracking Report</field>
+            <field name="model">custom.tracking.report</field>
+            <field name="arch" type="xml">
+                <search string="Tracking Report">
+                    <field name="partner_id" width='100px'/>
+                    <field name="container_seal_no" width='100px'/>
+                    <field name="qty_received_origin" width='100px'/>
+                    <field name="qty_received_dest" width='100px'/>
+                    <field name="cargo_name" width='100px'/>
+                    <field name="sealed" width='100px'/>
+                    <field name="tracker_found" width='100px'/>
+                    <field name="sn_no" width='100px'/>
+                    <field name="client_name" string='Client Name' width='100px'/>
+                    <field name="liner" string='Liner' width='100px'/>
+                    <field name="Container_number" string='Container Number' width='100px'/>
+                    <field name="bl_number" width='100px'/>
+                    <field name="container_size" width='100px'/>
+                    <field name="date_tdo_received" width='100px'/>
+                    <field name="truck_loading_date" width='100px'/>
+                    <field name="days_of_initial_terminal" width='100px' optional='show' options="{'no_create': True}"/>
+                    <field name="days_out_terminal" width='100px' optional='show'/>
+                    <field name="barge_road_id" width='100px' optional='show'/>
+                    <field name="days_before_barge" width='100px' optional='show'/>
+                    <field name="import_barge_date" width='100px' optional='show'/>
+                    <field name="barged_from" width='100px' optional='show'/>
+                    <field name="barged_to" width='100px' optional='show'/>
+                    <field name="barge_arrival_date" width='100px' optional='show'/>
+                    <field name="tug" width='100px' optional='show'/>
+                    <field name="barge_name_operator" width='100px' optional='show'/>
+                    <field name="barge_offloading_date" width='100px' optional='show'/>
+                    <field name="container_age" width='100px' optional='show'/>
+                    <field name="container_age_terminal" width='100px' optional='show'/>
+                    <field name="truck_out_loading_date" width='100px' optional='show'/>
+                    <field name="last_known_location" width='100px' optional='show'/>
+                    <field name="arrival_date" width='100px' optional='show'/>
+                    <field name="arrival_client_side" width='100px' optional='show'/>
+                    <field name="time_to_destination" width='100px' optional='show'/>
+                    <field name="offloading_location" width='100px' optional='show'/>
+                    <field name="truck_offloading_date" width='100px' optional='show'/>
+                    <field name="offload_delay" width='100px' optional='show'/>
+                    <field name="reasons_for_delay" width='100px' optional='show'/>
+                    <field name="waybill_no" width='100px' optional='show'/>
+                    <field name="truck_number" width='100px' optional='show'/>
+                    <field name="transporter_name" width='100px' optional='show'/>
+                    <field name="driver_name" width='100px' optional='show'/>
+                    <field name="phone_number" width='100px' optional='show'/>
+                    <field name="return_empties" width='100px' optional='show'/>
+                    <field name="empty_return_date" width='100px' optional='show'/>
+                    <field name="date_return_to_terminal" width='100px' optional='show'/>
+                    <field name="barge_empty_return_operator" width='100px' optional='show'/>
+                    <field name="current_empty_location_1" width='100px' optional='show'/>
+                    <field name="final_empty_location" width='100px' optional='show'/>
+                    <field name="return_date" width='100px' optional='show'/>
+                    <field name="comments" width='100px' optional='show'/>
+                    <field name="address" width='100px' optional='show'/>
+                    <field name="description_of_goods" width='100px' optional='show'/>
+                </search>
+            </field>
+        </record>
+
         <record id="action_tracking_report_hi" model="ir.actions.act_window">
             <field name="name">Custom Tracking report</field>
             <field name="type">ir.actions.act_window</field>
