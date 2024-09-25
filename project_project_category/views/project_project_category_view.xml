@@ -33,7 +33,7 @@
                                 <field name="default_stage_ids" />
                             </page>
                             <page string="Project Fields">
-                                <group colspan="4" col="4">
+                                <group colspan="4" col="4" invisible="1">
                                     <field name="has_job_form_m" string="Form M" widget="radio" options="{'horizontal': true}" />
                                     <field name="has_job_form_m_date" string="Form M Date" widget="radio" options="{'horizontal': true}" />
                                     <field name="has_arrival_date" string="Arrival Date" widget="radio" options="{'horizontal': true}" />

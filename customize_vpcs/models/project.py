@@ -104,7 +104,7 @@ class ProjectProject(models.Model):
 
     mode_shipment = fields.Char(string="Mode Shipment")
     barge_operator = fields.Many2one('barge.operator', "Barge Operator")
-    mode_shipment_air_sea = fields.Many2many('mode.shipment', string="Mode Shipment(Air/Sea)")
+    mode_shipment_air_sea = fields.Many2one('mode.shipment', string="Mode Shipment(Air/Sea)")
     ################## AWAITING ARRIVAL ############################
     shipping_line = fields.Char(string="Shipping/Air line")
     vessel_line = fields.Char(string="Vessel/Flight name")
@@ -586,8 +586,8 @@ class ProjectProject(models.Model):
     name = fields.Char('Sequence Number', required=True, index=True, copy=False, default='New')
     feet_forty = fields.Integer(string='40FT')
     feet_twenty = fields.Integer(string='20FT')
-    cbm = fields.Integer(string='CBM')
-    kg = fields.Integer(string='KG')
+    cbm = fields.Float(string='CBM')
+    kg = fields.Float(string='KG')
     days_in_port = fields.Integer(string='Days in Port')
     major_cause_of_delay = fields.Char(string='Major Cause Of Delay')
     container_transfer = fields.Date(string='CONT-Transfer')

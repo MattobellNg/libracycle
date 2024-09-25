@@ -111,6 +111,7 @@ class ProjectProjectCategory(models.Model):
         ('7', 'Free Trade Zone-Sea')
     ], 'Field Visibility', default='1')
     document_bool = fields.Boolean(string="Document Upload?")
+    country_of_destination = fields.Many2one('res.country', string="Destination")
 
     @api.onchange('has_field_visibility')
     def change_field_combination(self):
