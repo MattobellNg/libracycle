@@ -63,7 +63,7 @@
                                     <field name="has_job_plant_delivery_date" string="Plant Delivery Date" widget="radio" options="{'horizontal': true}"/>
                                     <field name="has_exchange_control_returned" string="Exchange Control Returned" widget="radio" options="{'horizontal': true}"/>
                                     <field name="has_shipping_rating_till" string="Shipping rating till" widget="radio" options="{'horizontal': true}"/>
-                                    <field name="has_terminal_rating_till" string="Terminal rating till" widget="radio" options="{'horizontal': true}"/>
+                                    <field name="has_terminal_rating_till" string="Terminal Rating Till" widget="radio" options="{'horizontal': true}"/>
                                     <field name="has_cleared_date" string="Cleared Date" widget="radio" options="{'horizontal': true}"/>
                                     <field name="has_loading_date" string="Loading Date" widget="radio" options="{'horizontal': true}"/>
                                     <field name="has_delivery_date" string="Delivery Date" widget="radio" options="{'horizontal': true}"/>
@@ -78,7 +78,7 @@
                                     <field name="has_nafdac_2_stamp_date" string="NAFDAC 2nd Stamp" widget="radio" options="{'horizontal': true}"/>
                                     <field name="has_son_date" string="SON Date" widget="radio" options="{'horizontal': true}"/>
                                     <field name="has_pod" string="POD" widget="radio" options="{'horizontal': true}"/>
-                                    <field name="has_free_days" string="No of Free days" widget="radio" options="{'horizontal': true}"/>
+                                    <field name="has_free_days" string="No Of Free Days" widget="radio" options="{'horizontal': true}"/>
                                     <field name="has_custom_exam_date" string="Custom Exams Booking Date" widget="radio" options="{'horizontal': true}"/>
                                     <field name="has_custom_date" string="Custom Exams Date" widget="radio" options="{'horizontal': true}"/>
                                     <field name="has_fou_release_date" string="FOU release Date" widget="radio" options="{'horizontal': true}"/>

@@ -270,7 +270,7 @@ class ProjectProject(models.Model):
         tracking=True,
     )
     job_liner = fields.Char(
-        "TERMINAL",
+        "Terminal",
         tracking=True,
     )
     job_ba_number = fields.Char(
@@ -405,11 +405,11 @@ class ProjectProject(models.Model):
     discharge_date = fields.Date("Discharge Date", tracking=True)
     doc_to_agent = fields.Char("Doc. to agent", tracking=True)
     rotation_number = fields.Char("Rotation Number", tracking=True)
-    nafdac_1_stamp_date = fields.Date("NAFDAC 1st stamp date", tracking=True)
+    nafdac_1_stamp_date = fields.Date("NAFDAC 1st Stamp Date", tracking=True)
     nafdac_2_stamp_date = fields.Date("NAFDAC 2nd stamp sate", tracking=True)
     son_date = fields.Date("SON date", tracking=True)
     pod = fields.Char("POD", tracking=True)
-    free_days = fields.Char("No of Free days", tracking=True)
+    free_days = fields.Char("No Of Free Days", tracking=True)
     custom_exam_date = fields.Date("Custom Exams Booking Date", tracking=True)
     custom_date = fields.Date("Custom Exams Date", tracking=True)
     fou_release_date = fields.Date("FOU release Date", tracking=True)

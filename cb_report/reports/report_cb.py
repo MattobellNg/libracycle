@@ -13,7 +13,7 @@ class CBXlsx(models.AbstractModel):
 
 
     def generate_xlsx_report(self, workbook, data, items):       
-        headers = ["BL NO", "Job Ref No","Job Type", "40FT", "20FT", "CBM", "KG", "ITEM DESCRIPTION", "SHIPPING LINE", "TERMINAL", "JOB DYNAMICS", "ATA", "TDO Date", "Delivery completion Date", "Final Destination", "Complete Doc. Received", "Duty", "Shipping charge", "Terminal Charge ", "NAFDAC",
+        headers = ["BL NO", "Job Ref No","Job Type", "40FT", "20FT", "CBM", "KG", "ITEM DESCRIPTION", "SHIPPING LINE", "Terminal", "JOB DYNAMICS", "ATA", "TDO Date", "Delivery completion Date", "Final Destination", "Complete Doc. Received", "Duty", "Shipping charge", "Terminal Charge ", "NAFDAC",
                    "SON", "Agency", "Transportation", "Others", "Total Cost(N)", "Duty", "Shipping charge", "Terminal Charge ", "NAFDAC", "Agency", "Transportation", "Others", "Invoice Value(N)", "VAT(N)", "Total Invoice Value(N)", "Paid(N)", "WHT(N)", "Unpaid(N)", "Total Profit(N)", "COMMENT", "DGPATEL"]
         sheet = workbook.add_worksheet("CBReport")
         cell_format = workbook.add_format(

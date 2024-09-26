@@ -289,10 +289,10 @@ class ProjectProjectCategory(models.Model):
     )
     has_nafdac_1_stamp_date = fields.Selection(
         FIELD_SELECTION,
-        "NAFDAC 1st stamp date",
+        "NAFDAC 1st Stamp Date",
         required=True,
         default="no",
-        help="Display NAFDAC 1st stamp date section on project",
+        help="Display NAFDAC 1st Stamp Date section on project",
     )
     has_nafdac_2_stamp_date = fields.Selection(
         FIELD_SELECTION,
@@ -317,7 +317,7 @@ class ProjectProjectCategory(models.Model):
     )
     has_free_days = fields.Selection(
         FIELD_SELECTION,
-        "No of Free days",
+        "No Of Free Days",
         required=True,
         default="optional",
         help="Display POD section on project",
@@ -579,7 +579,7 @@ class ProjectProject(models.Model):
     )
     has_nafdac_1_stamp_date = fields.Selection(
         [],
-        "NAFDAC 1st stamp date",
+        "NAFDAC 1st Stamp Date",
         related="project_categ_id.has_nafdac_1_stamp_date",
         readonly=True,
     )
@@ -591,7 +591,7 @@ class ProjectProject(models.Model):
     )
     has_son_date = fields.Selection([], "SON date", related="project_categ_id.has_son_date", readonly=True)
     has_pod = fields.Selection([], "POD", related="project_categ_id.has_pod", readonly=True)
-    has_free_days = fields.Selection([], "No of Free days", related="project_categ_id.has_free_days", readonly=True)
+    has_free_days = fields.Selection([], "No Of Free Days", related="project_categ_id.has_free_days", readonly=True)
     has_custom_exam_date = fields.Selection(
         [],
         "Custom Exams Booking Date",

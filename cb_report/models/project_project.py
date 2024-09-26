@@ -25,7 +25,7 @@ class Project(models.Model):
     project_shipping_charge = fields.Integer(string="Project Shipping Charge",
                                              compute="compute_project_shipping_charge")
     project_terminal_charge = fields.Float(string="Project Terminal Charge", compute="compute_project_terminal_charge")
-    project_nafdac = fields.Integer(string="Project Nafdac", compute="compute_project_nafdac")
+    project_nafdac = fields.Integer(string="Project NAFDAC", compute="compute_project_nafdac")
     project_son = fields.Integer(string="Project SON", compute="compute_project_son")
     project_agency = fields.Integer(string="Project Agency", compute="compute_project_agency")
     project_transportation = fields.Integer(string="Project Transportation", compute="compute_project_transportation")
@@ -38,7 +38,7 @@ class Project(models.Model):
                                               compute="compute_customer_shipping_charge")
     customer_terminal_charge = fields.Integer(string="Customer Terminal Charge",
                                               compute="compute_customer_terminal_charge")
-    customer_nafdac = fields.Integer(string="Customer Nafdac", compute="compute_customer_nafdac")
+    customer_nafdac = fields.Integer(string="Customer NAFDAC", compute="compute_customer_nafdac")
     customer_son = fields.Integer(string="Customer SON", compute="compute_customer_son")
     customer_agency = fields.Integer(string="Customer Agency", compute="compute_customer_agency")
     customer_transportation = fields.Integer(string="Customer Transportation",
@@ -63,10 +63,10 @@ class Project(models.Model):
     terminal_count = fields.Integer(string="Terminal Invoice Line", compute='compute_terminal_count')
     terminal_move_line_ids = fields.One2many("account.move.line", "project_id", string="Terminal Move Lines",
                                              compute="compute_terminal_count")
-    nafdac_count = fields.Integer(string="Nafdac Invoice Line", compute='compute_nafdac_count')
+    nafdac_count = fields.Integer(string="NAFDAC Invoice Line", compute='compute_nafdac_count')
     nafdac_move_line_ids = fields.One2many("account.move.line", "project_id", string="NAFDAC Move Lines",
                                            compute="compute_nafdac_count")
-    son_count = fields.Integer(string="Son Invoice Line", compute='compute_son_count')
+    son_count = fields.Integer(string="SON Invoice Line", compute='compute_son_count')
     son_move_line_ids = fields.One2many("account.move.line", "project_id", string="SON Move Lines",
                                         compute="compute_son_count")
     agency_count = fields.Integer(string="Agency Invoice Line", compute='compute_agency_count')

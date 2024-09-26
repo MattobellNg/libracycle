@@ -92,13 +92,13 @@ class ProjectProject(models.Model):
     ################### PRE-ALERT ###################################
     job_refs = fields.Char(string="Job Reference")
     client_name = fields.Many2one('res.partner', string="client name")
-    pre_alert_date = fields.Date(string="pre-alert date")
+    pre_alert_date = fields.Date(string="Pre-Alert Date")
     project_team = fields.Many2one('res.users', string="Project Team")
     account_officer = fields.Many2one('res.users', string="Account Officer")
     item_description = fields.Char(string="Item Description")
 
-    job_form_m_mf = fields.Char(string="Form M(MF)")
-    document_job_form_m_mf = fields.Binary(string="Document(Form M(MF))")
+    job_form_m_mf = fields.Char(string="Form M (MF)")
+    document_job_form_m_mf = fields.Binary(string="Document(Form M (MF))")
     doc_job_bool = fields.Boolean()
     doc_boolean = fields.Boolean()
 
@@ -114,9 +114,9 @@ class ProjectProject(models.Model):
     dest_port = fields.Char(string='Destination port')
     terminal = fields.Char(string="Terminal")
     custom_terminal = fields.Many2one('custom.terminal', string="Terminal")
-    country_of_loading = fields.Many2one('res.country', string="Country of loading")
-    port_of_loading = fields.Char(string='PORT OF LOADING')
-    rotation_not_received = fields.Date(string="Rotation not received")
+    country_of_loading = fields.Many2one('res.country', string="Country Of Loading")
+    port_of_loading = fields.Char(string='Port Of Loading')
+    rotation_not_received = fields.Date(string="Rotation Not received")
 
     ######base field#####
     document_bol_awb_ref = fields.Binary(string='Document(BOL/AWB)')
@@ -129,40 +129,40 @@ class ProjectProject(models.Model):
     doc_has_nafdac_2_stamp_date = fields.Boolean()
 
     #############################IN CLEARING#################################
-    paar_request = fields.Date(string="PAAR REQUEST")
+    paar_request = fields.Date(string="PAAR Request")
 
-    paar_received = fields.Date(string='PAAR RECEIVED')
-    document_paar_received = fields.Binary(string="Document(Paar Received)")
+    paar_received = fields.Date(string='PAAR Received')
+    document_paar_received = fields.Binary(string="Document (PAAR Received)")
     doc_paar_bool = fields.Boolean()
 
     duty_assesment = fields.Date(string='Duty Assessment')
-    document_duty_assesment = fields.Binary(string='Document(Duty Assessment)')
+    document_duty_assesment = fields.Binary(string='Document (Duty Assessment)')
     doc_duty_asses = fields.Boolean()
 
     duty_received = fields.Date(string='Duty Received')
-    document_duty_received = fields.Binary(string="Document(Document duty received)")
+    document_duty_received = fields.Binary(string="Document (Document Duty Received)")
     doc_duty_received = fields.Boolean()
     agent_name = fields.Char("Agent Name")
-    nafdac_paid = fields.Date(string='Nafdac Paid')
-    son_invoice = fields.Date(string='Son Invoice')
-    son_paid = fields.Date(string="Son Paid")
+    nafdac_paid = fields.Date(string='NAFDAC Paid')
+    son_invoice = fields.Date(string='SON Invoice')
+    son_paid = fields.Date(string="SON Paid")
     quarantine_payment = fields.Date(string='Quarantine Payment')
     docs_copy_received = fields.Date(string="Complete Copy Docs Received")
     original_copy_received = fields.Date(string="Complete original Docs Received")
-    complete_docs_uploaded = fields.Date(string='Complete Docs uploaded')
-    first_shipping_invoice = fields.Date(string="1st Shipping invoice")
-    first_shipping_paid = fields.Date(string="1st Shipping paid")
-    second_shipping_dn_paid = fields.Date(string="2nd Shipping paid")
-    third_shipping_dn_paid = fields.Date(string="3rd Shipping paid")
-    first_terminal_invoice = fields.Date(string="1st Terminal invoice")
-    first_terminal_paid = fields.Date(string="1st Terminal paid")
-    first_additional_storage_paid = fields.Date(string='1st additional storage paid')
-    second_additional_storage_paid = fields.Date(string='2nd additional storage paid')
+    complete_docs_uploaded = fields.Date(string='Complete Docs Uploaded')
+    first_shipping_invoice = fields.Date(string="1st Shipping Invoice")
+    first_shipping_paid = fields.Date(string="1st Shipping Paid")
+    second_shipping_dn_paid = fields.Date(string="2nd Shipping Paid")
+    third_shipping_dn_paid = fields.Date(string="3rd Shipping Paid")
+    first_terminal_invoice = fields.Date(string="1st Terminal Invoice")
+    first_terminal_paid = fields.Date(string="1st Terminal Paid")
+    first_additional_storage_paid = fields.Date(string='1st Additional Storage Paid')
+    second_additional_storage_paid = fields.Date(string='2nd Additional Storage Paid')
     examination_booked = fields.Date(string="Examination Booked")
     examination_start = fields.Date(string="Examination Start")
     examination_done = fields.Date(string="Examination Done")
 
-    shipping_released = fields.Date(string='Shipping released')
+    shipping_released = fields.Date(string='Shipping Released')
     document_shipping_released = fields.Binary(string='Document(shipping released)')
     doc_ship_released = fields.Boolean()
 
@@ -180,7 +180,7 @@ class ProjectProject(models.Model):
     date_delivery_complete = fields.Date(string='Date Delivery Complete')
 
     delivery_waybill_from_client = fields.Date(string='Delivery Waybill from Client')
-    document_delivery_waybill_from_client = fields.Binary(string='Document(Waybill from Client)')
+    document_delivery_waybill_from_client = fields.Binary(string='Document (Waybill from Client)')
     doc_waybill_from_client = fields.Boolean()
     custom_free_days = fields.Integer("Free Period")
     ##################POST DELIVERY###################################
@@ -254,7 +254,7 @@ class ProjectProject(models.Model):
     )
     has_form_m_mf = fields.Selection(
         [],
-        "Form M(MF)",
+        "Form M (MF)",
         related="project_categ_id.has_form_m_mf",
         readonly=True,
         default="no",
@@ -274,37 +274,37 @@ class ProjectProject(models.Model):
     )
     has_shipping_line = fields.Selection(
         [],
-        "SHIPPING LINE/AIR LINE",
+        "Shipping Line/Air Line",
         related="project_categ_id.has_shipping_line",
         readonly=True
     )
     has_vessel_name = fields.Selection(
         [],
-        "VESSEL /FLIGHT NAME",
+        "Vessel/Flight Name",
         related="project_categ_id.has_vessel_name",
         readonly=True
     )
     has_destination_port = fields.Selection(
         [],
-        "DESTINATION PORT (SEA/AIR)",
+        "Destination Port (Sea/Air)",
         related="project_categ_id.has_destination_port",
         readonly=True
     )
     has_terminal = fields.Selection(
         [],
-        "TERMINAL",
+        "Terminal",
         related="project_categ_id.has_terminal",
         readonly=True
     )
     has_country_of_loading = fields.Selection(
         [],
-        "COUNTRY OF LOADING",
+        "County Of Loading",
         related="project_categ_id.has_country_of_loading",
         readonly=True
     )
     has_port_of_loading = fields.Selection(
         [],
-        "COUNTRY OF LOADING",
+        "County Of Loading",
         related="project_categ_id.has_port_of_loading",
         readonly=True
     )
@@ -316,7 +316,7 @@ class ProjectProject(models.Model):
     )
     has_rotation_received = fields.Selection(
         [],
-        "Rotation not received",
+        "Rotation Not received",
         related="project_categ_id.has_rotation_received",
         readonly=True
     )
@@ -592,14 +592,14 @@ class ProjectProject(models.Model):
     major_cause_of_delay = fields.Char(string='Major Cause Of Delay')
     container_transfer = fields.Date(string='CONT-Transfer')
     report_wizard_bool = fields.Boolean(string='C&B Report', default=False)
-    port_many_loading = fields.Many2many('port.loading', string="PORT OF LOADING")
+    port_many_loading = fields.Many2many('port.loading', string="Port Of Loading")
     ship_line = fields.Many2one(comodel_name='shipping.line')
 
     # report_many2one = fields.Many2one('report.customize_vpcs.report_cb_report')
     # duty = fields.Float(string='Duty')
     # Shipping_charge = fields.Float(string='Shipping Charge')
     # Terminal_charge = fields.Float(string='Terminal Charge')
-    # nafdac = fields.Float(string='Nafdac')
+    # nafdac = fields.Float(string='NAFDAC')
     # son = fields.Float(string='SON')
     # Agency = fields.Float(string='Agency')
     # transportation = fields.Float(string='Transportation')
