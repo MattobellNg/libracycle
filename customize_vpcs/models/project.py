@@ -1,11 +1,8 @@
-from email.policy import default
+
 from odoo import models, fields, api, _
 from datetime import datetime
 from odoo.exceptions import ValidationError
-import io
-from odoo.tools.misc import xlsxwriter
-from odoo.http import content_disposition, request
-import json
+from typing import Tuple, List
 
 FIELD_SELECTION = [("required", "Required"), ("optional", "Optional"), ("no", "None")]
 
@@ -1157,3 +1154,19 @@ class CustomTrackingReport(models.Model):
                     # 'return_date': job.return_date,
                     # 'comments': job.last_project_comment,
                 })
+
+
+    @api.model
+    def _update_trackings(self, report_ids, update_data: List[Tuple[str, str]] =[]) -> bool:
+        """Update trackings with the new field values"""
+        if not update_data:
+            return
+        update_vals = {}
+        for item in update_data:
+            if not hasattr(self, item[0]):
+                continue
+            update_vals[item[0]] = item[1]
+        return report_ids.update(update_vals)
+        
+        
+
