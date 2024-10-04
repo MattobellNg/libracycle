@@ -114,7 +114,9 @@ class ProjectProject(models.Model):
     country_of_loading = fields.Many2one('res.country', string="Country Of Loading")
     port_of_loading = fields.Char(string='Port Of Loading')
     rotation_not_received = fields.Date(string="Rotation Not received")
-
+    document_booking_number = fields.Binary(string='Document (Booking Number)')
+    booking_number = fields.Selection(selection=FIELD_SELECTION, string='Booking Number', default='optional')
+    
     ######base field#####
     document_bol_awb_ref = fields.Binary(string='Document(BOL/AWB)')
     doc_bol_awb_ref = fields.Boolean()
@@ -165,11 +167,27 @@ class ProjectProject(models.Model):
 
     fou_approved = fields.Date(string='FOU Approved')
     nepza_released = fields.Date(string="NEPZA Released")
+    container_provided = fields.Date('Container Provided')
+    loading_complete = fields.Date('Loading Complete')
+    packing_list_and_invoice = fields.Date('Packing List and Invoice')
+    delivered_to_terminal = fields.Date('Delivered To Terminal')
+    ness_payment = fields.Date('Ness Payment')
+    gate_in_docs_received = fields.Date('Gate In Docs Received')
+    coo = fields.Date('COO')
+    cci = fields.Date('CCI')
+    sgd = fields.Date('SGD / Releasing')
+    loaded_on_vessel = fields.Date('Loaded On Vessel')
+    final_obl_received = fields.Date('Final OBL Received')
+    shipping_instruction = fields.Date('Shipping Instruction')
+    draft_bl = fields.Date('Draft BL')
     ###########################READY TO LOAD ##############################
     ################needs to be comment#############
     truck_in = fields.Date(string="Truck In")
     gate_out = fields.Date(string="Gate Out")
     empty_container_returned = fields.Date(string="Empty Container Returned")
+    stuffing = fields.Date('Stuffing/Loading')
+    port_delivery = fields.Date('Port Delivery')
+    vessel_sailed = fields.Date('Vessel Sailed')
 
     ###############################DELIVERY START(TRUCK/BARGE)####################
     date_delivery_start = fields.Date(string='Date Delivery Start')

@@ -12,9 +12,6 @@
                     <field name="has_field_visibility" />
                     <field name="field_visibility" invisible="1" />
                 </xpath>
-                <!-- <xpath expr='//field[@name="has_rotation_number"]' position='attributes'>
-                    <attribute name='invisible'>1</attribute>
-                </xpath> -->
                 <xpath expr='//field[@name="has_job_tdo"]' position='attributes'>
                     <attribute name='invisible'>1</attribute>
                 </xpath>
@@ -44,7 +41,7 @@
                                 attrs="{'invisible': [('has_field_visibility', '=', '1')]}" />
                         </group>
                         <group string='AWAITING ARRIVAL' colspan="4" col="4">
-                            <field name="country_of_destination"/>
+                            <field name="country_of_destination" />
                             <field name='has_barge_operator' string='Barge Name/Operator'
                                 widget='radio' options="{'horizontal':true}" />
                             <field name="has_bol_awb_ref" string="BOL/AWB" widget="radio"
@@ -66,7 +63,8 @@
                                 attrs="{'invisible': [('has_field_visibility', 'in', ('1','2'))]}" />
                             <field name="has_port_of_loading" string="Port Of Loading"
                                 widget="radio" options="{'horizontal': true}" />
-                            <field name="has_rotation_received" string="Rotation Number Received Date"
+                            <field name="has_rotation_received"
+                                string="Rotation Number Received Date"
                                 widget="radio" options="{'horizontal': true}" />
                             <field name="has_free_days" string="No Of Free Days" widget="radio"
                                 options="{'horizontal': true}"
@@ -74,6 +72,8 @@
                             <field name="has_etd" string="ETD" widget="radio"
                                 options="{'horizontal': true}" />
                             <field name="has_eta" string="ETA" widget="radio"
+                                options="{'horizontal': true}" />
+                            <field name="booking_number" widget="radio"
                                 options="{'horizontal': true}" />
                         </group>
                         <group string='IN CLEARING' colspan="4" col="4">
@@ -166,6 +166,19 @@
                             <field name="has_nepza_released" string="NEPZA Received" widget='radio'
                                 options="{'horizontal': true}"
                                 attrs="{'invisible': [('has_field_visibility', '=', '1')]}" />
+                            <field name="container_provided" />
+                            <field name="loading_complete" />
+                            <field name="packing_list_and_invoice" />
+                            <field name="delivered_to_terminal" />
+                            <field name="ness_payment" />
+                            <field name="gate_in_docs_received" />
+                            <field name="coo" />
+                            <field name="cci" />
+                            <field name="sgd" />
+                            <field name="loaded_on_vessel"/>
+                            <field name="final_obl_received" />
+                            <field name="shipping_instruction" />
+                            <field name="draft_bl" />
                         </group>
                         <group string='DELIVERY START(TRUCK/BARGE)' colspan='4' col='4'>
                             <field name="has_date_delivery_start" string="Date Delivery Start"
@@ -196,15 +209,13 @@
                             <field name="has_nafdac_final_release" string="NAFDAC Final Release"
                                 widget="radio" options="{'horizontal': true}" />
                         </group>
+                        <group string='READY TO LOAD' colspan='4' col='4'>
+                            <field name="stuffing" />
+                            <field name="port_delivery" />
+                            <field name="vessel_sailed" />
+                        </group>
                     </group>
                 </xpath>
-                <!-- <xpath expr='//field[@name="has_free_days"]' position='attributes'>
-                    <attribute name="attrs">
-                        {'invisible': [
-                            ('has_field_visibility', 'in', ('1','2')),
-                        ]}
-                    </attribute>
-                </xpath> -->
                 <xpath expr='//field[@name="has_job_ba_number"]' position='attributes'>
                     <attribute name="attrs">
                         {'invisible': [

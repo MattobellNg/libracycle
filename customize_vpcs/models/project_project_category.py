@@ -35,6 +35,7 @@ class ProjectProjectCategory(models.Model):
     has_country_of_loading = fields.Selection(FIELD_SELECTION, 'County Of Loading', default='optional')
     has_port_of_loading = fields.Selection(FIELD_SELECTION, 'Port Of Loading', default='optional')
     has_rotation_received = fields.Selection(FIELD_SELECTION, 'Rotation Not received', default='optional')
+    booking_number = fields.Selection(selection=FIELD_SELECTION, string='Booking Number', default='optional')
     #############################IN CLEARING#################################
     has_paar_request = fields.Selection(FIELD_SELECTION, "PAAR Request", default="optional")
     has_paar_received = fields.Selection(FIELD_SELECTION, "PAAR Received", default='optional')
@@ -61,12 +62,28 @@ class ProjectProjectCategory(models.Model):
     has_shipping_released = fields.Selection(FIELD_SELECTION, 'Shipping Release (DO)', default='no')
     has_fou_approved = fields.Selection(FIELD_SELECTION, 'FOU Approved', default='no')
     has_nepza_released = fields.Selection(FIELD_SELECTION, 'NEPZA Received', default='no')
+    container_provided = fields.Date('Container Provided')
+    loading_complete = fields.Date('Loading Complete')
+    packing_list_and_invoice = fields.Date('Packing List and Invoice')
+    delivered_to_terminal = fields.Date('Delivered To Terminal')
+    ness_payment = fields.Date('Ness Payment')
+    gate_in_docs_received = fields.Date('Gate In Docs Received')
+    coo = fields.Date('COO')
+    cci = fields.Date('CCI')
+    sgd = fields.Date('SGD / Releasing')
+    loaded_on_vessel = fields.Date('Loaded On Vessel')
+    final_obl_received = fields.Date('Final OBL Received')
+    shipping_instruction = fields.Date('Shipping Instruction')
+    draft_bl = fields.Date('Draft BL')
     ##################READY TO LOAD##################################
     #########################needs to be comment#################
 
     has_truck_in = fields.Selection(FIELD_SELECTION, 'TRUCK IN ', default='no')
     has_gate_out = fields.Selection(FIELD_SELECTION, 'GATE OUT', default='no')
     has_empty_container_returned = fields.Selection(FIELD_SELECTION, 'EMPTY CONTAINER RETURN', default='no')
+    stuffing = fields.Date('Stuffing/Loading')
+    port_delivery = fields.Date('Port Delivery')
+    vessel_sailed = fields.Date('Vessel Sailed')
 
     ###############################DELIVERY START(TRUCK/BARGE)####################
 
