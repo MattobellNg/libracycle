@@ -24,21 +24,6 @@ class ProjectProjectCategory(models.Model):
     task_needaction_count = fields.Integer(compute="_compute_task_needaction_count", string="Tasks")
     project_category_task_ids = fields.One2many("project.task", "project_categ_id", string="Project Default Tasks")
     default_stage_ids = fields.Many2many("project.task.type", string="Default Stages")
-
-    has_job_form_m = fields.Selection(
-        FIELD_SELECTION,
-        "Form M.",
-        required=True,
-        default="no",
-        help="Display Form M. on project",
-    )
-    has_job_form_m_date = fields.Selection(
-        FIELD_SELECTION,
-        "Form M. Date",
-        required=True,
-        default="no",
-        help="Display Form M. Date on project",
-    )
     has_bol_awb_ref = fields.Selection(
         FIELD_SELECTION,
         "BOL/AWB Ref",
@@ -46,90 +31,12 @@ class ProjectProjectCategory(models.Model):
         default="optional",
         help="Display BOL/AWB Ref on project",
     )
-
-    has_arrival_date = fields.Selection(
-        FIELD_SELECTION,
-        "Arrival Date",
-        required=True,
-        default="no",
-        help="Display arrival date on project",
-    )
-    has_job_son = fields.Selection(
-        FIELD_SELECTION,
-        "SON",
-        required=True,
-        default="no",
-        help="Display SON field on project",
-    )
-    has_job_liner = fields.Selection(
-        FIELD_SELECTION,
-        "LINER",
-        required=True,
-        default="no",
-        help="Display LINER field on project",
-    )
-    has_job_ba_number = fields.Selection(
-        FIELD_SELECTION,
-        "BA Number",
-        required=True,
-        default="no",
-        help="Display BA Number field on project",
-    )
-    has_job_cbm = fields.Selection(
-        FIELD_SELECTION,
-        "CBM",
-        required=True,
-        default="no",
-        help="Display CBM field on project",
-    )
-    has_bill_of_lading = fields.Selection(
-        FIELD_SELECTION,
-        "Bill of Lading",
-        required=True,
-        default="no",
-        help="Display Bill of Lading field on project",
-    )
-    has_shipping_doc = fields.Selection(
-        FIELD_SELECTION,
-        "Shipping Doc",
-        required=True,
-        default="no",
-        help="Display Shipping Doc field on project",
-    )
-    has_job_paar = fields.Selection(
-        FIELD_SELECTION,
-        "PAAR",
-        required=True,
-        default="no",
-        help="Display PAAR field on project",
-    )
-    has_job_assessment = fields.Selection(
-        FIELD_SELECTION,
-        "Assessment",
-        required=True,
-        default="no",
-        help="Display Assessment field on project",
-    )
     has_job_duty = fields.Selection(
         FIELD_SELECTION,
         "Duty",
         required=True,
         default="no",
         help="Display Duty field on project",
-    )
-    has_job_shipping_co = fields.Selection(
-        FIELD_SELECTION,
-        "Shipping Co.",
-        required=True,
-        default="no",
-        help="Display Shipping Co. field on project",
-    )
-    has_job_terminal_payment = fields.Selection(
-        FIELD_SELECTION,
-        "Terminal Payment",
-        required=True,
-        default="no",
-        help="Display Terminal Payment field on project",
     )
     has_custom_release_date = fields.Selection(
         FIELD_SELECTION,
@@ -145,48 +52,13 @@ class ProjectProjectCategory(models.Model):
         default="no",
         help="Display TDO field on project",
     )
-    has_job_plant_delivery_date = fields.Selection(
-        FIELD_SELECTION,
-        "Plant delivery date",
-        required=True,
-        default="no",
-        help="Display Plant delivery date field on project",
-    )
-    has_exchange_control_returned = fields.Selection(
-        FIELD_SELECTION,
-        "Exchange control returned",
-        required=True,
-        default="no",
-        help="Display Exchange control returned field on project",
-    )
 
-    has_shipping_rating_till = fields.Selection(
-        FIELD_SELECTION,
-        "Shipping Rating Till",
-        required=True,
-        default="no",
-        help="Display Shipping Rating Till field on project",
-    )
     has_terminal_rating_till = fields.Selection(
         FIELD_SELECTION,
         "Terminal Rating Till",
         required=True,
         default="no",
         help="Display Terminal Rating Till field on project",
-    )
-    has_cleared_date = fields.Selection(
-        FIELD_SELECTION,
-        "Cleared Date",
-        required=True,
-        default="no",
-        help="Display Cleared Date field on project",
-    )
-    has_loading_date = fields.Selection(
-        FIELD_SELECTION,
-        "Loading Date",
-        required=True,
-        default="no",
-        help="Display Loading Date field on project",
     )
     has_delivery_date = fields.Selection(
         FIELD_SELECTION,
@@ -195,56 +67,6 @@ class ProjectProjectCategory(models.Model):
         default="no",
         help="Display Delivery Date field on project",
     )
-    has_container_return_date = fields.Selection(
-        FIELD_SELECTION,
-        "Container Return Date",
-        required=True,
-        default="no",
-        help="Display Container Return Date field on project",
-    )
-    has_total_cycle = fields.Selection(
-        FIELD_SELECTION,
-        "Total Cycle",
-        required=True,
-        default="no",
-        help="Display Total Cycle field on project",
-    )
-    has_job_do = fields.Selection(
-        FIELD_SELECTION,
-        "DO",
-        required=True,
-        default="no",
-        help="Display DO field on project",
-    )
-    has_ecd_date = fields.Selection(
-        FIELD_SELECTION,
-        "ECD Date",
-        required=True,
-        default="no",
-        help="Display ECD date field on project",
-    )
-    has_refund_demurrage = fields.Selection(
-        FIELD_SELECTION,
-        "Refund/Demurrage",
-        required=True,
-        default="no",
-        help="Display Refund  Demurrage section on project",
-    )
-    has_cdr = fields.Selection(
-        FIELD_SELECTION,
-        "CDR",
-        required=True,
-        default="no",
-        help="Display CDR section on project",
-    )
-    has_etr = fields.Selection(
-        FIELD_SELECTION,
-        "ETR",
-        required=True,
-        default="no",
-        help="Display ETR section on project",
-    )
-
     has_etd = fields.Selection(
         FIELD_SELECTION,
         "ETD",
@@ -265,20 +87,6 @@ class ProjectProjectCategory(models.Model):
         required=True,
         default="no",
         help="Display ATA section on project",
-    )
-    has_discharge_date = fields.Selection(
-        FIELD_SELECTION,
-        "Discharge Date",
-        required=True,
-        default="no",
-        help="Display discharge date section on project",
-    )
-    has_doc_to_agent = fields.Selection(
-        FIELD_SELECTION,
-        "Doc. to agent",
-        required=True,
-        default="no",
-        help="Display date document was sent to agent on project",
     )
     has_rotation_number = fields.Selection(
         FIELD_SELECTION,
@@ -308,47 +116,12 @@ class ProjectProjectCategory(models.Model):
         default="no",
         help="Display SON date section on project",
     )
-    has_pod = fields.Selection(
-        FIELD_SELECTION,
-        "POD",
-        required=True,
-        default="no",
-        help="Display POD section on project",
-    )
     has_free_days = fields.Selection(
         FIELD_SELECTION,
         "No Of Free Days",
         required=True,
         default="optional",
         help="Display POD section on project",
-    )
-    has_custom_exam_date = fields.Selection(
-        FIELD_SELECTION,
-        "Custom Exams Booking Date",
-        required=True,
-        default="no",
-        help="Display Custom Exams Booking Date section on project",
-    )
-    has_custom_date = fields.Selection(
-        FIELD_SELECTION,
-        "Custom Exams Date",
-        required=True,
-        default="no",
-        help="Display Custom Exams Booking Date section on project",
-    )
-    has_fou_release_date = fields.Selection(
-        FIELD_SELECTION,
-        "FOU release Date",
-        required=True,
-        default="no",
-        help="Display FUR release Date section on project",
-    )
-    has_gate_release_date = fields.Selection(
-        FIELD_SELECTION,
-        "Gate release Date",
-        required=True,
-        default="no",
-        help="Display Gate release Date section on project",
     )
 
     _order = "name"
@@ -397,21 +170,6 @@ class ProjectProject(models.Model):
         domain="[('project_type_id', '=', type_id)]",
         required=True,
     )
-
-    has_job_form_m = fields.Selection(
-        [],
-        "Has Job Form M",
-        related="project_categ_id.has_job_form_m",
-        readonly=True,
-        default="no",
-    )
-    has_job_form_m_date = fields.Selection(
-        [],
-        "Form M. Date",
-        related="project_categ_id.has_job_form_m_date",
-        readonly=True,
-        default="no",
-    )
     has_bol_awb_ref = fields.Selection(
         [],
         "BOL/AWB Ref",
@@ -419,66 +177,7 @@ class ProjectProject(models.Model):
         readonly=True,
         default="no",
     )
-    has_arrival_date = fields.Selection(
-        [],
-        "Arrival Date",
-        related="project_categ_id.has_arrival_date",
-        readonly=True,
-        default="no",
-    )
-    has_job_son = fields.Selection([], "SON", related="project_categ_id.has_job_son", readonly=True, default="no")
-    has_job_liner = fields.Selection(
-        [],
-        "LINER",
-        related="project_categ_id.has_job_liner",
-        readonly=True,
-        default="no",
-    )
-    has_job_ba_number = fields.Selection(
-        [],
-        "BA Number",
-        related="project_categ_id.has_job_ba_number",
-        readonly=True,
-        default="no",
-    )
-    has_job_cbm = fields.Selection([], "CBM", related="project_categ_id.has_job_cbm", readonly=True, default="no")
-    has_bill_of_lading = fields.Selection(
-        [],
-        "Bill of Lading",
-        related="project_categ_id.has_bill_of_lading",
-        readonly=True,
-        default="no",
-    )
-    has_shipping_doc = fields.Selection(
-        [],
-        "Shipping Doc",
-        related="project_categ_id.has_shipping_doc",
-        readonly=True,
-        default="no",
-    )
-    has_job_paar = fields.Selection([], "PAAR", related="project_categ_id.has_job_paar", readonly=True, default="no")
-    has_job_assessment = fields.Selection(
-        [],
-        "Assessment",
-        related="project_categ_id.has_job_assessment",
-        readonly=True,
-        default="no",
-    )
     has_job_duty = fields.Selection([], "Duty", related="project_categ_id.has_job_duty", readonly=True, default="no")
-    has_job_shipping_co = fields.Selection(
-        [],
-        "Shipping Co.",
-        related="project_categ_id.has_job_shipping_co",
-        readonly=True,
-        default="no",
-    )
-    has_job_terminal_payment = fields.Selection(
-        [],
-        "Terminal Payment",
-        related="project_categ_id.has_job_terminal_payment",
-        readonly=True,
-        default="no",
-    )
     has_custom_release_date = fields.Selection(
         [],
         "Custom Release Date",
@@ -487,45 +186,10 @@ class ProjectProject(models.Model):
         default="no",
     )
     has_job_tdo = fields.Selection([], "TDO", related="project_categ_id.has_job_tdo", readonly=True, default="no")
-    has_job_plant_delivery_date = fields.Selection(
-        [],
-        "Plant delivery date",
-        related="project_categ_id.has_job_plant_delivery_date",
-        readonly=True,
-        default="no",
-    )
-    has_exchange_control_returned = fields.Selection(
-        [],
-        "Exchange control returned",
-        related="project_categ_id.has_exchange_control_returned",
-        readonly=True,
-        default="no",
-    )
-    has_shipping_rating_till = fields.Selection(
-        [],
-        "Shipping Rating Till",
-        related="project_categ_id.has_shipping_rating_till",
-        readonly=True,
-        default="no",
-    )
     has_terminal_rating_till = fields.Selection(
         [],
         "Terminal Rating Till",
         related="project_categ_id.has_terminal_rating_till",
-        readonly=True,
-        default="no",
-    )
-    has_cleared_date = fields.Selection(
-        [],
-        "Cleared Date",
-        related="project_categ_id.has_cleared_date",
-        readonly=True,
-        default="no",
-    )
-    has_loading_date = fields.Selection(
-        [],
-        "Loading Date",
-        related="project_categ_id.has_loading_date",
         readonly=True,
         default="no",
     )
@@ -536,41 +200,9 @@ class ProjectProject(models.Model):
         readonly=True,
         default="no",
     )
-    has_container_return_date = fields.Selection(
-        [],
-        "Container Return Date",
-        related="project_categ_id.has_container_return_date",
-        readonly=True,
-        default="no",
-    )
-    has_total_cycle = fields.Selection(
-        [],
-        "Total Cycle",
-        related="project_categ_id.has_total_cycle",
-        readonly=True,
-        default="no",
-    )
-    has_job_do = fields.Selection([], "DO", related="project_categ_id.has_job_do", readonly=True, default="no")
-    has_ecd_date = fields.Selection([], "ECD Date", related="project_categ_id.has_ecd_date", readonly=True)
-    has_refund_demurrage = fields.Selection(
-        [],
-        "Refund/Demurrage",
-        related="project_categ_id.has_refund_demurrage",
-        readonly=True,
-    )
-    has_cdr = fields.Selection([], "CDR", related="project_categ_id.has_cdr", readonly=True)
-    has_etr = fields.Selection([], "ETR", related="project_categ_id.has_etr", readonly=True)
-
     has_etd = fields.Selection([], "ETD", related="project_categ_id.has_etd", readonly=True)
     has_eta = fields.Selection([], "ETA", related="project_categ_id.has_eta", readonly=True)
     has_ata = fields.Selection([], "ATA", related="project_categ_id.has_ata", readonly=True)
-    has_discharge_date = fields.Selection(
-        [],
-        "Discharge Date",
-        related="project_categ_id.has_discharge_date",
-        readonly=True,
-    )
-    has_doc_to_agent = fields.Selection([], "Doc. to agent", related="project_categ_id.has_doc_to_agent", readonly=True)
     has_rotation_number = fields.Selection(
         [],
         "Rotation Number",
@@ -590,32 +222,7 @@ class ProjectProject(models.Model):
         readonly=True,
     )
     has_son_date = fields.Selection([], "SON date", related="project_categ_id.has_son_date", readonly=True)
-    has_pod = fields.Selection([], "POD", related="project_categ_id.has_pod", readonly=True)
     has_free_days = fields.Selection([], "No Of Free Days", related="project_categ_id.has_free_days", readonly=True)
-    has_custom_exam_date = fields.Selection(
-        [],
-        "Custom Exams Booking Date",
-        related="project_categ_id.has_custom_exam_date",
-        readonly=True,
-    )
-    has_custom_date = fields.Selection(
-        [],
-        "Custom Exams Date",
-        related="project_categ_id.has_custom_date",
-        readonly=True,
-    )
-    has_fou_release_date = fields.Selection(
-        [],
-        "FOU release Date",
-        related="project_categ_id.has_fou_release_date",
-        readonly=True,
-    )
-    has_gate_release_date = fields.Selection(
-        [],
-        "Gate release Date",
-        related="project_categ_id.has_gate_release_date",
-        readonly=True,
-    )
 
     @api.model
     def create(self, vals):

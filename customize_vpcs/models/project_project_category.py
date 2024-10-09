@@ -137,7 +137,7 @@ class ProjectProjectCategory(models.Model):
                 rec.has_pre_alert_date = "no"
                 rec.has_form_m_mf = "no"
                 rec.has_mode_shipment = "no"
-                rec.has_job_ba_number = "no"
+                # rec.has_job_ba_number = "no"
                 rec.has_shipping_line = "no"
                 rec.has_vessel_name = 'no'
                 rec.has_country_of_loading = 'no'

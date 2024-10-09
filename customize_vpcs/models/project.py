@@ -94,7 +94,6 @@ class ProjectProject(models.Model):
     account_officer = fields.Many2one('res.users', string="Account Officer")
     item_description = fields.Char(string="Item Description")
 
-    job_form_m_mf = fields.Char(string="Form M (MF)")
     document_job_form_m_mf = fields.Binary(string="Document(Form M (MF))")
     doc_job_bool = fields.Boolean()
     doc_boolean = fields.Boolean()
@@ -732,35 +731,35 @@ class ProjectProject(models.Model):
         if self.sn_state == 'post_delivery':
             self.sn_state = 'ready_to_load'
 
-    @api.onchange('job_form_m_mf', 'paar_received', 'duty_assesment', 'duty_received', 'shipping_released',
-                  'fecd_custom_ack', 'fecd_client_ack', 'bol_awb_ref', 'nafdac_1_stamp_date', 'nafdac_2_stamp_date',
-                  'delivery_waybill_from_client', 'nafdac_final_release')
-    def onchange_form_doc(self):
-        for rec in self:
-            if rec.job_form_m_mf:
-                rec.doc_job_bool = True
-            if rec.paar_received:
-                rec.doc_paar_bool = True
-            if rec.duty_assesment:
-                rec.doc_duty_asses = True
-            if rec.duty_received:
-                rec.doc_duty_received = True
-            if rec.shipping_released:
-                rec.doc_ship_released = True
-            if rec.fecd_custom_ack:
-                rec.doc_custom = True
-            if rec.fecd_client_ack:
-                rec.doc_client = True
-            if rec.bol_awb_ref:
-                rec.doc_bol_awb_ref = True
-            if rec.nafdac_1_stamp_date:
-                rec.doc_has_nafdac_1_stamp_date = True
-            if rec.nafdac_2_stamp_date:
-                rec.doc_has_nafdac_2_stamp_date = True
-            if rec.delivery_waybill_from_client:
-                rec.doc_waybill_from_client = True
-            if rec.nafdac_final_release:
-                rec.doc_nafdac_final_release = True
+    # @api.onchange('job_form_m_mf', 'paar_received', 'duty_assesment', 'duty_received', 'shipping_released',
+    #               'fecd_custom_ack', 'fecd_client_ack', 'bol_awb_ref', 'nafdac_1_stamp_date', 'nafdac_2_stamp_date',
+    #               'delivery_waybill_from_client', 'nafdac_final_release')
+    # def onchange_form_doc(self):
+    #     for rec in self:
+    #         if rec.job_form_m_mf:
+    #             rec.doc_job_bool = True
+    #         if rec.paar_received:
+    #             rec.doc_paar_bool = True
+    #         if rec.duty_assesment:
+    #             rec.doc_duty_asses = True
+    #         if rec.duty_received:
+    #             rec.doc_duty_received = True
+    #         if rec.shipping_released:
+    #             rec.doc_ship_released = True
+    #         if rec.fecd_custom_ack:
+    #             rec.doc_custom = True
+    #         if rec.fecd_client_ack:
+    #             rec.doc_client = True
+    #         if rec.bol_awb_ref:
+    #             rec.doc_bol_awb_ref = True
+    #         if rec.nafdac_1_stamp_date:
+    #             rec.doc_has_nafdac_1_stamp_date = True
+    #         if rec.nafdac_2_stamp_date:
+    #             rec.doc_has_nafdac_2_stamp_date = True
+    #         if rec.delivery_waybill_from_client:
+    #             rec.doc_waybill_from_client = True
+    #         if rec.nafdac_final_release:
+    #             rec.doc_nafdac_final_release = True
 
     @api.model
     def visible_button(self):
@@ -1001,7 +1000,6 @@ class CustomTrackingReport(models.Model):
     truck_out_loading_date = fields.Date(string='Truck Out Loading Date', store=True)
     last_known_location = fields.Many2one("last.known.location", string='Last Known Location')
     arrival_client_side = fields.Date(string="Arrival Date at Client's Site", store=True)
-    arrival_date = fields.Date(string="Arrival Date", store=True)
     time_to_destination = fields.Char(string='Time to Destination', compute='compute_time_to_destination')
     offloading_location = fields.Char(string='Offloading Location')
     truck_offloading_date = fields.Date(string='Truck Offloading Date', store=True)
@@ -1043,14 +1041,15 @@ class CustomTrackingReport(models.Model):
                 delta = rec.truck_out_loading_date - rec.barge_offloading_date
                 rec.container_age_terminal = delta.days
 
-    @api.depends('truck_out_loading_date', 'arrival_date')
+    @api.depends('truck_out_loading_date')
     def compute_time_to_destination(self):
         print("compute_time_to_destination called XXXXXXXXXXXXXXX")
         for rec in self:
             rec.time_to_destination = False
-            if rec.truck_out_loading_date and rec.arrival_date:
-                delta = rec.arrival_date - rec.truck_out_loading_date
-                rec.time_to_destination = delta.days
+            # revisit
+            # if rec.truck_out_loading_date and rec.arrival_date:
+            #     delta = rec.arrival_date - rec.truck_out_loading_date
+            #     rec.time_to_destination = delta.days
 
     @api.depends('truck_offloading_date', 'arrival_client_side')
     def compute_offload_delay(self):
@@ -1103,23 +1102,7 @@ class CustomTrackingReport(models.Model):
         for rec in self:
             rec.write({
                 'partner_id': False,
-                # 'sn_no': False,
-                # 'client_name': False,
-                # 'liner': False,
-                # 'Container_number': False,
                 'container_size': False,
-                # 'truck_loading_date': False,
-                # 'import_barge_date': False,
-                # 'barge_arrival_date': False,  # input field
-                # 'arrival_date': False,
-                # 'barge_name_operator': False,
-                # 'truck_out_loading_date': False,
-                # 'truck_offloading_date': False,
-                # 'reasons_for_delay': False,
-                # 'empty_return_date': False,
-                # 'date_return_to_terminal': False,
-                # 'return_date': False,
-                # 'comments': False,
             })
             if rec.bl_number:
                 job = rec.env['project.project'].search([('name', '=', rec.bl_number)])
@@ -1127,23 +1110,7 @@ class CustomTrackingReport(models.Model):
                     job = job[0]
                     rec.write({
                         'partner_id': job.partner_id,
-                        # 'sn_no': job.bol_awb_ref,
-                        # 'client_name': job.client_name.name if job.client_name else False,
-                        # 'liner': job.job_liner,
-                        # 'Container_number': job.container,
                         'container_size': job.size_of_container,
-                        # 'truck_loading_date': job.truck_in,
-                        # 'import_barge_date': job.Barge_date,
-                        # 'barge_arrival_date': job.barging_date,  # input field
-                        # 'arrival_date': job.arrival_date,
-                        # 'barge_name_operator': job.barge_operator.name,
-                        # 'truck_out_loading_date': job.Load_out_date,
-                        # 'truck_offloading_date': job.offloading_date,
-                        # 'reasons_for_delay': job.major_cause_of_delay,
-                        # 'empty_return_date': job.empty_container_return_date,
-                        # 'date_return_to_terminal': job.container_return_date,
-                        # 'return_date': job.return_date,
-                        # 'comments': job.last_project_comment,
                     })
 
     @api.onchange('bl_number')
@@ -1154,23 +1121,7 @@ class CustomTrackingReport(models.Model):
                 job = job[0]
                 self.write({
                     'partner_id': job.partner_id,
-                    # 'sn_no': job.bol_awb_ref,
-                    # 'client_name': job.client_name.name if job.client_name else False,
-                    # 'liner': job.job_liner,
-                    # 'Container_number': job.container,
                     'container_size': job.size_of_container,
-                    # 'truck_loading_date': job.truck_in,
-                    # 'import_barge_date': job.Barge_date,
-                    # 'barge_arrival_date': job.barging_date,  # input field
-                    # 'arrival_date': job.arrival_date,
-                    # 'barge_name_operator': job.barge_operator.name,
-                    # 'truck_out_loading_date': job.Load_out_date,
-                    # 'truck_offloading_date': job.offloading_date,
-                    # 'reasons_for_delay': job.major_cause_of_delay,
-                    # 'empty_return_date': job.empty_container_return_date,
-                    # 'date_return_to_terminal': job.container_return_date,
-                    # 'return_date': job.return_date,
-                    # 'comments': job.last_project_comment,
                 })
 
 

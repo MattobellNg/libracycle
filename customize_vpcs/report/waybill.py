@@ -69,7 +69,6 @@ class BargedXlsx(models.AbstractModel):
             sheet.write(new_row,7,"",cell_format)
             sheet.set_column(7,7,15)
             sheet.write(new_row,8,j.project_id.items_total_weight,cell_format)
-            sheet.write(new_row,9,j.project_id.has_job_liner,cell_format)
             sr_no+=1
 
 # This code is for operation report

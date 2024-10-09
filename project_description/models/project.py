@@ -142,11 +142,6 @@ class ProjectProject(models.Model):
         oldname="x_clientref",
         tracking=True,
     )
-    job_form_m = fields.Char(
-        "Form M./NXP",
-        oldname="x_formm",
-        tracking=True,
-    )
     job_form_m_date = fields.Date(
         "Form M./NXP Collection",
         tracking=True,
@@ -196,58 +191,20 @@ class ProjectProject(models.Model):
         required=False,
         tracking=True,
     )
-    has_job_form_m = fields.Boolean()
     has_bol_awb_ref = fields.Boolean()
-    has_arrival_date = fields.Boolean()
-    has_job_form_m_date = fields.Date()
-    has_job_son = fields.Boolean()
-    has_job_liner = fields.Boolean()
-    has_job_ba_number = fields.Boolean()
-    has_job_cbm = fields.Boolean()
-    has_bill_of_lading = fields.Boolean()
-    has_shipping_doc = fields.Boolean()
-    has_job_paar = fields.Boolean()
-    has_job_assessment = fields.Boolean()
     has_job_duty = fields.Boolean()
-    has_job_shipping_co = fields.Boolean()
-    has_job_terminal_payment = fields.Boolean()
     has_custom_release_date = fields.Boolean()
     has_job_tdo = fields.Boolean()
-    has_job_plant_delivery_date = fields.Boolean()
-    has_exchange_control_returned = fields.Boolean()
-    has_shipping_rating_till = fields.Boolean()
     has_terminal_rating_till = fields.Boolean()
-    has_cleared_date = fields.Boolean()
-    has_loading_date = fields.Boolean()
     has_delivery_date = fields.Boolean()
-    has_container_return_date = fields.Boolean()
-    has_total_cycle = fields.Boolean()
-    has_job_do = fields.Boolean()
-    has_ecd_date = fields.Boolean()
-    has_refund_demurrage = fields.Boolean()
-    has_cdr = fields.Boolean()
-    has_etr = fields.Boolean()
     has_etd = fields.Boolean()
     has_eta = fields.Boolean()
     has_ata = fields.Boolean()
-    has_discharge_date = fields.Boolean()
-    has_doc_to_agent = fields.Boolean()
     has_rotation_number = fields.Boolean()
     has_nafdac_1_stamp_date = fields.Boolean()
     has_nafdac_2_stamp_date = fields.Boolean()
     has_son_date = fields.Boolean()
-    has_pod = fields.Boolean()
     has_free_days = fields.Boolean()
-    has_discharge_date = fields.Boolean()
-    has_custom_exam_date = fields.Boolean()
-    has_fou_release_date = fields.Boolean()
-    has_custom_date = fields.Boolean()
-    has_gate_release_date = fields.Boolean()
-    has_discharge_date = fields.Boolean()
-    has_discharge_date = fields.Boolean()
-
-
-
     project_categ_id = fields.Many2one("project.project.category", "Project Category")
     country_of_destination = fields.Many2one(
         "res.country",
@@ -261,24 +218,12 @@ class ProjectProject(models.Model):
     items_total_weight = fields.Float("Weight", default=0.0)
     items_total_size = fields.Float("Size", default=0.0)
     analysis_balance = fields.Monetary(compute="_compute_project_balance", string="Balance")
-    arrival_date = fields.Date(
-        "Arrival Date",
-        tracking=True,
-    )
     job_son = fields.Char(
         "SON",
         tracking=True,
     )
-    job_liner = fields.Char(
-        "Terminal",
-        tracking=True,
-    )
     job_ba_number = fields.Char(
         "BA Number",
-        tracking=True,
-    )
-    job_cbm = fields.Char(
-        "CBM",
         tracking=True,
     )
     bill_of_lading = fields.Date(
@@ -348,19 +293,8 @@ class ProjectProject(models.Model):
         "Container Return Date",
         tracking=True,
     )
-    total_cycle = fields.Char(
-        "Total Cycle",
-        compute="_cal_total_cycle",
-        store=True,
-        default="0",
-        tracking=True,
-    )
     job_do = fields.Date(
         "DO",
-        tracking=True,
-    )
-    ecd_date = fields.Date(
-        "ECD Date",
         tracking=True,
     )
     refund_demurrage_option = fields.Selection(
@@ -371,21 +305,6 @@ class ProjectProject(models.Model):
     )
     refund_demurrage_benef_id = fields.Many2one("res.partner", "R/D Beneficiary", tracking=True)
     refund_demurrage_amount = fields.Float("Amount", tracking=True)
-
-    cdr_beneficiary_id = fields.Many2one("res.partner", "CDR Beneficiary", tracking=True)
-    cdr_amount_deposit = fields.Float(
-        "Amount Deposited",
-        tracking=True,
-    )
-    cdr_amount_paid = fields.Float(
-        "Amount Paid",
-        tracking=True,
-    )
-    cdr_comment = fields.Char(
-        "cdr comment",
-        tracking=True,
-    )
-
     etr_invoice_number = fields.Char(
         "Invoice Number",
         tracking=True,
@@ -413,7 +332,6 @@ class ProjectProject(models.Model):
     custom_exam_date = fields.Date("Custom Exams Booking Date", tracking=True)
     custom_date = fields.Date("Custom Exams Date", tracking=True)
     fou_release_date = fields.Date("FOU release Date", tracking=True)
-    gate_release_date = fields.Date("Gate release Date", tracking=True)
     empty_container_return_date = fields.Date("Empty Container return Date", tracking=True)
     job_invoiced = fields.Selection(
         [("yes", "YES"), ("no", "NO")],
@@ -480,14 +398,6 @@ class ProjectProject(models.Model):
         #         )
         #         if check_for_comment:
         #             rec.last_project_comment = check_for_comment.body
-
-    @api.depends("cleared_date", "job_duty")
-    def _cal_total_cycle(self):
-        for rec in self:
-            if rec.cleared_date and rec.job_duty:
-                cal_days = rec.cleared_date - rec.job_duty
-                if cal_days:
-                    rec.total_cycle = "%s day(s)" % cal_days
 
     @api.onchange("user_id")
     def on_change_task_assign_id(self):
