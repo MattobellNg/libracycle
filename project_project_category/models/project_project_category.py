@@ -60,13 +60,6 @@ class ProjectProjectCategory(models.Model):
         default="no",
         help="Display Terminal Rating Till field on project",
     )
-    has_delivery_date = fields.Selection(
-        FIELD_SELECTION,
-        "Delivery Date",
-        required=True,
-        default="no",
-        help="Display Delivery Date field on project",
-    )
     has_etd = fields.Selection(
         FIELD_SELECTION,
         "ETD",
@@ -190,13 +183,6 @@ class ProjectProject(models.Model):
         [],
         "Terminal Rating Till",
         related="project_categ_id.has_terminal_rating_till",
-        readonly=True,
-        default="no",
-    )
-    has_delivery_date = fields.Selection(
-        [],
-        "Delivery Date",
-        related="project_categ_id.has_delivery_date",
         readonly=True,
         default="no",
     )

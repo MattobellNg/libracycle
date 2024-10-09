@@ -24,8 +24,6 @@
                             <field name='items_total_weight'/>
                             <field name='schedule_item_count'/>
                             <field name='items_total_size'/>
-                            <field name='bill_of_lading'/>
-                            <field name='job_paar'/>
                             <field name='job_carrier_id'/>
                             <field name='vessel_det'/>
                             <field name='discharge_port_id'/>
@@ -97,8 +95,6 @@
                         <field name='items_total_weight'/>
                         <field name='schedule_item_count'/>
                         <field name='items_total_size'/>
-                        <field name='bill_of_lading'/>
-                        <field name='job_paar'/>
                         <field name='job_carrier_id'/>
                         <field name='vessel_det'/>
                         <field name='discharge_port_id'/>

@@ -94,6 +94,7 @@ class ProjectProject(models.Model):
     account_officer = fields.Many2one('res.users', string="Account Officer")
     item_description = fields.Char(string="Item Description")
 
+    job_form_m_mf = fields.Char(string="Form M(MF)")
     document_job_form_m_mf = fields.Binary(string="Document(Form M (MF))")
     doc_job_bool = fields.Boolean()
     doc_boolean = fields.Boolean()
@@ -101,6 +102,12 @@ class ProjectProject(models.Model):
     mode_shipment = fields.Char(string="Mode Shipment")
     barge_operator = fields.Many2one('barge.operator', "Barge Operator")
     mode_shipment_air_sea = fields.Many2one('mode.shipment', string="Mode Shipment(Air/Sea)")
+    has_job_ba_number = fields.Selection(
+        FIELD_SELECTION,
+        "BA Number",
+        default="no",
+        help="Display BA Number field on project",
+    )
     ################## AWAITING ARRIVAL ############################
     shipping_line = fields.Char(string="Shipping/Air line")
     vessel_line = fields.Char(string="Vessel/Flight name")
@@ -1000,6 +1007,7 @@ class CustomTrackingReport(models.Model):
     truck_out_loading_date = fields.Date(string='Truck Out Loading Date', store=True)
     last_known_location = fields.Many2one("last.known.location", string='Last Known Location')
     arrival_client_side = fields.Date(string="Arrival Date at Client's Site", store=True)
+    arrival_date = fields.Date(string="Arrival Date", store=True)
     time_to_destination = fields.Char(string='Time to Destination', compute='compute_time_to_destination')
     offloading_location = fields.Char(string='Offloading Location')
     truck_offloading_date = fields.Date(string='Truck Offloading Date', store=True)
@@ -1041,15 +1049,14 @@ class CustomTrackingReport(models.Model):
                 delta = rec.truck_out_loading_date - rec.barge_offloading_date
                 rec.container_age_terminal = delta.days
 
-    @api.depends('truck_out_loading_date')
+    @api.depends('truck_out_loading_date', 'arrival_date')
     def compute_time_to_destination(self):
         print("compute_time_to_destination called XXXXXXXXXXXXXXX")
         for rec in self:
             rec.time_to_destination = False
-            # revisit
-            # if rec.truck_out_loading_date and rec.arrival_date:
-            #     delta = rec.arrival_date - rec.truck_out_loading_date
-            #     rec.time_to_destination = delta.days
+            if rec.truck_out_loading_date and rec.arrival_date:
+                delta = rec.arrival_date - rec.truck_out_loading_date
+                rec.time_to_destination = delta.days
 
     @api.depends('truck_offloading_date', 'arrival_client_side')
     def compute_offload_delay(self):

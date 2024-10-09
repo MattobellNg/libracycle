@@ -238,8 +238,11 @@
                                 attrs="{'invisible': [('doc_job_bool', '=', False)], 'required': [('doc_job_bool','=',True)],'readonly':[('sn_state','in',('awaiting_arrival','in_clearing','ready_to_load','post_delivery'))]}" />
                         </group>
                         <group colspan="4" col="4">
+                            <field name="has_job_ba_number" invisible="1" />
                             <field name="mode_shipment_air_sea"
                                 attrs="{'invisible':['|',('has_mode_shipment','=','no'),('project_categ_id','=', False)], 'required': [('has_mode_shipment','=','required')], 'readonly':[('sn_state','in',('awaiting_arrival','in_clearing','ready_to_load','post_delivery'))]}" />
+                            <field name="job_ba_number"
+                                attrs="{'invisible':['|',('has_job_ba_number','=','no'),('project_categ_id','=', False)], 'required': [('has_job_ba_number','=','required')], 'readonly':[('sn_state','in',('awaiting_arrival','in_clearing','ready_to_load','post_delivery'))]}" />
                         </group>
                     </group>
                     <group string="AWAITING ARRIVAL" colspan='4' col='4'
@@ -356,19 +359,32 @@
                                 attrs="{'invisible':['|','|',('has_examination_start','=','no'),('project_categ_id','=', False),('sn_state','in',('pre_alert','awaiting_arrival'))], 'required': [('has_examination_start','=','required'),('sn_state','=','in_clearing')],'readonly':[('sn_state','in',('ready_to_load','post_delivery'))]}" />
                             <field name="examination_done"
                                 attrs="{'invisible':['|','|',('has_examination_done','=','no'),('project_categ_id','=', False),('sn_state','in',('pre_alert','awaiting_arrival'))], 'required': [('has_examination_done','=','required'),('sn_state','=','in_clearing')],'readonly':[('sn_state','in',('ready_to_load','post_delivery'))]}" />
-                            <field name="container_provided" attrs="{'invisible': [('sn_state', '!=', 'in_clearing')]}" />
-                            <field name="loading_complete" attrs="{'invisible': [('sn_state', '!=', 'in_clearing')]}" />
-                            <field name="packing_list_and_invoice" attrs="{'invisible': [('sn_state', '!=', 'in_clearing')]}" />
-                            <field name="delivered_to_terminal" attrs="{'invisible': [('sn_state', '!=', 'in_clearing')]}" />
-                            <field name="ness_payment" attrs="{'invisible': [('sn_state', '!=', 'in_clearing')]}" />
-                            <field name="gate_in_docs_received" attrs="{'invisible': [('sn_state', '!=', 'in_clearing')]}" />
-                            <field name="coo" attrs="{'invisible': [('sn_state', '!=', 'in_clearing')]}" />
-                            <field name="cci" attrs="{'invisible': [('sn_state', '!=', 'in_clearing')]}" />
-                            <field name="sgd" attrs="{'invisible': [('sn_state', '!=', 'in_clearing')]}" />
-                            <field name="loaded_on_vessel" attrs="{'invisible': [('sn_state', '!=', 'in_clearing')]}" />
-                            <field name="final_obl_received" attrs="{'invisible': [('sn_state', '!=', 'in_clearing')]}" />
-                            <field name="shipping_instruction" attrs="{'invisible': [('sn_state', '!=', 'in_clearing')]}" />
-                            <field name="draft_bl" attrs="{'invisible': [('sn_state', '!=', 'in_clearing')]}" />
+                            <field name="container_provided"
+                                attrs="{'invisible': [('sn_state', '!=', 'in_clearing')]}" />
+                            <field name="loading_complete"
+                                attrs="{'invisible': [('sn_state', '!=', 'in_clearing')]}" />
+                            <field name="packing_list_and_invoice"
+                                attrs="{'invisible': [('sn_state', '!=', 'in_clearing')]}" />
+                            <field name="delivered_to_terminal"
+                                attrs="{'invisible': [('sn_state', '!=', 'in_clearing')]}" />
+                            <field name="ness_payment"
+                                attrs="{'invisible': [('sn_state', '!=', 'in_clearing')]}" />
+                            <field name="gate_in_docs_received"
+                                attrs="{'invisible': [('sn_state', '!=', 'in_clearing')]}" />
+                            <field name="coo"
+                                attrs="{'invisible': [('sn_state', '!=', 'in_clearing')]}" />
+                            <field name="cci"
+                                attrs="{'invisible': [('sn_state', '!=', 'in_clearing')]}" />
+                            <field name="sgd"
+                                attrs="{'invisible': [('sn_state', '!=', 'in_clearing')]}" />
+                            <field name="loaded_on_vessel"
+                                attrs="{'invisible': [('sn_state', '!=', 'in_clearing')]}" />
+                            <field name="final_obl_received"
+                                attrs="{'invisible': [('sn_state', '!=', 'in_clearing')]}" />
+                            <field name="shipping_instruction"
+                                attrs="{'invisible': [('sn_state', '!=', 'in_clearing')]}" />
+                            <field name="draft_bl"
+                                attrs="{'invisible': [('sn_state', '!=', 'in_clearing')]}" />
                         </group>
                         <group colspan='4' col='4'>
                             <field name="shipping_released"
@@ -400,19 +416,6 @@
                             <field name='document_delivery_waybill_from_client'
                                 attrs="{'invisible': [('doc_waybill_from_client','=',False),('sn_state','in',('pre_alert','awaiting_arrival','in_clearing'))],'required':[('doc_waybill_from_client','=',True)],'readonly':[('sn_state','=','post_delivery')]}" />
                         </group>
-
-                        <!--                        <field name="truck_in"
-                        attrs="{'invisible':['|','|',('has_truck_in','=','no'),('project_categ_id','=',
-                        False),('sn_state','in',('pre_alert','awaiting_arrival','in_clearing'))],
-                        'required':
-                        [('has_truck_in','=','required'),('sn_state','=','ready_to_load')],'readonly':[('sn_state','=','post_delivery')]}"
-                        />-->
-                        <!--                        <field name="gate_out"
-                        attrs="{'invisible':['|','|',('has_gate_out','=','no'),('project_categ_id','=',
-                        False),('sn_state','in',('pre_alert','awaiting_arrival','in_clearing'))],
-                        'required':
-                        [('has_gate_out','=','required'),('sn_state','=','ready_to_load')],'readonly':[('sn_state','=','post_delivery')]}"
-                        />-->
                         <group>
                             <field name="empty_container_returned" />
                         </group>
@@ -443,9 +446,12 @@
                         </group>
                     </group>
                     <group string='READY TO LOAD' colspan='4' col='4'>
-                        <field name="stuffing" attrs="{'invisible': [('sn_state', '!=', 'ready_to_load')]}" />
-                        <field name="port_delivery" attrs="{'invisible': [('sn_state', '!=', 'ready_to_load')]}" />
-                        <field name="vessel_sailed" attrs="{'invisible': [('sn_state', '!=', 'ready_to_load')]}" />
+                        <field name="stuffing"
+                            attrs="{'invisible': [('sn_state', '!=', 'ready_to_load')]}" />
+                        <field name="port_delivery"
+                            attrs="{'invisible': [('sn_state', '!=', 'ready_to_load')]}" />
+                        <field name="vessel_sailed"
+                            attrs="{'invisible': [('sn_state', '!=', 'ready_to_load')]}" />
                     </group>
                 </xpath>
             </field>

@@ -142,10 +142,6 @@ class ProjectProject(models.Model):
         oldname="x_clientref",
         tracking=True,
     )
-    job_form_m_date = fields.Date(
-        "Form M./NXP Collection",
-        tracking=True,
-    )
     bol_awb_ref = fields.Char(
         "BOL/AWB Number",
         oldname="x_bol_awb",
@@ -196,7 +192,6 @@ class ProjectProject(models.Model):
     has_custom_release_date = fields.Boolean()
     has_job_tdo = fields.Boolean()
     has_terminal_rating_till = fields.Boolean()
-    has_delivery_date = fields.Boolean()
     has_etd = fields.Boolean()
     has_eta = fields.Boolean()
     has_ata = fields.Boolean()
@@ -218,83 +213,22 @@ class ProjectProject(models.Model):
     items_total_weight = fields.Float("Weight", default=0.0)
     items_total_size = fields.Float("Size", default=0.0)
     analysis_balance = fields.Monetary(compute="_compute_project_balance", string="Balance")
-    job_son = fields.Char(
-        "SON",
-        tracking=True,
-    )
     job_ba_number = fields.Char(
         "BA Number",
-        tracking=True,
-    )
-    bill_of_lading = fields.Date(
-        "Bill of lading",
-        tracking=True,
-    )
-    shipping_doc = fields.Date(
-        "Shipping Doc",
-        tracking=True,
-    )
-    job_paar = fields.Date(
-        "PAAR/NEPZA",
-        tracking=True,
-    )
-    job_assessment = fields.Date(
-        "Assessment Notice",
         tracking=True,
     )
     job_duty = fields.Date(
         "Duty Payment Date",
         tracking=True,
     )
-    job_shipping_co = fields.Selection(
-        [("unpaid", "UNPAID"), ("paid", "PAID")],
-        "Shipping Co/Airline",
-        default="unpaid",
-        tracking=True,
-    )
-    job_terminal_payment = fields.Selection(
-        [("unpaid", "UNPAID"), ("paid", "PAID")],
-        "Terminal Payment",
-        default="unpaid",
-        tracking=True,
-    )
     custom_release_date = fields.Date("Custom Release Date", tracking=True)
     job_tdo = fields.Date("TDO", tracking=True)
-    job_plant_delivery_date = fields.Date(
-        "Plan delivery date",
-        tracking=True,
-    )
-    exchange_control_returned = fields.Date(
-        "Exchange control returned",
-        tracking=True,
-    )
-
-    shipping_rating_till = fields.Date(
-        "Shipping Rate Till",
-        tracking=True,
-    )
     terminal_rating_till = fields.Date(
         "Terminal Rate Till",
         tracking=True,
     )
-    cleared_date = fields.Date(
-        "Cleared Date",
-        tracking=True,
-    )
-    loading_date = fields.Date(
-        "Loading Date",
-        tracking=True,
-    )
     delivery_date = fields.Date(
         "Delivery Date",
-        tracking=True,
-    )
-    container_return_date = fields.Date(
-        "Container Return Date",
-        tracking=True,
-    )
-    job_do = fields.Date(
-        "DO",
         tracking=True,
     )
     refund_demurrage_option = fields.Selection(
@@ -317,21 +251,13 @@ class ProjectProject(models.Model):
         "Amount",
         tracking=True,
     )
-
     etd = fields.Date("ETD", tracking=True)
     eta = fields.Date("ETA", tracking=True)
     ata = fields.Date("ATA", tracking=True)
-    discharge_date = fields.Date("Discharge Date", tracking=True)
-    doc_to_agent = fields.Char("Doc. to agent", tracking=True)
     rotation_number = fields.Char("Rotation Number", tracking=True)
     nafdac_1_stamp_date = fields.Date("NAFDAC 1st Stamp Date", tracking=True)
     nafdac_2_stamp_date = fields.Date("NAFDAC 2nd stamp sate", tracking=True)
-    son_date = fields.Date("SON date", tracking=True)
-    pod = fields.Char("POD", tracking=True)
     free_days = fields.Char("No Of Free Days", tracking=True)
-    custom_exam_date = fields.Date("Custom Exams Booking Date", tracking=True)
-    custom_date = fields.Date("Custom Exams Date", tracking=True)
-    fou_release_date = fields.Date("FOU release Date", tracking=True)
     empty_container_return_date = fields.Date("Empty Container return Date", tracking=True)
     job_invoiced = fields.Selection(
         [("yes", "YES"), ("no", "NO")],

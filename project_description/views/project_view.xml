@@ -21,31 +21,16 @@
                 <field name="etd" string="ETD" />
                 <field name="eta" string="ETA" />
                 <field name="ata" string="ATA" />
-                <field name="discharge_date" string="Discharge Date" />
-                <field name="shipping_doc" string="Shipping Doc." />
-                <field name="bill_of_lading" string="OBL" />
-                <field name="job_paar" string="PAAR/NEPZA" />
-                <field name="doc_to_agent" string="Doc. to Agent" />
                 <field name="rotation_number" string="Rotation Number" />
-                <field name="job_assessment" string="Assessment" />
                 <field name="job_duty" string="Duty Payment Date" />
                 <field name="nafdac_1_stamp_date" string="NAFDAC 1st Stamping Date" />
-                <field name="son_date" string="SON Date" />
-                <field name="pod" string="POD" />
                 <field name="free_days" string="No of free days" />
-                <field name="shipping_rating_till" string="Shipping rated till" />
-                <field name="job_do" string="DO" invisible="1"/>
                 <field name="loading_terminal_id" string="Terminal" required="1"/>
                 <field name="terminal_rating_till" string="Terminal rated till" />
-                <field name="custom_exam_date" string="Customs Exams Booking Date" />
-                <field name="custom_date" string="Customs Date" />
                 <field name="custom_release_date" string="Customs Release Date" />
-                <field name="fou_release_date" string="FOU Release Date" />
                 <field name="job_tdo" string="TDO" />
                 <field name="nafdac_2_stamp_date" string="NAFDAC 2nd Stamping Date" />
                 <field name="state" string="Job Status" />
-                <field name="cleared_date" string="Cleared Date" />
-                <field name="loading_date" string="Loading Date" />
                 <field name="delivery_date" string="Delivery Date" />
                 <field name="empty_container_return_date" string="Empty Container Return Date" />
                 <field name="refund_demurrage_option" string="Refund/Demmurage" />
@@ -92,12 +77,7 @@
                 <field name="loading_terminal_id" string="Loading Terminal" />
                 <field name="job_duty" string="Duty Payment Date" />
                 <field name="nafdac_1_stamp_date" string="NAFDAC 1st Stamping Date" />
-                <field name="son_date" string="SON Date" />
-                <field name="job_do" string="DO" />
-                <field name="custom_exam_date" string="Customs exams date" />
                 <field name="custom_release_date" string="Customs release date" />
-                <field name="cleared_date" string="Cleared Date" />
-                <field name="loading_date" string="Loading date" />
                 <field name="delivery_date" string="Delivery Date" />
             </tree>
         </field>
@@ -114,7 +94,6 @@
                 <field name="schedule_item_count" string="Cont. Count" />
                 <field name="items_total_weight" string="Weight" />
                 <field name="ata" string="ATA" />
-                <field name="cleared_date" string="Clear Date" />
                 <field name="delivery_date" string="Delivery Date" />
                 <field name="job_invoiced" string="Invoiced" />
             </tree>
@@ -132,7 +111,6 @@
                 <field name="schedule_item_count" string="Cont. Count" />
                 <field name="items_total_weight" string="Weight" />
                 <field name="ata" string="ATA" />
-                <field name="cleared_date" string="Clear Date" />
                 <field name="delivery_date" string="Delivery Date" />
                 <field name="job_invoiced" string="Invoiced" />
             </tree>
@@ -158,31 +136,16 @@
                 <field name="job_allocation_date" />
             </xpath>
             <field name="partner_id" position="after">
-                <field name="job_son" invisible="1" />
                 <field name="job_ba_number" />
                 <field name="items_total_weight" />
                 <field name="schedule_item_count" />
                 <field name="items_total_size" />
-                <field name="bill_of_lading" />
-                <field name="shipping_doc" invisible="1" />
-                <field name="job_paar" />
-                <field name="job_assessment" invisible="1" />
                 <field name="job_duty" invisible="1" />
-                <field name="job_shipping_co" invisible="1" />
-                <field name="job_terminal_payment" invisible="1" />
                 <field name="custom_release_date" invisible="1" />
                 <field name="job_tdo" invisible="1" />
-                <field name="job_plant_delivery_date" invisible="1" />
-                <field name="exchange_control_returned" invisible="1" />
-                <field name="shipping_rating_till" invisible="1" />
                 <field name="terminal_rating_till" invisible="1" />
-                <field name="cleared_date" invisible="1" />
-                <field name="loading_date" invisible="1" />
                 <field name="delivery_date" invisible="1" />
-                <field name="container_return_date" invisible="1" />
-                <field name="job_do" invisible="1" />
                 <field name="client_ref" invisible="1" />
-                <field name="job_form_m_date" />
                 <field name="bol_awb_ref" invisible="1" />
                 <field name="job_carrier_id" />
                 <field name="vessel_det" />
