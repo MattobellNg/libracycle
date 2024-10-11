@@ -146,29 +146,43 @@ class AccountMoveExt(models.Model):
             for invoice_line in invoice.invoice_line_ids.filtered(lambda line: line.swept is False):
                 # if not invoice_line.swept:
                 logging.info("Hamza Ilyas ----> <<<<<<<<<< Invoice line is not swept >>>>>>>>>>")
-                expense = self.check_ili_in_expenses(invoice_line, start_date, end_date)
-                if expense:
-                    self.swept_journal_entry(expense, end_date)
+                logging.info(invoice_line)
+                expenses = self.check_ili_in_expenses(invoice_line, start_date, end_date)
+                # if expense:
+                #     self.swept_journal_entry(expense, end_date)
+                #     invoice_line.swept = True
+                    # continue
+                for exp in expenses:
+                    self.swept_journal_entry(exp, end_date)
                     invoice_line.swept = True
-                    continue
 
-                purchase_receipt_line = self.check_ili_in_purchase_receipts(invoice_line, start_date, end_date)
-                if purchase_receipt_line:
-                    self.swept_journal_entry(purchase_receipt_line, end_date)
+                purchase_receipt_lines = self.check_ili_in_purchase_receipts(invoice_line, start_date, end_date)
+                # if purchase_receipt_line:
+                #     self.swept_journal_entry(purchase_receipt_line, end_date)
+                #     invoice_line.swept = True
+#                     continue
+                for prl in purchase_receipt_lines:
+                    self.swept_journal_entry(prl, end_date)
                     invoice_line.swept = True
-                    continue
 
-                sale_receipt_line = self.check_ili_in_sale_receipts(invoice_line, start_date, end_date)
-                if sale_receipt_line:
-                    self.swept_journal_entry(sale_receipt_line, end_date)
-                    invoice_line.swept = True
-                    continue
 
-                bill_line = self.check_ili_in_vendor_bills(invoice_line, start_date, end_date)
-                if bill_line:
-                    self.swept_journal_entry(bill_line, end_date)
+                sale_receipt_lines = self.check_ili_in_sale_receipts(invoice_line, start_date, end_date)
+                # if sale_receipt_line:
+                #     self.swept_journal_entry(sale_receipt_line, end_date)
+                #     invoice_line.swept = True
+#                     continue
+                for srl in sale_receipt_lines:
+                    self.swept_journal_entry(srl, end_date)
                     invoice_line.swept = True
-                    continue
+
+                bill_lines = self.check_ili_in_vendor_bills(invoice_line, start_date, end_date)
+                # if bill_line:
+                #     self.swept_journal_entry(bill_line, end_date)
+                #     invoice_line.swept = True
+#                     continue
+                for bl in bill_lines:
+                    self.swept_journal_entry(bl, end_date)
+                    invoice_line.swept = True
 
     def swept_journal_entry(self, record, end_date):
         logging.info("Hamza Ilyas ----> swept_journal_entry Called")
@@ -186,7 +200,7 @@ class AccountMoveExt(models.Model):
             logging.info("Hamza Ilyas ----> -->")
             logging.info(record.move_id.move_type)
             # if record.move_id.move_type == 'in_invoice':
-            self.create_swept_journal_entry(record.move_id.name, record, sweep_journal, record.price_unit,
+            self.create_swept_journal_entry(record.move_id.name, record, sweep_journal, record.price_subtotal,
                                             record.product_id, record.analytic_account_id, record.partner_id, end_date)
             # if record.move_id.move_type in ['in_receipt', 'out_receipt']:
             #     logging.info("Hamza Ilyas ----> Receipt Line Model")
@@ -218,57 +232,35 @@ class AccountMoveExt(models.Model):
             #     voucher_line = voucher_line.id
             print("<<<<<<end_date>>>>>>")
             print(end_date)
-            # .........new.......
-            entry_exist = self.env['account.move'].sudo().search([('ref','=',je_ref)])
-            if not entry_exist:
-                move = self.env['account.move'].create({'ref': je_ref, 'journal_id': je_journal.id, 'state': 'draft','is_a_sweep_je': True, 'ref_line_id': ref_line_id, 'date': end_date,
-                                                        })
-                # hi_date = datetime.combine(end_date, datetime.min.time())
-                self.env.cr.execute("UPDATE ACCOUNT_MOVE SET DATE = '%s' WHERE id=%s" % (end_date, move.id))
+            move = self.env['account.move'].create({'ref': je_ref, 'journal_id': je_journal.id, 'state': 'draft',
+                                                    'is_a_sweep_je': True, 'ref_line_id': ref_line_id, 'date': end_date,
+                                                    })
 
-                if move.ref_line_id:
-                    if move.ref_line_id.move_id.move_type == 'out_receipt':
-                        move.write({'line_ids': [
-                            (0, 0, {'account_id': ji_product.property_account_expense_id.id,
-                                    'name': ji_product.name,
-                                    'partner_id': partner.id,
-                                    'debit': 0.0,
-                                    'credit': ji_amount,
-                                    'move_id': move.id,
-                                    'project_id_hi': analytic_account_id,
-                                    'swept': True,
-                                    }),
-                            (0, 0, {'account_id': ji_product.sweep_account_id.id,
-                                    'name': ji_product.name,
-                                    'partner_id': partner.id,
-                                    'debit': ji_amount,
-                                    'credit': 0.0,
-                                    'move_id': move.id,
-                                    'project_id_hi': analytic_account_id,
-                                    'swept': True,
-                                    }),
-                        ], })
-                    else:
-                        move.write({'line_ids': [
-                            (0, 0, {'account_id': ji_product.property_account_expense_id.id,
-                                    'name': ji_product.name,
-                                    'partner_id': partner.id,
-                                    'debit': ji_amount,
-                                    'credit': 0.0,
-                                    'move_id': move.id,
-                                    'project_id_hi': analytic_account_id,
-                                    'swept': True,
-                                    }),
-                            (0, 0, {'account_id': ji_product.sweep_account_id.id,
-                                    'name': ji_product.name,
-                                    'partner_id': partner.id,
-                                    'debit': 0.0,
-                                    'credit': ji_amount,
-                                    'move_id': move.id,
-                                    'project_id_hi': analytic_account_id,
-                                    'swept': True,
-                                    }),
-                        ], })
+            # hi_date = datetime.combine(end_date, datetime.min.time())
+            self.env.cr.execute("UPDATE ACCOUNT_MOVE SET DATE = '%s' WHERE id=%s" % (end_date, move.id))
+
+            if move.ref_line_id:
+                if move.ref_line_id.move_id.move_type == 'out_receipt':
+                    move.write({'line_ids': [
+                        (0, 0, {'account_id': ji_product.property_account_expense_id.id,
+                                'name': ji_product.name,
+                                'partner_id': partner.id,
+                                'debit': 0.0,
+                                'credit': ji_amount,
+                                'move_id': move.id,
+                                'project_id_hi': analytic_account_id,
+                                'swept': True,
+                                }),
+                        (0, 0, {'account_id': ji_product.sweep_account_id.id,
+                                'name': ji_product.name,
+                                'partner_id': partner.id,
+                                'debit': ji_amount,
+                                'credit': 0.0,
+                                'move_id': move.id,
+                                'project_id_hi': analytic_account_id,
+                                'swept': True,
+                                }),
+                    ], })
                 else:
                     move.write({'line_ids': [
                         (0, 0, {'account_id': ji_product.property_account_expense_id.id,
@@ -290,14 +282,36 @@ class AccountMoveExt(models.Model):
                                 'swept': True,
                                 }),
                     ], })
-                if move:
-                    move.action_post()
-                    logging.info("Hamza Ilyas ----> Swept Journal Entry Created & posted Successfully")
+            else:
+                move.write({'line_ids': [
+                    (0, 0, {'account_id': ji_product.property_account_expense_id.id,
+                            'name': ji_product.name,
+                            'partner_id': partner.id,
+                            'debit': ji_amount,
+                            'credit': 0.0,
+                            'move_id': move.id,
+                            'project_id_hi': analytic_account_id,
+                            'swept': True,
+                            }),
+                    (0, 0, {'account_id': ji_product.sweep_account_id.id,
+                            'name': ji_product.name,
+                            'partner_id': partner.id,
+                            'debit': 0.0,
+                            'credit': ji_amount,
+                            'move_id': move.id,
+                            'project_id_hi': analytic_account_id,
+                            'swept': True,
+                            }),
+                ], })
+            if move:
+                move.action_post()
+                logging.info("Hamza Ilyas ----> Swept Journal Entry Created & posted Successfully")
 
     def check_ili_in_expenses(self, invoice_line, start_date, end_date):
         logging.info("Hamza Ilyas ----> check_ili_in_expenses Called")
         expenses = self.env['hr.expense'].search([('state', 'in', ('done', 'approved')), '&',
                                                   ('date', '>=', start_date), ('date', '<=', end_date)])
+        exp_rt = []
         for expense in expenses:
             # if expense.product_id == invoice_line.product_id and \
             #         expense.analytic_account_id == invoice_line.analytic_account_id and not expense.swept:
@@ -306,15 +320,20 @@ class AccountMoveExt(models.Model):
                     expense.analytic_account_id == invoice_line.analytic_account_id and not expense.swept):
                 expense.swept = True
                 expense.invoice_line_id = invoice_line
-                return expense
-            else:
-                continue
+                exp_rt.append(expense)
+            # else:
+            #     continue
+
+        return exp_rt
 
     def check_ili_in_purchase_receipts(self, invoice_line, start_date, end_date):
         logging.info("Hamza Ilyas ----> check_ili_in_purchase_receipts Called")
         purchase_receipts = self.env['account.move'].search(
             [('state', '=', 'posted'), ('move_type', '=', 'in_receipt'), '&',
              ('invoice_date', '>=', start_date), ('invoice_date', '<=', end_date)])
+        logging.info("<<<<<<purchase_receipts>>>>>>")
+        logging.info(purchase_receipts)
+        rec_rt = []
         for receipt in purchase_receipts:
             for receipt_line in receipt.invoice_line_ids:
                 # if receipt_line.product_id == invoice_line.product_id and \
@@ -325,15 +344,18 @@ class AccountMoveExt(models.Model):
                         receipt_line.swept):
                     receipt_line.swept = True
                     receipt_line.invoice_line_id = invoice_line.id
-                    return receipt_line
-                else:
-                    continue
+                    rec_rt.append(receipt_line)
+                # else:
+                #     continue
+
+        return rec_rt
 
     def check_ili_in_sale_receipts(self, invoice_line, start_date, end_date):
         logging.info("Hamza Ilyas ----> check_ili_in_sale_receipts Called")
         sale_receipts = self.env['account.move'].search([('state', '=', 'posted'), ('move_type', '=', 'out_receipt'),
                                                          '&', ('invoice_date', '>=', start_date),
                                                          ('invoice_date', '<=', end_date)])
+        recs_rt = []
         for receipt in sale_receipts:
             for receipt_line in receipt.invoice_line_ids:
                 # if receipt_line.product_id == invoice_line.product_id and \
@@ -344,17 +366,22 @@ class AccountMoveExt(models.Model):
                         receipt_line.swept):
                     receipt_line.swept = True
                     receipt_line.invoice_line_id = invoice_line.id
-                    return receipt_line
-                else:
-                    continue
+                    recs_rt.append(receipt_line)
+                # else:
+                #     continue
+
+        return recs_rt
 
     def check_ili_in_vendor_bills(self, invoice_line, start_date, end_date):
         logging.info("Hamza Ilyas ----> check_ili_in_vendor_bills Called")
         vendor_bills = self.env['account.move'].search([('state', '=', 'posted'), ('move_type', '=', 'in_invoice'),
                                                         '&', ('invoice_date', '>=', start_date),
                                                         ('invoice_date', '<=', end_date)])
+        ven_rt = []
         for bill in vendor_bills:
             for bill_line in bill.invoice_line_ids:
+                logging.info("<<<<<<bill_line>>>>>>")
+                logging.info(bill_line)
                 # if bill_line.product_id == invoice_line.product_id and \
                 #         bill_line.analytic_account_id == invoice_line.analytic_account_id and not bill_line.swept:
                 # if bill_line.product_id == invoice_line.product_id and not bill_line.swept:
@@ -362,9 +389,11 @@ class AccountMoveExt(models.Model):
                         bill_line.analytic_account_id == invoice_line.analytic_account_id and not bill_line.swept):
                     bill_line.swept = True
                     bill_line.invoice_line_id = invoice_line.id
-                    return bill_line
-                else:
-                    continue
+                    ven_rt.append(bill_line)
+                # else:
+                #     continue
+
+        return ven_rt
 
 
 class AccountMoveLineExt(models.Model):
