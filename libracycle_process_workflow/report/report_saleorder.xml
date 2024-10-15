@@ -63,7 +63,7 @@
             </div>
         </xpath>
         <xpath expr="//t[@t-set='information_block']" position="replace" />
-        <xpath expr="//h2[hasclass('mt16')]" position="replace">
+        <xpath expr="//h2[hasclass('mt6')]" position="replace">
             <div class="row mb-2">
                 <div class="col-12">
                     <h3 t-field="doc.name" />
@@ -72,7 +72,7 @@
         </xpath>
         <xpath expr="//p[@t-if='not is_html_empty(doc.payment_term_id.note)']" position="replace" />
         <xpath expr="//div[@id='informations']" position="replace">
-            <div class="row mt16 mb16" id="informations">
+            <div class="row mt6 mb6" id="informations">
                 <div t-if="doc.name" class="col-auto col-3 mw-100 mb-2">
                     <strong>Your Reference:</strong>
                     <p class="m-0" t-field="doc.name" />
@@ -93,7 +93,7 @@
         </xpath>
         
         <xpath expr="//div[@id='informations']" position="after">
-            <div class="row mb16" id="lbc1">
+            <div class="row mb6" id="lbc1">
                 <div class="col-auto col-3 mw-100 mb-2">
                     <strong>Job Reference:</strong>
                     <p class="m-0" t-field="doc.project_id.job_refs" t-if="doc.project_id.job_refs" />
@@ -107,7 +107,7 @@
                     <p class="m-0" t-field="doc.project_id.client_ref" />
                 </div>
             </div>
-            <div class="row mb16" id="lbc2">
+            <div class="row mb6" id="lbc2">
                 <div class="col-auto col-3 mw-100 mb-2">
                     <strong>Job Type:</strong>
                     <p class="m-0" t-field="doc.project_id.mode_shipment_air_sea" t-if="doc.project_id.mode_shipment_air_sea" />
@@ -121,7 +121,7 @@
                     <p class="m-0" t-field="doc.project_id.country_of_loading" />
                 </div>
             </div>
-            <div class="row mb16" id="lbc3">
+            <div class="row mb6" id="lbc3">
                 <div class="col-auto col-3 mw-100 mb-2">
                     <strong>BOL/AWB Number:</strong>
                     <p class="m-0" t-field="doc.project_id.bol_awb_ref" />
@@ -135,7 +135,7 @@
                     <p class="m-0" t-field="doc.project_id.country_of_destination" />
                 </div>
             </div>
-            <div class="row mb16" id="lbc4">
+            <div class="row mb6" id="lbc4">
                 <div class="col-auto col-3 mw-100 mb-2">
                     <strong>Form M Number:</strong>
                     <p class="m-0" t-field="doc.project_id.job_form_m_mf" />
