@@ -73,19 +73,19 @@
         <xpath expr="//p[@t-if='not is_html_empty(doc.payment_term_id.note)']" position="replace" />
         <xpath expr="//div[@id='informations']" position="replace">
             <div class="row mt16 mb6" id="informations">
-                <div t-if="doc.name" class="col-3">
+                <div t-if="doc.name" class="col-3 mb-2">
                     <strong>Your Reference:</strong>
                     <p class="m-0" t-field="doc.name" />
                 </div>
-                <div t-if="doc.date_order and doc.state not in ['draft','sent']" class="col-3">
+                <div t-if="doc.date_order and doc.state not in ['draft','sent']" class="col-3 mb-2">
                     <strong>Invoice Date:</strong>
                     <p class="m-0" t-field="doc.date_order" />
                 </div>
-                <div class="col-3">
+                <div class="col-3 mb-2">
                     <strong>Salesperson:</strong>
                     <p class="m-0" t-field="doc.user_id" t-if="doc.user_id.name" />
                 </div>
-                <div class="col-3" name="payment_terms">
+                <div class="col-3 mb-2" name="payment_terms">
                     <strong>Payment Terms:</strong>
                     <p class="m-0" t-field="doc.payment_term_id" t-if="doc.payment_term_id" />
                 </div>
@@ -94,57 +94,57 @@
         
         <xpath expr="//div[@id='informations']" position="after">
             <div class="row mb6" id="lbc1">
-                <div class="col-3">
+                <div class="col-3 mb-2">
                     <strong>Job Reference:</strong>
                     <p class="m-0" t-field="doc.project_id.job_refs" t-if="doc.project_id.job_refs" />
                 </div>
-                <div class="col-3">
+                <div class="col-3 mb-2">
                     <strong>Carrier:</strong>
                     <p class="m-0" t-field="doc.project_id.ship_line" t-if="doc.project_id.ship_line" />
                 </div>
-                <div class="col-3">
+                <div class="col-3 mb-2">
                     <strong>Client Ref:</strong>
                     <p class="m-0" t-field="doc.project_id.client_ref" />
                 </div>
             </div>
             <div class="row mb6" id="lbc2">
-                <div class="col-3">
+                <div class="col-3 mb-2">
                     <strong>Job Type:</strong>
                     <p class="m-0" t-field="doc.project_id.mode_shipment_air_sea" t-if="doc.project_id.mode_shipment_air_sea" />
                 </div>
-                <div class="col-3">
+                <div class="col-3 mb-2">
                     <strong>Port of Loading:</strong>
                     <p class="m-0" t-field="doc.project_id.port_many_loading" />
                 </div>
-                <div class="col-3">
+                <div class="col-3 mb-2">
                     <strong>Port Of Origin:</strong>
                     <p class="m-0" t-field="doc.project_id.country_of_loading" />
                 </div>
             </div>
             <div class="row mb6" id="lbc3">
-                <div class="col-3">
+                <div class="col-3 mb-2">
                     <strong>BOL/AWB Number:</strong>
                     <p class="m-0" t-field="doc.project_id.bol_awb_ref" />
                 </div>
-                <div class="col-3">
+                <div class="col-3 mb-2">
                     <strong>Port of Discharge:</strong>
                     <p class="m-0" t-field="doc.project_id.destination_port" />
                 </div>
-                <div class="col-3">
+                <div class="col-3 mb-2">
                     <strong>Destination:</strong>
                     <p class="m-0" t-field="doc.project_id.country_of_destination" />
                 </div>
             </div>
             <div class="row mb6" id="lbc4">
-                <div class="col-3">
+                <div class="col-3 mb-2">
                     <strong>Form M Number:</strong>
                     <p class="m-0" t-field="doc.project_id.job_form_m_mf" />
                 </div>
-                <div class="col-3">
+                <div class="col-3 mb-2">
                     <strong>Terminal:</strong>
                     <p class="m-0" t-field="doc.project_id.custom_terminal" />
                 </div>
-                <div class="col-3">
+                <div class="col-3 mb-2">
                     <strong>Vessel:</strong>
                     <p class="m-0" t-field="doc.project_id.ves_line" />
                 </div>
