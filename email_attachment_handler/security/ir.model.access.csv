@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_attachment_store_user,attachment.store.user,model_attachment_store,base.group_user,1,1,1,1
+access_attachment_store_portal,attachment.store.portal,model_attachment_store,base.group_portal,1,0,0,0
+access_attachment_store_public,attachment.store.public,model_attachment_store,,1,0,0,0
