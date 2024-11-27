@@ -2,7 +2,6 @@ from odoo import models, fields, api
 
 
 class CrmTeamInherit(models.Model):
-
     _inherit = "crm.team"
 
     type_team = fields.Selection([("sale", "Sale"), ("project", "Project")], string="Type", default="sale")
@@ -14,13 +13,12 @@ class CrmTeamInherit(models.Model):
         "uid",
         "Project Members",
         help="""Project's members are users who
-                                     can have an access to the tasks related
+                                     can have access to the tasks related
                                      to this project.""",
     )
 
 
 class PhlProjectProject(models.Model):
-
     _inherit = "project.project"
 
     members = fields.Many2many(
@@ -30,7 +28,7 @@ class PhlProjectProject(models.Model):
         "uid",
         "Project Members",
         help="""Project's
-                               members are users who can have an access to
+                               members are users who can have access to
                                the tasks related to this project.""",
     )
     team_id = fields.Many2one("crm.team", string="Project Team", domain=[("type_team", "=", "project")])
@@ -68,6 +66,10 @@ class PhlProjectProject(models.Model):
             partner_ids |= project.user_id.partner_id
         if project.members:
             partner_ids |= project.members.mapped("partner_id")
+        
+        # Filter out customers from the partner_ids
+        partner_ids = partner_ids.filtered(lambda partner: not partner.customer)
+        
         return partner_ids
 
     def _add_project_followers(self):

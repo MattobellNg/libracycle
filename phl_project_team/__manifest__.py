@@ -4,7 +4,7 @@
     "summary": "Adds Project Team Members.",
     "category": "Project Management.",
     "website": "http://www.serpentcs.com",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "sequence": 1,
     "depends": ["project", "crm"],
     "data": ["security/project_team_security.xml", "views/project_team_view.xml"],
