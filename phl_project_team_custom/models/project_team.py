@@ -11,9 +11,7 @@ class PhlProjectProject(models.Model):
         if project.members:
             partner_ids |= project.members.mapped("partner_id")
         
-        # Override: Remove partners from users to subscribe list
-        # This line removes all partner records
-        partner_ids = partner_ids.filtered(lambda partner: partner.id == 0)
+        # Filter out customer partners only
+        partner_ids = partner_ids.filtered(lambda partner: not partner.customer_rank)
         
         return partner_ids
-
