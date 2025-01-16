@@ -1,11 +1,8 @@
-from email.policy import default
+
 from odoo import models, fields, api, _
 from datetime import datetime
 from odoo.exceptions import ValidationError
-import io
-from odoo.tools.misc import xlsxwriter
-from odoo.http import content_disposition, request
-import json
+from typing import Tuple, List
 
 FIELD_SELECTION = [("required", "Required"), ("optional", "Optional"), ("no", "None")]
 
@@ -92,19 +89,25 @@ class ProjectProject(models.Model):
     ################### PRE-ALERT ###################################
     job_refs = fields.Char(string="Job Reference")
     client_name = fields.Many2one('res.partner', string="client name")
-    pre_alert_date = fields.Date(string="pre-alert date")
+    pre_alert_date = fields.Date(string="Pre-Alert Date")
     project_team = fields.Many2one('res.users', string="Project Team")
     account_officer = fields.Many2one('res.users', string="Account Officer")
     item_description = fields.Char(string="Item Description")
 
     job_form_m_mf = fields.Char(string="Form M(MF)")
-    document_job_form_m_mf = fields.Binary(string="Document(Form M(MF))")
+    document_job_form_m_mf = fields.Binary(string="Document(Form M (MF))")
     doc_job_bool = fields.Boolean()
     doc_boolean = fields.Boolean()
 
     mode_shipment = fields.Char(string="Mode Shipment")
     barge_operator = fields.Many2one('barge.operator', "Barge Operator")
-    mode_shipment_air_sea = fields.Many2many('mode.shipment', string="Mode Shipment(Air/Sea)")
+    mode_shipment_air_sea = fields.Many2one('mode.shipment', string="Mode Shipment(Air/Sea)")
+    has_job_ba_number = fields.Selection(
+        FIELD_SELECTION,
+        "BA Number",
+        default="no",
+        help="Display BA Number field on project",
+    )
     ################## AWAITING ARRIVAL ############################
     shipping_line = fields.Char(string="Shipping/Air line")
     vessel_line = fields.Char(string="Vessel/Flight name")
@@ -114,10 +117,12 @@ class ProjectProject(models.Model):
     dest_port = fields.Char(string='Destination port')
     terminal = fields.Char(string="Terminal")
     custom_terminal = fields.Many2one('custom.terminal', string="Terminal")
-    country_of_loading = fields.Many2one('res.country', string="Country of loading")
-    port_of_loading = fields.Char(string='PORT OF LOADING')
-    rotation_not_received = fields.Date(string="Rotation not received")
-
+    country_of_loading = fields.Many2one('res.country', string="Country Of Loading")
+    port_of_loading = fields.Char(string='Port Of Loading')
+    rotation_not_received = fields.Date(string="Rotation Not received")
+    document_booking_number = fields.Binary(string='Document (Booking Number)')
+    booking_number = fields.Selection(selection=FIELD_SELECTION, string='Booking Number', default='optional')
+    
     ######base field#####
     document_bol_awb_ref = fields.Binary(string='Document(BOL/AWB)')
     doc_bol_awb_ref = fields.Boolean()
@@ -129,50 +134,66 @@ class ProjectProject(models.Model):
     doc_has_nafdac_2_stamp_date = fields.Boolean()
 
     #############################IN CLEARING#################################
-    paar_request = fields.Date(string="PAAR REQUEST")
+    paar_request = fields.Date(string="PAAR Request")
 
-    paar_received = fields.Date(string='PAAR RECEIVED')
-    document_paar_received = fields.Binary(string="Document(Paar Received)")
+    paar_received = fields.Date(string='PAAR Received')
+    document_paar_received = fields.Binary(string="Document (PAAR Received)")
     doc_paar_bool = fields.Boolean()
 
     duty_assesment = fields.Date(string='Duty Assessment')
-    document_duty_assesment = fields.Binary(string='Document(Duty Assessment)')
+    document_duty_assesment = fields.Binary(string='Document (Duty Assessment)')
     doc_duty_asses = fields.Boolean()
 
     duty_received = fields.Date(string='Duty Received')
-    document_duty_received = fields.Binary(string="Document(Document duty received)")
+    document_duty_received = fields.Binary(string="Document (Document Duty Received)")
     doc_duty_received = fields.Boolean()
     agent_name = fields.Char("Agent Name")
-    nafdac_paid = fields.Date(string='Nafdac Paid')
-    son_invoice = fields.Date(string='Son Invoice')
-    son_paid = fields.Date(string="Son Paid")
+    nafdac_paid = fields.Date(string='NAFDAC Paid')
+    son_invoice = fields.Date(string='SON Invoice')
+    son_paid = fields.Date(string="SON Paid")
     quarantine_payment = fields.Date(string='Quarantine Payment')
     docs_copy_received = fields.Date(string="Complete Copy Docs Received")
     original_copy_received = fields.Date(string="Complete original Docs Received")
-    complete_docs_uploaded = fields.Date(string='Complete Docs uploaded')
-    first_shipping_invoice = fields.Date(string="1st Shipping invoice")
-    first_shipping_paid = fields.Date(string="1st Shipping paid")
-    second_shipping_dn_paid = fields.Date(string="2nd Shipping paid")
-    third_shipping_dn_paid = fields.Date(string="3rd Shipping paid")
-    first_terminal_invoice = fields.Date(string="1st Terminal invoice")
-    first_terminal_paid = fields.Date(string="1st Terminal paid")
-    first_additional_storage_paid = fields.Date(string='1st additional storage paid')
-    second_additional_storage_paid = fields.Date(string='2nd additional storage paid')
+    complete_docs_uploaded = fields.Date(string='Complete Docs Uploaded')
+    first_shipping_invoice = fields.Date(string="1st Shipping Invoice")
+    first_shipping_paid = fields.Date(string="1st Shipping Paid")
+    second_shipping_dn_paid = fields.Date(string="2nd Shipping Paid")
+    third_shipping_dn_paid = fields.Date(string="3rd Shipping Paid")
+    first_terminal_invoice = fields.Date(string="1st Terminal Invoice")
+    first_terminal_paid = fields.Date(string="1st Terminal Paid")
+    first_additional_storage_paid = fields.Date(string='1st Additional Storage Paid')
+    second_additional_storage_paid = fields.Date(string='2nd Additional Storage Paid')
     examination_booked = fields.Date(string="Examination Booked")
     examination_start = fields.Date(string="Examination Start")
     examination_done = fields.Date(string="Examination Done")
 
-    shipping_released = fields.Date(string='Shipping released')
+    shipping_released = fields.Date(string='Shipping Released')
     document_shipping_released = fields.Binary(string='Document(shipping released)')
     doc_ship_released = fields.Boolean()
 
     fou_approved = fields.Date(string='FOU Approved')
     nepza_released = fields.Date(string="NEPZA Released")
+    container_provided = fields.Date('Container Provided')
+    loading_complete = fields.Date('Loading Complete')
+    packing_list_and_invoice = fields.Date('Packing List and Invoice')
+    delivered_to_terminal = fields.Date('Delivered To Terminal')
+    ness_payment = fields.Date('Ness Payment')
+    gate_in_docs_received = fields.Date('Gate In Docs Received')
+    coo = fields.Date('COO')
+    cci = fields.Date('CCI')
+    sgd = fields.Date('SGD / Releasing')
+    loaded_on_vessel = fields.Date('Loaded On Vessel')
+    final_obl_received = fields.Date('Final OBL Received')
+    shipping_instruction = fields.Date('Shipping Instruction')
+    draft_bl = fields.Date('Draft BL')
     ###########################READY TO LOAD ##############################
     ################needs to be comment#############
     truck_in = fields.Date(string="Truck In")
     gate_out = fields.Date(string="Gate Out")
     empty_container_returned = fields.Date(string="Empty Container Returned")
+    stuffing = fields.Date('Stuffing/Loading')
+    port_delivery = fields.Date('Port Delivery')
+    vessel_sailed = fields.Date('Vessel Sailed')
 
     ###############################DELIVERY START(TRUCK/BARGE)####################
     date_delivery_start = fields.Date(string='Date Delivery Start')
@@ -180,7 +201,7 @@ class ProjectProject(models.Model):
     date_delivery_complete = fields.Date(string='Date Delivery Complete')
 
     delivery_waybill_from_client = fields.Date(string='Delivery Waybill from Client')
-    document_delivery_waybill_from_client = fields.Binary(string='Document(Waybill from Client)')
+    document_delivery_waybill_from_client = fields.Binary(string='Document (Waybill from Client)')
     doc_waybill_from_client = fields.Boolean()
     custom_free_days = fields.Integer("Free Period")
     ##################POST DELIVERY###################################
@@ -254,7 +275,7 @@ class ProjectProject(models.Model):
     )
     has_form_m_mf = fields.Selection(
         [],
-        "Form M(MF)",
+        "Form M (MF)",
         related="project_categ_id.has_form_m_mf",
         readonly=True,
         default="no",
@@ -274,37 +295,37 @@ class ProjectProject(models.Model):
     )
     has_shipping_line = fields.Selection(
         [],
-        "SHIPPING LINE/AIR LINE",
+        "Shipping Line/Air Line",
         related="project_categ_id.has_shipping_line",
         readonly=True
     )
     has_vessel_name = fields.Selection(
         [],
-        "VESSEL /FLIGHT NAME",
+        "Vessel/Flight Name",
         related="project_categ_id.has_vessel_name",
         readonly=True
     )
     has_destination_port = fields.Selection(
         [],
-        "DESTINATION PORT (SEA/AIR)",
+        "Destination Port (Sea/Air)",
         related="project_categ_id.has_destination_port",
         readonly=True
     )
     has_terminal = fields.Selection(
         [],
-        "TERMINAL",
+        "Terminal",
         related="project_categ_id.has_terminal",
         readonly=True
     )
     has_country_of_loading = fields.Selection(
         [],
-        "COUNTRY OF LOADING",
+        "County Of Loading",
         related="project_categ_id.has_country_of_loading",
         readonly=True
     )
     has_port_of_loading = fields.Selection(
         [],
-        "COUNTRY OF LOADING",
+        "County Of Loading",
         related="project_categ_id.has_port_of_loading",
         readonly=True
     )
@@ -316,7 +337,7 @@ class ProjectProject(models.Model):
     )
     has_rotation_received = fields.Selection(
         [],
-        "Rotation not received",
+        "Rotation Not received",
         related="project_categ_id.has_rotation_received",
         readonly=True
     )
@@ -586,20 +607,20 @@ class ProjectProject(models.Model):
     name = fields.Char('Sequence Number', required=True, index=True, copy=False, default='New')
     feet_forty = fields.Integer(string='40FT')
     feet_twenty = fields.Integer(string='20FT')
-    cbm = fields.Integer(string='CBM')
-    kg = fields.Integer(string='KG')
+    cbm = fields.Float(string='CBM')
+    kg = fields.Float(string='KG')
     days_in_port = fields.Integer(string='Days in Port')
     major_cause_of_delay = fields.Char(string='Major Cause Of Delay')
     container_transfer = fields.Date(string='CONT-Transfer')
     report_wizard_bool = fields.Boolean(string='C&B Report', default=False)
-    port_many_loading = fields.Many2many('port.loading', string="PORT OF LOADING")
+    port_many_loading = fields.Many2many('port.loading', string="Port Of Loading")
     ship_line = fields.Many2one(comodel_name='shipping.line')
 
     # report_many2one = fields.Many2one('report.customize_vpcs.report_cb_report')
     # duty = fields.Float(string='Duty')
     # Shipping_charge = fields.Float(string='Shipping Charge')
     # Terminal_charge = fields.Float(string='Terminal Charge')
-    # nafdac = fields.Float(string='Nafdac')
+    # nafdac = fields.Float(string='NAFDAC')
     # son = fields.Float(string='SON')
     # Agency = fields.Float(string='Agency')
     # transportation = fields.Float(string='Transportation')
@@ -717,35 +738,35 @@ class ProjectProject(models.Model):
         if self.sn_state == 'post_delivery':
             self.sn_state = 'ready_to_load'
 
-    @api.onchange('job_form_m_mf', 'paar_received', 'duty_assesment', 'duty_received', 'shipping_released',
-                  'fecd_custom_ack', 'fecd_client_ack', 'bol_awb_ref', 'nafdac_1_stamp_date', 'nafdac_2_stamp_date',
-                  'delivery_waybill_from_client', 'nafdac_final_release')
-    def onchange_form_doc(self):
-        for rec in self:
-            if rec.job_form_m_mf:
-                rec.doc_job_bool = True
-            if rec.paar_received:
-                rec.doc_paar_bool = True
-            if rec.duty_assesment:
-                rec.doc_duty_asses = True
-            if rec.duty_received:
-                rec.doc_duty_received = True
-            if rec.shipping_released:
-                rec.doc_ship_released = True
-            if rec.fecd_custom_ack:
-                rec.doc_custom = True
-            if rec.fecd_client_ack:
-                rec.doc_client = True
-            if rec.bol_awb_ref:
-                rec.doc_bol_awb_ref = True
-            if rec.nafdac_1_stamp_date:
-                rec.doc_has_nafdac_1_stamp_date = True
-            if rec.nafdac_2_stamp_date:
-                rec.doc_has_nafdac_2_stamp_date = True
-            if rec.delivery_waybill_from_client:
-                rec.doc_waybill_from_client = True
-            if rec.nafdac_final_release:
-                rec.doc_nafdac_final_release = True
+    # @api.onchange('job_form_m_mf', 'paar_received', 'duty_assesment', 'duty_received', 'shipping_released',
+    #               'fecd_custom_ack', 'fecd_client_ack', 'bol_awb_ref', 'nafdac_1_stamp_date', 'nafdac_2_stamp_date',
+    #               'delivery_waybill_from_client', 'nafdac_final_release')
+    # def onchange_form_doc(self):
+    #     for rec in self:
+    #         if rec.job_form_m_mf:
+    #             rec.doc_job_bool = True
+    #         if rec.paar_received:
+    #             rec.doc_paar_bool = True
+    #         if rec.duty_assesment:
+    #             rec.doc_duty_asses = True
+    #         if rec.duty_received:
+    #             rec.doc_duty_received = True
+    #         if rec.shipping_released:
+    #             rec.doc_ship_released = True
+    #         if rec.fecd_custom_ack:
+    #             rec.doc_custom = True
+    #         if rec.fecd_client_ack:
+    #             rec.doc_client = True
+    #         if rec.bol_awb_ref:
+    #             rec.doc_bol_awb_ref = True
+    #         if rec.nafdac_1_stamp_date:
+    #             rec.doc_has_nafdac_1_stamp_date = True
+    #         if rec.nafdac_2_stamp_date:
+    #             rec.doc_has_nafdac_2_stamp_date = True
+    #         if rec.delivery_waybill_from_client:
+    #             rec.doc_waybill_from_client = True
+    #         if rec.nafdac_final_release:
+    #             rec.doc_nafdac_final_release = True
 
     @api.model
     def visible_button(self):
@@ -1088,23 +1109,7 @@ class CustomTrackingReport(models.Model):
         for rec in self:
             rec.write({
                 'partner_id': False,
-                # 'sn_no': False,
-                # 'client_name': False,
-                # 'liner': False,
-                # 'Container_number': False,
                 'container_size': False,
-                # 'truck_loading_date': False,
-                # 'import_barge_date': False,
-                # 'barge_arrival_date': False,  # input field
-                # 'arrival_date': False,
-                # 'barge_name_operator': False,
-                # 'truck_out_loading_date': False,
-                # 'truck_offloading_date': False,
-                # 'reasons_for_delay': False,
-                # 'empty_return_date': False,
-                # 'date_return_to_terminal': False,
-                # 'return_date': False,
-                # 'comments': False,
             })
             if rec.bl_number:
                 job = rec.env['project.project'].search([('name', '=', rec.bl_number)])
@@ -1112,23 +1117,7 @@ class CustomTrackingReport(models.Model):
                     job = job[0]
                     rec.write({
                         'partner_id': job.partner_id,
-                        # 'sn_no': job.bol_awb_ref,
-                        # 'client_name': job.client_name.name if job.client_name else False,
-                        # 'liner': job.job_liner,
-                        # 'Container_number': job.container,
                         'container_size': job.size_of_container,
-                        # 'truck_loading_date': job.truck_in,
-                        # 'import_barge_date': job.Barge_date,
-                        # 'barge_arrival_date': job.barging_date,  # input field
-                        # 'arrival_date': job.arrival_date,
-                        # 'barge_name_operator': job.barge_operator.name,
-                        # 'truck_out_loading_date': job.Load_out_date,
-                        # 'truck_offloading_date': job.offloading_date,
-                        # 'reasons_for_delay': job.major_cause_of_delay,
-                        # 'empty_return_date': job.empty_container_return_date,
-                        # 'date_return_to_terminal': job.container_return_date,
-                        # 'return_date': job.return_date,
-                        # 'comments': job.last_project_comment,
                     })
 
     @api.onchange('bl_number')
@@ -1139,21 +1128,21 @@ class CustomTrackingReport(models.Model):
                 job = job[0]
                 self.write({
                     'partner_id': job.partner_id,
-                    # 'sn_no': job.bol_awb_ref,
-                    # 'client_name': job.client_name.name if job.client_name else False,
-                    # 'liner': job.job_liner,
-                    # 'Container_number': job.container,
                     'container_size': job.size_of_container,
-                    # 'truck_loading_date': job.truck_in,
-                    # 'import_barge_date': job.Barge_date,
-                    # 'barge_arrival_date': job.barging_date,  # input field
-                    # 'arrival_date': job.arrival_date,
-                    # 'barge_name_operator': job.barge_operator.name,
-                    # 'truck_out_loading_date': job.Load_out_date,
-                    # 'truck_offloading_date': job.offloading_date,
-                    # 'reasons_for_delay': job.major_cause_of_delay,
-                    # 'empty_return_date': job.empty_container_return_date,
-                    # 'date_return_to_terminal': job.container_return_date,
-                    # 'return_date': job.return_date,
-                    # 'comments': job.last_project_comment,
                 })
+
+
+    @api.model
+    def _update_trackings(self, report_ids, update_data: List[Tuple[str, str]] =[]) -> bool:
+        """Update trackings with the new field values"""
+        if not update_data:
+            return
+        update_vals = {}
+        for item in update_data:
+            if not hasattr(self, item[0]):
+                continue
+            update_vals[item[0]] = item[1]
+        return report_ids.update(update_vals)
+        
+        
+

@@ -11,7 +11,7 @@ class WaybillXlsx(models.AbstractModel):
 
     def generate_xlsx_report(self, workbook, data, items):
         print('Items :', items)
-        headers = ["BL NO", "Job Ref No", "40FT", "20FT", "CBM", "KG", "ITEM DESCRIPTION", "SHIPPING LINE", "TERMINAL", "JOB DYNAMICS", "ATA", "TDO Date", "Delivery completion Date", "Final Destination", "Complete Doc. Received", "Duty", "Shipping charge", "Terminal Charge ", "NAFDAC",
+        headers = ["BL NO", "Job Ref No", "40FT", "20FT", "CBM", "KG", "ITEM DESCRIPTION", "SHIPPING LINE", "Terminal", "JOB DYNAMICS", "ATA", "TDO Date", "Delivery completion Date", "Final Destination", "Complete Doc. Received", "Duty", "Shipping charge", "Terminal Charge ", "NAFDAC",
                    "SON", "Agency", "Transportation", "Others", "Total Cost(N)", "Duty", "Shipping charge", "Terminal Charge ", "NAFDAC", "Agency", "Transportation", "Others", "Invoice Value(N)", "VAT(N)", "Total Invoice Value(N)", "Paid(N)", "WHT(N)", "Unpaid(N)", "Total Profit(N)", "COMMENT"]
         sheet = workbook.add_worksheet("waybill")
         cell_format = workbook.add_format(
@@ -69,7 +69,6 @@ class BargedXlsx(models.AbstractModel):
             sheet.write(new_row,7,"",cell_format)
             sheet.set_column(7,7,15)
             sheet.write(new_row,8,j.project_id.items_total_weight,cell_format)
-            sheet.write(new_row,9,j.project_id.has_job_liner,cell_format)
             sr_no+=1
 
 # This code is for operation report
@@ -80,7 +79,7 @@ class OperationXlsx(models.AbstractModel):
 
     def generate_xlsx_report(self, workbook, data, items):
         print('Items :', items)
-        headers = ["S/N",'COMMENTS','STAGE','CLIENT NAME','Dynamics','Pre-alert Date','File ref','20 FT','40 FT','BL/AWB NUMBER','SHIPPING LINE','TERMINAL','ATA','CONT-Transfer','PAAR Recieved','ASSES DATE','Duty Received','Original Shipping Doc rec','1ST STAMPING','2ND STAMPING','TDO DATE','CLEARING AGENT','DAYS IN PORT','MAJOR CAUSE OF DELAY']
+        headers = ["S/N",'COMMENTS','STAGE','CLIENT NAME','Dynamics','Pre-Alert Date','File ref','20 FT','40 FT','BL/AWB NUMBER','SHIPPING LINE','Terminal','ATA','CONT-Transfer','PAAR Recieved','ASSES DATE','Duty Received','Original Shipping Doc rec','1ST STAMPING','2ND STAMPING','TDO DATE','CLEARING AGENT','DAYS IN PORT','MAJOR CAUSE OF DELAY']
         sheet = workbook.add_worksheet("Operation_Report")
         header_format = workbook.add_format(
             {"bold": True, "font_size": 12, "border": True, "align": 'center',"bg_color":"#DCDCDC","color":'black'})
