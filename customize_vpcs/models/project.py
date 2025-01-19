@@ -64,7 +64,7 @@ class ProjectProject(models.Model):
             ("pre_alert", "Pre-alert"),
             ("awaiting_arrival", "AWAITING ARRIVAL"),
             ("in_clearing", "IN CLEARING"),
-            ("ready_to_load", "READY TO LOAD"),
+            ("ready_to_load", "Ready To Load"),
             ("post_delivery", "POST DELIVERY"),
         ],
         "SN Status",
@@ -78,7 +78,7 @@ class ProjectProject(models.Model):
             ("pre_alert", "Pre-alert"),
             ("awaiting_arrival", "AWAITING ARRIVAL"),
             ("in_clearing", "IN CLEARING"),
-            ("ready_to_load", "READY TO LOAD"),
+            ("ready_to_load", "Ready To Load"),
             ("post_delivery", "POST DELIVERY"),
         ],
         "SN Status",
@@ -86,7 +86,7 @@ class ProjectProject(models.Model):
         tracking=True,
     )
 
-    ################### PRE-ALERT ###################################
+    ################### Pre-Alert ###################################
     job_refs = fields.Char(string="Job Reference")
     client_name = fields.Many2one('res.partner', string="client name")
     pre_alert_date = fields.Date(string="Pre-Alert Date")
@@ -186,7 +186,7 @@ class ProjectProject(models.Model):
     final_obl_received = fields.Date('Final OBL Received')
     shipping_instruction = fields.Date('Shipping Instruction')
     draft_bl = fields.Date('Draft BL')
-    ###########################READY TO LOAD ##############################
+    ########################### READY TO LOAD ##############################
     ################needs to be comment#############
     truck_in = fields.Date(string="Truck In")
     gate_out = fields.Date(string="Gate Out")
