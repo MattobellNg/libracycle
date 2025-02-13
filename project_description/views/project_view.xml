@@ -196,6 +196,11 @@
                 <field name="has_nafdac_2_stamp_date" invisible="1" />
                 <field name="has_free_days" invisible="1" />
             </field>
+            <xpath expr="//header//button[@name='%(project.project_share_wizard_action)d']"
+                position="replace" />
+            <xpath
+                expr="(//header//button[@name='%(project.project_share_wizard_action)d'])[last()]"
+                position="replace" />
             <xpath expr="//form/header" position="inside">
                 <field name="state" widget="statusbar"
                     statusbar_visible="new,pending,progress,deliver,done"
