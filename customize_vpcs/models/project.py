@@ -627,10 +627,9 @@ class ProjectProject(models.Model):
     # others_cost = fields.Float(string='Others Cost')
     # total_cost = fields.Float(string='Total Cost(N)')
     def action_tracking_report(self):
-        print('___ hello : ', );
+        pass
 
     def action_cb_report(self):
-        print('___ self : ', self);
         return {
 
             'type': 'ir.actions.act_window',
@@ -963,12 +962,11 @@ class AccountMove(models.Model):
             if rec.price_unit:
                 rec.readonly_price_field = True
         user_id = self.env.user
-        print('___ self.move_type : ', self.move_type);
         if self.move_type == 'in_receipt':
             data = "User : %s approve this receipt on %s" % (user_id.name, datetime.now())
         if self.move_type == 'in_invoice':
             data = "User : %s approve this Vendor bill on %s" % (user_id.name, datetime.now())
-        send_message = self.message_post(body=data)
+        self.message_post(body=data)
 
 
 class AccountMoveLine(models.Model):
@@ -1042,7 +1040,6 @@ class CustomTrackingReport(models.Model):
 
     @api.depends('barge_offloading_date', 'truck_out_loading_date')
     def compute_container_age_terminal(self):
-        print("compute_container_age_terminal called XXXXXXXXXXXXXXX")
         for rec in self:
             rec.container_age_terminal = False
             if rec.barge_offloading_date and rec.truck_out_loading_date:
@@ -1051,7 +1048,6 @@ class CustomTrackingReport(models.Model):
 
     @api.depends('truck_out_loading_date', 'arrival_date')
     def compute_time_to_destination(self):
-        print("compute_time_to_destination called XXXXXXXXXXXXXXX")
         for rec in self:
             rec.time_to_destination = False
             if rec.truck_out_loading_date and rec.arrival_date:
@@ -1060,7 +1056,6 @@ class CustomTrackingReport(models.Model):
 
     @api.depends('truck_offloading_date', 'arrival_client_side')
     def compute_offload_delay(self):
-        print("compute_offload_delay called XXXXXXXXXXXXXXX")
         for rec in self:
             rec.offload_delay = False
             if rec.truck_offloading_date and rec.arrival_client_side:
@@ -1069,7 +1064,6 @@ class CustomTrackingReport(models.Model):
 
     @api.depends('barge_arrival_date', 'truck_out_loading_date')
     def compute_container_age(self):
-        print("compute_container_age called XXXXXXXXXXXXXXX")
         for rec in self:
             rec.container_age = False
             if rec.barge_arrival_date and rec.truck_out_loading_date:
@@ -1078,7 +1072,6 @@ class CustomTrackingReport(models.Model):
 
     @api.depends('import_barge_date', 'truck_loading_date')
     def compute_days_before_barge(self):
-        print("compute_days_before_barge called XXXXXXXXXXXXXXX")
         for rec in self:
             rec.days_before_barge = False
             if rec.truck_loading_date and rec.import_barge_date:
@@ -1087,7 +1080,6 @@ class CustomTrackingReport(models.Model):
 
     @api.depends('truck_loading_date', 'date_tdo_received')
     def compute_days_of_initial_terminal(self):
-        print("compute_days_of_initial_terminal called XXXXXXXXXXXXXXX")
         for rec in self:
             rec.days_of_initial_terminal = False
             if rec.date_tdo_received and rec.truck_loading_date:
@@ -1096,7 +1088,6 @@ class CustomTrackingReport(models.Model):
 
     @api.depends('truck_loading_date', 'return_date')
     def compute_days_out_terminal(self):
-        print("compute_days_out_terminal called XXXXXXXXXXXXXXX")
         for rec in self:
             rec.days_out_terminal = False
             if rec.return_date and rec.truck_loading_date:

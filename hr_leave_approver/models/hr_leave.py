@@ -66,17 +66,13 @@ class HrLeave(models.Model):
                     "title": self.name,
                 }
             ).send_mail(self.id, force_send=False)
-        print('@@@@@@@@@@@@@@@@', approvers)
+
 
 
 
     def action_approve(self):
         """Check if any pending tasks is added if so reassign the pending
         task else call approval"""
-        # if leave_validation_type == 'both':
-        # this method is the first approval approval
-        # if leave_validation_type != 'both': t
-        # his method calls action_validate() below
         if any(holiday.state != "confirm" for holiday in self):
             raise UserError(
                 _(

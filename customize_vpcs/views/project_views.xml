@@ -1,7 +1,7 @@
 <odoo>
     <data>
 
-        <record id="project_edit_field_form" model="ir.ui.view">
+        <record id="project_edit_field_form1" model="ir.ui.view">
             <field name="name">project.project.form</field>
             <field name="model">project.project</field>
             <field name="inherit_id" ref="project.edit_project" />
@@ -59,14 +59,11 @@
                     <field name='kg' />
                     <field name="size_of_container" />
                     <field name="client_ref" />
-
                     <field name='days_in_port' invisible="1" />
                     <field name='major_cause_of_delay' invisible="1" />
                     <field name='container_transfer' invisible="1" />
                 </xpath>
-                <xpath expr="//form//header" position="after">
-                    <header>
-                        <field name="sn_state" widget="statusbar" />
+                <xpath expr="//form/header" position="inside">
                         <button name="awaiting_arrival_button" type="object"
                             string="AwaitingArrival"
                             attrs="{'invisible': [('sn_state', 'in', ('awaiting_arrival','in_clearing','ready_to_load','post_delivery'))]}"
@@ -86,7 +83,7 @@
                         <button name='action_truck_loaded' type='object' string='Truck loaded'
                             class='oe_highlight'
                             attrs="{'invisible': [('sn_state','in',('pre_alert','awaiting_arrival','in_clearing','post_delivery'))]}" />
-                    </header>
+                        <field name="sn_state" widget="statusbar" />
                 </xpath>
                 <xpath expr='//button[@name="action_create_invoice" and @states="pending,progress"]'
                     position='attributes'>

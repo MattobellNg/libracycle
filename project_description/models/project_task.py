@@ -168,66 +168,66 @@ class ProjectProjectTask(models.Model):
         return super(ProjectProjectTask, self.with_context(ctx)).create(vals)
 
     def write(self, vals):
-        ctx = dict(self._context)
-        check_project_related_field = False
+        for rec in self:
+            ctx = dict(self._context)
+            check_project_related_field = False
 
-        if vals.get("is_category_task") or self.is_category_task:
-            ctx.update({"tracking_disable": True})
+            if vals.get("is_category_task") or rec.is_category_task:
+                ctx.update({"tracking_disable": True})
 
-        if vals.get("stage_id") and self.require_user_action_flg:
-            # check if stage is the end of job workflow
-            job_stage = self.env["project.task.type"].search_read(
-                [("id", "=", int(vals.get("stage_id")))], ["project_flow"]
-            )
-            if job_stage:
-                if job_stage[0]["project_flow"] == "end":
-                    job_string = self.project_field_string or ""
-                    job_date = self.project_field_date or ""
-                    job_float = self.project_field_float or 0.00
-                    if job_string == "" and job_date == "" and job_float <= 0.00:
-                        raise UserError("Target Project/Job field value is not provided")
-                    check_project_related_field = True
-        if (
-            self.require_user_action_flg
-            and not check_project_related_field
-            and (vals.get("project_field_string") or vals.get("project_field_date") or vals.get("project_field_float"))
-        ):
-            check_project_related_field = True
-        if vals.get("project_categ_id") and not vals.get("type_id"):
-            proj_cat = self.env["project.project.category"].search([("id", "=", int(vals.get("project_categ_id")))])
-            if proj_cat:
-                vals["type_id"] = proj_cat.project_type_id.id
-        """Reassign Task"""
-        task_assigned_to = vals.get("task_assign_id", False)
-        if task_assigned_to and not self.user_id:
-            task_assign_to_rec = self.env["hr.employee"].sudo().browse(int(task_assigned_to))
-            if task_assign_to_rec:
-                vals["user_id"] = task_assign_to_rec.user_id.id
-            else:
-                raise UserError(
-                    "%s has no related user assigned. Kindly contact administrator to set related user"
-                    % task_assign_to_rec.name
+            if vals.get("stage_id") and rec.require_user_action_flg:
+                # check if stage is the end of job workflow
+                job_stage = self.env["project.task.type"].search_read(
+                    [("id", "=", int(vals.get("stage_id")))], ["project_flow"]
                 )
-        print("The Context", ctx)
-        result = super(ProjectProjectTask, self.with_context(ctx)).write(vals)
-        if result:
-            if check_project_related_field:
-                proj_dict = {}
-                proj_fld_type = self.project_fields_type
-                if self.project_fields and proj_fld_type:
-                    #'selection', 'char', 'integer', 'float', 'date', 'datetime'
-                    if proj_fld_type in ["char", "selection"]:
-                        proj_dict.update({self.project_fields: self.project_field_string})
-                    if proj_fld_type in ["integer", "float"]:
-                        amount = self.project_field_float
-                        if proj_fld_type == "integer":
-                            amount = int(self.project_field_float)
-                        proj_dict.update({self.project_fields: amount})
-                    if proj_fld_type in ["date", "datetime"]:
-                        proj_dict.update({self.project_fields: self.project_field_date})
-                if proj_dict:
-                    self.project_id.sudo().write(proj_dict)
-        return result
+                if job_stage:
+                    if job_stage[0]["project_flow"] == "end":
+                        job_string = self.project_field_string or ""
+                        job_date = self.project_field_date or ""
+                        job_float = self.project_field_float or 0.00
+                        if job_string == "" and job_date == "" and job_float <= 0.00:
+                            raise UserError("Target Project/Job field value is not provided")
+                        check_project_related_field = True
+            if (
+                rec.require_user_action_flg
+                and not check_project_related_field
+                and (vals.get("project_field_string") or vals.get("project_field_date") or vals.get("project_field_float"))
+            ):
+                check_project_related_field = True
+            if vals.get("project_categ_id") and not vals.get("type_id"):
+                proj_cat = self.env["project.project.category"].search([("id", "=", int(vals.get("project_categ_id")))])
+                if proj_cat:
+                    vals["type_id"] = proj_cat.project_type_id.id
+            """Reassign Task"""
+            task_assigned_to = vals.get("task_assign_id", False)
+            if task_assigned_to and not self.user_id:
+                task_assign_to_rec = self.env["hr.employee"].sudo().browse(int(task_assigned_to))
+                if task_assign_to_rec:
+                    vals["user_id"] = task_assign_to_rec.user_id.id
+                else:
+                    raise UserError(
+                        "%s has no related user assigned. Kindly contact administrator to set related user"
+                        % task_assign_to_rec.name
+                    )
+            result = super(ProjectProjectTask, self.with_context(ctx)).write(vals)
+            if result:
+                if check_project_related_field:
+                    proj_dict = {}
+                    proj_fld_type = self.project_fields_type
+                    if self.project_fields and proj_fld_type:
+                        #'selection', 'char', 'integer', 'float', 'date', 'datetime'
+                        if proj_fld_type in ["char", "selection"]:
+                            proj_dict.update({self.project_fields: self.project_field_string})
+                        if proj_fld_type in ["integer", "float"]:
+                            amount = self.project_field_float
+                            if proj_fld_type == "integer":
+                                amount = int(self.project_field_float)
+                            proj_dict.update({self.project_fields: amount})
+                        if proj_fld_type in ["date", "datetime"]:
+                            proj_dict.update({self.project_fields: self.project_field_date})
+                    if proj_dict:
+                        self.project_id.sudo().write(proj_dict)
+            return result
 
     def action_view_item_sales(self):
         self.ensure_one()

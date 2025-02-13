@@ -25,7 +25,7 @@
                 <field name="job_duty" string="Duty Payment Date" />
                 <field name="nafdac_1_stamp_date" string="NAFDAC 1st Stamping Date" />
                 <field name="free_days" string="No of free days" />
-                <field name="loading_terminal_id" string="Terminal" required="1"/>
+                <field name="loading_terminal_id" string="Terminal" required="1" />
                 <field name="terminal_rating_till" string="Terminal rated till" />
                 <field name="custom_release_date" string="Customs Release Date" />
                 <field name="job_tdo" string="TDO" />
@@ -54,7 +54,7 @@
                 <field name="schedule_item_count" string="Cont. Count" />
                 <field name="items_total_weight" string="Weight" />
                 <field name="vessel_det" string="Vessel" />
-                <field name="loading_terminal_id" string="Loading Terminal"/>
+                <field name="loading_terminal_id" string="Loading Terminal" />
                 <field name="job_allocation_date" string="Job Allocation Date" />
                 <field name="etd" string="ETD" />
                 <field name="eta" string="ETA" />
@@ -177,7 +177,7 @@
             </field>
         </field>
     </record>
-    <record id="project_form" model="ir.ui.view">
+    <record id="project_form1" model="ir.ui.view">
         <field name="name">Project description</field>
         <field name="model">project.project</field>
         <field name="inherit_id" ref="project.edit_project" />
@@ -196,41 +196,61 @@
                 <field name="has_nafdac_2_stamp_date" invisible="1" />
                 <field name="has_free_days" invisible="1" />
             </field>
-            <xpath expr="//sheet" position="before">
-                <header>
-                    <field name="state" widget="statusbar" statusbar_visible="new,pending,progress,deliver,done" invisible="1"/>
-                    <button name="create_job_quotation" type="object" string="Quotation" states="pending,progress" class="oe_highlight" />
-                    <button name="create_purchases_receipt" type="object" string="Create purchase Receipt" states="pending,progress" />
-                    <button name="action_create_vendor_bill" type="object" string="Create Vendor Bill" states="pending,progress" />
-                    <button name="action_create_invoice" type="object" string="Create Invoice" states="pending,progress" groups="account.group_account_invoice" />
-                </header>
+            <xpath expr="//form/header" position="inside">
+                <field name="state" widget="statusbar"
+                    statusbar_visible="new,pending,progress,deliver,done"
+                    invisible="1" />
+                <button name="create_job_quotation" type="object" string="Quotation"
+                    states="pending,progress"
+                    class="oe_highlight" />
+                <button name="create_purchases_receipt" type="object"
+                    string="Create purchase Receipt"
+                    states="pending,progress" />
+                <button name="action_create_vendor_bill" type="object" string="Create Vendor Bill"
+                    states="pending,progress" />
+                <button name="action_create_invoice" type="object" string="Create Invoice"
+                    states="pending,progress" groups="account.group_account_invoice" />
             </xpath>
             <div name="button_box" position="inside">
-                <button class="oe_stat_button" type="object" name="action_view_sales" icon="fa-tasks">
-                    <field string="Sale orders" name="sales_order_count" widget="statinfo" options="{'label_field': 'label_items'}" />
+                <button class="oe_stat_button" type="object" name="action_view_sales"
+                    icon="fa-tasks">
+                    <field string="Sale orders" name="sales_order_count" widget="statinfo"
+                        options="{'label_field': 'label_items'}" />
                 </button>
-                <button class="oe_stat_button" type="object" name="action_view_purchases" icon="fa-tasks">
-                    <field string="Purchase orders" name="purchase_order_count" widget="statinfo" options="{'label_field': 'label_items'}" />
+                <button class="oe_stat_button" type="object" name="action_view_purchases"
+                    icon="fa-tasks">
+                    <field string="Purchase orders" name="purchase_order_count" widget="statinfo"
+                        options="{'label_field': 'label_items'}" />
                 </button>
-                <button class="oe_stat_button" type="object" name="action_view_purchases_receipt" icon="fa-tasks">
-                    <field string="Purchase Receipts" name="purchase_order_receipt_count" widget="statinfo" options="{'label_field': 'label_items'}" />
+                <button class="oe_stat_button" type="object" name="action_view_purchases_receipt"
+                    icon="fa-tasks">
+                    <field string="Purchase Receipts" name="purchase_order_receipt_count"
+                        widget="statinfo" options="{'label_field': 'label_items'}" />
                 </button>
-                <button class="oe_stat_button" type="object" name="action_view_vendor_bill" icon="fa-tasks">
-                    <field string="Vendor Bill" name="job_vendor_bill_count" widget="statinfo" options="{'label_field': 'label_items'}" />
+                <button class="oe_stat_button" type="object" name="action_view_vendor_bill"
+                    icon="fa-tasks">
+                    <field string="Vendor Bill" name="job_vendor_bill_count" widget="statinfo"
+                        options="{'label_field': 'label_items'}" />
                 </button>
-                <button class="oe_stat_button" type="object" name="action_view_invoice" icon="fa-tasks" groups="account.group_account_invoice">
-                    <field string="Invoice" name="job_invoice_count" widget="statinfo" options="{'label_field': 'label_items'}" />
+                <button class="oe_stat_button" type="object" name="action_view_invoice"
+                    icon="fa-tasks" groups="account.group_account_invoice">
+                    <field string="Invoice" name="job_invoice_count" widget="statinfo"
+                        options="{'label_field': 'label_items'}" />
                 </button>
-                <button class="oe_stat_button" type="object" name="action_view_cost_revenue" icon="fa-bar-chart" groups="analytic.group_analytic_accounting">
-                    <field string="Cost/Revenue" name="analysis_balance" widget="monetary" options="{'label_field': 'label_items'}" />
+                <button class="oe_stat_button" type="object" name="action_view_cost_revenue"
+                    icon="fa-bar-chart" groups="analytic.group_analytic_accounting">
+                    <field string="Cost/Revenue" name="analysis_balance" widget="monetary"
+                        options="{'label_field': 'label_items'}" />
                 </button>
             </div>
             <xpath expr="//div[hasclass('oe_title')]" position="after">
                 <h1>
-                    <field name="project_categ_id" placeholder="Job Dynamics" attrs="{'readonly': [('state','!=','new')]}" />
+                    <field name="project_categ_id" placeholder="Job Dynamics"
+                        attrs="{'readonly': [('state','!=','new')]}" />
                 </h1>
                 <h1>
-                    <field name="job_allocation_date" placeholder="Job Allocation Date" attrs="{'readonly': [('state','!=','new')]}" />
+                    <field name="job_allocation_date" placeholder="Job Allocation Date"
+                        attrs="{'readonly': [('state','!=','new')]}" />
                 </h1>
             </xpath>
             <xpath expr="//notebook//page" position="before">
@@ -239,12 +259,10 @@
                     </group>
                     <group>
                         <group>
-                            <field name="job_duty" attrs="{'invisible':['|',('has_job_duty','==','no'),('project_categ_id','=', False)], 'required': [('has_job_duty','==','required')]}" />
-                            <field name="terminal_rating_till" attrs="{'invisible':['|',('has_terminal_rating_till','==','no'),('project_categ_id','=', False)], 'required': [('has_terminal_rating_till','==','required')]}" />
-                        </group>
-                        <group>
-                        </group>
-                        <group>
+                            <field name="job_duty"
+                                attrs="{'invisible':['|',('has_job_duty','==','no'),('project_categ_id','=', False)], 'required': [('has_job_duty','==','required')]}" />
+                            <field name="terminal_rating_till"
+                                attrs="{'invisible':['|',('has_terminal_rating_till','==','no'),('project_categ_id','=', False)], 'required': [('has_terminal_rating_till','==','required')]}" />
                         </group>
                     </group>
                     <label for="description" string="Job description" />
@@ -252,8 +270,10 @@
                 </page>
                 <page name="job_details" string="Items lines" invisible="1">
                     <div>
-                        <button name="download_schedule_item_csv" type="object" string="Downlaod Template" class="oe_edit_only" />
-                        <button name="import_schedule_item" type="object" string="Import Items" class="btn-primary oe_edit_only" />
+                        <button name="download_schedule_item_csv" type="object"
+                            string="Downlaod Template" class="oe_edit_only" />
+                        <button name="import_schedule_item" type="object" string="Import Items"
+                            class="btn-primary oe_edit_only" />
                     </div>
                     <field name="project_schedule_items_ids" context="{'default_project_id': id}">
                         <tree string="Project Schedule items" editable="bottom">
@@ -283,7 +303,8 @@
                 <field name="project_categ_id" />
             </field>
             <group expand="0" string="Group By">
-                <filter string="Project category" domain="[]" name="project_categ_id" context="{'group_by': 'project_categ_id'}" />
+                <filter string="Project category" domain="[]" name="project_categ_id"
+                    context="{'group_by': 'project_categ_id'}" />
             </group>
             <xpath expr="//field[@name='name']" position="after">
                 <field name="description" string="Project Description" />
@@ -317,11 +338,17 @@
         <field name="inherit_id" ref="project.view_project_project_filter" />
         <field name="arch" type="xml">
             <xpath expr="//filter[@name='inactive']" position="before">
-                <filter name="my_manage_project" string="My Jobs" help="This are jobs that you manage" domain="['|', ('user_id','=',uid), ('create_uid', '=', uid)]" />
-                <filter string="Jobs within 24hrs" name="job_allocation_in_24_days" domain="[('job_allocation_date','&gt;=', ((context_today()-datetime.timedelta(days=0)).strftime('%Y-%m-%d'))),('job_allocation_date','&lt;=', ((context_today()-datetime.timedelta(days=7)).strftime('%Y-%m-%d')))]" />
-                <filter string="a week old jobs" name="job_allocation_in_1_week" domain="[('job_allocation_date','&gt;=', ((context_today()+datetime.timedelta(days=0)).strftime('%Y-%m-%d'))),('job_allocation_date','&lt;=', ((context_today()+datetime.timedelta(days=30)).strftime('%Y-%m-%d')))]" />
-                <filter string="3 months old jobs" name="job_allocation_in_month" domain="[('job_allocation_date','&gt;=', ((context_today()+datetime.timedelta(days=0)).strftime('%Y-%m-%d'))),('job_allocation_date','&lt;=', ((context_today()+datetime.timedelta(days=90)).strftime('%Y-%m-%d')))]" />
-                <filter string="6 months old jobs" name="job_allocation_in_six_month" domain="[('job_allocation_date','&gt;=', ((context_today()+datetime.timedelta(days=0)).strftime('%Y-%m-%d'))),('job_allocation_date','&lt;=', ((context_today()+datetime.timedelta(days=180)).strftime('%Y-%m-%d')))]" />
+                <filter name="my_manage_project" string="My Jobs"
+                    help="This are jobs that you manage"
+                    domain="['|', ('user_id','=',uid), ('create_uid', '=', uid)]" />
+                <filter string="Jobs within 24hrs" name="job_allocation_in_24_days"
+                    domain="[('job_allocation_date','&gt;=', ((context_today()-datetime.timedelta(days=0)).strftime('%Y-%m-%d'))),('job_allocation_date','&lt;=', ((context_today()-datetime.timedelta(days=7)).strftime('%Y-%m-%d')))]" />
+                <filter string="a week old jobs" name="job_allocation_in_1_week"
+                    domain="[('job_allocation_date','&gt;=', ((context_today()+datetime.timedelta(days=0)).strftime('%Y-%m-%d'))),('job_allocation_date','&lt;=', ((context_today()+datetime.timedelta(days=30)).strftime('%Y-%m-%d')))]" />
+                <filter string="3 months old jobs" name="job_allocation_in_month"
+                    domain="[('job_allocation_date','&gt;=', ((context_today()+datetime.timedelta(days=0)).strftime('%Y-%m-%d'))),('job_allocation_date','&lt;=', ((context_today()+datetime.timedelta(days=90)).strftime('%Y-%m-%d')))]" />
+                <filter string="6 months old jobs" name="job_allocation_in_six_month"
+                    domain="[('job_allocation_date','&gt;=', ((context_today()+datetime.timedelta(days=0)).strftime('%Y-%m-%d'))),('job_allocation_date','&lt;=', ((context_today()+datetime.timedelta(days=180)).strftime('%Y-%m-%d')))]" />
             </xpath>
         </field>
     </record>
@@ -366,7 +393,8 @@
     <record id="open_view_phl_project_delivered_not_invoice" model="ir.actions.act_window">
         <field name="name">Job Delivered (not Invoice)</field>
         <field name="res_model">project.project</field>
-        <field name="domain">[('ata', '!=', False),('delivery_date', '!=', False),('job_invoiced', '=', 'no')]</field>
+        <field name="domain">[('ata', '!=', False),('delivery_date', '!=', False),('job_invoiced',
+            '=', 'no')]</field>
         <field name="view_mode">tree,form,pivot,graph</field>
         <field name="view_id" ref="phl_project_delivered_not_invoiced" />
         <field name="search_view_id" ref="view_project_project_filter" />
@@ -385,7 +413,8 @@
     <record id="open_view_phl_project_delivered_invoice" model="ir.actions.act_window">
         <field name="name">Job Delivered (Invoiced)</field>
         <field name="res_model">project.project</field>
-        <field name="domain">[('ata', '!=', False),('delivery_date', '!=', False),('job_invoiced', '=', 'yes')]</field>
+        <field name="domain">[('ata', '!=', False),('delivery_date', '!=', False),('job_invoiced',
+            '=', 'yes')]</field>
         <field name="view_mode">tree,form,pivot,graph</field>
         <field name="view_id" ref="phl_project_delivered_invoiced" />
         <field name="search_view_id" ref="view_project_project_filter" />
@@ -421,10 +450,17 @@
         </field>
     </record>
     <menuitem id="menu_projects_listing" name="Job" parent="project.menu_main_pm" sequence="1" />
-    <menuitem action="open_view_project_report_all" id="menu_projects_listing_all" name="List all Jobs" parent="menu_projects_listing" sequence="1" />
-    <menuitem action="open_view_project_awaiting_shipping" id="menu_projects_awaiting_shipping" name="Awaiting Shipping" parent="menu_projects_listing" sequence="2" />
-    <menuitem action="open_view_phl_project_arrived" id="menu_projects_arrived" name="Job Arrived" parent="menu_projects_listing" sequence="3" />
-    <menuitem action="open_view_phl_project_delivered_not_invoice" id="menu_projects_delivered_not_invoice" name="Delivered (not invoiced)" parent="menu_projects_listing" sequence="4" />
-    <menuitem action="open_view_phl_project_delivered_invoice" id="menu_projects_delivered_invoice" name="Delivered (invoiced)" parent="menu_projects_listing" sequence="5" />
-    <menuitem action="project.action_view_task" id="phlema_menu_action_view_task" parent="project.menu_main_pm" sequence="1" />
+    <menuitem action="open_view_project_report_all" id="menu_projects_listing_all"
+        name="List all Jobs" parent="menu_projects_listing" sequence="1" />
+    <menuitem action="open_view_project_awaiting_shipping" id="menu_projects_awaiting_shipping"
+        name="Awaiting Shipping" parent="menu_projects_listing" sequence="2" />
+    <menuitem action="open_view_phl_project_arrived" id="menu_projects_arrived" name="Job Arrived"
+        parent="menu_projects_listing" sequence="3" />
+    <menuitem action="open_view_phl_project_delivered_not_invoice"
+        id="menu_projects_delivered_not_invoice" name="Delivered (not invoiced)"
+        parent="menu_projects_listing" sequence="4" />
+    <menuitem action="open_view_phl_project_delivered_invoice" id="menu_projects_delivered_invoice"
+        name="Delivered (invoiced)" parent="menu_projects_listing" sequence="5" />
+    <menuitem action="project.action_view_task" id="phlema_menu_action_view_task"
+        parent="project.menu_main_pm" sequence="1" />
 </odoo>

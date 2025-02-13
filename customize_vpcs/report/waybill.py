@@ -10,7 +10,6 @@ class WaybillXlsx(models.AbstractModel):
     _inherit = 'report.report_xlsx.abstract'
 
     def generate_xlsx_report(self, workbook, data, items):
-        print('Items :', items)
         headers = ["BL NO", "Job Ref No", "40FT", "20FT", "CBM", "KG", "ITEM DESCRIPTION", "SHIPPING LINE", "Terminal", "JOB DYNAMICS", "ATA", "TDO Date", "Delivery completion Date", "Final Destination", "Complete Doc. Received", "Duty", "Shipping charge", "Terminal Charge ", "NAFDAC",
                    "SON", "Agency", "Transportation", "Others", "Total Cost(N)", "Duty", "Shipping charge", "Terminal Charge ", "NAFDAC", "Agency", "Transportation", "Others", "Invoice Value(N)", "VAT(N)", "Total Invoice Value(N)", "Paid(N)", "WHT(N)", "Unpaid(N)", "Total Profit(N)", "COMMENT"]
         sheet = workbook.add_worksheet("waybill")
@@ -38,7 +37,6 @@ class BargedXlsx(models.AbstractModel):
     _inherit = 'report.report_xlsx.abstract'
 
     def generate_xlsx_report(self, workbook, data, items):
-        print('Items :', items)
         headers = ["S/N",'DATE','CONT NO','BL NO','SIZE','CLIENT','DESTINATION','FILE NO','WEIGHT','LINER']
         sheet = workbook.add_worksheet("Barged_Tracking")
         header_format = workbook.add_format(
@@ -78,7 +76,6 @@ class OperationXlsx(models.AbstractModel):
     _inherit = 'report.report_xlsx.abstract'
 
     def generate_xlsx_report(self, workbook, data, items):
-        print('Items :', items)
         headers = ["S/N",'COMMENTS','STAGE','CLIENT NAME','Dynamics','Pre-Alert Date','File ref','20 FT','40 FT','BL/AWB NUMBER','SHIPPING LINE','Terminal','ATA','CONT-Transfer','PAAR Recieved','ASSES DATE','Duty Received','Original Shipping Doc rec','1ST STAMPING','2ND STAMPING','TDO DATE','CLEARING AGENT','DAYS IN PORT','MAJOR CAUSE OF DELAY']
         sheet = workbook.add_worksheet("Operation_Report")
         header_format = workbook.add_format(
