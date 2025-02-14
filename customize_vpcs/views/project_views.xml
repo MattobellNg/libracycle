@@ -64,26 +64,26 @@
                     <field name='container_transfer' invisible="1" />
                 </xpath>
                 <xpath expr="//form/header" position="inside">
-                        <button name="awaiting_arrival_button" type="object"
-                            string="AwaitingArrival"
-                            attrs="{'invisible': [('sn_state', 'in', ('awaiting_arrival','in_clearing','ready_to_load','post_delivery'))]}"
-                            class="oe_highlight" groups='customize_vpcs.group_status_visibility' />
-                        <button name="in_clearing_button" type="object" string="InClearing"
-                            attrs="{'invisible': [('sn_state', 'in', ('pre_alert','in_clearing','ready_to_load','post_delivery'))]}"
-                            class="oe_highlight" groups='customize_vpcs.group_status_visibility' />
-                        <button name="ready_toload_button" type="object" string="ReadyToLoad"
-                            attrs="{'invisible': [('sn_state', 'in', ('pre_alert','awaiting_arrival','ready_to_load','post_delivery'))]}"
-                            class="oe_highlight" groups='customize_vpcs.group_status_visibility' />
-                        <button name="post_delivery_button" type="object" string="PostDelivery"
-                            attrs="{'invisible': [('sn_state', 'in', ('pre_alert','awaiting_arrival','in_clearing','post_delivery'))]}"
-                            class="oe_highlight" groups='customize_vpcs.group_status_visibility' />
-                        <button name='back_button' type='object' string="Back" class='oe_highlight'
-                            attrs="{'invisible': [('sn_state','=','pre_alert')]}"
-                            groups='customize_vpcs.group_status_visibility' />
-                        <button name='action_truck_loaded' type='object' string='Truck loaded'
-                            class='oe_highlight'
-                            attrs="{'invisible': [('sn_state','in',('pre_alert','awaiting_arrival','in_clearing','post_delivery'))]}" />
-                        <field name="sn_state" widget="statusbar" />
+                    <button name="awaiting_arrival_button" type="object"
+                        string="AwaitingArrival"
+                        attrs="{'invisible': [('sn_state', 'in', ('awaiting_arrival','in_clearing','ready_to_load','post_delivery'))]}"
+                        class="oe_highlight" groups='customize_vpcs.group_status_visibility' />
+                    <button name="in_clearing_button" type="object" string="InClearing"
+                        attrs="{'invisible': [('sn_state', 'in', ('pre_alert','in_clearing','ready_to_load','post_delivery'))]}"
+                        class="oe_highlight" groups='customize_vpcs.group_status_visibility' />
+                    <button name="ready_toload_button" type="object" string="ReadyToLoad"
+                        attrs="{'invisible': [('sn_state', 'in', ('pre_alert','awaiting_arrival','ready_to_load','post_delivery'))]}"
+                        class="oe_highlight" groups='customize_vpcs.group_status_visibility' />
+                    <button name="post_delivery_button" type="object" string="PostDelivery"
+                        attrs="{'invisible': [('sn_state', 'in', ('pre_alert','awaiting_arrival','in_clearing','post_delivery'))]}"
+                        class="oe_highlight" groups='customize_vpcs.group_status_visibility' />
+                    <button name='back_button' type='object' string="Back" class='oe_highlight'
+                        attrs="{'invisible': [('sn_state','=','pre_alert')]}"
+                        groups='customize_vpcs.group_status_visibility' />
+                    <button name='action_truck_loaded' type='object' string='Truck loaded'
+                        class='oe_highlight'
+                        attrs="{'invisible': [('sn_state','in',('pre_alert','awaiting_arrival','in_clearing','post_delivery'))]}" />
+                    <field name="sn_state" widget="statusbar" />
                 </xpath>
                 <xpath expr='//button[@name="action_create_invoice" and @states="pending,progress"]'
                     position='attributes'>
@@ -195,8 +195,10 @@
                                 attrs="{'invisible': [('doc_job_bool', '=', False)], 'required': [('doc_job_bool','=',True)],'readonly':[('sn_state','in',('awaiting_arrival','in_clearing','ready_to_load','post_delivery'))]}" />
                         </group>
                         <group colspan="4" col="4">
+                            <field name="sn_state" invisible="1" />
+
                             <field name="has_job_ba_number" invisible="1" />
-                            <field name="mode_shipment_air_sea"
+                            <field name="mode_shipment_air_sea" widget="selection"
                                 attrs="{'invisible':['|',('has_mode_shipment','=','no'),('project_categ_id','=', False)], 'required': [('has_mode_shipment','=','required')], 'readonly':[('sn_state','in',('awaiting_arrival','in_clearing','ready_to_load','post_delivery'))]}" />
                             <field name="job_ba_number"
                                 attrs="{'invisible':['|',('has_job_ba_number','=','no'),('project_categ_id','=', False)], 'required': [('has_job_ba_number','=','required')], 'readonly':[('sn_state','in',('awaiting_arrival','in_clearing','ready_to_load','post_delivery'))]}" />

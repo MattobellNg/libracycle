@@ -111,7 +111,7 @@ class ProjectProject(models.Model):
     ################## AWAITING ARRIVAL ############################
     shipping_line = fields.Char(string="Shipping/Air line")
     vessel_line = fields.Char(string="Vessel/Flight name")
-    ves_line = fields.Many2one('vessel.line', string="Vessel/Flight name")
+    ves_line = fields.Char(string="Vessel/Flight name")
     rotation_number = fields.Char("Rotation Number")
     destination_port = fields.Many2one('destination.port', string="Destination Port")
     dest_port = fields.Char(string='Destination port')

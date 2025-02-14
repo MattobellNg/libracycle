@@ -85,7 +85,8 @@
                             <field name="has_ata" string="ATA" widget="radio"
                                 options="{'horizontal': true}" />
                             <field name="has_terminal_rating_till" string="Terminal Rating Till"
-                                widget="radio" options="{'horizontal': true}" />
+                                widget="radio" options="{'horizontal': true}"
+                                 />
                             <field name="has_agent_name" string="Agent Name" widget="radio"
                                 options="{'horizontal': true}" />
                             <field name="has_duty_assesment" string="Duty Assessment" widget='radio'
