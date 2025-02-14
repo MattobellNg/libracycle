@@ -97,7 +97,7 @@ class ProjectProjectCategory(models.Model):
     )
     has_nafdac_2_stamp_date = fields.Selection(
         FIELD_SELECTION,
-        "NAFDAC 2nd stamp sate",
+        "NAFDAC 2nd Stamp Date",
         required=True,
         default="no",
         help="Display NAFDAC 2nd stamp date section on project",
@@ -203,7 +203,7 @@ class ProjectProject(models.Model):
     )
     has_nafdac_2_stamp_date = fields.Selection(
         [],
-        "NAFDAC 2nd stamp sate",
+        "NAFDAC 2nd Stamp Date",
         related="project_categ_id.has_nafdac_2_stamp_date",
         readonly=True,
     )

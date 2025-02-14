@@ -256,7 +256,7 @@ class ProjectProject(models.Model):
     ata = fields.Date("ATA", tracking=True)
     rotation_number = fields.Char("Rotation Number", tracking=True)
     nafdac_1_stamp_date = fields.Date("NAFDAC 1st Stamp Date", tracking=True)
-    nafdac_2_stamp_date = fields.Date("NAFDAC 2nd stamp sate", tracking=True)
+    nafdac_2_stamp_date = fields.Date("NAFDAC 2nd Stamp Date", tracking=True)
     free_days = fields.Char("No Of Free Days", tracking=True)
     empty_container_return_date = fields.Date("Empty Container return Date", tracking=True)
     job_invoiced = fields.Selection(
