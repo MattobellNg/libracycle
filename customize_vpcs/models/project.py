@@ -121,7 +121,9 @@ class ProjectProject(models.Model):
     port_of_loading = fields.Char(string='Port Of Loading')
     rotation_not_received = fields.Date(string="Rotation Not received")
     document_booking_number = fields.Binary(string='Document (Booking Number)')
-    booking_number = fields.Selection(selection=FIELD_SELECTION, string='Booking Number', default='optional')
+    booking_number = fields.Char(string='Booking Number')
+    has_booking_number = fields.Selection(string="Has Booking Number", related="project_categ_id.has_booking_number", readonly=True)
+
     
     ######base field#####
     document_bol_awb_ref = fields.Binary(string='Document(BOL/AWB)')

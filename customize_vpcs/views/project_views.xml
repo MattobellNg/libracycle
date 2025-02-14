@@ -170,6 +170,7 @@
                     <field name="has_nafdac_final_release" invisible='1' />
                     <field name="doc_nafdac_final_release" invisible='1' />
                     <field name="doc_client" invisible='1' />
+                    <field name="has_booking_number" invisible='1' />
                 </xpath>
                 <xpath expr='//page[@name="job_details"]' position="inside">
                     <group string='PRE ALERT' colspan="4" col="4">
@@ -229,8 +230,8 @@
                                 attrs="{'invisible':['|','|',('has_etd','=','no'),('project_categ_id','=', False),('sn_state','=','pre_alert')], 'required': ['&amp;',('has_etd','=','required'),('sn_state','=','awaiting_arrival')],'readonly':[('sn_state','in',('in_clearing','ready_to_load','post_delivery'))]}" />
                             <field name="eta"
                                 attrs="{'invisible':['|','|',('has_eta','=','no'),('project_categ_id','=', False),('sn_state','=','pre_alert')], 'required': ['&amp;',('has_eta','=','required'),('sn_state','=','awaiting_arrival')],'readonly':[('sn_state','in',('in_clearing','ready_to_load','post_delivery'))]}" />
-                            <field name="booking_number" widget="radio"
-                                options="{'horizontal': true}" />
+                            <field name="booking_number"
+                                attrs="{'invisible':['|',('project_categ_id','=', False),('sn_state','=','pre_alert')], 'required': ['&amp;',('has_booking_number','=','required'),('sn_state','=','awaiting_arrival')],'readonly':[('sn_state','in',('in_clearing','ready_to_load','post_delivery'))]}" />
                         </group>
                         <group colspan="4" col="4">
                             <field name="bol_awb_ref"

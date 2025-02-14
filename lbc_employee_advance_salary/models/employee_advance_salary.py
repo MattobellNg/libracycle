@@ -19,13 +19,13 @@ class EmployeeAdvanceSalary(models.Model):
             ("account", "Account"),
             ("confirm",),
         ],
-        ondelete={
-            "admin": lambda m: m.write({"state": "draft"}),
-            "officer": lambda m: m.write({"state": "draft"}),
-            "qac": lambda m: m.write({"state": "draft"}),
-            "director_1": lambda m: m.write({"state": "draft"}),
-            "director_2": lambda m: m.write({"state": "draft"}),
-        },
+        # ondelete={
+        #     "admin": lambda m: m.write({"state": "draft"}),
+        #     "officer": lambda m: m.write({"state": "draft"}),
+        #     "qac": lambda m: m.write({"state": "draft"}),
+        #     "director_1": lambda m: m.write({"state": "draft"}),
+        #     "director_2": lambda m: m.write({"state": "draft"}),
+        # },
     )
     journal_id = fields.Many2one(
         "account.journal",
