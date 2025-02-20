@@ -263,11 +263,9 @@
                     <group colspan="4" col="4">
                     </group>
                     <group>
-                        <group>
+                        <group name="">
                             <field name="job_duty"
                                 attrs="{'invisible':['|',('has_job_duty','==','no'),('project_categ_id','=', False)], 'required': [('has_job_duty','==','required')]}" />
-                            <field name="terminal_rating_till"
-                                attrs="{'invisible':['|', ('has_terminal_rating_till','==','no'),('project_categ_id','=', False)], 'required': [('has_terminal_rating_till','==','required')]}" />
                         </group>
                     </group>
                     <label for="description" string="Job description" />

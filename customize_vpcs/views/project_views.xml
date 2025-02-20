@@ -249,6 +249,8 @@
                             <field name="nafdac_paid"
                                 attrs="{'invisible':['|','|',('has_nafdac_paid','=','no'),('project_categ_id','=', False),('sn_state','in',('pre_alert','awaiting_arrival'))], 'required': [('has_nafdac_paid','=','required'),('sn_state','=','in_clearing')],'readonly':[('sn_state','in',('ready_to_load','post_delivery'))]}" />
                             <field name="agent_name" />
+                            <field name="terminal_rating_till"
+                                attrs="{'invisible':['|', ('has_terminal_rating_till','==','no'),('project_categ_id','=', False)], 'required': [('has_terminal_rating_till','==','required')]}" />
                         </group>
                         <group>
                             <label for="paar_received" />
