@@ -95,7 +95,14 @@ class ProjectProject(models.Model):
     item_description = fields.Char(string="Item Description")
 
     job_form_m_mf = fields.Char(string="Form M(MF)")
-    document_job_form_m_mf = fields.Binary(string="Document(Form M (MF))")
+    document_job_form_m_mf = fields.Binary(string="Document(Form M (MF))", attachment=True)
+    has_form_m_mf = fields.Selection(
+        [],
+        "Form M (MF)",
+        related="project_categ_id.has_form_m_mf",
+        readonly=True,
+        default="no",
+    )
     doc_job_bool = fields.Boolean()
     doc_boolean = fields.Boolean()
 
@@ -120,34 +127,34 @@ class ProjectProject(models.Model):
     country_of_loading = fields.Many2one('res.country', string="Country Of Loading")
     port_of_loading = fields.Char(string='Port Of Loading')
     rotation_not_received = fields.Date(string="Rotation Not received")
-    document_booking_number = fields.Binary(string='Document (Booking Number)')
+    document_booking_number = fields.Binary(string='Document (Booking Number)', attachment=True)
     booking_number = fields.Char(string='Booking Number')
-    has_booking_number = fields.Selection(string="Has Booking Number", related="project_categ_id.has_booking_number", readonly=True)
+    has_booking_number = fields.Selection(selection=FIELD_SELECTION, string="Has Booking Number", related="project_categ_id.has_booking_number", readonly=True)
 
     
     ######base field#####
-    document_bol_awb_ref = fields.Binary(string='Document(BOL/AWB)')
+    document_bol_awb_ref = fields.Binary(string='Document(BOL/AWB)', attachment=True)
     doc_bol_awb_ref = fields.Boolean()
 
-    document_has_nafdac_1_stamp_date = fields.Binary(string='Document(NAFDAC 1st Stamp)')
+    document_has_nafdac_1_stamp_date = fields.Binary(string='Document(NAFDAC 1st Stamp)', attachment=True)
     doc_has_nafdac_1_stamp_date = fields.Boolean()
 
-    document_has_nafdac_2_stamp_date = fields.Binary(string='Document(NAFDAC 2nd Stamp)')
+    document_has_nafdac_2_stamp_date = fields.Binary(string='Document(NAFDAC 2nd Stamp)', attachment=True)
     doc_has_nafdac_2_stamp_date = fields.Boolean()
 
     #############################IN CLEARING#################################
     paar_request = fields.Date(string="PAAR Request")
 
     paar_received = fields.Date(string='PAAR Received')
-    document_paar_received = fields.Binary(string="Document (PAAR Received)")
+    document_paar_received = fields.Binary(string="Document (PAAR Received)", attachment=True)
     doc_paar_bool = fields.Boolean()
 
     duty_assesment = fields.Date(string='Duty Assessment')
-    document_duty_assesment = fields.Binary(string='Document (Duty Assessment)')
+    document_duty_assesment = fields.Binary(string='Document (Duty Assessment)', attachment=True)
     doc_duty_asses = fields.Boolean()
 
     duty_received = fields.Date(string='Duty Received')
-    document_duty_received = fields.Binary(string="Document (Document Duty Received)")
+    document_duty_received = fields.Binary(string="Document (Document Duty Received)", attachment=True)
     doc_duty_received = fields.Boolean()
     agent_name = fields.Char("Agent Name")
     nafdac_paid = fields.Date(string='NAFDAC Paid')
@@ -170,7 +177,7 @@ class ProjectProject(models.Model):
     examination_done = fields.Date(string="Examination Done")
 
     shipping_released = fields.Date(string='Shipping Released')
-    document_shipping_released = fields.Binary(string='Document(shipping released)')
+    document_shipping_released = fields.Binary(string='Document(shipping released)', attachment=True)
     doc_ship_released = fields.Boolean()
 
     fou_approved = fields.Date(string='FOU Approved')
@@ -203,7 +210,7 @@ class ProjectProject(models.Model):
     date_delivery_complete = fields.Date(string='Date Delivery Complete')
 
     delivery_waybill_from_client = fields.Date(string='Delivery Waybill from Client')
-    document_delivery_waybill_from_client = fields.Binary(string='Document (Waybill from Client)')
+    document_delivery_waybill_from_client = fields.Binary(string='Document (Waybill from Client)', attachment=True)
     doc_waybill_from_client = fields.Boolean()
     custom_free_days = fields.Integer("Free Period")
     ##################POST DELIVERY###################################
@@ -211,15 +218,15 @@ class ProjectProject(models.Model):
     fecd_rec_date = fields.Date(string='FECD Rec Date')
 
     fecd_custom_ack = fields.Date(string="FECD Custom ACK")
-    document_custom = fields.Binary(string="Document(Custom ACK)")
+    document_custom = fields.Binary(string="Document(Custom ACK)", attachment=True)
     doc_custom = fields.Boolean()
 
     fecd_client_ack = fields.Date(string="FECD Client ACK")
-    document_client = fields.Binary(string='Document(Client ACK)')
+    document_client = fields.Binary(string='Document(Client ACK)', attachment=True)
     doc_client = fields.Boolean()
 
     nafdac_final_release = fields.Date(string='NAFDAC Final Release')
-    document_has_nafdac_final_release = fields.Binary(string='Document(NAFDAC Final Release)')
+    document_has_nafdac_final_release = fields.Binary(string='Document(NAFDAC Final Release)', attachment=True)
     doc_nafdac_final_release = fields.Boolean()
     job_tdo = fields.Date("TDO")
     project_employee = fields.Many2one(comodel_name="hr.employee")
@@ -275,13 +282,7 @@ class ProjectProject(models.Model):
         readonly=True,
         default="no",
     )
-    has_form_m_mf = fields.Selection(
-        [],
-        "Form M (MF)",
-        related="project_categ_id.has_form_m_mf",
-        readonly=True,
-        default="no",
-    )
+   
     has_mode_shipment = fields.Selection(
         [],
         "Mode Shipment",
@@ -339,7 +340,7 @@ class ProjectProject(models.Model):
     )
     has_rotation_received = fields.Selection(
         [],
-        "Rotation Not received",
+        "Rotation No Received",
         related="project_categ_id.has_rotation_received",
         readonly=True
     )
@@ -583,7 +584,7 @@ class ProjectProject(models.Model):
                                   "Job selection",
                                   )
     job_select_ids = fields.Many2many('job.selection', string='Job selection')
-    document = fields.Binary(attachment=False, help="upload here your document")
+    document = fields.Binary(help="upload here your document", attachment=False)
     container = fields.Integer(string="Number of Container")
     status_delivered = fields.Boolean(string="Delivered")
     status_completed = fields.Boolean(string="Completed")

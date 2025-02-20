@@ -33,7 +33,7 @@ class ProjectProjectCategory(models.Model):
     has_terminal = fields.Selection(FIELD_SELECTION, 'Terminal', default='optional')
     has_country_of_loading = fields.Selection(FIELD_SELECTION, 'County Of Loading', default='optional')
     has_port_of_loading = fields.Selection(FIELD_SELECTION, 'Port Of Loading', default='optional')
-    has_rotation_received = fields.Selection(FIELD_SELECTION, 'Rotation Not received', default='optional')
+    has_rotation_received = fields.Selection(FIELD_SELECTION, 'Rotation No Received', default='optional')
     has_booking_number = fields.Selection(selection=FIELD_SELECTION, string='Booking Number', default='optional')
     has_country_of_destination = fields.Selection(selection=FIELD_SELECTION, string='Destination', default='optional')
     #############################IN CLEARING#################################
