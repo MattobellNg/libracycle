@@ -130,29 +130,22 @@ class ProjectProject(models.Model):
     document_booking_number = fields.Binary(string='Document (Booking Number)', attachment=True)
     booking_number = fields.Char(string='Booking Number')
     has_booking_number = fields.Selection(selection=FIELD_SELECTION, string="Has Booking Number", related="project_categ_id.has_booking_number", readonly=True)
-
-    
     ######base field#####
     document_bol_awb_ref = fields.Binary(string='Document(BOL/AWB)', attachment=True)
     doc_bol_awb_ref = fields.Boolean()
-
     document_has_nafdac_1_stamp_date = fields.Binary(string='Document(NAFDAC 1st Stamp)', attachment=True)
     doc_has_nafdac_1_stamp_date = fields.Boolean()
-
     document_has_nafdac_2_stamp_date = fields.Binary(string='Document(NAFDAC 2nd Stamp)', attachment=True)
     doc_has_nafdac_2_stamp_date = fields.Boolean()
-
     #############################IN CLEARING#################################
     paar_request = fields.Date(string="PAAR Request")
-
     paar_received = fields.Date(string='PAAR Received')
     document_paar_received = fields.Binary(string="Document (PAAR Received)", attachment=True)
     doc_paar_bool = fields.Boolean()
-
+    has_duty_assesment = fields.Selection(selection=FIELD_SELECTION, string="Has Booking Assessment", related="project_categ_id.has_duty_assessment", readonly=True)
     duty_assesment = fields.Date(string='Duty Assessment')
     document_duty_assesment = fields.Binary(string='Document (Duty Assessment)', attachment=True)
     doc_duty_asses = fields.Boolean()
-
     duty_received = fields.Date(string='Duty Received')
     document_duty_received = fields.Binary(string="Document (Document Duty Received)", attachment=True)
     doc_duty_received = fields.Boolean()
@@ -175,26 +168,37 @@ class ProjectProject(models.Model):
     examination_booked = fields.Date(string="Examination Booked")
     examination_start = fields.Date(string="Examination Start")
     examination_done = fields.Date(string="Examination Done")
-
     shipping_released = fields.Date(string='Shipping Released')
     document_shipping_released = fields.Binary(string='Document(shipping released)', attachment=True)
     doc_ship_released = fields.Boolean()
-
     fou_approved = fields.Date(string='FOU Approved')
     nepza_released = fields.Date(string="NEPZA Released")
     container_provided = fields.Date('Container Provided')
+    has_container_provided = fields.Selection(selection=FIELD_SELECTION, string="Has Container Provided", related="project_categ_id.has_container_provided")
     loading_complete = fields.Date('Loading Complete')
+    has_loading_complete = fields.Selection(selection=FIELD_SELECTION, string="Has Container Provided", related="project_categ_id.has_loading_complete")
     packing_list_and_invoice = fields.Date('Packing List and Invoice')
+    has_packing_list_and_invoice = fields.Selection(selection=FIELD_SELECTION, string="Has Container Provided", related="project_categ_id.has_packing_list_and_invoice")
     delivered_to_terminal = fields.Date('Delivered To Terminal')
+    has_delivered_to_terminal = fields.Selection(selection=FIELD_SELECTION, string="Has Container Provided", related="project_categ_id.has_delivered_to_terminal")
     ness_payment = fields.Date('Ness Payment')
+    has_ness_payment = fields.Selection(selection=FIELD_SELECTION, string="Has Container Provided", related="project_categ_id.has_ness_payment")
     gate_in_docs_received = fields.Date('Gate In Docs Received')
+    has_gate_in_docs_received = fields.Selection(selection=FIELD_SELECTION, string="Has Container Provided", related="project_categ_id.has_gate_in_docs_received")
     coo = fields.Date('COO')
+    has_coo = fields.Selection(selection=FIELD_SELECTION, string="Has Container Provided", related="project_categ_id.has_coo")
     cci = fields.Date('CCI')
+    has_cci = fields.Selection(selection=FIELD_SELECTION, string="Has Container Provided", related="project_categ_id.has_cci")
     sgd = fields.Date('SGD / Releasing')
+    has_sgd = fields.Selection(selection=FIELD_SELECTION, string="Has Container Provided", related="project_categ_id.has_sgd")
     loaded_on_vessel = fields.Date('Loaded On Vessel')
+    has_loaded_on_vessel = fields.Selection(selection=FIELD_SELECTION, string="Has Container Provided", related="project_categ_id.has_loaded_on_vessel")
     final_obl_received = fields.Date('Final OBL Received')
+    has_final_obl_received = fields.Selection(selection=FIELD_SELECTION, string="Has Container Provided", related="project_categ_id.has_final_obl_received")
     shipping_instruction = fields.Date('Shipping Instruction')
+    has_shipping_instruction = fields.Selection(selection=FIELD_SELECTION, string="Has Container Provided", related="project_categ_id.has_shipping_instruction")
     draft_bl = fields.Date('Draft BL')
+    has_draft_bl = fields.Selection(selection=FIELD_SELECTION, string="Has Container Provided", related="project_categ_id.has_draft_bl")
     ########################### READY TO LOAD ##############################
     ################needs to be comment#############
     truck_in = fields.Date(string="Truck In")

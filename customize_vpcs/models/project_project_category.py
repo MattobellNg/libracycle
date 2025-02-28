@@ -62,7 +62,6 @@ class ProjectProjectCategory(models.Model):
     has_shipping_released = fields.Selection(FIELD_SELECTION, 'Shipping Release (DO)', default='no')
     has_fou_approved = fields.Selection(FIELD_SELECTION, 'FOU Approved', default='no')
     has_nepza_released = fields.Selection(FIELD_SELECTION, 'NEPZA Received', default='no')
-    
     has_container_provided = fields.Selection(FIELD_SELECTION, 'Container Provided', default='no')
     has_loading_complete = fields.Selection(FIELD_SELECTION, 'Loading Complete', default='no')
     has_packing_list_and_invoice = fields.Selection(FIELD_SELECTION, 'Packing List and Invoice', default='no')
@@ -90,28 +89,27 @@ class ProjectProjectCategory(models.Model):
     has_delivery_waybill_from_client = fields.Selection(FIELD_SELECTION, 'Delivery Waybill from Client', default='no')
     ##################POST DELIVERY###################################
     has_fecd_rec_date = fields.Selection(FIELD_SELECTION, 'FECD Rec Date', default='no')
-    has_fecd_custom_ack = fields.Selection(FIELD_SELECTION, 'FECD: customs ACK ', default='no')
+    has_fecd_custom_ack = fields.Selection(FIELD_SELECTION, 'FECD: Customs ACK ', default='no')
     has_fecd_client_ack = fields.Selection(FIELD_SELECTION, 'FECD: To Client ACK', default='no')
     has_nafdac_final_release = fields.Selection(FIELD_SELECTION, 'NAFDAC Final Release', default='no')
     ###############Client Need########################
     has_regulatory_field = fields.Selection(FIELD_SELECTION, 'Regulatory Field', default='optional')
-    
     field_visibility = fields.Selection([
         ('1', 'Delivery only'),
         ('2', 'LPO Financing'),
         ('3', 'Import-Finance Sea'),
-        ('4', 'Normal clearing'),
+        ('4', 'Normal Clearing'),
         ('5', 'Fastrack-Sea'),
-        ('6', 'TRANSHIRE CLEARING'),
+        ('6', 'Transhire Clearing'),
         ('7', 'Free Trade Zone-Sea')
     ], 'Field Visibility', default='1')
     has_field_visibility = fields.Selection([
-        ('1', 'Delivery only'),
+        ('1', 'Delivery Only'),
         ('2', 'LPO Financing'),
         ('3', 'Import-Finance Sea'),
-        ('4', 'Normal clearing'),
+        ('4', 'Normal Clearing'),
         ('5', 'Fastrack-Sea'),
-        ('6', 'TRANSHIRE CLEARING'),
+        ('6', 'Transhire Clearing'),
         ('7', 'Free Trade Zone-Sea')
     ], 'Field Visibility', default='1')
     document_bool = fields.Boolean(string="Document Upload?")
