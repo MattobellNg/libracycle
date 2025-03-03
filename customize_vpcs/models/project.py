@@ -133,7 +133,6 @@ class ProjectProject(models.Model):
     has_booking_number = fields.Selection(selection=FIELD_SELECTION, string="Has Booking Number", related="project_categ_id.has_booking_number", readonly=True)
     ######base field#####
     document_bol_awb_ref = fields.Binary(string='Document(BOL/AWB)', attachment=True)
-    doc_bol_awb_ref = fields.Boolean()
     document_has_nafdac_1_stamp_date = fields.Binary(string='Document(NAFDAC 1st Stamp)', attachment=True)
     doc_has_nafdac_1_stamp_date = fields.Boolean()
     document_has_nafdac_2_stamp_date = fields.Binary(string='Document(NAFDAC 2nd Stamp)', attachment=True)

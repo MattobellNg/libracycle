@@ -187,7 +187,7 @@ class ProjectProject(models.Model):
         required=False,
         tracking=True,
     )
-    has_bol_awb_ref = fields.Boolean()
+    # has_bol_awb_ref = fields.Boolean()
     has_job_duty = fields.Boolean()
     has_custom_release_date = fields.Boolean()
     has_job_tdo = fields.Boolean()

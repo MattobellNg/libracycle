@@ -183,7 +183,6 @@
         <field name="inherit_id" ref="project.edit_project" />
         <field name="arch" type="xml">
             <field name="analytic_account_id" position="after">
-                <field name="has_bol_awb_ref" invisible="1" />
                 <field name="has_job_duty" invisible="1" />
                 <field name="has_custom_release_date" invisible="1" />
                 <field name="has_job_tdo" invisible="1" />

@@ -106,6 +106,7 @@
                     </button>
                 </xpath>
                 <xpath expr='//field[@name="analytic_account_id"]' position="after">
+                    <field name="has_bol_awb_ref" invisible="1" />
                     <field name="has_job_refs" invisible='1' />
                     <field name="has_regulatory_field" invisible='1' />
                     <field name="has_client_name" invisible='1' />
@@ -116,7 +117,6 @@
                     <field name="has_account_officer" invisible='1' />
                     <field name="has_item_description" invisible='1' />
                     <field name="has_form_m_mf" invisible='1' />
-                    <field name="doc_bol_awb_ref" invisible='1' />
                     <field name="has_mode_shipment" invisible='1' />
                     <field name="has_field_visibility" invisible='1' />
                     <field name="has_shipping_line" invisible='1' />
@@ -246,10 +246,16 @@
                             <field name="terminal" invisible="1" />
                             <field name="custom_terminal"
                                 attrs="{'invisible':['|','|',('has_shipping_line','=','no'),('project_categ_id','=', False),('sn_state','=','pre_alert')], 'required': ['&amp;',('has_shipping_line','=','required'),('sn_state','=','awaiting_arrival')],'readonly':[('sn_state','in',('in_clearing','ready_to_load','post_delivery'))]}" />
-                            <field name="booking_number"
-                                attrs="{'invisible':['|','|', ('has_booking_number', '=', 'no'),('project_categ_id','=', False),('sn_state','=','pre_alert')], 'required': ['&amp;',('has_booking_number','=','required'),('sn_state','=','awaiting_arrival')],'readonly':[('sn_state','in',('in_clearing','ready_to_load','post_delivery'))]}" />
+                            <label for="booking_number" />
+                            <div class="o_row">
+                                <field name="booking_number"
+                                    attrs="{'invisible':['|','|', ('has_booking_number', '=', 'no'),('project_categ_id','=', False),('sn_state','=','pre_alert')], 'required': ['&amp;',('has_booking_number','=','required'),('sn_state','=','awaiting_arrival')],'readonly':[('sn_state','in',('in_clearing','ready_to_load','post_delivery'))]}" />
+                                <field name="document_booking_number"
+                                    class="oe_inline"
+                                    attrs="{'invisible':[('booking_number','=',False)], 'required': ['&amp;',('has_booking_number','=','required'),('sn_state','=','awaiting_arrival')],'readonly':[('sn_state','in',('in_clearing','ready_to_load','post_delivery'))]}" />
+                            </div>
                             <field name="country_of_destination"
-                                attrs="{'invisible':['|','|',('has_shipping_line','=','no'),('project_categ_id','=', False),('sn_state','=','pre_alert')], 'required': ['&amp;',('has_shipping_line','=','required'),('sn_state','=','awaiting_arrival')],'readonly':[('sn_state','in',('in_clearing','ready_to_load','post_delivery'))]}" />
+                                attrs="{'invisible':['|','|',('has_booking_number','=','no'),('project_categ_id','=', False),('sn_state','=','pre_alert')], 'required': ['&amp;',('has_shipping_line','=','required'),('sn_state','=','awaiting_arrival')],'readonly':[('sn_state','in',('in_clearing','ready_to_load','post_delivery'))]}" />
                             <field name="country_of_loading"
                                 attrs="{'invisible':['|','|',('has_country_of_loading','=','no'),('project_categ_id','=', False),('sn_state','=','pre_alert')], 'required': ['&amp;',('has_country_of_loading','=','required'),('sn_state','=','awaiting_arrival')],'readonly':[('sn_state','in',('in_clearing','ready_to_load','post_delivery'))]}" />
                             <field name="port_many_loading"
@@ -263,14 +269,22 @@
                                 attrs="{'invisible':['|','|',('has_etd','=','no'),('project_categ_id','=', False),('sn_state','=','pre_alert')], 'required': ['&amp;',('has_etd','=','required'),('sn_state','=','awaiting_arrival')],'readonly':[('sn_state','in',('in_clearing','ready_to_load','post_delivery'))]}" />
                             <field name="eta"
                                 attrs="{'invisible':['|','|',('has_eta','=','no'),('project_categ_id','=', False),('sn_state','=','pre_alert')], 'required': ['&amp;',('has_eta','=','required'),('sn_state','=','awaiting_arrival')],'readonly':[('sn_state','in',('in_clearing','ready_to_load','post_delivery'))]}" />
-                            <field name="document_booking_number"
-                                attrs="{'invisible':['|','|',('has_shipping_line','=','no'),('project_categ_id','=', False),('sn_state','=','pre_alert')], 'required': ['&amp;',('has_shipping_line','=','required'),('sn_state','=','awaiting_arrival')],'readonly':[('sn_state','in',('in_clearing','ready_to_load','post_delivery'))]}" />
                         </group>
-                        <group colspan="4" col="4">
-                            <field name="bol_awb_ref"
-                                attrs="{'invisible':['|','|',('has_bol_awb_ref','=','no'),('project_categ_id','=', False),('sn_state','=','pre_alert')], 'required': ['&amp;',('has_bol_awb_ref','=','required'),('sn_state','=','awaiting_arrival')],'readonly':[('sn_state','in',('in_clearing','ready_to_load','post_delivery'))]}" />
-                            <field name="document_bol_awb_ref"
-                                attrs="{'invisible': ['|',('doc_bol_awb_ref', '=', False),('sn_state','=','pre_alert')], 'required': ['&amp;',('doc_bol_awb_ref','=',True),('sn_state','=','awaiting_arrival')],'readonly':[('sn_state','in',('in_clearing','ready_to_load','post_delivery'))]}" />
+                        <group name="bol_awb_ref"
+                            attrs="{'invisible':['|','|',('has_bol_awb_ref','=','no'),('project_categ_id','=', False),('sn_state','=','pre_alert')]}">
+                            <label for="bol_awb_ref" />
+                            <div class="o_row">
+                                <field name="bol_awb_ref" class="oe_inline"
+                                    attrs="{'invisible':['|','|',('has_bol_awb_ref','=','no'),('project_categ_id','=', False),('sn_state','=','pre_alert')], 'required': ['&amp;',('has_bol_awb_ref','=','required'),('sn_state','=','awaiting_arrival')],'readonly':[('sn_state','in',('in_clearing','ready_to_load','post_delivery'))]}" />
+                                <div class="oe_inline"> </div>
+                                <field name="document_bol_awb_ref" 
+                                    class="oe_inline"
+                                    attrs="{
+                                        'invisible': ['|',('bol_awb_ref', '=', False),('sn_state','=','pre_alert')], 
+                                        'required': ['&amp;',('bol_awb_ref','=',True),('sn_state','=','awaiting_arrival')],
+                                        'readonly':[('sn_state','in',('in_clearing','ready_to_load','post_delivery'))]}
+                                    " />
+                            </div>
                         </group>
                     </group>
                     <group string="IN CLEARING"
