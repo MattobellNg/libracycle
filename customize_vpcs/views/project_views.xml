@@ -116,7 +116,6 @@
                     <field name="has_account_officer" invisible='1' />
                     <field name="has_item_description" invisible='1' />
                     <field name="has_form_m_mf" invisible='1' />
-                    <field name="doc_job_bool" invisible='1' />
                     <field name="doc_bol_awb_ref" invisible='1' />
                     <field name="has_mode_shipment" invisible='1' />
                     <field name="has_field_visibility" invisible='1' />
@@ -187,8 +186,8 @@
                     <field name="has_booking_number" invisible='1' />
                 </xpath>
                 <xpath expr='//page[@name="job_details"]' position="inside">
-                    <group string='PRE ALERT' colspan="4" col="4">
-                        <group colspan="4" col="4">
+                    <group string='PRE ALERT'>
+                        <group>
                             <field name="job_refs"
                                 attrs="{'invisible':['|',('has_job_refs','=','no'),('project_categ_id','=', False)], 'required': [('has_job_refs','=','required')], 'readonly':[('sn_state','in',('awaiting_arrival','in_clearing','ready_to_load','post_delivery'))]}" />
                             <field name="has_field_visibility" invisible="1" />
@@ -202,20 +201,27 @@
                             <field name="item_description"
                                 attrs="{'invisible':['|',('has_item_description','=','no'),('project_categ_id','=', False)], 'required': [('has_item_description','=','required')], 'readonly':[('sn_state','in',('awaiting_arrival','in_clearing','ready_to_load','post_delivery'))]}" />
                         </group>
-                        <group colspan="4" col="4">
-                            <field name="job_form_m_mf"
-                                attrs="{
-                                'invisible':['|',('has_form_m_mf','=','no'),('project_categ_id','=', False)], 
-                                'required': [('has_form_m_mf','=','required')],
-                                'readonly':[('sn_state','in',('awaiting_arrival','in_clearing','ready_to_load','post_delivery'))]
-                                }"
-                            />
-                            <field name="document_job_form_m_mf"
-                                attrs="{'invisible': [('doc_job_bool', '=', False)], 'required':
-                            [('doc_job_bool','=',True)],'readonly':[('sn_state','in',('awaiting_arrival','in_clearing','ready_to_load','post_delivery'))]}"
-                            />
+                        <group name="job_form_m"
+                            attrs="{
+                                        'invisible':['|',('has_form_m_mf','=','no'),('project_categ_id','=', False)], 
+                                        'required': [('has_form_m_mf','=','required')],
+                                        'readonly':[('sn_state','in',('awaiting_arrival','in_clearing','ready_to_load','post_delivery'))]
+                                    }">
+                            <label for="job_form_m_mf" />
+                            <div class="o_row">
+                                <field name="job_form_m_mf" class="oe_inline" />
+                                <span class="oe_inline"> </span>
+                                <field name="document_job_form_m_mf"
+                                    class="oe_inline"
+                                    attrs="{
+                                        'invisible': [('job_form_m_mf', '=', False)],
+                                        'required': [('job_form_m_mf','=',True)],
+                                        'readonly':[('sn_state','in',('awaiting_arrival','in_clearing','ready_to_load','post_delivery'))]
+                                    }"
+                                />
+                            </div>
                         </group>
-                        <group colspan="4" col="4">
+                        <group>
                             <field name="has_job_ba_number" invisible="1" />
                             <field name="mode_shipment_air_sea" widget="selection"
                                 attrs="{'invisible':['|',('has_mode_shipment','=','no'),('project_categ_id','=', False)], 'required': [('has_mode_shipment','=','required')], 'readonly':[('sn_state','in',('awaiting_arrival','in_clearing','ready_to_load','post_delivery'))]}" />
@@ -336,54 +342,6 @@
                             <field name="document_has_nafdac_2_stamp_date"
                                 attrs="{'invisible': [('doc_has_nafdac_2_stamp_date', '=', False)], 'required': ['&amp;',('doc_has_nafdac_2_stamp_date','=',True),('sn_state','=','in_clearing')],'readonly':[('sn_state','in',('ready_to_load','post_delivery'))]}" />
                         </group>
-                        <!-- <group>
-                            <field name="paar_received"
-                                attrs="{'invisible':['|','|',('has_paar_received','=','no'),('project_categ_id','=',
-                        False),('sn_state','in',('pre_alert','awaiting_arrival'))], 'required':
-                        [('has_paar_received','=','required'),('sn_state','=','in_clearing')],'readonly':[('sn_state','in',('ready_to_load','post_delivery'))]}"
-                        />
-                            <field name="document_paar_received"
-                                attrs="{'invisible': ['|',('doc_paar_bool', '=',
-                        False),('sn_state','in',('pre_alert','awaiting_arrival'))], 'required':
-                        [('doc_paar_bool','=',True)],'readonly':[('sn_state','in',('ready_to_load','post_delivery'))]}"
-                        />
-                        </group>
-                        <group>
-                            <field name="duty_assesment"
-                                attrs="{'invisible':['|','|',('has_duty_assesment','=','no'),('project_categ_id','=',
-                        False),('sn_state','in',('pre_alert','awaiting_arrival'))], 'required':
-                        [('has_duty_assesment','=','required'),('sn_state','=','in_clearing')],'readonly':[('sn_state','in',('ready_to_load','post_delivery'))]}"
-                        />
-                            <field name="document_duty_assesment"
-                                attrs="{'invisible': ['|',('doc_duty_asses', '=',
-                        False),('sn_state','in',('pre_alert','awaiting_arrival'))], 'required':
-                        [('doc_duty_asses','=',True)],'readonly':[('sn_state','in',('ready_to_load','post_delivery'))]}"
-                        />
-                        </group>
-                        <group>
-                            <field name="duty_received"
-                                attrs="{'invisible':['|','|',('has_duty_received','=','no'),('project_categ_id','=',
-                        False),('sn_state','in',('pre_alert','awaiting_arrival'))], 'required':
-                        [('has_duty_received','=','required'),('sn_state','=','in_clearing')],'readonly':[('sn_state','in',('ready_to_load','post_delivery'))]}"
-                        />
-                            <field name="document_duty_received"
-                                attrs="{'invisible': ['|',('doc_duty_received', '=',
-                        False),('sn_state','in',('pre_alert','awaiting_arrival'))], 'required':
-                        [('doc_duty_received','=',True)],'readonly':[('sn_state','in',('ready_to_load','post_delivery'))]}"
-                        />
-                        </group> -->
-                        <!-- <group>
-                            <field name="shipping_released"
-                                attrs="{'invisible':['|','|',('has_shipping_released','=','no'),('project_categ_id','=',
-                        False),('sn_state','in',('pre_alert','awaiting_arrival'))], 'required':
-                        [('has_shipping_released','=','required'),('sn_state','=','in_clearing')],'readonly':[('sn_state','in',('ready_to_load','post_delivery'))]}"
-                        />
-                            <field name="document_shipping_released"
-                                attrs="{'invisible': ['|',('doc_ship_released', '=',
-                        False),('sn_state','in',('pre_alert','awaiting_arrival'))], 'required':
-                        [('doc_ship_released','=',True)],'readonly':[('sn_state','in',('ready_to_load','post_delivery'))]}"
-                        />
-                        </group> -->
                         <group>
                             <field name="custom_release_date"
                                 attrs="{'invisible':['|','|',('has_custom_release_date','=','no'),('project_categ_id','=', False),('sn_state','in',('pre_alert','awaiting_arrival'))], 'required': [('has_custom_release_date','=','required'),('sn_state','=','in_clearing')],'readonly':[('sn_state','in',('ready_to_load','post_delivery'))]}" />

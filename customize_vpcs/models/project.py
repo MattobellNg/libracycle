@@ -97,8 +97,8 @@ class ProjectProject(models.Model):
     job_form_m_mf = fields.Char(string="Form M(MF)")
     document_job_form_m_mf = fields.Binary(string="Document(Form M (MF))", attachment=True)
     has_form_m_mf = fields.Selection(
-        [],
-        "Form M (MF)",
+        selection=FIELD_SELECTION,
+        string="Form M (MF)",
         related="project_categ_id.has_form_m_mf",
         readonly=True,
         default="no",
@@ -110,8 +110,9 @@ class ProjectProject(models.Model):
     barge_operator = fields.Many2one('barge.operator', "Barge Operator")
     mode_shipment_air_sea = fields.Many2one('mode.shipment', string="Mode Shipment(Air/Sea)")
     has_job_ba_number = fields.Selection(
-        FIELD_SELECTION,
-        "BA Number",
+        selection=FIELD_SELECTION,
+        string="BA Number",
+        related="project_categ_id.has_job_ba_number",
         default="no",
         help="Display BA Number field on project",
     )
@@ -743,36 +744,6 @@ class ProjectProject(models.Model):
             self.sn_state = 'in_clearing'
         if self.sn_state == 'post_delivery':
             self.sn_state = 'ready_to_load'
-
-    # @api.onchange('job_form_m_mf', 'paar_received', 'duty_assesment', 'duty_received', 'shipping_released',
-    #               'fecd_custom_ack', 'fecd_client_ack', 'bol_awb_ref', 'nafdac_1_stamp_date', 'nafdac_2_stamp_date',
-    #               'delivery_waybill_from_client', 'nafdac_final_release')
-    # def onchange_form_doc(self):
-    #     for rec in self:
-    #         if rec.job_form_m_mf:
-    #             rec.doc_job_bool = True
-    #         if rec.paar_received:
-    #             rec.doc_paar_bool = True
-    #         if rec.duty_assesment:
-    #             rec.doc_duty_asses = True
-    #         if rec.duty_received:
-    #             rec.doc_duty_received = True
-    #         if rec.shipping_released:
-    #             rec.doc_ship_released = True
-    #         if rec.fecd_custom_ack:
-    #             rec.doc_custom = True
-    #         if rec.fecd_client_ack:
-    #             rec.doc_client = True
-    #         if rec.bol_awb_ref:
-    #             rec.doc_bol_awb_ref = True
-    #         if rec.nafdac_1_stamp_date:
-    #             rec.doc_has_nafdac_1_stamp_date = True
-    #         if rec.nafdac_2_stamp_date:
-    #             rec.doc_has_nafdac_2_stamp_date = True
-    #         if rec.delivery_waybill_from_client:
-    #             rec.doc_waybill_from_client = True
-    #         if rec.nafdac_final_release:
-    #             rec.doc_nafdac_final_release = True
 
     @api.model
     def visible_button(self):
