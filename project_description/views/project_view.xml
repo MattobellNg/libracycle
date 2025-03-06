@@ -187,9 +187,6 @@
                 <field name="has_custom_release_date" invisible="1" />
                 <field name="has_job_tdo" invisible="1" />
                 <field name="has_terminal_rating_till" invisible="1" />
-                <field name="has_etd" invisible="1" />
-                <field name="has_eta" invisible="1" />
-                <field name="has_ata" invisible="1" />
                 <field name="has_rotation_number" invisible="1" />
                 <field name="has_nafdac_1_stamp_date" invisible="1" />
                 <field name="has_nafdac_2_stamp_date" invisible="1" />

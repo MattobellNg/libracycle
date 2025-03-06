@@ -112,6 +112,9 @@
                     <field name="has_client_name" invisible='1' />
                     <field name="has_agent_name" invisible='1' />
                     <field name="has_empty_container_returned" invisible='1' />
+                    <field name="has_etd" invisible="1" />
+                     <field name="has_eta" invisible="1" />
+                    <field name="has_ata" invisible="1" />
                     <field name="has_pre_alert_date" invisible='1' />
                     <field name="has_project_team" invisible='1' />
                     <field name="has_account_officer" invisible='1' />
@@ -121,7 +124,10 @@
                     <field name="has_field_visibility" invisible='1' />
                     <field name="has_shipping_line" invisible='1' />
                     <field name="has_vessel_name" invisible='1' />
+                    <field name="has_vessel_sailed" invisible='1' />
                     <field name="has_destination_port" invisible='1' />
+                    <field name="has_port_delivery" invisible='1' />
+                    <field name="has_stuffing" invisible='1' />
                     <field name="has_terminal" invisible='1' />
                     <field name="has_container_provided" invisible='1' />
                     <field name="has_delivered_to_terminal" invisible='1' />
@@ -129,6 +135,7 @@
                     <field name="has_loading_complete" invisible='1' />
                     <field name="has_country_of_loading" invisible='1' />
                     <field name="has_gate_in_docs_received" invisible='1' />
+                    <field name="has_rotation_number" invisible='1' />
                     <field name="has_ness_payment" invisible='1' />
                     <field name="has_coo" invisible='1' />
                     <field name="has_cci" invisible='1' />
@@ -142,6 +149,7 @@
                     <field name="has_paar_request" invisible='1' />
                     <field name="has_paar_received" invisible='1' />
                     <field name="doc_paar_bool" invisible='1' />
+                    <field name="has_barge_operator" invisible="1" />
                     <field name="has_duty_assesment" invisible='1' />
                     <field name="doc_duty_asses" invisible='1' />
                     <field name="has_duty_received" invisible='1' />
@@ -164,6 +172,7 @@
                     <field name="has_1st_terminal_paid" invisible='1' />
                     <field name="has_1st_additional_storage_paid" invisible='1' />
                     <field name="has_2nd_additional_storage_paid" invisible='1' />
+                    <field name="has_country_of_destination" invisible='1' />
                     <field name="has_examination_booked" invisible='1' />
                     <field name="has_examination_start" invisible='1' />
                     <field name="has_examination_done" invisible='1' />
@@ -209,7 +218,12 @@
                                     }">
                             <label for="job_form_m_mf" />
                             <div class="o_row">
-                                <field name="job_form_m_mf" class="oe_inline" />
+                                <field name="job_form_m_mf" class="oe_inline"
+                                    attrs="{
+                                       'invisible':['|',('has_form_m_mf','=','no'),('project_categ_id','=', False)], 
+                                        'required': [('has_form_m_mf','=','required')],
+                                        'readonly':[('sn_state','in',('awaiting_arrival','in_clearing','ready_to_load','post_delivery'))]
+                                    }" />
                                 <span class="oe_inline"> </span>
                                 <field name="document_job_form_m_mf"
                                     class="oe_inline"
@@ -233,19 +247,19 @@
                         attrs="{'invisible': [('sn_state', '=', 'pre_alert')]}">
                         <group>
                             <field name="barge_operator"
-                                attrs="{'invisible':['|','|',('has_shipping_line','=','no'),('project_categ_id','=', False),('sn_state','=','pre_alert')], 'required': ['&amp;',('has_shipping_line','=','required'),('sn_state','=','awaiting_arrival')],'readonly':[('sn_state','in',('in_clearing','ready_to_load','post_delivery'))]}" />
+                                attrs="{'invisible':['|','|',('has_barge_operator','=','no'),('project_categ_id','=', False),('sn_state','=','pre_alert')], 'required': ['&amp;',('has_barge_operator','=','required'),('sn_state','=','awaiting_arrival')],'readonly':[('sn_state','in',('in_clearing','ready_to_load','post_delivery'))]}" />
                             <field name="ship_line"
                                 attrs="{'invisible':['|','|',('has_shipping_line','=','no'),('project_categ_id','=', False),('sn_state','=','pre_alert')], 'required': ['&amp;',('has_shipping_line','=','required'),('sn_state','=','awaiting_arrival')],'readonly':[('sn_state','in',('in_clearing','ready_to_load','post_delivery'))]}" />
                             <field name="ves_line"
                                 attrs="{'invisible':['|','|',('has_shipping_line','=','no'),('project_categ_id','=', False),('sn_state','=','pre_alert')], 'required': ['&amp;',('has_shipping_line','=','required'),('sn_state','=','awaiting_arrival')],'readonly':[('sn_state','in',('in_clearing','ready_to_load','post_delivery'))]}" />
                             <field name="rotation_number"
-                                attrs="{'invisible':['|','|',('has_shipping_line','=','no'),('project_categ_id','=', False),('sn_state','=','pre_alert')], 'required': ['&amp;',('has_shipping_line','=','required'),('sn_state','=','awaiting_arrival')],'readonly':[('sn_state','in',('in_clearing','ready_to_load','post_delivery'))]}" />
+                                attrs="{'invisible':['|','|',('has_rotation_number','=','no'),('project_categ_id','=', False),('sn_state','=','pre_alert')], 'required': ['&amp;',('has_rotation_number','=','required'),('sn_state','=','awaiting_arrival')],'readonly':[('sn_state','in',('in_clearing','ready_to_load','post_delivery'))]}" />
                             <field name="vessel_line" invisible="1" />
                             <field name="destination_port"
                                 attrs="{'invisible':['|','|',('has_shipping_line','=','no'),('project_categ_id','=', False),('sn_state','=','pre_alert')], 'required': ['&amp;',('has_shipping_line','=','required'),('sn_state','=','awaiting_arrival')],'readonly':[('sn_state','in',('in_clearing','ready_to_load','post_delivery'))]}" />
                             <field name="terminal" invisible="1" />
                             <field name="custom_terminal"
-                                attrs="{'invisible':['|','|',('has_shipping_line','=','no'),('project_categ_id','=', False),('sn_state','=','pre_alert')], 'required': ['&amp;',('has_shipping_line','=','required'),('sn_state','=','awaiting_arrival')],'readonly':[('sn_state','in',('in_clearing','ready_to_load','post_delivery'))]}" />
+                                attrs="{'invisible':['|','|',('has_terminal','=','no'),('project_categ_id','=', False),('sn_state','=','pre_alert')], 'required': ['&amp;',('has_terminal','=','required'),('sn_state','=','awaiting_arrival')],'readonly':[('sn_state','in',('in_clearing','ready_to_load','post_delivery'))]}" />
                             <label for="booking_number" />
                             <div class="o_row">
                                 <field name="booking_number"
@@ -255,7 +269,7 @@
                                     attrs="{'invisible':[('booking_number','=',False)], 'required': ['&amp;',('has_booking_number','=','required'),('sn_state','=','awaiting_arrival')],'readonly':[('sn_state','in',('in_clearing','ready_to_load','post_delivery'))]}" />
                             </div>
                             <field name="country_of_destination"
-                                attrs="{'invisible':['|','|',('has_booking_number','=','no'),('project_categ_id','=', False),('sn_state','=','pre_alert')], 'required': ['&amp;',('has_shipping_line','=','required'),('sn_state','=','awaiting_arrival')],'readonly':[('sn_state','in',('in_clearing','ready_to_load','post_delivery'))]}" />
+                                attrs="{'invisible':['|','|',('has_country_of_destination','=','no'),('project_categ_id','=', False),('sn_state','=','pre_alert')], 'required': ['&amp;',('has_country_of_destination','=','required'),('sn_state','=','awaiting_arrival')],'readonly':[('sn_state','in',('in_clearing','ready_to_load','post_delivery'))]}" />
                             <field name="country_of_loading"
                                 attrs="{'invisible':['|','|',('has_country_of_loading','=','no'),('project_categ_id','=', False),('sn_state','=','pre_alert')], 'required': ['&amp;',('has_country_of_loading','=','required'),('sn_state','=','awaiting_arrival')],'readonly':[('sn_state','in',('in_clearing','ready_to_load','post_delivery'))]}" />
                             <field name="port_many_loading"
@@ -277,7 +291,7 @@
                                 <field name="bol_awb_ref" class="oe_inline"
                                     attrs="{'invisible':['|','|',('has_bol_awb_ref','=','no'),('project_categ_id','=', False),('sn_state','=','pre_alert')], 'required': ['&amp;',('has_bol_awb_ref','=','required'),('sn_state','=','awaiting_arrival')],'readonly':[('sn_state','in',('in_clearing','ready_to_load','post_delivery'))]}" />
                                 <div class="oe_inline"> </div>
-                                <field name="document_bol_awb_ref" 
+                                <field name="document_bol_awb_ref"
                                     class="oe_inline"
                                     attrs="{
                                         'invisible': ['|',('bol_awb_ref', '=', False),('sn_state','=','pre_alert')], 
@@ -461,6 +475,18 @@
                             <field name="empty_container_returned" />
                         </group>
                     </group>
+                    <group string='READY TO LOAD'
+                        attrs="{'invisible': [('sn_state', 'in', ('pre_alert','awaiting_arrival','in_clearing'))]}">
+                        <field name="stuffing"
+                            attrs="{'invisible':['|','|',('has_stuffing','=','no'),('project_categ_id','=', False),('sn_state','in',('pre_alert','awaiting_arrival', 'in_clearing'))], 'required': [('has_stuffing','=','required'),('sn_state','=','ready_to_load')],'readonly':[('sn_state','in',('post_delivery'))]}"
+                        />
+                        <field name="port_delivery"
+                            attrs="{'invisible':['|','|',('has_port_delivery','=','no'),('project_categ_id','=', False),('sn_state','in',('pre_alert','awaiting_arrival', 'in_clearing'))], 'required': [('has_port_delivery','=','required'),('sn_state','=','ready_to_load')],'readonly':[('sn_state','in',('post_delivery'))]}"
+                        />
+                        <field name="vessel_sailed"
+                            attrs="{'invisible':['|','|',('has_vessel_sailed','=','no'),('project_categ_id','=', False),('sn_state','in',('pre_alert','awaiting_arrival', 'in_clearing'))], 'required': [('has_vessel_sailed','=','required'),('sn_state','=','ready_to_load')],'readonly':[('sn_state','in',('post_delivery'))]}"
+                        />
+                    </group>
                     <group string='POST DELIVERY'
                         attrs="{'invisible': [('sn_state', 'in', ('pre_alert','awaiting_arrival','in_clearing','ready_to_load'))]}">
                         <group>
@@ -485,14 +511,6 @@
                             <field name='document_has_nafdac_final_release'
                                 attrs="{'invisible': ['|',('doc_nafdac_final_release', '=', False),('sn_state','in',('pre_alert','awaiting_arrival','in_clearing','ready_to_load'))], 'required': [('doc_nafdac_final_release','=',True)]}" />
                         </group>
-                    </group>
-                    <group string='READY TO LOAD'>
-                        <field name="stuffing"
-                            attrs="{'invisible': [('sn_state', '!=', 'ready_to_load')]}" />
-                        <field name="port_delivery"
-                            attrs="{'invisible': [('sn_state', '!=', 'ready_to_load')]}" />
-                        <field name="vessel_sailed"
-                            attrs="{'invisible': [('sn_state', '!=', 'ready_to_load')]}" />
                     </group>
                 </xpath>
             </field>

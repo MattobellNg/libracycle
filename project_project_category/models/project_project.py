@@ -36,29 +36,29 @@ class ProjectProject(models.Model):
         readonly=True,
         default="no",
     )
-    has_etd = fields.Selection([], "ETD", related="project_categ_id.has_etd", readonly=True)
-    has_eta = fields.Selection([], "ETA", related="project_categ_id.has_eta", readonly=True)
-    has_ata = fields.Selection([], "ATA", related="project_categ_id.has_ata", readonly=True)
+    has_etd = fields.Selection(FIELD_SELECTION, "ETD", related="project_categ_id.has_etd", readonly=True)
+    has_eta = fields.Selection(FIELD_SELECTION, "ETA", related="project_categ_id.has_eta", readonly=True)
+    has_ata = fields.Selection(FIELD_SELECTION, "ATA", related="project_categ_id.has_ata", readonly=True)
     has_rotation_number = fields.Selection(
-        [],
+        FIELD_SELECTION,
         "Rotation Number",
         related="project_categ_id.has_rotation_number",
         readonly=True,
     )
     has_nafdac_1_stamp_date = fields.Selection(
-        [],
+        FIELD_SELECTION,
         "NAFDAC 1st Stamp Date",
         related="project_categ_id.has_nafdac_1_stamp_date",
         readonly=True,
     )
     has_nafdac_2_stamp_date = fields.Selection(
-        [],
+        FIELD_SELECTION,
         "NAFDAC 2nd Stamp Date",
         related="project_categ_id.has_nafdac_2_stamp_date",
         readonly=True,
     )
-    has_son_date = fields.Selection([], "SON date", related="project_categ_id.has_son_date", readonly=True)
-    has_free_days = fields.Selection([], "No Of Free Days", related="project_categ_id.has_free_days", readonly=True)
+    has_son_date = fields.Selection(FIELD_SELECTION, "SON date", related="project_categ_id.has_son_date", readonly=True)
+    has_free_days = fields.Selection(FIELD_SELECTION, "No Of Free Days", related="project_categ_id.has_free_days", readonly=True)
 
     @api.model
     def create(self, vals):

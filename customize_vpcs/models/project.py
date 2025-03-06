@@ -307,9 +307,15 @@ class ProjectProject(models.Model):
         readonly=True
     )
     has_vessel_name = fields.Selection(
-        [],
+        FIELD_SELECTION,
         "Vessel/Flight Name",
         related="project_categ_id.has_vessel_name",
+        readonly=True
+    )
+    has_vessel_sailed = fields.Selection(
+        FIELD_SELECTION,
+        "Vessel/Flight Name",
+        related="project_categ_id.has_vessel_sailed",
         readonly=True
     )
     has_destination_port = fields.Selection(
@@ -319,7 +325,7 @@ class ProjectProject(models.Model):
         readonly=True
     )
     has_terminal = fields.Selection(
-        [],
+        FIELD_SELECTION,
         "Terminal",
         related="project_categ_id.has_terminal",
         readonly=True
@@ -330,14 +336,38 @@ class ProjectProject(models.Model):
         related="project_categ_id.has_country_of_loading",
         readonly=True
     )
-    has_port_of_loading = fields.Selection(
-        [],
+    has_country_of_destination = fields.Selection(
+        FIELD_SELECTION,
         "County Of Loading",
+        related="project_categ_id.has_country_of_destination",
+        readonly=True
+    )
+    has_barge_operator = fields.Selection(
+        FIELD_SELECTION,
+        "County Of Loading",
+        related="project_categ_id.has_barge_operator",
+        readonly=True
+    )
+    has_port_of_loading = fields.Selection(
+        FIELD_SELECTION,
+        "Has Port of Loading",
         related="project_categ_id.has_port_of_loading",
         readonly=True
     )
+    has_port_delivery = fields.Selection(
+        FIELD_SELECTION,
+        "Has Port Delivery",
+        related="project_categ_id.has_port_delivery",
+        readonly=True
+    )
+    has_stuffing = fields.Selection(
+        FIELD_SELECTION,
+        "Has Stuffing / Loading",
+        related="project_categ_id.has_stuffing",
+        readonly=True
+    )
     has_rotation_number = fields.Selection(
-        [],
+        FIELD_SELECTION,
         "Rotation Number",
         related="project_categ_id.has_rotation_number",
         readonly=True
