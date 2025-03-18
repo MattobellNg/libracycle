@@ -19,7 +19,7 @@
                 <field name="schedule_item_count" string="Cont. Count" />
                 <field name="items_total_size" string="Size" />
                 <field name="etd" string="ETD" />
-                <field name="eta" string="ETA" />
+                <!-- <field name="eta" string="ETA" /> -->
                 <field name="ata" string="ATA" />
                 <field name="rotation_number" string="Rotation Number" />
                 <field name="job_duty" string="Duty Payment Date" />
@@ -57,7 +57,7 @@
                 <field name="loading_terminal_id" string="Loading Terminal" />
                 <field name="job_allocation_date" string="Job Allocation Date" />
                 <field name="etd" string="ETD" />
-                <field name="eta" string="ETA" />
+                <!-- <field name="eta" string="ETA" /> -->
                 <field name="ata" string="ATA" />
             </tree>
         </field>

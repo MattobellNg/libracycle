@@ -207,7 +207,7 @@
                                 string="Delivery Waybill from Client" widget="radio"
                                 options="{'horizontal': true}" />
                             <field name="has_empty_container_returned"
-                                string="Empty Container Return" widget="radio"
+                                string="Empty Container Returned" widget="radio"
                                 options="{'horizontal': true}" />
                             <field name="has_job_tdo" string="TDO" widget="radio"
                                 options="{'horizontal': true}" />

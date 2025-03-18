@@ -4,6 +4,7 @@ from odoo import fields, models, api, _
 
 FIELD_SELECTION = [("required", "Required"), ("optional", "Optional"), ("no", "None")]
 
+
 class ProjectProject(models.Model):
     _inherit = "project.project"
 
@@ -20,7 +21,9 @@ class ProjectProject(models.Model):
         readonly=True,
         default="no",
     )
-    has_job_duty = fields.Selection([], "Duty", related="project_categ_id.has_job_duty", readonly=True, default="no")
+    has_job_duty = fields.Selection(
+        [], "Duty", related="project_categ_id.has_job_duty", readonly=True, default="no"
+    )
     has_custom_release_date = fields.Selection(
         [],
         "Custom Release Date",
@@ -28,7 +31,9 @@ class ProjectProject(models.Model):
         readonly=True,
         default="no",
     )
-    has_job_tdo = fields.Selection([], "TDO", related="project_categ_id.has_job_tdo", readonly=True, default="no")
+    has_job_tdo = fields.Selection(
+        [], "TDO", related="project_categ_id.has_job_tdo", readonly=True, default="no"
+    )
     has_terminal_rating_till = fields.Selection(
         [],
         "Terminal Rating Till",
@@ -36,9 +41,12 @@ class ProjectProject(models.Model):
         readonly=True,
         default="no",
     )
-    has_etd = fields.Selection(FIELD_SELECTION, "ETD", related="project_categ_id.has_etd", readonly=True)
-    has_eta = fields.Selection(FIELD_SELECTION, "ETA", related="project_categ_id.has_eta", readonly=True)
-    has_ata = fields.Selection(FIELD_SELECTION, "ATA", related="project_categ_id.has_ata", readonly=True)
+    has_etd = fields.Selection(
+        FIELD_SELECTION, "ETD", related="project_categ_id.has_etd", readonly=True
+    )
+    has_eta = fields.Selection(
+        FIELD_SELECTION, "ETA", related="project_categ_id.has_eta", readonly=True
+    )
     has_rotation_number = fields.Selection(
         FIELD_SELECTION,
         "Rotation Number",
@@ -57,8 +65,18 @@ class ProjectProject(models.Model):
         related="project_categ_id.has_nafdac_2_stamp_date",
         readonly=True,
     )
-    has_son_date = fields.Selection(FIELD_SELECTION, "SON date", related="project_categ_id.has_son_date", readonly=True)
-    has_free_days = fields.Selection(FIELD_SELECTION, "No Of Free Days", related="project_categ_id.has_free_days", readonly=True)
+    has_son_date = fields.Selection(
+        FIELD_SELECTION,
+        "SON date",
+        related="project_categ_id.has_son_date",
+        readonly=True,
+    )
+    has_free_days = fields.Selection(
+        FIELD_SELECTION,
+        "No Of Free Days",
+        related="project_categ_id.has_free_days",
+        readonly=True,
+    )
 
     @api.model
     def create(self, vals):
@@ -78,7 +96,9 @@ class ProjectProject(models.Model):
     def write(self, vals):
         if self.project_categ_id:
             if not self.type_ids:
-                proj_cat = self.env["project.project.category"].browse(int(self.project_categ_id.id))
+                proj_cat = self.env["project.project.category"].browse(
+                    int(self.project_categ_id.id)
+                )
                 if proj_cat:
                     stage_ids = proj_cat.default_stage_ids.ids
                     vals["type_ids"] = [(6, 0, stage_ids)]
@@ -100,8 +120,14 @@ class ProjectProject(models.Model):
             )
             if proj_category_task:
                 for task in proj_category_task:
-                    task_owner_id = task.task_assign_id.id if task.task_assign_id else False
-                    task_user_id = task.task_assign_id.user_id.id if task.task_assign_id.user_id else self.user_id.id
+                    task_owner_id = (
+                        task.task_assign_id.id if task.task_assign_id else False
+                    )
+                    task_user_id = (
+                        task.task_assign_id.user_id.id
+                        if task.task_assign_id.user_id
+                        else self.user_id.id
+                    )
                     task_dept = task.department_id if task.department_id else []
                     dept_id = task_dept.id if task_dept else False
                     admin_id = self.env.ref("base.user_root").id
@@ -125,9 +151,15 @@ class ProjectProject(models.Model):
                             task_user_id = emp_rec[0].user_id.id
 
                     if not dept_id and task_owner_id:
-                        dept_rec = self.env["hr.employee"].sudo().browse(int(task_owner_id))
+                        dept_rec = (
+                            self.env["hr.employee"].sudo().browse(int(task_owner_id))
+                        )
                         if dept_rec:
-                            dept_id = dept_rec.department_id.id if dept_rec.department_id else False
+                            dept_id = (
+                                dept_rec.department_id.id
+                                if dept_rec.department_id
+                                else False
+                            )
 
                     task_name = "%s (%s)" % (task.name, self.name)
                     # compute task start date, end date and escalation start date

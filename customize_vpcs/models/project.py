@@ -1,4 +1,3 @@
-
 from odoo import models, fields, api, _
 from datetime import datetime
 from odoo.exceptions import ValidationError
@@ -286,7 +285,7 @@ class ProjectProject(models.Model):
         readonly=True,
         default="no",
     )
-   
+
     has_mode_shipment = fields.Selection(
         [],
         "Mode Shipment",
@@ -498,6 +497,9 @@ class ProjectProject(models.Model):
         related="project_categ_id.has_examination_booked",
         readonly=True
     )
+    has_ata = fields.Selection(
+        FIELD_SELECTION, "Has ATA", related="project_categ_id.has_ata", readonly=True
+    )
     has_examination_start = fields.Selection(
         [],
         "",
@@ -601,19 +603,17 @@ class ProjectProject(models.Model):
     # has_agent_name = fields.Selection(FIELD_SELECTION, 'Agent Name', default='no')
 
     has_agent_name = fields.Selection(
-        [],
-        "",
+        selection=FIELD_SELECTION,
+        string="Has Agent Name",
         related="project_categ_id.has_agent_name",
         readonly=True
     )
-
     has_job_tdo = fields.Selection(
-        [],
-        "",
+        selection=FIELD_SELECTION,
+        string="Has Job TDO",
         related="project_categ_id.has_job_tdo",
-        readonly=True
+        readonly=True,
     )
-
     job_select = fields.Selection([("NAFDAC", "NAFDAC"), ("SON", "SON"), ("NESREA", "NESREA")],
                                   "Job selection",
                                   )
@@ -632,7 +632,6 @@ class ProjectProject(models.Model):
     state_completed_check_bool = fields.Boolean(string="edit mode close completed")
     # this field is for when QAC clicked the button approval then all the fields of that form is readonly.
     approval_to_readonly_fields_bool = fields.Boolean()
-
     stage_id_done = fields.Boolean(string='Task/Activity Done?')
     date_out = fields.Date(string="Date out", tracking=True)
     barging_date = fields.Date(string="Barging date", tracking=True)
@@ -652,7 +651,6 @@ class ProjectProject(models.Model):
     report_wizard_bool = fields.Boolean(string='C&B Report', default=False)
     port_many_loading = fields.Many2many('port.loading', string="Port Of Loading")
     ship_line = fields.Many2one(comodel_name='shipping.line')
-
     # report_many2one = fields.Many2one('report.customize_vpcs.report_cb_report')
     # duty = fields.Float(string='Duty')
     # Shipping_charge = fields.Float(string='Shipping Charge')
@@ -1141,6 +1139,3 @@ class CustomTrackingReport(models.Model):
                 continue
             update_vals[item[0]] = item[1]
         return report_ids.update(update_vals)
-        
-        
-
