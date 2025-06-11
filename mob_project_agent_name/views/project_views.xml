@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_project_form_inherit_agent_name" model="ir.ui.view">
+        <field name="name">project.project.form.inherit.agent.name</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="customize_vpcs.project_edit_field_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='agent_name']" position="attributes">
+                <attribute name="invisible">1</attribute>
+                <attribute name="required">0</attribute>
+                <attribute name="readonly">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='agent_name']" position="after">
+                <field name="project_agent_id" 
+                       widget="res_partner_many2one"
+                       attrs="{'invisible':['|','|',('has_agent_name','=','no'),('project_categ_id','=', False),('sn_state','in',('pre_alert', 'awaiting_arrival'))], 'required': ['&amp;',('has_agent_name','=','required'),('sn_state','=','in_clearing')],'readonly':[('sn_state','in',('ready_to_load','post_delivery'))]}" />
+            </xpath>
+        </field>
+    </record>
+</odoo>

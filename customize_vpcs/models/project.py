@@ -148,10 +148,7 @@ class ProjectProject(models.Model):
     duty_received = fields.Date(string='Duty Received')
     document_duty_received = fields.Binary(string="Document (Document Duty Received)", attachment=True)
     doc_duty_received = fields.Boolean()
-    agent_name = fields.Many2one(
-        'res.partner',
-        string='Agent Name'
-    )
+    agent_name = fields.Char("Agent Name")
     nafdac_paid = fields.Date(string='NAFDAC Paid')
     son_invoice = fields.Date(string='SON Invoice')
     son_paid = fields.Date(string="SON Paid")
