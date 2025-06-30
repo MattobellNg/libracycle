@@ -40,7 +40,8 @@ class GeneralLedgerXslxPatched(models.AbstractModel):
                         "initial_debit": account["init_bal"]["debit"],
                         "initial_credit": account["init_bal"]["credit"],
                         "initial_balance": account["init_bal"]["balance"],
-                        "account_name": account_name,
+                        "account_name": f"{account['code']} - {account_name}",
+
                     }
                 )
                 if foreign_currency:
@@ -56,7 +57,8 @@ class GeneralLedgerXslxPatched(models.AbstractModel):
                             "account": account["code"],
                             "journal": journals_data[line["journal_id"]]["code"],
                             "company_currency_id": company_currency.id,
-                            "account_name": account_name,
+                            "account_name": f"{account['code']} - {account_name}",
+
                         }
                     )
                     if line["currency_id"]:
@@ -94,7 +96,8 @@ class GeneralLedgerXslxPatched(models.AbstractModel):
                         "final_debit": account["fin_bal"]["debit"],
                         "final_credit": account["fin_bal"]["credit"],
                         "final_balance": account["fin_bal"]["balance"],
-                        "account_name": account_name,
+                        "account_name": f"{account['code']} - {account_name}",
+
                     }
                 )
                 if foreign_currency:
@@ -119,7 +122,8 @@ class GeneralLedgerXslxPatched(models.AbstractModel):
                             if "grouped_by" in account
                             else "",
                             "currency_id": accounts_data[account["id"]]["currency_id"],
-                            "account_name": account_name,
+                            "account_name": f"{account['code']} - {account_name}",
+
                         }
                     )
                     if foreign_currency:
@@ -137,7 +141,8 @@ class GeneralLedgerXslxPatched(models.AbstractModel):
                                 "account": account["code"],
                                 "journal": journals_data[line["journal_id"]]["code"],
                                 "company_currency_id": company_currency.id,
-                                "account_name": account_name,
+                                "account_name": f"{account['code']} - {account_name}",
+
                             }
                         )
                         if line["currency_id"]:
@@ -176,7 +181,8 @@ class GeneralLedgerXslxPatched(models.AbstractModel):
                             "final_debit": group_item["fin_bal"]["debit"],
                             "final_credit": group_item["fin_bal"]["credit"],
                             "final_balance": group_item["fin_bal"]["balance"],
-                            "account_name": account_name,
+                            "account_name": f"{account['code']} - {account_name}",
+
                         }
                     )
                     if foreign_currency and group_item["currency_id"]:
@@ -196,7 +202,8 @@ class GeneralLedgerXslxPatched(models.AbstractModel):
                             "final_debit": account["fin_bal"]["debit"],
                             "final_credit": account["fin_bal"]["credit"],
                             "final_balance": account["fin_bal"]["balance"],
-                            "account_name": account_name,
+                            "account_name": f"{account['code']} - {account_name}",
+
                         }
                     )
                     if foreign_currency and account["currency_id"]:

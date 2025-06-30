@@ -1,6 +1,6 @@
 {
     'name': 'General Ledger XLSX Account Name Column',
-    'version': '1.0',
+    'version': '1.1',
     'category': 'Accounting',
     'summary': 'Adds Account Name column to General Ledger XLSX report',
     'description': """
