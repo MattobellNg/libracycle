@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Email template for approval request notification -->
+        <record id="email_template_approval_request" model="mail.template">
+            <field name="name">Approval Request Notification</field>
+            <field name="model_id" ref="model_project_approval_request"/>
+            <field name="subject">Approval Request: {{ object.project_id.name }}</field>
+            <field name="email_from">{{ user.email_formatted }}</field>
+            <field name="partner_to">{{ object.requested_by.partner_id.id }}</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p>Hello {{ object.requested_by.name }},</p>
+                    <p>Your approval request for project <strong>{{ object.project_id.name }}</strong> has been submitted.</p>
+                    <p><strong>Request Details:</strong></p>
+                    <ul>
+                        <li><strong>Request Number:</strong> {{ object.name }}</li>
+                        <li><strong>Project:</strong> {{ object.project_id.name }}</li>
+                        <li><strong>Reason:</strong> {{ object.reason }}</li>
+                        <li><strong>Submitted:</strong> {{ object.create_date }}</li>
+                    </ul>
+                    <p>The request is now pending approval. You will be notified once it has been reviewed.</p>
+                    <p>Best regards,<br/>{{ user.name }}</p>
+                </div>
+            </field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+        <!-- Email template for approval notification -->
+        <record id="email_template_approval_approved" model="mail.template">
+            <field name="name">Approval Request Approved</field>
+            <field name="model_id" ref="model_project_approval_request"/>
+            <field name="subject">Approval Request Approved: {{ object.project_id.name }}</field>
+            <field name="email_from">{{ user.email_formatted }}</field>
+            <field name="partner_to">{{ object.requested_by.partner_id.id }}</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p>Hello {{ object.requested_by.name }},</p>
+                    <p>Your approval request for project <strong>{{ object.project_id.name }}</strong> has been <strong>APPROVED</strong>.</p>
+                    <p><strong>Request Details:</strong></p>
+                    <ul>
+                        <li><strong>Request Number:</strong> {{ object.name }}</li>
+                        <li><strong>Project:</strong> {{ object.project_id.name }}</li>
+                        <li><strong>Approved By:</strong> {{ object.approved_by.name }}</li>
+                        <li><strong>Approved Date:</strong> {{ object.approved_date }}</li>
+                        {% if object.approval_notes %}
+                        <li><strong>Notes:</strong> {{ object.approval_notes }}</li>
+                        {% endif %}
+                    </ul>
+                    <p>The analytic account for this project has been unlocked and is now available for modification.</p>
+                    <p>Best regards,<br/>{{ object.approved_by.name }}</p>
+                </div>
+            </field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+        <!-- Email template for rejection notification -->
+        <record id="email_template_approval_rejected" model="mail.template">
+            <field name="name">Approval Request Rejected</field>
+            <field name="model_id" ref="model_project_approval_request"/>
+            <field name="subject">Approval Request Rejected: {{ object.project_id.name }}</field>
+            <field name="email_from">{{ user.email_formatted }}</field>
+            <field name="partner_to">{{ object.requested_by.partner_id.id }}</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p>Hello {{ object.requested_by.name }},</p>
+                    <p>Your approval request for project <strong>{{ object.project_id.name }}</strong> has been <strong>REJECTED</strong>.</p>
+                    <p><strong>Request Details:</strong></p>
+                    <ul>
+                        <li><strong>Request Number:</strong> {{ object.name }}</li>
+                        <li><strong>Project:</strong> {{ object.project_id.name }}</li>
+                        <li><strong>Rejected By:</strong> {{ object.rejected_by.name }}</li>
+                        <li><strong>Rejected Date:</strong> {{ object.rejected_date }}</li>
+                        {% if object.rejection_reason %}
+                        <li><strong>Reason for Rejection:</strong> {{ object.rejection_reason }}</li>
+                        {% endif %}
+                    </ul>
+                    <p>The analytic account remains locked. You may submit a new request with additional information if needed.</p>
+                    <p>Best regards,<br/>{{ object.rejected_by.name }}</p>
+                </div>
+            </field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+    </data>
+</odoo> 

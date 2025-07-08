@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Extend project form view -->
+        <record id="view_project_form_approval_workflow" model="ir.ui.view">
+            <field name="name">project.project.form.approval.workflow</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="customize_vpcs.project_edit_field_form"/>
+            <field name="arch" type="xml">
+                <!-- Add locking field after the existing fields -->
+                <xpath expr="//sheet" position="inside">
+                    <group string="Account Locking" attrs="{'invisible': [('analytic_account_locked', '=', False)]}">
+                        <field name="analytic_account_locked" invisible="1"/>
+                        <field name="analytic_account_id" readonly="1" 
+                               attrs="{'readonly': [('analytic_account_locked', '=', True)]}"
+                               help="Analytic account is locked in post-delivery state."/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- <record id="view_project_tree_approval_workflow" model="ir.ui.view">
+            <field name="name">project.project.tree.approval.workflow</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="customize_vpcs.view_project_project_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="inside">
+                    <field name="analytic_account_locked" optional="show"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_project_search_approval_workflow" model="ir.ui.view">
+            <field name="name">project.project.search.approval.workflow</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="customize_vpcs.view_project_project_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search" position="inside">
+                    <filter string="Analytic Account Locked" name="analytic_account_locked" domain="[('analytic_account_locked', '=', True)]"/>
+                    <separator/>
+                    <field name="analytic_account_locked"/>
+                </xpath>
+            </field>
+        </record> -->
+    </data>
+</odoo> 

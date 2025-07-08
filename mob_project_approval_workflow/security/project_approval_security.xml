@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Project User Group -->
+        <record id="group_project_user" model="res.groups">
+            <field name="name">Project User</field>
+            <field name="category_id" ref="base.module_category_human_resources"/>
+            <field name="comment">Users who can request approval to unlock analytic accounts</field>
+        </record>
+
+        <!-- Project Approver Group -->
+        <record id="group_project_approver" model="res.groups">
+            <field name="name">Project Approver</field>
+            <field name="category_id" ref="base.module_category_human_resources"/>
+            <field name="comment">Users who can approve requests to unlock analytic accounts</field>
+            <field name="implied_ids" eval="[(4, ref('group_project_user'))]"/>
+        </record>
+
+        <!-- Manager Group -->
+        <record id="group_project_manager" model="res.groups">
+            <field name="name">Project Manager</field>
+            <field name="category_id" ref="base.module_category_human_resources"/>
+            <field name="comment">Users with full access to project approval workflow</field>
+            <field name="implied_ids" eval="[(4, ref('group_project_approver'))]"/>
+        </record>
+    </data>
+</odoo> 
