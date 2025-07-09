@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Enhanced form view for attachments -->
+        <record id="view_attachment_form_enhanced" model="ir.ui.view">
+            <field name="name">ir.attachment.form.enhanced</field>
+            <field name="model">ir.attachment</field>
+            <field name="inherit_id" ref="base.view_attachment_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='description']" position="after">
+                    <group string="Upload Information" col="4">
+                        <field name="uploaded_by" readonly="1"/>
+                        <field name="upload_date" readonly="1"/>
+                        <field name="upload_ip" readonly="1"/>
+                        <field name="original_filename" readonly="1"/>
+                    </group>
+                    <group string="Modification Information" col="4">
+                        <field name="last_modified_by" readonly="1"/>
+                        <field name="last_modified_date" readonly="1"/>
+                        <field name="modification_count" readonly="1"/>
+                        <field name="file_hash" readonly="1"/>
+                    </group>
+                    <group string="File Information" col="4">
+                        <field name="file_size_human" readonly="1"/>
+                        <field name="file_size" readonly="1"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Enhanced tree view for attachments -->
+        <record id="view_attachment_tree_enhanced" model="ir.ui.view">
+            <field name="name">ir.attachment.tree.enhanced</field>
+            <field name="model">ir.attachment</field>
+            <field name="inherit_id" ref="base.view_attachment_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='create_date']" position="after">
+                    <field name="uploaded_by" optional="show"/>
+                    <field name="upload_date" optional="show"/>
+                    <field name="last_modified_by" optional="hide"/>
+                    <field name="last_modified_date" optional="hide"/>
+                    <field name="modification_count" optional="hide"/>
+                    <field name="file_size_human" optional="show"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Search view with additional filters -->
+        <record id="view_attachment_search_enhanced" model="ir.ui.view">
+            <field name="name">ir.attachment.search.enhanced</field>
+            <field name="model">ir.attachment</field>
+            <field name="inherit_id" ref="base.view_attachment_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search" position="inside">
+                    <field name="uploaded_by" string="Uploaded By"/>
+                    <field name="last_modified_by" string="Modified By"/>
+                    <separator/>
+                    <filter name="my_uploads" string="My Uploads" 
+                            domain="[('uploaded_by', '=', uid)]"/>
+                    <filter name="recent_uploads" string="Recent Uploads" 
+                            domain="[('upload_date', '&gt;=', (context_today() - datetime.timedelta(days=7)).strftime('%Y-%m-%d'))]"/>
+                    <filter name="modified_documents" string="Modified Documents" 
+                            domain="[('modification_count', '&gt;', 0)]"/>
+                    <separator/>
+                    <group expand="0" string="Group By">
+                        <filter name="group_by_uploaded_by" string="Uploaded By" 
+                                context="{'group_by': 'uploaded_by'}"/>
+                        <filter name="group_by_upload_date" string="Upload Date" 
+                                context="{'group_by': 'upload_date:month'}"/>
+                        <filter name="group_by_last_modified_by" string="Last Modified By" 
+                                context="{'group_by': 'last_modified_by'}"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Document Upload History Report -->
+        <record id="action_document_upload_report" model="ir.actions.act_window">
+            <field name="name">Document Upload Report</field>
+            <field name="res_model">ir.attachment</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{
+                'search_default_group_by_uploaded_by': 1,
+                'search_default_recent_uploads': 1
+            }</field>
+        </record>
+
+        <!-- Menu item for document upload report -->
+        <menuitem id="menu_document_upload_report"
+                  name="Upload Report"
+                  parent="documents.menu_root"
+                  action="action_document_upload_report"
+                  sequence="50"/>
+    </data>
+</odoo>
