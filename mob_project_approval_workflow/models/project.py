@@ -17,24 +17,14 @@ class ProjectProject(models.Model):
     @api.onchange('sn_state')
     def _onchange_sn_state(self):
         """Handle state changes and automatic actions"""
-        super()._onchange_sn_state()
-        
         if self.sn_state == 'post_delivery':
             # Automatically set status_delivered to True
             if not self.status_delivered:
                 self.status_delivered = True
-                self.message_post(
-                    body=_("Project automatically marked as delivered due to post-delivery state."),
-                    message_type='comment'
-                )
             
             # Lock the analytic account
             if not self.analytic_account_locked:
                 self.analytic_account_locked = True
-                self.message_post(
-                    body=_("Analytic account has been locked due to post-delivery state."),
-                    message_type='comment'
-                )
 
     def write(self, vals):
         """Override write to handle analytic account locking"""
