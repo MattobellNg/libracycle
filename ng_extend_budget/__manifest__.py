@@ -1,6 +1,6 @@
 {
     'name': 'Budget Variance',
-    'version': '0.3',
+    'version': '0.4',
     'category': 'Accounting',
     'author': 'MOB - Ifeanyi Nneji',
     'website': 'https://www.mattobell.net/',
@@ -10,5 +10,9 @@
         'views/account_budget_views.xml',
     ],
     'installable': True,
+    'application': False,
     'auto_install': False,
+    'license': 'LGPL-3',
+    "images": ["static/description/icon.png"] 
 }
+
