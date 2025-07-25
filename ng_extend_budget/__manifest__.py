@@ -1,6 +1,6 @@
 {
     'name': 'Budget Variance',
-    'version': '0.4',
+    'version': '0.5',
     'category': 'Accounting',
     'author': 'MOB - Ifeanyi Nneji',
     'website': 'https://www.mattobell.net/',
