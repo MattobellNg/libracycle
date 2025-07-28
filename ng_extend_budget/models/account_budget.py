@@ -11,7 +11,7 @@ class CrossoveredBudgetLines(models.Model):
         force_save=1,
     )
 
-    @api.depends('theoritical_amount', 'planned_amount')
+    @api.depends('theoritical_amount', 'practical_amount')
     def _compute_budget_variance(self):
         for line in self:
-            line.budget_variance = line.theoritical_amount - line.planned_amount
+            line.budget_variance = line.theoritical_amount - line.practical_amount
