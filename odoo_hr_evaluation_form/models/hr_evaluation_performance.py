@@ -219,9 +219,7 @@ class HrEvaluationPerformance(models.Model):
 
     def _compute_user_reviewer(self):
         for rec in self:
-            print('-----------rec------------',rec)
             if self._uid == rec.reviewer_id.user_id.id:
-                print('-------------self._uid--2--------',self._uid)
                 rec.is_user_reviewer = True
             else:
                 rec.is_user_reviewer = False

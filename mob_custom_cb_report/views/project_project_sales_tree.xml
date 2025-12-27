@@ -1,0 +1,64 @@
+<odoo>
+    <record id="view_project_project_tree_sales" model="ir.ui.view">
+        <field name="name">project.project.tree.sales</field>
+        <field name="model">project.project</field>
+        <field name="arch" type="xml">
+            <tree string="Jobs (Sales)">
+                <field name="name" string="S/N"/>
+                <field name="account_officer" string="ACCOUNT MANAGER"/>
+                <field name="project_team" string="TEAM"/>
+                <field name="start_date" string="ALLOCATION DATE"/>
+                <field name="pre_alert_date" string="PRE-ALERT DATE"/>
+                <field name="type_id" string="JOB TYPE"/>
+                <field name="regulatory_field" string="REG"/>
+                <field name="port_many_loading" string="ORIGIN PORT"/>
+                <field name="ship_line" string="LINER"/>
+                <field name="custom_terminal" string="TERMINAL"/>
+                <field name="project_categ_id" string="JOB DYNAMIC"/>
+                <field name="partner_id" string="CLIENT"/>
+                <field name="analytic_account_id" string="ANALYTIC"/>
+                <field name="job_refs" string="REF"/>
+                <field name="bol_awb_ref" string="BL"/>
+                <field name="item_description" string="ITEM DESCRIPTION"/>
+                <!-- <field name="grp" string="GRP" invisible="1"/> -->
+                <field name="kg" string="KG"/>
+                <field name="feet_twenty" string="20FT"/>
+                <field name="feet_forty" string="40FT"/>
+                <field name="mode_shipment_air_sea" string="MODE"/>
+                <field name="ata" string="ATA"/>
+                <field name="job_tdo" string="TDO"/>
+                <field name="date_delivery_complete" string="DELIVERED DATE"/>
+                <field name="sn_state" string="STATUS"/>
+                <field name="project_product_duty" string="DUTY"/>
+                <field name="project_shipping_charge" string="SHIPPING"/>
+                <field name="project_terminal_charge" string="TERMINAL/NAHCOL"/>
+                <field name="project_nafdac" string="NAFDAC"/>
+                <field name="project_son" string="SON/PLANT"/>
+                <!-- <field name="project_agency" string="FAAN"/> -->
+                <!-- <field name="ship_line" string="AIRLINE"/> -->
+                <!-- <field name="project_transportation" string="CLEARING"/> -->
+                <!-- <field name="project_others" string="DELIVERY"/> -->
+                <!-- <field name="total_cost" string="OTHERS"/> -->
+                <!-- <field name="total_cost" string="TOTAL EXPENSE"/> -->
+                <field name="customer_duty" string="DUTY"/>
+                <field name="customer_shipping_charge" string="SHIPPING"/>
+                <field name="customer_terminal_charge" string="TERMINAL/NAHCOL"/>
+                <field name="customer_nafdac" string="NAFDAC"/>
+                <field name="customer_son" string="SON/PLANT"/>
+                <!-- <field name="customer_agency" string="FAAN"/> -->
+                <!-- <field name="ship_line" string="AIRLINE"/> -->
+                <!-- <field name="customer_transportation" string="CLEARING"/> -->
+                <!-- <field name="customer_others" string="DELIVERY"/> -->
+                <field name="customer_untaxed_value" string="INVOICE VALUE"/>
+                <field name="customer_vat" string="VAT"/>
+                <field name="customer_total_invoice_value" string="TOTAL INVOICE VALUE"/>
+                <field name="customer_invoice_paid" string="PAID(N)"/>
+                <field name="wht" string="WHT(N)"/>
+                <field name="customer_invoice_unpaid" string="UNPAID(N)"/>
+                <field name="total_profit" string="TOTAL PROFIT(N)"/>
+                <!-- <field name="major_cause_of_delay" string="COMMENT"/> -->
+                <!-- <field name="roi" string="ROI(%)" invisible="1"/> -->
+            </tree>
+        </field>
+    </record>
+</odoo>

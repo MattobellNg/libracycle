@@ -212,13 +212,10 @@ class IRRequest(models.Model):
             }
 
             stock_move.create(payload)
-            print(payload)
-            print(request_id.state)
             request_id.write({"transferred": True})
         self.write({"state": "done"})
 
     def process(self, picking_id):
-        pickings_to_do = self.env["stock.picking"]
         pickings_not_to_do = self.env["stock.picking"]
 
         for picking in picking_id:

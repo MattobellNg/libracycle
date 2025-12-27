@@ -223,7 +223,7 @@
                                         </div>
                                         <div class='col-3' t-if='o.rotation_not_received'>
                                             <h3>
-                                                <strong>Rotation Not received</strong>
+                                                <strong>Rotation No Received</strong>
                                             </h3>
                                         </div>
                                         <div class='col-3' t-if='o.rotation_not_received'>
@@ -307,7 +307,7 @@
                                         </div>
                                         <div class='col-3' t-if='o.son_paid'>
                                             <h3>
-                                                <strong>Son Paid</strong>
+                                                <strong>SON Paid</strong>
                                             </h3>
                                         </div>
                                         <div class='col-3' t-if='o.son_paid'>
@@ -315,7 +315,7 @@
                                         </div>
                                         <div class='col-3' t-if='o.son_invoice'>
                                             <h3>
-                                                <strong>Son Invoice</strong>
+                                                <strong>SON Invoice</strong>
                                             </h3>
                                         </div>
                                         <div class='col-3' t-if='o.son_invoice'>
@@ -403,7 +403,7 @@
                                         </div>
                                         <div class='col-3' t-if='o.first_additional_storage_paid'>
                                             <h3>
-                                                <strong>First Additional Storage paid</strong>
+                                                <strong>First Additional Storage Paid</strong>
                                             </h3>
                                         </div>
                                         <div class='col-3' t-if='o.first_additional_storage_paid'>

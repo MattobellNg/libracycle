@@ -7,7 +7,14 @@
     'website': 'http://www.vperfectcs.com',
     'description': """
     """,
-    'depends': ['customize_vpcs','report_xlsx', 'sale_management', 'project_description', 'account'],
+    'depends': [
+        'customize_vpcs',
+        'report_xlsx', 
+        'sale_management', 
+        'project_description', 
+        'account',
+        'hr_expense',
+    ],
     'data': [        
         'security/CBreport.xml',
         "security/ir.model.access.csv",

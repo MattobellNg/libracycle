@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+
+        <record id="custom_tracking_report_update_view_form" model="ir.ui.view">
+            <field name="name">custom.tracking.report.update.view.form</field>
+            <field name="model">custom.tracking.report.update</field>
+            <field name="arch" type="xml">
+                <form string="Custom Tracking Report Update">
+                    <field name="report_ids" widget="many2many_tags" readonly="1" />
+                    <field name="line_ids">
+                        <tree string="Update Lines" editable="bottom" context="{'default_update_id': id}">
+                            <field name="update_id" invisible="1"/>
+                            <field name="field_id" />
+                            <field name="field_type" invisible="1" />
+                            <field name="text_update" attrs="{'invisible': [('field_type', '!=', 'char')]}"/>
+                            <field name="date_update" attrs="{'invisible': [('field_type', '!=', 'date')]}"/>
+                            <field name="boolean_update" attrs="{'invisible': [('field_type', '!=', 'boolean')]}"/>
+                        </tree>
+                    </field>
+                    <footer>
+                        <button name="action_update" type="object" string="Update"
+                            class="oe_highlight" />
+                        <button special="cancel" string="Cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="custom_tracking_report_update_action" model="ir.actions.act_window">
+            <field name="name">Update Tracking</field>
+            <field name="res_model">custom.tracking.report.update</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="customize_vpcs.custom_tracking_report_update_view_form" />
+            <field name="binding_model_id" ref="customize_vpcs.model_custom_tracking_report" />
+            <field name="target">new</field>
+            <field name="context">{
+                'default_report_ids': active_ids
+                }</field>
+        </record>
+
+    </data>
+
+</odoo>

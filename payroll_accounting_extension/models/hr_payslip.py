@@ -8,8 +8,6 @@ class HrPayslip(models.Model):
     _inherit = 'hr.payslip'
 
     def _prepare_line_values(self, line, account_id, date, debit, credit):
-        # print('partner', line.partner_id.name)
-        # print('line', line.id)
         return {
             'name': line.name,
             'partner_id': line.slip_id.employee_id.address_home_id.id if line.salary_rule_id.affect_partner else line.partner_id.id,
@@ -22,10 +20,6 @@ class HrPayslip(models.Model):
         }
 
     def _get_existing_lines(self, line_ids, line, account_id, debit, credit):
-        # print(line.read())
-        print(self.env['account.account'].browse(account_id).user_type_id.internal_group)
-        # for line_id in line_ids:
-            # print(line_id)
         existing_lines = (
             line_id for line_id in line_ids if
             line_id['name'] == line.name

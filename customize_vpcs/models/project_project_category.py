@@ -11,7 +11,7 @@ class ProjectProjectCategory(models.Model):
                                     help="Display job ref on project", )
     has_client_name = fields.Selection(FIELD_SELECTION, "Client Name", default="optional",
                                        help="Display Client Name on project", )
-    has_pre_alert_date = fields.Selection(FIELD_SELECTION, "Pre-alert Date", default="optional",
+    has_pre_alert_date = fields.Selection(FIELD_SELECTION, "Pre-Alert Date", default="optional",
                                           help="Display Pre-alert date on project", )
     has_project_team = fields.Selection(FIELD_SELECTION, "Project Team", default="optional",
                                         help="Display Project Team on project", )
@@ -19,98 +19,101 @@ class ProjectProjectCategory(models.Model):
                                            help="Display Account Officer on project", )
     has_item_description = fields.Selection(FIELD_SELECTION, "Item description", default="optional",
                                             help="Display Item description on project", )
-    has_form_m_mf = fields.Selection(FIELD_SELECTION, "Form M(MF)", default="optional",
-                                     help="Display Form M(MF) on project")
+    has_form_m_mf = fields.Selection(FIELD_SELECTION, "Form M (MF)", default="optional",
+                                     help="Display Form M (MF) on project")
     has_mode_shipment = fields.Selection(FIELD_SELECTION, "Mode Shipment", default="optional",
                                          help="Display Mode Shipment on project")
+    has_job_ba_number = fields.Selection(FIELD_SELECTION, "BA Number", required=True,default="no",help="Display BA Number field on project")
     ##########################AWAITING ARRIVAL###########################
-
-    # barge_operator = fields.Many2one('barge.operator',"Barge Operator")
     has_barge_operator = fields.Selection(FIELD_SELECTION, "Barge Operator", default='optional')
     has_duty_assesment = fields.Selection(FIELD_SELECTION, "Duty Assessment", default='optional')
-    has_shipping_line = fields.Selection(FIELD_SELECTION, 'SHIPPING LINE/AIR LINE', default='optional')
-    has_vessel_name = fields.Selection(FIELD_SELECTION, 'VESSEL /FLIGHT NAME', default='optional')
-    has_destination_port = fields.Selection(FIELD_SELECTION, 'DESTINATION PORT (SEA/AIR)', default='optional')
-    has_terminal = fields.Selection(FIELD_SELECTION, 'TERMINAL', default='optional')
-    has_country_of_loading = fields.Selection(FIELD_SELECTION, 'COUNTRY OF LOADING', default='optional')
-    has_port_of_loading = fields.Selection(FIELD_SELECTION, 'PORT OF LOADING', default='optional')
-    has_rotation_received = fields.Selection(FIELD_SELECTION, 'Rotation not received', default='optional')
+    has_shipping_line = fields.Selection(FIELD_SELECTION, 'Shipping Line/Air Line', default='optional')
+    has_vessel_name = fields.Selection(FIELD_SELECTION, 'Vessel/Flight Name', default='optional')
+    has_destination_port = fields.Selection(FIELD_SELECTION, 'Destination Port (Sea/Air)', default='optional')
+    has_terminal = fields.Selection(FIELD_SELECTION, 'Terminal', default='optional')
+    has_country_of_loading = fields.Selection(FIELD_SELECTION, 'County Of Loading', default='optional')
+    has_port_of_loading = fields.Selection(FIELD_SELECTION, 'Port Of Loading', default='optional')
+    has_rotation_received = fields.Selection(FIELD_SELECTION, 'Rotation No Received', default='optional')
+    has_booking_number = fields.Selection(selection=FIELD_SELECTION, string='Booking Number', default='optional')
+    has_country_of_destination = fields.Selection(selection=FIELD_SELECTION, string='Destination', default='optional')
     #############################IN CLEARING#################################
-    has_paar_request = fields.Selection(FIELD_SELECTION, "PAAR REQUEST", default="optional")
-    has_paar_received = fields.Selection(FIELD_SELECTION, "PAAR RECEIVED", default='optional')
+    has_paar_request = fields.Selection(FIELD_SELECTION, "PAAR Request", default="optional")
+    has_paar_received = fields.Selection(FIELD_SELECTION, "PAAR Received", default='optional')
     has_agent_name = fields.Selection(FIELD_SELECTION, 'Agent Name', default='no')
     has_duty_received = fields.Selection(FIELD_SELECTION, "Duty Received", default='no')
-    has_nafdac_paid = fields.Selection(FIELD_SELECTION, 'NAFDAC paid', default='no')
-    has_son_invoice = fields.Selection(FIELD_SELECTION, "SON invoice", default='no')
-    has_son_paid = fields.Selection(FIELD_SELECTION, "SON paid", default='no')
-    has_quarantine_payment = fields.Selection(FIELD_SELECTION, "Quarantine payment", default='no')
-    has_docs_copy_received = fields.Selection(FIELD_SELECTION, 'Complete copy docs received', default='no')
-    has_original_copy_received = fields.Selection(FIELD_SELECTION, 'Complete original Docs received', default='no')
-    has_complete_docs_uploaded = fields.Selection(FIELD_SELECTION, 'Complete Docs uploaded', default='no')
+    has_nafdac_paid = fields.Selection(FIELD_SELECTION, 'NAFDAC Paid', default='no')
+    has_son_invoice = fields.Selection(FIELD_SELECTION, "SON Invoice", default='no')
+    has_son_paid = fields.Selection(FIELD_SELECTION, "SON Paid", default='no')
+    has_quarantine_payment = fields.Selection(FIELD_SELECTION, "Quarantine Payment", default='no')
+    has_docs_copy_received = fields.Selection(FIELD_SELECTION, 'Complete Copy Docs Received', default='no')
+    has_original_copy_received = fields.Selection(FIELD_SELECTION, 'Complete Original Docs Received', default='no')
+    has_complete_docs_uploaded = fields.Selection(FIELD_SELECTION, 'Complete Docs Uploaded', default='no')
     has_1st_shipping_invoice = fields.Selection(FIELD_SELECTION, '1st Shipping Invoice', default='no')
-    has_1st_shipping_paid = fields.Selection(FIELD_SELECTION, '1st Shipping paid', default='no')
-    has_2nd_shipping_dn_paid = fields.Selection(FIELD_SELECTION, '2nd Shipping DN paid', default='no')
-    has_3rd_shipping_dn_paid = fields.Selection(FIELD_SELECTION, '3rd Shipping DN paid', default='no')
-    has_1st_terminal_invoice = fields.Selection(FIELD_SELECTION, "1st Terminal invoice", default='no')
+    has_1st_shipping_paid = fields.Selection(FIELD_SELECTION, '1st Shipping Paid', default='no')
+    has_2nd_shipping_dn_paid = fields.Selection(FIELD_SELECTION, '2nd Shipping DN Paid', default='no')
+    has_3rd_shipping_dn_paid = fields.Selection(FIELD_SELECTION, '3rd Shipping DN Paid', default='no')
+    has_1st_terminal_invoice = fields.Selection(FIELD_SELECTION, "1st Terminal Invoice", default='no')
     has_1st_terminal_paid = fields.Selection(FIELD_SELECTION, '1st Terminal Paid', default='no')
-    has_1st_additional_storage_paid = fields.Selection(FIELD_SELECTION, '1st Additional Storage paid', default='no')
+    has_1st_additional_storage_paid = fields.Selection(FIELD_SELECTION, '1st Additional Storage Paid', default='no')
     has_2nd_additional_storage_paid = fields.Selection(FIELD_SELECTION, '2nd Additional storage paid', default='no')
     has_examination_booked = fields.Selection(FIELD_SELECTION, 'Examination Booked', default='no')
     has_examination_start = fields.Selection(FIELD_SELECTION, 'Examination start', default='no')
     has_examination_done = fields.Selection(FIELD_SELECTION, 'Examination done', default='no')
-    has_shipping_released = fields.Selection(FIELD_SELECTION, 'SHIPPING RELEASE(DO)', default='no')
+    has_shipping_released = fields.Selection(FIELD_SELECTION, 'Shipping Release (DO)', default='no')
     has_fou_approved = fields.Selection(FIELD_SELECTION, 'FOU Approved', default='no')
     has_nepza_released = fields.Selection(FIELD_SELECTION, 'NEPZA Received', default='no')
+    has_container_provided = fields.Selection(FIELD_SELECTION, 'Container Provided', default='no')
+    has_loading_complete = fields.Selection(FIELD_SELECTION, 'Loading Complete', default='no')
+    has_packing_list_and_invoice = fields.Selection(FIELD_SELECTION, 'Packing List and Invoice', default='no')
+    has_delivered_to_terminal = fields.Selection(FIELD_SELECTION, 'Delivered To Terminal', default='no')
+    has_ness_payment = fields.Selection(FIELD_SELECTION, 'Ness Payment', default='no')
+    has_gate_in_docs_received = fields.Selection(FIELD_SELECTION, 'Gate In Docs Received', default='no')
+    has_coo = fields.Selection(FIELD_SELECTION, 'COO', default='no')
+    has_cci = fields.Selection(FIELD_SELECTION, 'CCI', default='no')
+    has_sgd = fields.Selection(FIELD_SELECTION, 'SGD / Releasing', default='no')
+    has_loaded_on_vessel = fields.Selection(FIELD_SELECTION, 'Loaded On Vessel', default='no')
+    has_final_obl_received = fields.Selection(FIELD_SELECTION, 'Final OBL Received', default='no')
+    has_shipping_instruction = fields.Selection(FIELD_SELECTION, 'Shipping Instruction', default='no')
+    has_draft_bl = fields.Selection(FIELD_SELECTION, 'Draft BL', default='no')
     ##################READY TO LOAD##################################
-    #########################needs to be comment#################
-
     has_truck_in = fields.Selection(FIELD_SELECTION, 'TRUCK IN ', default='no')
     has_gate_out = fields.Selection(FIELD_SELECTION, 'GATE OUT', default='no')
     has_empty_container_returned = fields.Selection(FIELD_SELECTION, 'EMPTY CONTAINER RETURN', default='no')
-
+    has_stuffing = fields.Selection(FIELD_SELECTION, 'Stuffing/Loading', default='no')
+    has_port_delivery = fields.Selection(FIELD_SELECTION, 'Port Delivery', default='no')
+    has_vessel_sailed = fields.Selection(FIELD_SELECTION, 'Vessel Sailed', default='no')
     ###############################DELIVERY START(TRUCK/BARGE)####################
-
     has_date_delivery_start = fields.Selection(FIELD_SELECTION, 'Date Delivery Start', default='no')
     has_barge_date = fields.Selection(FIELD_SELECTION, 'Barge Date', default='no')
     has_date_delivery_complete = fields.Selection(FIELD_SELECTION, 'Date Delivery Complete', default='no')
     has_delivery_waybill_from_client = fields.Selection(FIELD_SELECTION, 'Delivery Waybill from Client', default='no')
-
     ##################POST DELIVERY###################################
-
-    has_fecd_rec_date = fields.Selection(FIELD_SELECTION, 'FECD REC DATE', default='no')
-    has_fecd_custom_ack = fields.Selection(FIELD_SELECTION, 'FECD: customs ACK ', default='no')
+    has_fecd_rec_date = fields.Selection(FIELD_SELECTION, 'FECD Rec Date', default='no')
+    has_fecd_custom_ack = fields.Selection(FIELD_SELECTION, 'FECD: Customs ACK ', default='no')
     has_fecd_client_ack = fields.Selection(FIELD_SELECTION, 'FECD: To Client ACK', default='no')
     has_nafdac_final_release = fields.Selection(FIELD_SELECTION, 'NAFDAC Final Release', default='no')
-
     ###############Client Need########################
     has_regulatory_field = fields.Selection(FIELD_SELECTION, 'Regulatory Field', default='optional')
-    # has_job_ba_number = fields.Selection(
-    #     FIELD_SELECTION,
-    #     "BA Number",
-    #     # required=True,
-    #     default="no",
-    #     help="Display BA Number field on project",
-    # )
-
     field_visibility = fields.Selection([
         ('1', 'Delivery only'),
         ('2', 'LPO Financing'),
         ('3', 'Import-Finance Sea'),
-        ('4', 'Normal clearing'),
+        ('4', 'Normal Clearing'),
         ('5', 'Fastrack-Sea'),
-        ('6', 'TRANSHIRE CLEARING'),
+        ('6', 'Transhire Clearing'),
         ('7', 'Free Trade Zone-Sea')
     ], 'Field Visibility', default='1')
     has_field_visibility = fields.Selection([
-        ('1', 'Delivery only'),
+        ('1', 'Delivery Only'),
         ('2', 'LPO Financing'),
         ('3', 'Import-Finance Sea'),
-        ('4', 'Normal clearing'),
+        ('4', 'Normal Clearing'),
         ('5', 'Fastrack-Sea'),
-        ('6', 'TRANSHIRE CLEARING'),
+        ('6', 'Transhire Clearing'),
         ('7', 'Free Trade Zone-Sea')
     ], 'Field Visibility', default='1')
     document_bool = fields.Boolean(string="Document Upload?")
+    
 
     @api.onchange('has_field_visibility')
     def change_field_combination(self):

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Approval Request Form View -->
+        <record id="view_project_approval_request_form" model="ir.ui.view">
+            <field name="name">project.approval.request.form</field>
+            <field name="model">project.approval.request</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_submit" type="object" string="Submit" class="btn-primary" 
+                                states="draft" groups="project_approval_workflow.group_project_user"/>
+                        <button name="action_approve" type="object" string="Approve" class="btn-success" 
+                                states="pending" groups="project_approval_workflow.group_project_approver"/>
+                        <button name="action_reject" type="object" string="Reject" class="btn-danger" 
+                                states="pending" groups="project_approval_workflow.group_project_approver"/>
+                        <button name="action_cancel" type="object" string="Cancel" 
+                                states="draft,pending"/>
+                        <button name="action_reset_to_draft" type="object" string="Reset to Draft" 
+                                states="rejected,cancelled" groups="project_approval_workflow.group_project_user"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,pending,approved"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="project_id" readonly="states"/>
+                                <field name="requested_by" readonly="1"/>
+                                <field name="create_date" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="approved_by" readonly="1"/>
+                                <field name="approved_date" readonly="1"/>
+                                <field name="rejected_by" readonly="1"/>
+                                <field name="rejected_date" readonly="1"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="reason" readonly="states"/>
+                            <field name="approval_notes" readonly="states" 
+                                   attrs="{'readonly': [('state', 'not in', ['pending'])]}"/>
+                            <field name="rejection_reason" readonly="states" 
+                                   attrs="{'readonly': [('state', 'not in', ['pending'])]}"/>
+                        </group>
+                        <notebook>
+                            <page string="Project Information">
+                                <group>
+                                    <field name="project_name" readonly="1"/>
+                                    <field name="project_partner" readonly="1"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- Approval Request Tree View -->
+        <record id="view_project_approval_request_tree" model="ir.ui.view">
+            <field name="name">project.approval.request.tree</field>
+            <field name="model">project.approval.request</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="project_id"/>
+                    <field name="requested_by"/>
+                    <field name="state"/>
+                    <field name="create_date"/>
+                    <field name="approved_by"/>
+                    <field name="approved_date"/>
+                    <field name="rejected_by"/>
+                    <field name="rejected_date"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Approval Request Search View -->
+        <record id="view_project_approval_request_search" model="ir.ui.view">
+            <field name="name">project.approval.request.search</field>
+            <field name="model">project.approval.request</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="project_id"/>
+                    <field name="requested_by"/>
+                    <field name="approved_by"/>
+                    <field name="rejected_by"/>
+                    <filter string="My Requests" name="my_requests" domain="[('requested_by', '=', uid)]"/>
+                    <filter string="Pending Approval" name="pending" domain="[('state', '=', 'pending')]"/>
+                    <filter string="Approved" name="approved" domain="[('state', '=', 'approved')]"/>
+                    <filter string="Rejected" name="rejected" domain="[('state', '=', 'rejected')]"/>
+                    <filter string="Draft" name="draft" domain="[('state', '=', 'draft')]"/>
+                    <separator/>
+                    <filter string="This Month" name="this_month" domain="[('create_date', '&gt;=', (context_today() + relativedelta(day=1)).strftime('%Y-%m-%d'))]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="State" name="group_state" context="{'group_by': 'state'}"/>
+                        <filter string="Project" name="group_project" context="{'group_by': 'project_id'}"/>
+                        <filter string="Requested By" name="group_requested_by" context="{'group_by': 'requested_by'}"/>
+                        <filter string="Month" name="group_month" context="{'group_by': 'create_date:month'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Approval Request Action -->
+        <record id="action_project_approval_request" model="ir.actions.act_window">
+            <field name="name">Approval Requests</field>
+            <field name="res_model">project.approval.request</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_pending': 1}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create your first approval request!
+                </p>
+                <p>
+                    Approval requests allow you to request permission to unlock analytic accounts 
+                    for projects in post-delivery state.
+                </p>
+            </field>
+        </record>
+
+        <!-- Menu Item -->
+        <menuitem id="menu_project_approval_request"
+                  name="Approval Requests"
+                  parent="project.menu_main_pm"
+                  action="action_project_approval_request"
+                  sequence="50"/>
+    </data>
+</odoo> 

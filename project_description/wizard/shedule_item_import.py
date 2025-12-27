@@ -59,26 +59,12 @@ class ProjectScheduleItemsImport(models.TransientModel):
                 "datas_fname": "Schedule_Item.csv",
             }
         )
-        # print(attachment)
         return {
             "type": "ir.actions.act_url",
             "target": "self",
             "url": "/web/content/%s?download=true" % (attachment.id),
         }
 
-        # print(template_data)
-        # # f = StringIO()
-        # with open('quotes.csv', 'w') as file:
-        #     writer = csv.writer(file, quoting=csv.QUOTE_NONNUMERIC, delimiter=',')
-
-        # writer = csv.writer(f, delimiter=',')
-        # encoding = 'utf-8'
-        # writer.writerow(TEMPLATE)
-        # writer.writerow(template_data)
-        # # for row in data:
-        # #     writer.writerow(row)
-        # # create attachment
-        # datas = base64.encodebytes(f.getvalue().encode(encoding))
 
     @api.onchange("product_id", "product_uom_id")
     def onchange_product_id(self):
@@ -140,7 +126,6 @@ class ProjectScheduleItemsImport(models.TransientModel):
                     if skip_item:
                         continue
                     upload_rec.append(data)
-                # print(upload_rec)
                 for rec in upload_rec:
                     rec["project_id"] = project_inst.id
                     project_schedule_items_ids.create(rec)

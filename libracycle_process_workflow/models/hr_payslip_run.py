@@ -16,11 +16,10 @@ class HrPayslipRun(models.Model):
             ("account", "Await Account"),
             ("close",),
         ],
-        ondelete={
-            "officer": lambda m: m.write({"state": "draft"}),
-            "qac": lambda m: m.write({"state": "draft"}),
-
-        },
+        # ondelete={
+        #     "officer": lambda m: m.write({"state": "draft"}),
+        #     "qac": lambda m: m.write({"state": "draft"}),
+        # },
         tracking=True,
     )
     currency_id = fields.Many2one(comodel_name='res.currency', string='Currency', default=lambda self: self.env.user.company_id.currency_id.id)

@@ -25,7 +25,7 @@ class Project(models.Model):
     project_shipping_charge = fields.Integer(string="Project Shipping Charge",
                                              compute="compute_project_shipping_charge")
     project_terminal_charge = fields.Float(string="Project Terminal Charge", compute="compute_project_terminal_charge")
-    project_nafdac = fields.Integer(string="Project Nafdac", compute="compute_project_nafdac")
+    project_nafdac = fields.Integer(string="Project NAFDAC", compute="compute_project_nafdac")
     project_son = fields.Integer(string="Project SON", compute="compute_project_son")
     project_agency = fields.Integer(string="Project Agency", compute="compute_project_agency")
     project_transportation = fields.Integer(string="Project Transportation", compute="compute_project_transportation")
@@ -38,7 +38,7 @@ class Project(models.Model):
                                               compute="compute_customer_shipping_charge")
     customer_terminal_charge = fields.Integer(string="Customer Terminal Charge",
                                               compute="compute_customer_terminal_charge")
-    customer_nafdac = fields.Integer(string="Customer Nafdac", compute="compute_customer_nafdac")
+    customer_nafdac = fields.Integer(string="Customer NAFDAC", compute="compute_customer_nafdac")
     customer_son = fields.Integer(string="Customer SON", compute="compute_customer_son")
     customer_agency = fields.Integer(string="Customer Agency", compute="compute_customer_agency")
     customer_transportation = fields.Integer(string="Customer Transportation",
@@ -63,10 +63,10 @@ class Project(models.Model):
     terminal_count = fields.Integer(string="Terminal Invoice Line", compute='compute_terminal_count')
     terminal_move_line_ids = fields.One2many("account.move.line", "project_id", string="Terminal Move Lines",
                                              compute="compute_terminal_count")
-    nafdac_count = fields.Integer(string="Nafdac Invoice Line", compute='compute_nafdac_count')
+    nafdac_count = fields.Integer(string="NAFDAC Invoice Line", compute='compute_nafdac_count')
     nafdac_move_line_ids = fields.One2many("account.move.line", "project_id", string="NAFDAC Move Lines",
                                            compute="compute_nafdac_count")
-    son_count = fields.Integer(string="Son Invoice Line", compute='compute_son_count')
+    son_count = fields.Integer(string="SON Invoice Line", compute='compute_son_count')
     son_move_line_ids = fields.One2many("account.move.line", "project_id", string="SON Move Lines",
                                         compute="compute_son_count")
     agency_count = fields.Integer(string="Agency Invoice Line", compute='compute_agency_count')
@@ -102,7 +102,6 @@ class Project(models.Model):
                              rec.project_others
 
     def compute_wht_amount(self):
-        print("compute_wht_amount xxxxxxxxxxxxxxx")
         for rec in self:
             payments = rec.env['account.payment'].search([('analytic_account_id', '=', rec.analytic_account_id.id)])
             wht = 0
@@ -111,7 +110,6 @@ class Project(models.Model):
             rec.wht = wht
 
     def compute_customer_duty(self):
-        print("compute_customer_duty called XXXXXXXXXXXX")
         for rec in self:
             move_lines = rec.env['account.move.line'].search([
                 ('move_id.move_type', '=', 'out_invoice'),
@@ -127,7 +125,6 @@ class Project(models.Model):
             rec.customer_duty = customer_duty
 
     def compute_customer_shipping_charge(self):
-        print("compute_customer_shipping_charge called XXXXXXXXXXXX")
         for rec in self:
             move_lines = rec.env['account.move.line'].search([
                 ('move_id.move_type', '=', 'out_invoice'),
@@ -143,7 +140,6 @@ class Project(models.Model):
             rec.customer_shipping_charge = customer_shipping
 
     def compute_customer_terminal_charge(self):
-        print("compute_customer_terminal_charge called XXXXXXXXXXXX")
         for rec in self:
             move_lines = rec.env['account.move.line'].search([
                 ('move_id.move_type', '=', 'out_invoice'),
@@ -159,7 +155,6 @@ class Project(models.Model):
             rec.customer_terminal_charge = terminal_charge
 
     def compute_customer_nafdac(self):
-        print("compute_customer_nafdac called XXXXXXXXXXXX")
         for rec in self:
             move_lines = rec.env['account.move.line'].search([
                 ('move_id.move_type', '=', 'out_invoice'),
@@ -175,7 +170,6 @@ class Project(models.Model):
             rec.customer_nafdac = customer_nafdac
 
     def compute_customer_son(self):
-        print("compute_customer_son called XXXXXXXXXXXX")
         for rec in self:
             move_lines = rec.env['account.move.line'].search([
                 ('move_id.move_type', '=', 'out_invoice'),
@@ -191,7 +185,6 @@ class Project(models.Model):
             rec.customer_son = customer_son
 
     def compute_customer_agency(self):
-        print("compute_customer_agency called XXXXXXXXXXXX")
         for rec in self:
             move_lines = rec.env['account.move.line'].search([
                 ('move_id.move_type', '=', 'out_invoice'),
@@ -207,7 +200,6 @@ class Project(models.Model):
             rec.customer_agency = customer_agency
 
     def compute_customer_transportation(self):
-        print("compute_customer_transportation called XXXXXXXXXXXX")
         for rec in self:
             move_lines = rec.env['account.move.line'].search([
                 ('move_id.move_type', '=', 'out_invoice'),
@@ -223,7 +215,6 @@ class Project(models.Model):
             rec.customer_transportation = customer_transportation
 
     def compute_customer_others(self):
-        print("compute_customer_others called XXXXXXXXXXXX")
         for rec in self:
             move_lines = rec.env['account.move.line'].search([
                 ('move_id.move_type', '=', 'out_invoice'),
@@ -240,7 +231,6 @@ class Project(models.Model):
 
     # @api.depends('customer_invoice_ids')
     def compute_customer_invoice_values(self):
-        print("compute_customer_invoice_values called XXXXXXXXXXXXXXX")
         for rec in self:
             move_lines = rec.env['account.move.line'].search([
                 ('move_id.move_type', '=', 'out_invoice'),
@@ -254,8 +244,6 @@ class Project(models.Model):
                 ('product_id.transportation', '=', True),
                 ('product_id.others', '=', True)])
             customer_invoice_ids = list(dict.fromkeys(move_lines.mapped('move_id')))
-            print("<<<<<<<<<customer_invoice_ids>>>>>>>>>")
-            print(customer_invoice_ids)
             customer_untaxed_value = customer_vat = customer_total_invoice_value = customer_invoice_paid = customer_invoice_unpaid = 0
             for invoice in customer_invoice_ids:
             # for invoice in customer_invoice_ids:
@@ -283,7 +271,6 @@ class Project(models.Model):
             rec.customer_invoice_unpaid = customer_invoice_unpaid
 
     def compute_project_product_duty(self):
-        print("compute_project_product_duty called XXXXXXXXXXXXXX")
         for rec in self:
             total = 0
             move_lines = rec.env['account.move.line'].search([
@@ -296,8 +283,6 @@ class Project(models.Model):
                                                     ('product_id.product_duty', '=', True)])
             if expense:
                 total += expense.total_amount
-            print("<<<<<<<total>>>>>>>")
-            print(total)
             rec.project_product_duty = int(total)
 
     def compute_project_shipping_charge(self):
